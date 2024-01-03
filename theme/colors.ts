@@ -1,5 +1,5 @@
 const colors = {
-  PRIMARY: "#000000",
+  PRIMARY: "#292929",
   // PRIMARY_HOVER: "#FFF",
   // PRIMARY_HOVER_BG: "rgba(70, 103, 227, 0.88)",
   // PRIMARY_ACTIVE: "rgba(255, 255, 255, 0.56)",
@@ -7,7 +7,7 @@ const colors = {
   // PRIMARY_DISABLED: "rgba(70, 103, 227, 0.24)",
   // PRIMARY_DISABLED_BG: "rgba(70, 103, 227, 0.08)",
 
-  SECONDARY: "#262626",
+  SECONDARY: "#FFFFFF",
   // SECONDARY_HOVER: "#FFF",
   // SECONDARY_HOVER_BG: "rgba(38, 38, 38, 0.88)",
   // SECONDARY_ACTIVE: "rgba(255, 255, 255, 0.56)",
@@ -15,7 +15,15 @@ const colors = {
   // SECONDARY_DISABLED: "rgba(38, 38, 38, 0.16)",
   // SECONDARY_DISABLED_BG: "rgba(38, 38, 38, 0.08)",
 
-  ERROR: "#DB5555",
+  TERTIARY: "#DD3345",
+
+  BUTTON_PRIMARY: "#2D6FDB",
+  BUTTON_PRIMARY_ACTIVE: "#2863c5",
+
+  BUTTON_SECONDARY: "#DD3345",
+  BUTTON_SECONDARY_ACTIVE: "#B8182D",
+
+  ERROR: "#DD3345",
   SUCCESS: "#3CBF68",
 
   // BLUE: "#4667E3",
