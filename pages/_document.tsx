@@ -13,18 +13,6 @@ export default function Document() {
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Oi&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Lora&display=swap"
-          rel="stylesheet"
-        ></link>
-        <link
           href="https://fonts.cdnfonts.com/css/mona-sans"
           rel="stylesheet"
         />

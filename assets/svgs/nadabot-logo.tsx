@@ -7,8 +7,9 @@ const NadabotLogo = () => {
     <Stack direction="row" alignItems="center">
       <Image
         src={nadabotIcon.src}
+        priority={true}
         width={50}
-        height={49.09}
+        height={50}
         alt="Nada.Bot"
         style={{ marginRight: "8px" }}
       />
