@@ -68,16 +68,29 @@ export default function InvitationHeroSection() {
           />
         </Stack>
       </Stack>
-      <Box mt={4}>
-        <Button
-          variant="contained"
-          color="primary"
-          size={maxWidth962 ? "medium" : "large"}
-          disableRipple
-        >
-          Check here
-        </Button>
-      </Box>
+      <Stack direction="row" flexWrap="wrap">
+        <Box mt={4} mr={3}>
+          <Button
+            variant="contained"
+            color="warning"
+            size={maxWidth962 ? "medium" : "large"}
+            disableRipple
+            sx={{ fontSize: maxWidth962 ? "26px" : "36px" }}
+          >
+            Add your own
+          </Button>
+        </Box>
+        <Box mt={4}>
+          <Button
+            variant="contained"
+            color="primary"
+            size={maxWidth962 ? "medium" : "large"}
+            disableRipple
+          >
+            Check here
+          </Button>
+        </Box>
+      </Stack>
     </Container>
   );
 }

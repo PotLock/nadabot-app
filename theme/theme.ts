@@ -172,6 +172,8 @@ export const theme = createTheme({
           props: { size: "large" },
           style: {
             height: "68px",
+            fontSize: "36px",
+            fontWeight: 600,
           },
         },
         {
