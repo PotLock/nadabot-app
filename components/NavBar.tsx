@@ -1,7 +1,7 @@
 import { Avatar, Button, Container, Divider, Link, Stack } from "@mui/material";
 import { useCallback } from "react";
 import useWeb3Auth from "@nadabot/hooks/useWeb3Auth";
-import NadabotLogo from "@nadabot/assets/svgs/nadabot-logo";
+import NadabotLogo from "@nadabot/assets/icons/nadabot-logo";
 import { wallet } from "@nadabot/services/web3";
 import { BellIcon } from "@nadabot/theme/icons";
 import colors from "@nadabot/theme/colors";
@@ -27,9 +27,9 @@ const NavBar = () => {
       width="100%"
       sx={{
         borderBottomWidth: "1px",
-        borderBottomColor: "#EFEFEF",
+        borderBottomColor: colors.LIGHTGRAY,
         borderBottomStyle: "solid",
-        mb: 4,
+        mb: 3,
       }}
     >
       <Container>

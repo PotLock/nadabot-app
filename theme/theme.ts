@@ -51,8 +51,14 @@ export const theme = createTheme({
           textTransform: "none",
           border: `2px solid ${colors.PRIMARY}`,
           marginTop: "0px",
+          marginBottom: "3.7px",
           transition: "margin .1s, box-shadow .1s",
           boxShadow: `0px 2.7px 0px 0px ${colors.PRIMARY}`,
+          ":hover": {
+            boxShadow: "none",
+            marginTop: "3.7px",
+            marginBottom: "0px",
+          },
         },
       },
       variants: [
@@ -63,15 +69,13 @@ export const theme = createTheme({
             backgroundColor: colors.BUTTON_PRIMARY,
             height: "36px",
             ":hover": {
-              boxShadow: "none",
-              marginTop: "3.7px",
               backgroundColor: colors.BUTTON_PRIMARY,
             },
             ":active": {
               backgroundColor: colors.BUTTON_PRIMARY_ACTIVE,
             },
             ":disabled": {
-              color: colors.SECONDARY,
+              color: colors.WHITE,
               backgroundColor: colors.BUTTON_PRIMARY,
               opacity: ".6",
             },
@@ -83,71 +87,65 @@ export const theme = createTheme({
             paddingTop: "12px",
             backgroundColor: colors.BUTTON_SECONDARY,
             height: "36px",
-            color: colors.SECONDARY,
+            color: colors.WHITE,
             ":hover": {
-              boxShadow: "none",
-              marginTop: "3.7px",
               backgroundColor: colors.BUTTON_SECONDARY,
             },
             ":active": {
               backgroundColor: colors.BUTTON_SECONDARY_ACTIVE,
             },
             ":disabled": {
-              color: colors.SECONDARY,
+              color: colors.WHITE,
               backgroundColor: colors.BUTTON_SECONDARY,
               opacity: ".6",
             },
           },
         },
-        // {
-        //   props: { variant: "outlined", color: "secondary" },
-        //   style: {
-        //     color: colors.SECONDARY,
-        //     borderColor: colors.SECONDARY,
-        //     backgroundColor: "transparent",
-
-        //     ":hover": {
-        //       color: colors.SECONDARY_HOVER_BG,
-        //       borderColor: colors.SECONDARY_HOVER_BG,
-        //       backgroundColor: "transparent",
-        //     },
-        //     ":active": {
-        //       color: colors.SECONDARY_ACTIVE_BG,
-        //       borderColor: colors.SECONDARY_ACTIVE_BG,
-        //       backgroundColor: "transparent",
-        //     },
-        //     ":disabled": {
-        //       color: colors.SECONDARY_DISABLED_BG,
-        //       borderColor: colors.SECONDARY_DISABLED_BG,
-        //       backgroundColor: "transparent",
-        //     },
-        //   },
-        // },
-        // {
-        //   props: { size: "large" },
-        //   style: {
-        //     height: "56px",
-        //   },
-        // },
-        // {
-        //   props: { size: "medium" },
-        //   style: {
-        //     height: "56px",
-        //     "@media (max-width: 600px)": {
-        //       fontSize: "14px",
-        //     },
-        //   },
-        // },
-        // {
-        //   props: { size: "small" },
-        //   style: {
-        //     height: "unset",
-        //     minHeight: "40px",
-        //     fontSize: "13px",
-        //     paddingLeft: "16px",
-        //     paddingRight: "16px",
-        //   },
-        // },
+        {
+          props: { variant: "contained", color: "warning" },
+          style: {
+            paddingTop: "12px",
+            backgroundColor: colors.PEACH,
+            height: "36px",
+            color: colors.PRIMARY,
+            ":hover": {
+              backgroundColor: colors.PEACH,
+            },
+            ":active": {
+              backgroundColor: colors.PEACH100,
+            },
+            ":disabled": {
+              color: colors.WHITE,
+              backgroundColor: colors.PEACH,
+              opacity: ".6",
+            },
+          },
+        },
+        {
+          props: { size: "large" },
+          style: {
+            height: "56px",
+          },
+        },
+        {
+          props: { size: "medium" },
+          style: {
+            height: "48px",
+            // "@media (max-width: 600px)": {
+            //   fontSize: "14px",
+            // },
+          },
+        },
+        {
+          props: { size: "small" },
+          style: {
+            height: "36px",
+            // minHeight: "40px",
+            // fontSize: "13px",
+            // paddingLeft: "16px",
+            // paddingRight: "16px",
+          },
+        },
       ],
     },
   },

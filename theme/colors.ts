@@ -7,7 +7,7 @@ const colors = {
   // PRIMARY_DISABLED: "rgba(70, 103, 227, 0.24)",
   // PRIMARY_DISABLED_BG: "rgba(70, 103, 227, 0.08)",
 
-  SECONDARY: "#FFFFFF",
+  SECONDARY: "#808080",
   // SECONDARY_HOVER: "#FFF",
   // SECONDARY_HOVER_BG: "rgba(38, 38, 38, 0.88)",
   // SECONDARY_ACTIVE: "rgba(255, 255, 255, 0.56)",
@@ -26,15 +26,19 @@ const colors = {
   ERROR: "#DD3345",
   SUCCESS: "#3CBF68",
 
+  WHITE: "#FFFFFF",
   // BLUE: "#4667E3",
   // BLUE_DISABLED: "rgba(70, 103, 227, 0.56)",
   TRANSPARENT: "rgba(255, 255, 255, 0)",
 
-  // GRAY: "#8E919C",
+  GRAY: "#B0B0B0",
   // GRAY140: "#4B4C52",
 
-  // LIGHTGRAY: "#F5F5F7",
+  LIGHTGRAY: "#F0F0F0",
   // LIGHTGRAY_HOVER_BG: "#ECECEF",
+
+  PEACH: "#FEF6EE",
+  PEACH100: "#FCE9D5",
 };
 
 export default colors;

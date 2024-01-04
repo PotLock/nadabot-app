@@ -19,6 +19,10 @@ a {
   text-decoration: none;
 }
 
+input:focus {
+  outline: none;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

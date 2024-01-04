@@ -1,11 +1,12 @@
-import { Container, Stack, Typography } from "@mui/material";
+import { Container } from "@mui/material";
+import { ChecksSection } from "@nadabot/components/ChecksSection";
+import { ExploreSection } from "@nadabot/components/ExploreSection";
 
 export default function Home() {
   return (
     <Container>
-      <Stack direction="row" flexWrap="wrap" justifyContent="space-between">
-        {Array(200).fill(<Typography>This is Main</Typography>)}
-      </Stack>
+      <ExploreSection />
+      <ChecksSection />
     </Container>
   );
 }

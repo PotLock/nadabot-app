@@ -13,7 +13,7 @@ export default function Document() {
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.cdnfonts.com/css/mona-sans"
+          href="https://fonts.cdnfonts.com/css/mona-sans?styles=144345,144339,144351,144321"
           rel="stylesheet"
         />
       </Head>
