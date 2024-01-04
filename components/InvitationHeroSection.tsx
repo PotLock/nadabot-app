@@ -63,7 +63,7 @@ export default function InvitationHeroSection() {
             alt="red lines"
             style={{
               marginTop: maxWidth962 ? -22 : -28,
-              width: maxWidth962 ? 336 : 559,
+              width: maxWidth962 ? 336 : 496,
             }}
           />
         </Stack>
