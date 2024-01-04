@@ -28,3 +28,17 @@ input:focus {
     color-scheme: dark;
   }
 }
+
+.multiline-ellipsis {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; 
+  white-space: pre-wrap; 
+}
+
+.ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

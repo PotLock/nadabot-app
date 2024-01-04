@@ -39,6 +39,10 @@ const colors = {
 
   PEACH: "#FEF6EE",
   PEACH100: "#FCE9D5",
+
+  NEUTRAL: "#7B7B7B",
+  NEUTRAL400: "#A6A6A6",
+  NEUTRAL700: "#525252",
 };
 
 export default colors;

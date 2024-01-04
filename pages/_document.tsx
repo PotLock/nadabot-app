@@ -12,6 +12,7 @@ export default function Document() {
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
+        {/* Font weights: 400, 500, 600, 700 */}
         <link
           href="https://fonts.cdnfonts.com/css/mona-sans?styles=144345,144339,144351,144321"
           rel="stylesheet"

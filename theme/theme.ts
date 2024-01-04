@@ -40,6 +40,16 @@ export const theme = createTheme({
         },
       ],
     },
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          borderRadius: "4px",
+          fontWeight: "500px",
+          fontSize: "12px",
+          color: colors.NEUTRAL,
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {

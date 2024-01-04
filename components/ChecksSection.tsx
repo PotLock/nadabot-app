@@ -2,7 +2,7 @@ import { Stack, Typography } from "@mui/material";
 import colors from "@nadabot/theme/colors";
 import { ShadowContainer } from "./containers/ShadowContainer";
 import { AddFilterSearchInput } from "./ui/AddFilterSearchInput";
-import { ContactsContainer } from "./containers/ContactsContainer";
+import ContractsContainer from "./containers/ContractsContainer";
 
 type Props = {};
 
@@ -21,7 +21,7 @@ export function ChecksSection(props: Props) {
       <ShadowContainer sx={{ mt: 2 }}>
         {/* Search + Add Filter button */}
         <AddFilterSearchInput />
-        <ContactsContainer />
+        <ContractsContainer />
       </ShadowContainer>
     </Stack>
   );
