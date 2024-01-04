@@ -77,7 +77,46 @@ export const theme = createTheme({
           style: {
             paddingTop: "12px",
             backgroundColor: colors.BUTTON_PRIMARY,
-            height: "36px",
+            ":hover": {
+              backgroundColor: colors.BUTTON_PRIMARY,
+            },
+            ":active": {
+              backgroundColor: colors.BUTTON_PRIMARY_ACTIVE,
+            },
+            ":disabled": {
+              color: colors.WHITE,
+              backgroundColor: colors.BUTTON_PRIMARY,
+              opacity: ".6",
+            },
+          },
+        },
+        {
+          props: { variant: "contained", color: "primary", size: "medium" },
+          style: {
+            paddingTop: "12px",
+            fontSize: "26px",
+            fontWeight: 600,
+            backgroundColor: colors.BUTTON_PRIMARY,
+            ":hover": {
+              backgroundColor: colors.BUTTON_PRIMARY,
+            },
+            ":active": {
+              backgroundColor: colors.BUTTON_PRIMARY_ACTIVE,
+            },
+            ":disabled": {
+              color: colors.WHITE,
+              backgroundColor: colors.BUTTON_PRIMARY,
+              opacity: ".6",
+            },
+          },
+        },
+        {
+          props: { variant: "contained", color: "primary", size: "large" },
+          style: {
+            paddingTop: "12px",
+            fontSize: "36px",
+            fontWeight: 600,
+            backgroundColor: colors.BUTTON_PRIMARY,
             ":hover": {
               backgroundColor: colors.BUTTON_PRIMARY,
             },
@@ -96,7 +135,6 @@ export const theme = createTheme({
           style: {
             paddingTop: "12px",
             backgroundColor: colors.BUTTON_SECONDARY,
-            height: "36px",
             color: colors.WHITE,
             ":hover": {
               backgroundColor: colors.BUTTON_SECONDARY,
@@ -116,7 +154,6 @@ export const theme = createTheme({
           style: {
             paddingTop: "12px",
             backgroundColor: colors.PEACH,
-            height: "36px",
             color: colors.PRIMARY,
             ":hover": {
               backgroundColor: colors.PEACH,
@@ -134,7 +171,7 @@ export const theme = createTheme({
         {
           props: { size: "large" },
           style: {
-            height: "56px",
+            height: "68px",
           },
         },
         {

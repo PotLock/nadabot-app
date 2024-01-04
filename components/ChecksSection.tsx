@@ -6,7 +6,7 @@ import ContractsContainer from "./containers/ContractsContainer";
 
 type Props = {};
 
-export function ChecksSection(props: Props) {
+export default function ChecksSection(props: Props) {
   return (
     <Stack mt={6}>
       <Typography variant="h4" fontWeight={700}>

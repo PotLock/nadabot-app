@@ -4,7 +4,7 @@ import RoundedSearchInput from "./ui/RoundedSearchInput";
 
 type Props = {};
 
-export function ExploreSection(props: Props) {
+export default function ExploreSection(props: Props) {
   return (
     <Stack>
       <Typography variant="h4" fontWeight={700}>

@@ -27,7 +27,7 @@ const colors = {
   SUCCESS: "#3CBF68",
 
   WHITE: "#FFFFFF",
-  // BLUE: "#4667E3",
+  BLUE: "#2D6FDB",
   // BLUE_DISABLED: "rgba(70, 103, 227, 0.56)",
   TRANSPARENT: "rgba(255, 255, 255, 0)",
 

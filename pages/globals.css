@@ -42,3 +42,14 @@ input:focus {
   white-space: nowrap;
   overflow: hidden;
 }
+
+.invitation-hero-section-bg {
+  background: radial-gradient(100.02% 100% at 50% 0%, #FFFFFF 44.62%, rgba(255, 255, 255, 0) 100%), url("/hero/background.svg");
+  background-repeat: no-repeat;
+  background-size: 101%;
+  background-position: 10% 0%;
+
+  @media (max-width: 962px) {
+    background: radial-gradient(100.02% 100% at 50% 0%, #FFFFFF 24.62%, rgba(255, 255, 255, 0) 100%), url("/hero/background.svg");
+     }
+}
