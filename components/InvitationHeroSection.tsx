@@ -3,6 +3,11 @@ import Image from "next/image";
 import redLines from "@nadabot/assets/svgs/red-lines.svg";
 import colors from "@nadabot/theme/colors";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import { useRouter } from "next/router";
+import { useCallback } from "react";
+import useWeb3Auth from "@nadabot/hooks/useWeb3Auth";
+import useDialogs from "@nadabot/hooks/useDialogs";
+import { DIALOGS } from "@nadabot/contexts/DialogsProvider";
 
 const textToTypographySlices = (props: {
   text: string;
@@ -26,9 +31,21 @@ const textToTypographySlices = (props: {
 };
 
 export default function InvitationHeroSection() {
+  const router = useRouter();
   const { maxWidth962 } = useBreakPoints();
+  const { isWalletConnected } = useWeb3Auth();
+  const { openDialog } = useDialogs();
   const fontSize = maxWidth962 ? 42 : 62;
   const lineHeight = maxWidth962 ? "56px" : "96px";
+
+  const addYouOwnHandler = useCallback(() => {
+    if (!isWalletConnected) {
+      openDialog({ dialog: DIALOGS.NoConnected });
+      return;
+    }
+
+    router.push("/add-stamp");
+  }, [router, isWalletConnected, openDialog]);
 
   return (
     <Container
@@ -76,6 +93,7 @@ export default function InvitationHeroSection() {
             size={maxWidth962 ? "medium" : "large"}
             disableRipple
             sx={{ fontSize: maxWidth962 ? "26px" : "36px" }}
+            onClick={addYouOwnHandler}
           >
             Add your own
           </Button>
