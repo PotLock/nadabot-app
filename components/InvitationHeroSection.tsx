@@ -81,6 +81,7 @@ export default function InvitationHeroSection() {
             style={{
               marginTop: maxWidth962 ? -22 : -28,
               width: maxWidth962 ? 336 : 496,
+              height: "auto",
             }}
           />
         </Stack>

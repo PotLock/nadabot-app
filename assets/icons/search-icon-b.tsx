@@ -13,9 +13,9 @@ export default function SearchIconB(props?: SvgIconOwnProps) {
         <path
           d="M11.5511 11.5511C9.59492 13.5073 6.42332 13.5073 4.46714 11.5511C2.51095 9.59492 2.51095 6.42332 4.46714 4.46714C6.42332 2.51095 9.59492 2.51095 11.5511 4.46714C13.5073 6.42332 13.5073 9.59492 11.5511 11.5511ZM11.5511 11.5511L14.12 14.12"
           stroke="white"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
     </SvgIcon>
