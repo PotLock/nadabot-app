@@ -1,8 +1,8 @@
 import { Box, Button, Stack } from "@mui/material";
 import React from "react";
-import SearchInput from "./SearchInput";
+import RegularInput from "./RegularInput";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import { FilterIcon } from "@nadabot/theme/icons";
+import { FilterIcon, SearchIconA } from "@nadabot/theme/icons";
 
 export function AddFilterSearchInput() {
   const { maxWidth700 } = useBreakPoints();
@@ -14,7 +14,10 @@ export function AddFilterSearchInput() {
       justifyContent="space-between"
     >
       <Stack width={maxWidth700 ? "100%" : "80%"}>
-        <SearchInput placeholder="Search" />
+        <RegularInput
+          placeholder="Search"
+          rightComponent={<SearchIconA sx={{ width: 16, mr: 2 }} />}
+        />
       </Stack>
 
       {/* Add Filter button */}

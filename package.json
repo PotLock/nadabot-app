@@ -14,15 +14,13 @@
     "@fontsource/roboto": "^5.0.8",
     "@mui/icons-material": "^5.15.2",
     "@mui/material": "^5.15.2",
-    "@near-wallet-selector/core": "^8.9.1",
-    "@near-wallet-selector/ledger": "^8.9.1",
     "@near-wallet-selector/modal-ui": "^8.9.1",
-    "@near-wallet-selector/my-near-wallet": "^8.9.1",
-    "@near-wallet-selector/near-wallet": "^8.9.1",
+    "@wpdas/naxios": "^0.1.2",
     "near-api-js": "^2.1.4",
     "next": "14.0.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@types/node": "^20",

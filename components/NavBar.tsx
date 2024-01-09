@@ -1,20 +1,16 @@
 import { Avatar, Button, Container, Divider, Link, Stack } from "@mui/material";
 import { useCallback } from "react";
-import useWeb3Auth from "@nadabot/hooks/useWeb3Auth";
 import NadabotLogo from "@nadabot/assets/icons/nadabot-logo";
-import { wallet } from "@nadabot/services/web3";
 import { BellIcon } from "@nadabot/theme/icons";
 import colors from "@nadabot/theme/colors";
+import { useUser } from "@nadabot/hooks/store/useUser";
+import { walletApi } from "@nadabot/services/web3/web3api";
 
 const NavBar = () => {
-  const { isWalletConnected, accountId } = useWeb3Auth();
-
-  // TODO: isAdmin
-  console.info("TODO: isAdmin");
-  const isAdmin = true;
+  const { walletConnected, isAdmin, accountId } = useUser();
 
   const connectWalletHandler = useCallback(() => {
-    wallet.startUp(true);
+    walletApi.signInModal();
   }, []);
 
   const viewAdminHandler = useCallback(() => {
@@ -44,7 +40,7 @@ const NavBar = () => {
 
           {/* Right */}
           <Stack>
-            {isWalletConnected && (
+            {walletConnected && (
               <Stack direction="row">
                 {isAdmin && (
                   <Link
@@ -69,7 +65,12 @@ const NavBar = () => {
                     flexItem
                   />
                   <Avatar
-                    sx={{ background: colors.PRIMARY, width: 36, height: 36 }}
+                    sx={{
+                      background: colors.PRIMARY,
+                      width: 36,
+                      height: 36,
+                      fontSize: 14,
+                    }}
                   >
                     {accountId[0]}
                   </Avatar>
@@ -85,7 +86,7 @@ const NavBar = () => {
               </Stack>
             )}
 
-            {!isWalletConnected && (
+            {!walletConnected && (
               <Button
                 variant="contained"
                 color="primary"

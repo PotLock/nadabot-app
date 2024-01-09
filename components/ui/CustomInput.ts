@@ -5,7 +5,7 @@ const CustomInput = styled("input")({
   fontFamily: "Mona-Sans",
   fontWeight: 500,
   fontSize: 16,
-  color: colors.GRAY,
+  color: colors.NEUTRAL700,
   "::placeholder": {
     color: colors.GRAY,
     opacity: 1,

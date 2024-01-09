@@ -1,19 +1,7 @@
 const colors = {
   PRIMARY: "#292929",
-  // PRIMARY_HOVER: "#FFF",
-  // PRIMARY_HOVER_BG: "rgba(70, 103, 227, 0.88)",
-  // PRIMARY_ACTIVE: "rgba(255, 255, 255, 0.56)",
-  // PRIMARY_ACTIVE_BG: "rgba(70, 103, 227, 0.72)",
-  // PRIMARY_DISABLED: "rgba(70, 103, 227, 0.24)",
-  // PRIMARY_DISABLED_BG: "rgba(70, 103, 227, 0.08)",
 
   SECONDARY: "#808080",
-  // SECONDARY_HOVER: "#FFF",
-  // SECONDARY_HOVER_BG: "rgba(38, 38, 38, 0.88)",
-  // SECONDARY_ACTIVE: "rgba(255, 255, 255, 0.56)",
-  // SECONDARY_ACTIVE_BG: "rgba(38, 38, 38, 0.72)",
-  // SECONDARY_DISABLED: "rgba(38, 38, 38, 0.16)",
-  // SECONDARY_DISABLED_BG: "rgba(38, 38, 38, 0.08)",
 
   TERTIARY: "#DD3345",
 
@@ -28,20 +16,20 @@ const colors = {
 
   WHITE: "#FFFFFF",
   BLUE: "#2D6FDB",
-  // BLUE_DISABLED: "rgba(70, 103, 227, 0.56)",
   TRANSPARENT: "rgba(255, 255, 255, 0)",
 
   GRAY: "#B0B0B0",
-  // GRAY140: "#4B4C52",
 
   LIGHTGRAY: "#F0F0F0",
-  // LIGHTGRAY_HOVER_BG: "#ECECEF",
+  SHADOWGRAY: "#EAEAEA",
 
   PEACH: "#FEF6EE",
   PEACH100: "#FCE9D5",
 
   NEUTRAL: "#7B7B7B",
+  NEUTRAL300: "#C7C7C7",
   NEUTRAL400: "#A6A6A6",
+  NEUTRAL500: "#7B7B7B",
   NEUTRAL700: "#525252",
 };
 

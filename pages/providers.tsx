@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, CssBaseline, ThemeProvider } from "@mui/material";
 import { theme } from "@nadabot/theme/theme";
 import Web3AuthProvider from "@nadabot/contexts/Web3AuthProvider";

@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { wallet } from "@nadabot/services/web3";
+import { wallet } from "@nadabot/services/web3/contract-interface";
 import {
   Dialog,
   DialogActions,

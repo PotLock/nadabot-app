@@ -1,15 +1,20 @@
 import { Box, Stack, SxProps, Theme } from "@mui/material";
 import colors from "@nadabot/theme/colors";
-import { SearchIconA } from "@nadabot/theme/icons";
 import CustomInput from "./CustomInput";
 
 type Props = {
   placeholder?: string;
   enableShadow?: boolean;
+  rightComponent?: JSX.Element;
   sx?: SxProps<Theme>;
 };
 
-const SearchInput = ({ placeholder, enableShadow, sx }: Props) => {
+const RegularInput = ({
+  placeholder,
+  enableShadow,
+  rightComponent,
+  sx,
+}: Props) => {
   return (
     <Box pb={enableShadow ? 1 : 0}>
       <Stack
@@ -28,10 +33,10 @@ const SearchInput = ({ placeholder, enableShadow, sx }: Props) => {
         }}
       >
         <CustomInput placeholder={placeholder} />
-        <SearchIconA sx={{ width: 16, mr: 2 }} />
+        {rightComponent}
       </Stack>
     </Box>
   );
 };
 
-export default SearchInput;
+export default RegularInput;
