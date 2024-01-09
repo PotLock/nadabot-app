@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, SxProps, Theme } from "@mui/material";
 
 const fontSizes = {
   small: 14,
@@ -30,6 +30,7 @@ type Props = {
   fontSize?: "small" | "medium" | "large";
   bodySize?: "small" | "medium" | "large";
   color?: "white" | "blue" | "beige";
+  sx?: SxProps<Theme>;
 };
 
 export default function CustomButton(props: Props) {
@@ -41,6 +42,7 @@ export default function CustomButton(props: Props) {
       sx={{
         fontSize: fontSizes[props.fontSize || "small"],
         height: bodySizes[props.bodySize || "small"],
+        ...(props.sx ? props.sx : {}),
       }}
     >
       {props.children}

@@ -4,9 +4,11 @@ import colors from "@nadabot/theme/colors";
 import Input from "@nadabot/components/pages/add-stamp/Input";
 import ContractInfo from "@nadabot/components/ContractInfo";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import CustomButton from "@nadabot/components/ui/CustomButton";
 
 export default function AddStampPage() {
-  const { maxWidth1200, maxWidth962 } = useBreakPoints();
+  const { maxWidth1200, maxWidth962, maxWidth600, maxWidth430 } =
+    useBreakPoints();
 
   return (
     <Container>
@@ -84,11 +86,37 @@ export default function AddStampPage() {
 
           <Box mt={4}>
             <ContractInfo
-              sx={{ minWidth: 392, backgroundColor: colors.WHITE }}
+              sx={{
+                minWidth: maxWidth430 ? "initial" : 392,
+                backgroundColor: colors.WHITE,
+              }}
               hidePoints
             />
           </Box>
         </Stack>
+      </Stack>
+      {/* Buttons */}
+      <Stack
+        direction="row"
+        width="100%"
+        justifyContent="space-between"
+        mt={2}
+        mb={2}
+      >
+        <CustomButton
+          bodySize="medium"
+          color="beige"
+          sx={{ width: maxWidth600 ? "40%" : "25%" }}
+        >
+          Go Back
+        </CustomButton>
+        <CustomButton
+          bodySize="medium"
+          color="blue"
+          sx={{ width: maxWidth600 ? "58%" : "73%" }}
+        >
+          Final Submit
+        </CustomButton>
       </Stack>
     </Container>
   );

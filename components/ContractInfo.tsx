@@ -8,6 +8,7 @@ import {
   Theme,
   Typography,
 } from "@mui/material";
+import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import colors from "@nadabot/theme/colors";
 import React from "react";
 
@@ -17,11 +18,13 @@ type Props = {
 };
 
 export default function ContractInfo({ hidePoints, sx }: Props) {
+  const { maxWidth430 } = useBreakPoints();
+
   // TODO: get the real accountId
   const accountId = "wendersonpires.near";
 
   return (
-    <Stack maxWidth={352} width="100%" sx={sx}>
+    <Stack maxWidth={maxWidth430 ? "100%" : 352} width="100%" sx={sx}>
       <Stack
         p={2}
         sx={{
