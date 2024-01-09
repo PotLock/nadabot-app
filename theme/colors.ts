@@ -19,6 +19,7 @@ const colors = {
   TRANSPARENT: "rgba(255, 255, 255, 0)",
 
   GRAY: "#B0B0B0",
+  GRAY100: "#F8F8F8",
 
   LIGHTGRAY: "#F0F0F0",
   SHADOWGRAY: "#EAEAEA",

@@ -1,15 +1,27 @@
-import { Avatar, Box, Button, Chip, Stack, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Chip,
+  Stack,
+  SxProps,
+  Theme,
+  Typography,
+} from "@mui/material";
 import colors from "@nadabot/theme/colors";
 import React from "react";
 
-type Props = {};
+type Props = {
+  hidePoints?: boolean;
+  sx?: SxProps<Theme>;
+};
 
-export default function ContractInfo({}: Props) {
+export default function ContractInfo({ hidePoints, sx }: Props) {
   // TODO: get the real accountId
   const accountId = "wendersonpires.near";
 
   return (
-    <Stack maxWidth={352} width="100%">
+    <Stack maxWidth={352} width="100%" sx={sx}>
       <Stack
         p={2}
         sx={{
@@ -27,12 +39,14 @@ export default function ContractInfo({}: Props) {
             height={80}
             borderRadius={999}
           />
-          <Stack alignItems="flex-end">
-            <Typography fontWeight={600} fontSize={24}>
-              19.27
-            </Typography>
-            <Typography fontSize={17}>Points</Typography>
-          </Stack>
+          {!hidePoints && (
+            <Stack alignItems="flex-end">
+              <Typography fontWeight={600} fontSize={24}>
+                19.27
+              </Typography>
+              <Typography fontSize={17}>Points</Typography>
+            </Stack>
+          )}
         </Stack>
 
         {/* Contract Name */}
