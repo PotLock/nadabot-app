@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { wallet } from "@nadabot/services/web3/contract-interface";
+import { walletApi } from "@nadabot/services/web3/web3api";
 import {
   Dialog,
   DialogActions,
@@ -16,7 +16,7 @@ type Props = {
 
 export default function NoConnectedDialog({ open, onClose }: Props) {
   const connectWalletHandler = useCallback(() => {
-    wallet.startUp(true);
+    walletApi.signInModal();
     onClose();
   }, [onClose]);
 
