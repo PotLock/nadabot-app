@@ -5,6 +5,7 @@ import { BellIcon } from "@nadabot/theme/icons";
 import colors from "@nadabot/theme/colors";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import { walletApi } from "@nadabot/services/web3/web3api";
+import Tag from "./ui/Tag";
 
 const NavBar = () => {
   const { walletConnected, isAdmin, accountId } = useUser();
@@ -74,14 +75,7 @@ const NavBar = () => {
                   >
                     {accountId[0]}
                   </Avatar>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    size="small"
-                    disableRipple
-                  >
-                    Not A Human
-                  </Button>
+                  <Tag label="Not A Human" />
                 </Stack>
               </Stack>
             )}

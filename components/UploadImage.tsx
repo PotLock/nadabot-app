@@ -11,7 +11,7 @@ import ButtonContainer from "./containers/ButtonContainer";
 type Props = {};
 
 export default function UploadImage(props: Props) {
-  const { maxWidth600, maxWidth430 } = useBreakPoints();
+  const { maxWidth962, maxWidth600, maxWidth430 } = useBreakPoints();
 
   const uploadHandler = useCallback(() => {}, []);
 
@@ -23,6 +23,8 @@ export default function UploadImage(props: Props) {
       direction={maxWidth430 ? "column" : "row"}
       justifyContent="space-between"
       alignItems={maxWidth430 ? "center" : "flex-start"}
+      alignSelf={maxWidth962 ? "center" : "flex-start"}
+      width="100%"
       maxWidth={405}
     >
       <ButtonContainer onClick={uploadHandler}>
