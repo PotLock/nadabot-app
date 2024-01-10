@@ -20,6 +20,8 @@ const colors = {
 
   GRAY: "#B0B0B0",
   GRAY100: "#F8F8F8",
+  GRAY300: "#EFEFEF",
+  GRAY_CC: "#CCCCCC",
 
   LIGHTGRAY: "#F0F0F0",
   SHADOWGRAY: "#EAEAEA",

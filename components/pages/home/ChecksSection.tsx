@@ -1,8 +1,8 @@
 import { Stack, Typography } from "@mui/material";
 import colors from "@nadabot/theme/colors";
-import { ShadowContainer } from "./containers/ShadowContainer";
-import { AddFilterSearchInput } from "./ui/AddFilterSearchInput";
-import ContractsContainer from "./containers/ContractsContainer";
+import { ShadowContainer } from "../../containers/ShadowContainer";
+import { AddFilterSearchInput } from "../../ui/AddFilterSearchInput";
+import ContractsContainer from "../../containers/ContractsContainer";
 
 type Props = {};
 

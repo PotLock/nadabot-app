@@ -1,6 +1,6 @@
 import { Stack, Typography } from "@mui/material";
 import colors from "@nadabot/theme/colors";
-import RoundedSearchInput from "./ui/RoundedSearchInput";
+import RoundedSearchInput from "../../ui/RoundedSearchInput";
 
 type Props = {};
 

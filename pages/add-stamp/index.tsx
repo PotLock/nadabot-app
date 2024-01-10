@@ -5,6 +5,7 @@ import Input from "@nadabot/components/pages/add-stamp/Input";
 import ContractInfo from "@nadabot/components/ContractInfo";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import CustomButton from "@nadabot/components/ui/CustomButton";
+import UploadImage from "@nadabot/components/UploadImage";
 
 export default function AddStampPage() {
   const { maxWidth1200, maxWidth962, maxWidth600, maxWidth430 } =
@@ -35,7 +36,8 @@ export default function AddStampPage() {
           width={maxWidth962 ? "100%" : maxWidth1200 ? "50%" : "60%"}
           p={4}
         >
-          <Input label="Title" placeholder="Enter a title" />
+          <UploadImage />
+          <Input label="Title" placeholder="Enter a title" sx={{ mt: 2 }} />
           <Input
             label="Description"
             placeholder="Describe what this check is"
