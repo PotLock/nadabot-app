@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { Stack, Typography } from "@mui/material";
 import AttachFileOutlinedIcon from "@mui/icons-material/AttachFileOutlined";
 import Image from "next/image";
@@ -8,12 +7,13 @@ import Tag from "./ui/Tag";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import ButtonContainer from "./containers/ButtonContainer";
 
-type Props = {};
+type Props = {
+  onClick?: () => void;
+  previewFileContent?: string;
+};
 
-export default function UploadImage(props: Props) {
+export default function UploadImage({ onClick, previewFileContent }: Props) {
   const { maxWidth962, maxWidth600, maxWidth430 } = useBreakPoints();
-
-  const uploadHandler = useCallback(() => {}, []);
 
   return (
     <Stack
@@ -27,7 +27,7 @@ export default function UploadImage(props: Props) {
       width="100%"
       maxWidth={405}
     >
-      <ButtonContainer onClick={uploadHandler}>
+      <ButtonContainer onClick={onClick}>
         <Stack
           width={maxWidth600 ? 68 : 152}
           height={maxWidth600 ? 68 : 152}
@@ -35,6 +35,15 @@ export default function UploadImage(props: Props) {
           bgcolor={colors.GRAY_CC}
           alignItems="center"
           justifyContent="center"
+          sx={{
+            ...(previewFileContent
+              ? {
+                  backgroundImage: `url(${previewFileContent})`,
+                  backgroundSize: "cover",
+                  backgroundRepeat: "no-repeat",
+                }
+              : {}),
+          }}
         >
           <Image
             width={maxWidth600 ? 50 : 63}
@@ -59,7 +68,7 @@ export default function UploadImage(props: Props) {
           }
           label="Attach Image"
           asButton
-          onClick={uploadHandler}
+          onClick={onClick}
         />
       </Stack>
     </Stack>

@@ -12,6 +12,9 @@ const CustomInput = styled("input")({
   },
   width: "85%",
   border: "none",
+  ":disabled": {
+    opacity: 0.5,
+  },
 });
 
 export default CustomInput;

@@ -11,6 +11,8 @@ type Props = {
   optional?: boolean;
   type?: HTMLInputTypeAttribute;
   sx?: SxProps<Theme>;
+  disabled?: boolean;
+  errorMessage?: string;
 };
 
 export default function Input({
@@ -20,11 +22,17 @@ export default function Input({
   optional,
   type,
   sx,
+  disabled,
+  errorMessage,
 }: Props) {
   return (
     <Stack sx={sx}>
       <Stack direction="row">
-        <Typography fontWeight={600} fontSize={16}>
+        <Typography
+          fontWeight={600}
+          fontSize={16}
+          sx={{ opacity: disabled ? 0.5 : 1 }}
+        >
           {label}
         </Typography>
         {optional && (
@@ -38,16 +46,36 @@ export default function Input({
           </Typography>
         )}
       </Stack>
-      <RegularInput placeholder={placeholder} type={type} />
+      <RegularInput
+        placeholder={placeholder}
+        type={type}
+        disabled={disabled}
+        error={!!errorMessage}
+      />
       {info && (
         <Stack direction="row" alignItems="center" mt={1}>
           <InfoOutlinedIcon
-            sx={{ color: colors.NEUTRAL300, fontSize: 16, mr: 0.5, mt: "-2px" }}
+            sx={{
+              color: errorMessage ? colors.ERROR_RED : colors.NEUTRAL300,
+              fontSize: 16,
+              mr: 0.5,
+              mt: "-2px",
+            }}
           />
-          <Typography color={colors.NEUTRAL300} fontWeight={500} fontSize={14}>
+          <Typography
+            color={errorMessage ? colors.ERROR_RED : colors.NEUTRAL300}
+            fontWeight={500}
+            fontSize={14}
+          >
             {info}
           </Typography>
         </Stack>
+      )}
+      {/* Show error only if a Info is not provided */}
+      {errorMessage && !info && (
+        <Typography mt={1} fontSize={13} color={colors.ERROR_RED}>
+          {errorMessage}
+        </Typography>
       )}
     </Stack>
   );

@@ -9,6 +9,8 @@ type Props = {
   rightComponent?: JSX.Element;
   type?: HTMLInputTypeAttribute;
   sx?: SxProps<Theme>;
+  disabled?: boolean;
+  error?: boolean;
 };
 
 const RegularInput = ({
@@ -17,6 +19,8 @@ const RegularInput = ({
   rightComponent,
   type,
   sx,
+  disabled,
+  error,
 }: Props) => {
   return (
     <Box pb={enableShadow ? 1 : 0}>
@@ -27,7 +31,7 @@ const RegularInput = ({
         sx={{
           pl: 2,
           pr: rightComponent ? 0 : 2,
-          border: `1px solid ${colors.LIGHTGRAY}`,
+          border: `1px solid ${error ? colors.ERROR_RED : colors.LIGHTGRAY}`,
           borderRadius: "6px",
           height: 48,
           boxShadow: enableShadow
@@ -37,6 +41,7 @@ const RegularInput = ({
         }}
       >
         <CustomInput
+          disabled={disabled}
           placeholder={placeholder}
           type={type}
           sx={{ width: rightComponent ? "85%" : "100%" }}
