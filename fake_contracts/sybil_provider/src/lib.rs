@@ -24,7 +24,7 @@ impl Contract {
         self.iah.insert(account_id);
     }
 
-    // free - Get places by id
+    // Is Human
     pub fn is_human(&self, account_id: AccountId) -> bool {
         self.iah.contains(&account_id)
     }

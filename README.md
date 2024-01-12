@@ -20,6 +20,9 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 # NETWORK (testnet or mainnet)
 NEXT_PUBLIC_NETWORK=testnet
 
-#The smart contract ID (ID of the account where the contract was deployed)
+# The smart contract ID (ID of the account where the contract was deployed)
 NEXT_PUBLIC_CONTRACT_NAME=<smart contract - account id>
+
+# Pinata JWT
+PINATA_JWT=<jwt-code>
 ```
