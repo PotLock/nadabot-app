@@ -36,6 +36,7 @@ const colors = {
   NEUTRAL700: "#525252",
 
   ERROR_RED: "#DD3345",
+  ERROR_RED_LIGHT: "#FCEFF0",
 };
 
 export default colors;

@@ -1,4 +1,4 @@
-import { HTMLInputTypeAttribute } from "react";
+import { ChangeEvent, HTMLInputTypeAttribute } from "react";
 import { Stack, SxProps, Theme, Typography } from "@mui/material";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import RegularInput from "@nadabot/components/ui/RegularInput";
@@ -13,6 +13,9 @@ type Props = {
   sx?: SxProps<Theme>;
   disabled?: boolean;
   errorMessage?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  name?: string;
+  defaultValue?: string | number | readonly string[];
 };
 
 export default function Input({
@@ -24,6 +27,9 @@ export default function Input({
   sx,
   disabled,
   errorMessage,
+  onChange,
+  name,
+  defaultValue,
 }: Props) {
   return (
     <Stack sx={sx}>
@@ -51,6 +57,9 @@ export default function Input({
         type={type}
         disabled={disabled}
         error={!!errorMessage}
+        onChange={onChange}
+        name={name}
+        defaultValue={defaultValue}
       />
       {info && (
         <Stack direction="row" alignItems="center" mt={1}>
@@ -72,7 +81,7 @@ export default function Input({
         </Stack>
       )}
       {/* Show error only if a Info is not provided */}
-      {errorMessage && !info && (
+      {errorMessage && (
         <Typography mt={1} fontSize={13} color={colors.ERROR_RED}>
           {errorMessage}
         </Typography>

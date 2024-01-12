@@ -1,4 +1,4 @@
-import { HTMLInputTypeAttribute } from "react";
+import { ChangeEvent, HTMLInputTypeAttribute } from "react";
 import { Box, Stack, SxProps, Theme } from "@mui/material";
 import colors from "@nadabot/theme/colors";
 import CustomInput from "./CustomInput";
@@ -11,6 +11,9 @@ type Props = {
   sx?: SxProps<Theme>;
   disabled?: boolean;
   error?: boolean;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  name?: string;
+  defaultValue?: string | number | readonly string[];
 };
 
 const RegularInput = ({
@@ -21,6 +24,9 @@ const RegularInput = ({
   sx,
   disabled,
   error,
+  onChange,
+  name,
+  defaultValue,
 }: Props) => {
   return (
     <Box pb={enableShadow ? 1 : 0}>
@@ -29,6 +35,7 @@ const RegularInput = ({
         alignItems="center"
         justifyContent="space-between"
         sx={{
+          background: error ? colors.ERROR_RED_LIGHT : "transparent",
           pl: 2,
           pr: rightComponent ? 0 : 2,
           border: `1px solid ${error ? colors.ERROR_RED : colors.LIGHTGRAY}`,
@@ -44,7 +51,14 @@ const RegularInput = ({
           disabled={disabled}
           placeholder={placeholder}
           type={type}
-          sx={{ width: rightComponent ? "85%" : "100%" }}
+          onChange={onChange}
+          sx={{
+            width: rightComponent ? "85%" : "100%",
+            color: error ? colors.ERROR_RED : colors.NEUTRAL700,
+            background: error ? colors.ERROR_RED_LIGHT : "transparent",
+          }}
+          name={name}
+          defaultValue={defaultValue}
         />
         {rightComponent}
       </Stack>

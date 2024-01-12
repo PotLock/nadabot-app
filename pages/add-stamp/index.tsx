@@ -1,3 +1,5 @@
+import { useCallback, useEffect } from "react";
+import { Network, getContractApi } from "@wpdas/naxios";
 import { Box, Container, Stack, Typography } from "@mui/material";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { useFormik } from "formik";
@@ -15,19 +17,29 @@ import ContractInfo from "@nadabot/components/ContractInfo";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import CustomButton from "@nadabot/components/ui/CustomButton";
 import UploadImage from "@nadabot/components/UploadImage";
+import { useRouter } from "next/router";
+import useSpinner from "@nadabot/hooks/useSpinner";
+import { NETWORK } from "@nadabot/services/web3/constants";
 
 const formSchema = Yup.object().shape({
-  title: Yup.string().min(4, "Insert a valid title").required("Required"),
+  imageURL: Yup.string()
+    .min(4, "You should attach an image")
+    .required("Attach an image"),
+  title: Yup.string()
+    .min(4, "Insert a valid title")
+    .required("Insert a valid title"),
   description: Yup.string()
     .min(4, "Insert a valid description")
-    .required("Required"),
+    .required("Insert a valid description"),
   contractName: Yup.string()
-    .min(4, "Insert a valid contract name")
-    .required("Required"),
-  method: Yup.string().min(4, "Insert a valid method").required("Required"),
+    .min(4, "Insert a valid ontract name")
+    .required("Insert a valid contract name"),
+  method: Yup.string()
+    .min(3, "Insert a valid method")
+    .required("Insert a valid method"),
   externalLink: Yup.string()
     .min(4, "Insert a valid external link")
-    .required("Required"),
+    .required("Insert a valid external link"),
 });
 
 export default function AddStampPage() {
@@ -45,10 +57,12 @@ export default function AddStampPage() {
     ],
   });
 
-  console.log(filesContent);
+  const { showSpinner, hideSpinner } = useSpinner();
 
   const formik = useFormik({
+    validateOnChange: false,
     initialValues: {
+      imageURL: "",
       title: "",
       description: "",
       contractName: "",
@@ -57,13 +71,70 @@ export default function AddStampPage() {
       gas: 0,
     },
     validationSchema: formSchema,
-    onSubmit: async (
-      { title, description, contractName, method, externalLink, gas },
-      { setSubmitting }
-    ) => {
-      setSubmitting(true);
+    onSubmit: async ({
+      title,
+      description,
+      contractName,
+      method,
+      externalLink,
+      gas,
+    }) => {
+      showSpinner();
+
+      const contract = await getContractApi({
+        contractId: contractName,
+        network: NETWORK as Network,
+      });
+
+      // 1 - Check contract and method: The method must have a `account_id` parameter
+      try {
+        const response = await contract.view(method, {
+          args: { account_id: "no.account.near" },
+        });
+
+        // 1.1 validate if the response is a boolean
+        // NOTE: this returns an array of validated humans [should break]: registry-v2.i-am-human.testnet
+        // NOTE: this returns an boolean [should work]:
+        if (typeof response !== "boolean") {
+          formik.setFieldError(
+            "method",
+            `The return is not a boolean, it is a${
+              Array.isArray(response) ? "n array" : ` ${typeof response}`
+            }!`
+          );
+          hideSpinner();
+          return;
+        }
+      } catch (error) {
+        // 1.2 validate the `account_id` parameter or other kind of contract error
+        formik.setFieldError(
+          "method",
+          "The method does not exist or does not have an `account_id` parameter."
+        );
+        hideSpinner();
+        return;
+      }
+
+      // 2 - Upload the image
+      console.log("TODO: Upload image");
+
+      hideSpinner();
     },
   });
+
+  // Updates the formik.imageURL field
+  console.log(filesContent);
+  useEffect(() => {
+    if (filesContent[0]) {
+      formik.setFieldValue("imageURL", filesContent[0]?.content);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filesContent, formik.setFieldValue]);
+
+  const router = useRouter();
+  const goBackHanler = useCallback(() => {
+    router.back();
+  }, [router]);
 
   return (
     <ProtectedPage>
@@ -94,49 +165,63 @@ export default function AddStampPage() {
             <UploadImage
               onClick={openFilePicker}
               previewFileContent={filesContent[0]?.content}
+              errorMessage={formik.errors.imageURL}
             />
             <Input
+              name="title"
               disabled={formik.isSubmitting}
               label="Title"
               placeholder="Enter a title"
               errorMessage={formik.errors.title}
+              onChange={formik.handleChange}
               sx={{ mt: 2 }}
             />
             <Input
+              name="description"
               disabled={formik.isSubmitting}
               label="Description"
               placeholder="Describe what this check is"
               errorMessage={formik.errors.description}
+              onChange={formik.handleChange}
               sx={{ mt: 2 }}
             />
             <Input
+              name="contractName"
               disabled={formik.isSubmitting}
               label="Contract Name"
               placeholder="Enter a contract name"
               errorMessage={formik.errors.contractName}
+              onChange={formik.handleChange}
               sx={{ mt: 2 }}
             />
             <Input
+              name="method"
               disabled={formik.isSubmitting}
               label="Method"
               placeholder="Enter a method"
               info="Method must take single input and return boolean"
               errorMessage={formik.errors.method}
+              onChange={formik.handleChange}
               sx={{ mt: 2 }}
             />
             <Input
+              name="externalLink"
               disabled={formik.isSubmitting}
               label="External link"
               placeholder="Enter an external link"
               errorMessage={formik.errors.externalLink}
+              onChange={formik.handleChange}
               sx={{ mt: 2 }}
             />
             <Input
+              name="gas"
               disabled={formik.isSubmitting}
               label="Minimum Required Gas Units, TGas"
               placeholder="Enter the minimum TGas units"
               type="number"
               errorMessage={formik.errors.gas}
+              defaultValue={0}
+              onChange={formik.handleChange}
               optional
               sx={{ mt: 2 }}
             />
@@ -183,6 +268,7 @@ export default function AddStampPage() {
             bodySize="medium"
             color="beige"
             sx={{ width: maxWidth600 ? "40%" : "25%" }}
+            onClick={goBackHanler}
           >
             Go Back
           </CustomButton>
@@ -190,6 +276,7 @@ export default function AddStampPage() {
             bodySize="medium"
             color="blue"
             sx={{ width: maxWidth600 ? "58%" : "73%" }}
+            onClick={formik.handleSubmit}
           >
             Final Submit
           </CustomButton>

@@ -10,67 +10,85 @@ import ButtonContainer from "./containers/ButtonContainer";
 type Props = {
   onClick?: () => void;
   previewFileContent?: string;
+  errorMessage?: string;
 };
 
-export default function UploadImage({ onClick, previewFileContent }: Props) {
+export default function UploadImage({
+  onClick,
+  previewFileContent,
+  errorMessage,
+}: Props) {
   const { maxWidth962, maxWidth600, maxWidth430 } = useBreakPoints();
 
   return (
-    <Stack
-      p={4}
-      border={`1px solid ${colors.LIGHTGRAY}`}
-      borderRadius="8px"
-      direction={maxWidth430 ? "column" : "row"}
-      justifyContent="space-between"
-      alignItems={maxWidth430 ? "center" : "flex-start"}
-      alignSelf={maxWidth962 ? "center" : "flex-start"}
-      width="100%"
-      maxWidth={405}
-    >
-      <ButtonContainer onClick={onClick}>
+    <>
+      <Stack
+        p={4}
+        border={`1px solid ${
+          !!errorMessage ? colors.ERROR_RED : colors.LIGHTGRAY
+        }`}
+        borderRadius="8px"
+        direction={maxWidth430 ? "column" : "row"}
+        justifyContent="space-between"
+        alignItems={maxWidth430 ? "center" : "flex-start"}
+        alignSelf={maxWidth962 ? "center" : "flex-start"}
+        width="100%"
+        maxWidth={405}
+      >
+        <ButtonContainer onClick={onClick}>
+          <Stack
+            width={maxWidth600 ? 68 : 152}
+            height={maxWidth600 ? 68 : 152}
+            borderRadius="8px"
+            bgcolor={colors.GRAY_CC}
+            alignItems="center"
+            justifyContent="center"
+            sx={{
+              ...(previewFileContent
+                ? {
+                    backgroundImage: `url(${previewFileContent})`,
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                  }
+                : {}),
+            }}
+          >
+            <Image
+              width={maxWidth600 ? 50 : 63}
+              src={cameraUploadSvg}
+              alt="Upload Image"
+            />
+          </Stack>
+        </ButtonContainer>
+
         <Stack
-          width={maxWidth600 ? 68 : 152}
-          height={maxWidth600 ? 68 : 152}
-          borderRadius="8px"
-          bgcolor={colors.GRAY_CC}
-          alignItems="center"
-          justifyContent="center"
-          sx={{
-            ...(previewFileContent
-              ? {
-                  backgroundImage: `url(${previewFileContent})`,
-                  backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
-                }
-              : {}),
-          }}
+          alignItems={maxWidth430 ? "center" : "flex-start"}
+          mt={maxWidth430 ? 2 : 0}
         >
-          <Image
-            width={maxWidth600 ? 50 : 63}
-            src={cameraUploadSvg}
-            alt="Upload Image"
+          <Typography fontWeight={600} mb={0.5}>
+            Attach Icon
+          </Typography>
+          <Tag
+            leftContent={
+              <AttachFileOutlinedIcon
+                sx={{
+                  color: colors.GRAY,
+                  width: 17,
+                  transform: "rotate(45deg)",
+                }}
+              />
+            }
+            label="Attach Image"
+            asButton
+            onClick={onClick}
           />
         </Stack>
-      </ButtonContainer>
-
-      <Stack
-        alignItems={maxWidth430 ? "center" : "flex-start"}
-        mt={maxWidth430 ? 2 : 0}
-      >
-        <Typography fontWeight={600} mb={0.5}>
-          Attach Icon
-        </Typography>
-        <Tag
-          leftContent={
-            <AttachFileOutlinedIcon
-              sx={{ color: colors.GRAY, width: 17, transform: "rotate(45deg)" }}
-            />
-          }
-          label="Attach Image"
-          asButton
-          onClick={onClick}
-        />
       </Stack>
-    </Stack>
+      {errorMessage && (
+        <Typography mt={1} fontSize={13} color={colors.ERROR_RED}>
+          {errorMessage}
+        </Typography>
+      )}
+    </>
   );
 }
