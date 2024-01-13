@@ -14,6 +14,8 @@ type Props = {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   name?: string;
   defaultValue?: string | number | readonly string[];
+  autoComplete?: boolean;
+  integersOnly?: boolean;
 };
 
 const RegularInput = ({
@@ -27,6 +29,8 @@ const RegularInput = ({
   onChange,
   name,
   defaultValue,
+  autoComplete,
+  integersOnly,
 }: Props) => {
   return (
     <Box pb={enableShadow ? 1 : 0}>
@@ -59,6 +63,23 @@ const RegularInput = ({
           }}
           name={name}
           defaultValue={defaultValue}
+          autoComplete={autoComplete ? "on" : "off"}
+          // Intergers only?
+          {...(integersOnly && type === "number"
+            ? {
+                onKeyDown: (event) => {
+                  if (event.key === ".") {
+                    event.preventDefault();
+                  }
+                },
+                onPaste: (event) => {
+                  let pasteData = event.clipboardData.getData("text");
+                  if (pasteData) {
+                    pasteData.replace(/[^0-9]*/g, "");
+                  }
+                },
+              }
+            : {})}
         />
         {rightComponent}
       </Stack>

@@ -16,9 +16,36 @@ export default function ContractsContainer({}: Props) {
       gap={2}
       flexWrap="wrap"
     >
-      <ContractInfo />
-      <ContractInfo />
-      <ContractInfo />
+      <ContractInfo
+        details={{
+          title: "Lorem Ipsum Contract",
+          contractName: "I-am-a-Human.near",
+          method: "is_human()",
+          description:
+            "Lorem ipsum dolor sit amet, consectet adipiscing elit, sed do eiusmod tempor ncididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          submittedByAccountId: "lorem.ipsum.near",
+        }}
+      />
+      <ContractInfo
+        details={{
+          title: "Lorem Ipsum Contract",
+          contractName: "I-am-a-Human.near",
+          method: "is_human()",
+          description:
+            "Lorem ipsum dolor sit amet, consectet adipiscing elit, sed do eiusmod tempor ncididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          submittedByAccountId: "lorem.ipsum.near",
+        }}
+      />
+      <ContractInfo
+        details={{
+          title: "Lorem Ipsum Contract",
+          contractName: "I-am-a-Human.near",
+          method: "is_human()",
+          description:
+            "Lorem ipsum dolor sit amet, consectet adipiscing elit, sed do eiusmod tempor ncididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          submittedByAccountId: "lorem.ipsum.near",
+        }}
+      />
     </Stack>
   );
 }

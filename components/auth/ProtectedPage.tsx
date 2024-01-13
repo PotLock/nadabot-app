@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import { useRouter } from "next/router";
+import { Routes } from "@nadabot/routes";
 
 type Props = {
   children: JSX.Element[] | JSX.Element;
@@ -12,7 +13,7 @@ export default function ProtectedPage({ children }: Props) {
 
   useEffect(() => {
     if (!walletConnected) {
-      router.replace("/");
+      router.replace(Routes.HOME);
     }
   }, [walletConnected, router]);
 

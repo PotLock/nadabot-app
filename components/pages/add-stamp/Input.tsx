@@ -16,6 +16,8 @@ type Props = {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   name?: string;
   defaultValue?: string | number | readonly string[];
+  autoComplete?: boolean;
+  integersOnly?: boolean;
 };
 
 export default function Input({
@@ -30,6 +32,8 @@ export default function Input({
   onChange,
   name,
   defaultValue,
+  autoComplete,
+  integersOnly,
 }: Props) {
   return (
     <Stack sx={sx}>
@@ -60,6 +64,8 @@ export default function Input({
         onChange={onChange}
         name={name}
         defaultValue={defaultValue}
+        autoComplete={autoComplete}
+        integersOnly={integersOnly}
       />
       {info && (
         <Stack direction="row" alignItems="center" mt={1}>

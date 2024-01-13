@@ -10,18 +10,36 @@ import {
 } from "@mui/material";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import colors from "@nadabot/theme/colors";
-import React from "react";
+import React, { useCallback } from "react";
 
 type Props = {
   hidePoints?: boolean;
   sx?: SxProps<Theme>;
+  details: {
+    title: string;
+    imageURL?: string;
+    contractName: string;
+    method: string;
+    description: string;
+    submittedByAccountId: string;
+    points?: number;
+  };
+  isPreview?: boolean;
 };
 
-export default function ContractInfo({ hidePoints, sx }: Props) {
+export default function ContractInfo({
+  hidePoints,
+  sx,
+  details,
+  isPreview,
+}: Props) {
   const { maxWidth430 } = useBreakPoints();
 
-  // TODO: get the real accountId
-  const accountId = "wendersonpires.near";
+  const verifyHandler = useCallback(() => {
+    if (!isPreview) {
+      // Handle here
+    }
+  }, [isPreview]);
 
   return (
     <Stack maxWidth={maxWidth430 ? "100%" : 352} width="100%" sx={sx}>
@@ -41,11 +59,20 @@ export default function ContractInfo({ hidePoints, sx }: Props) {
             width={80}
             height={80}
             borderRadius={999}
+            sx={{
+              ...(details.imageURL
+                ? {
+                    backgroundImage: `url(${details.imageURL})`,
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                  }
+                : {}),
+            }}
           />
           {!hidePoints && (
             <Stack alignItems="flex-end">
               <Typography fontWeight={600} fontSize={24}>
-                19.27
+                {details.points}
               </Typography>
               <Typography fontSize={17}>Points</Typography>
             </Stack>
@@ -54,7 +81,7 @@ export default function ContractInfo({ hidePoints, sx }: Props) {
 
         {/* Contract Name */}
         <Typography fontWeight={600} fontSize={20} mt={3}>
-          Lorem Ipsum Contract
+          {details.title || "Contract Title"}
         </Typography>
 
         {/* Contract's accountId and Method */}
@@ -64,25 +91,25 @@ export default function ContractInfo({ hidePoints, sx }: Props) {
             fontSize={16}
             color={colors.NEUTRAL}
             mr={1}
+            className="stamp-contractid-multiline-ellipsis"
           >
-            I-am-a-Human.near
+            {details.contractName || "contract.name.near"}
           </Typography>
-          <Chip label="IsHuman()" variant="outlined" />
+          <Chip
+            label={details.method ? `${details.method}()` : "IsHuman()"}
+            variant="outlined"
+          />
         </Stack>
 
         {/* Description */}
         <Typography
           fontWeight={400}
-          className="multiline-ellipsis"
+          className="stamp-description-multiline-ellipsis"
           mt={2}
           mb={2}
         >
-          Lorem ipsum dolor sit amet, consectet adi piscing elit, sed do eiusmod
-          tempor ncididunt ut labore et dolore magna aliqua. Ut enim ad minim
-          veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-          ea commodo consequat. Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua.
+          {details.description ||
+            "Lorem ipsum dolor sit amet, consectet adipiscing elit, sed do eiusmod tempor ncididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
         </Typography>
       </Stack>
 
@@ -113,7 +140,8 @@ export default function ContractInfo({ hidePoints, sx }: Props) {
                 mr: 1,
               }}
             >
-              {accountId[0]}
+              {/* First letter only */}
+              {details.submittedByAccountId[0]}
             </Avatar>
             <Typography
               fontWeight={500}
@@ -122,11 +150,17 @@ export default function ContractInfo({ hidePoints, sx }: Props) {
               className="ellipsis"
               maxWidth="200px"
             >
-              lorem.ipsum.near
+              {details.submittedByAccountId}
             </Typography>
           </Stack>
         </Stack>
-        <Button variant="contained" color="warning" size="medium" disableRipple>
+        <Button
+          variant="contained"
+          color="warning"
+          size="medium"
+          disableRipple
+          onClick={verifyHandler}
+        >
           Verify
         </Button>
       </Stack>

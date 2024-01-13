@@ -8,6 +8,7 @@ import { useCallback } from "react";
 import useWeb3Auth from "@nadabot/hooks/useWeb3Auth";
 import useDialogs from "@nadabot/hooks/useDialogs";
 import { DIALOGS } from "@nadabot/contexts/DialogsProvider";
+import { Routes } from "@nadabot/routes";
 
 const textToTypographySlices = (props: {
   text: string;
@@ -44,7 +45,7 @@ export default function InvitationHeroSection() {
       return;
     }
 
-    router.push("/add-stamp");
+    router.push(Routes.ADD_STAMP);
   }, [router, isWalletConnected, openDialog]);
 
   return (

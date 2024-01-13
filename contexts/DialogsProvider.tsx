@@ -1,21 +1,34 @@
+import ErrorDialog from "@nadabot/components/dialogs/ErrorDialog";
 import NoConnectedDialog from "@nadabot/components/dialogs/NoConnectedDialog";
+import StampSentDialog from "@nadabot/components/dialogs/StampSentDialog";
 import { FC, createContext, useCallback, useState } from "react";
 
 export enum DIALOGS {
   None,
   NoConnected,
+  StampSent,
+  Error,
 }
+
+export type DialogProps = {
+  title?: string;
+  description?: string;
+};
 
 type openDialogProps = {
   dialog: DIALOGS;
+  props?: DialogProps;
   onClickOk?: () => void;
   onClickCancel?: () => void;
 };
 
-export const DialogsContext = createContext({
-  openDialog: (props: openDialogProps) => {
+type DialogContextProps = {
+  openDialog: (props: openDialogProps) => void;
+};
+
+export const DialogsContext = createContext<DialogContextProps>({
+  openDialog: () => {
     throw new Error("openDialog must be defined");
-    return;
   },
 });
 
@@ -30,12 +43,16 @@ const DialogsProvider: FC<Props> = ({ children }) => {
     dialog: DIALOGS.None,
   });
 
+  const [props, setProps] = useState<DialogProps>({});
+
   const openDialog = useCallback((props: openDialogProps) => {
     setOpenDialog({
       _onClickOk: props.onClickOk ? props.onClickOk : () => {},
       _onClickCancel: props.onClickCancel ? props.onClickCancel : () => {},
       dialog: props.dialog,
     });
+
+    setProps(props.props || {});
   }, []);
 
   const closeDialog = useCallback(() => {
@@ -52,6 +69,15 @@ const DialogsProvider: FC<Props> = ({ children }) => {
       <NoConnectedDialog
         open={_openDialog.dialog === DIALOGS.NoConnected}
         onClose={closeDialog}
+      />
+      <StampSentDialog
+        open={_openDialog.dialog === DIALOGS.StampSent}
+        onClose={closeDialog}
+      />
+      <ErrorDialog
+        open={_openDialog.dialog === DIALOGS.Error}
+        onClose={closeDialog}
+        props={props}
       />
     </DialogsContext.Provider>
   );

@@ -29,12 +29,16 @@ input:focus {
   }
 }
 
-.multiline-ellipsis {
+.stamp-description-multiline-ellipsis, .stamp-contractid-multiline-ellipsis {
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2; 
   white-space: pre-wrap; 
+}
+
+.stamp-contractid-multiline-ellipsis {
+  -webkit-line-clamp: 1;
 }
 
 .ellipsis {
@@ -52,4 +56,18 @@ input:focus {
   @media (max-width: 962px) {
     background: radial-gradient(100.02% 100% at 50% 0%, #FFFFFF 24.62%, rgba(255, 255, 255, 0) 100%), url("/hero/background.svg");
      }
+}
+
+/* removes input background color for autocomplete */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+
+/* Hide the nextjs overlay */
+nextjs-portal {
+  display: none;
 }

@@ -4,21 +4,24 @@ import Web3AuthProvider from "@nadabot/contexts/Web3AuthProvider";
 import NavBar from "@nadabot/components/NavBar";
 import DialogsProvider from "@nadabot/contexts/DialogsProvider";
 import { SpinnerProvider } from "@nadabot/contexts/SpinnerProvider";
+import { Suspense } from "react";
 
 function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <SpinnerProvider>
-        <Web3AuthProvider>
-          <DialogsProvider>
-            <Box>
-              <NavBar />
-              {children}
-            </Box>
-          </DialogsProvider>
-        </Web3AuthProvider>
-      </SpinnerProvider>
+      <Suspense fallback={<p>Loading...</p>}>
+        <SpinnerProvider>
+          <Web3AuthProvider>
+            <DialogsProvider>
+              <Box>
+                <NavBar />
+                {children}
+              </Box>
+            </DialogsProvider>
+          </Web3AuthProvider>
+        </SpinnerProvider>
+      </Suspense>
     </ThemeProvider>
   );
 }
