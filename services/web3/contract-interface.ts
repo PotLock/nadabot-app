@@ -3,14 +3,23 @@ import { Config } from "./interfaces/lib";
 import {
   ProviderExternal,
   RegisterProviderInput,
+  UpdateProviderInput,
 } from "./interfaces/providers";
+import { StampExternal } from "./interfaces/stamps";
 
 // READ METHODS
 
 /**
- * Get config
+ * Get Config
  */
 export const get_config = () => contractApi.view<{}, Config>("get_config");
+
+/**
+ * Get Providers
+ * @returns
+ */
+export const get_providers = () =>
+  contractApi.view<{}, ProviderExternal[]>("get_providers");
 
 // WRITE METHODS
 /**
@@ -47,3 +56,41 @@ export const register_provider = (args: RegisterProviderInput) => {
       });
   });
 };
+
+/**
+ * Set default human threshold
+ * @param default_human_threshold
+ * @returns
+ */
+export const admin_set_default_human_threshold = (
+  default_human_threshold: number
+) =>
+  contractApi.call("admin_set_default_human_threshold", {
+    args: {
+      default_human_threshold,
+    },
+  });
+
+/**
+ * Set Stamp
+ *
+ * Undefined response indicates that user is not verified on target provider
+ * @param provider_id
+ * @returns
+ */
+export const set_stamp = (provider_id: string) =>
+  contractApi.call<{}, StampExternal | undefined>("set_stamp", {
+    args: {
+      provider_id,
+    },
+  });
+
+/**
+ * Update Provider - This method can only be called by the provider's original submitter, or sybil contract owner/admin.
+ * @param args
+ * @returns
+ */
+export const update_provider = (args: UpdateProviderInput) =>
+  contractApi.call<typeof args, ProviderExternal>("update_provider", {
+    args,
+  });

@@ -1,4 +1,7 @@
+import FullScreenSpinner from "@nadabot/components/ui/FullScreenSpinner";
 import { useAdmins } from "@nadabot/hooks/store/useAdmins";
+import { useConfig } from "@nadabot/hooks/store/useConfig";
+import { useProviders } from "@nadabot/hooks/store/useProviders";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import * as contract from "@nadabot/services/web3/contract-interface";
 import { walletApi } from "@nadabot/services/web3/web3api";
@@ -7,14 +10,12 @@ import { FC, createContext, useCallback, useEffect, useState } from "react";
 type Web3AuthProps = {
   accountId: string;
   isWalletConnected: boolean;
-  ready: boolean;
   signOut: () => void;
 };
 
 export const Web3AuthContext = createContext<Web3AuthProps>({
   accountId: "",
   isWalletConnected: false,
-  ready: false,
   signOut: () => {
     throw new Error("signOut must be defined");
   },
@@ -33,12 +34,34 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
 
   // Store: Check store and initial contract's data
   const { updateInfo: updateUserInfo, reset: resetUserStore } = useUser();
-  const {
-    initialized: useAdminsInitialized,
-    setAdmins,
-    admins,
-    reset: resetAdminsStore,
-  } = useAdmins();
+  const { setAdmins, reset: resetAdminsStore } = useAdmins();
+  const { fetchConfig, config, reset: resetConfigStore } = useConfig();
+  const { fetchProviders, reset: resetProvidersStore } = useProviders();
+
+  // Init Store
+  const initStore = useCallback(async () => {
+    if (isWalletConnected) {
+      // Config
+      await fetchConfig();
+
+      // Providers
+      await fetchProviders();
+
+      // App is ready to be shown
+      isReady(true);
+    }
+  }, [isWalletConnected, fetchConfig, fetchProviders]);
+
+  useEffect(() => {
+    if (config) {
+      // useAdmin
+      setAdmins(config.admins);
+      // useUser => check if user is admin
+      updateUserInfo({
+        isAdmin: config.admins.includes(walletApi.accounts[0].accountId || ""),
+      });
+    }
+  }, [config, setAdmins, updateUserInfo]);
 
   // Check wallet
   useEffect(() => {
@@ -47,55 +70,38 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
       await walletApi.initNear();
 
       setIsConnected(walletApi.walletSelector.isSignedIn());
-      isReady(true);
 
       // update user store
       updateUserInfo({
         accountId: walletApi.accounts[0]?.accountId || "",
         walletConnected: walletApi.walletSelector.isSignedIn(),
       });
-    })();
-  }, [updateUserInfo]);
 
-  // Store updates
-  useEffect(() => {
-    (async () => {
-      if (isWalletConnected) {
-        // useAdmins => set admins
-        if (!useAdminsInitialized) {
-          const config = await contract.get_config();
-          setAdmins(config.admins);
-        }
-
-        // useUser => check if user is admin
-        updateUserInfo({
-          isAdmin: admins.includes(walletApi.accounts[0].accountId || ""),
-        });
-      }
+      // Initializes the store
+      await initStore();
     })();
-  }, [
-    isWalletConnected,
-    useAdminsInitialized,
-    setAdmins,
-    admins,
-    updateUserInfo,
-  ]);
+  }, [updateUserInfo, initStore]);
 
   // Sign out and reset all store states
   const signOut = useCallback(async () => {
     await walletApi.wallet?.signOut();
     resetUserStore();
     resetAdminsStore();
+    resetConfigStore();
+    resetProvidersStore();
 
     // Redirects user
     window.location.replace(window.location.origin + window.location.pathname);
-  }, [resetAdminsStore, resetUserStore]);
+  }, [resetAdminsStore, resetUserStore, resetConfigStore, resetProvidersStore]);
+
+  if (!ready) {
+    return <FullScreenSpinner />;
+  }
 
   return (
     <Web3AuthContext.Provider
       value={{
         isWalletConnected,
-        ready,
         accountId: walletApi.accounts[0]?.accountId || "",
         signOut,
       }}

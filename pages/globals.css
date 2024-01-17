@@ -71,3 +71,37 @@ input:-webkit-autofill:active{
 nextjs-portal {
   display: none;
 }
+
+.nadabot-spinner {
+  animation: scale .5s infinite linear;
+}
+@keyframes scale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* MUI Slider */
+.MuiSlider-thumb{
+  border-radius: 2px;
+  color: #ffffff;
+  border: 2px solid #292929;
+  box-shadow: none !important;
+}
+.MuiSlider-rail{
+  color: #F0F0F0;
+  height: 20px;
+  border-radius: 2px;
+}
+.MuiSlider-track{
+  color: #292929;
+  height: 20px;
+  border-radius: 2px;
+  border: 2px solid #292929;
+}

@@ -5,7 +5,7 @@ import RegularInput from "@nadabot/components/ui/RegularInput";
 import colors from "@nadabot/theme/colors";
 
 type Props = {
-  label: string;
+  label?: string;
   placeholder: string;
   info?: string;
   optional?: boolean;
@@ -38,13 +38,15 @@ export default function Input({
   return (
     <Stack sx={sx}>
       <Stack direction="row">
-        <Typography
-          fontWeight={600}
-          fontSize={16}
-          sx={{ opacity: disabled ? 0.5 : 1 }}
-        >
-          {label}
-        </Typography>
+        {label && (
+          <Typography
+            fontWeight={600}
+            fontSize={16}
+            sx={{ opacity: disabled ? 0.5 : 1 }}
+          >
+            {label}
+          </Typography>
+        )}
         {optional && (
           <Typography
             fontWeight={600}

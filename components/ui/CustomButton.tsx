@@ -31,11 +31,13 @@ type Props = {
   bodySize?: "small" | "medium" | "large";
   color?: "white" | "blue" | "beige";
   sx?: SxProps<Theme>;
+  disabled?: boolean;
 };
 
 export default function CustomButton(props: Props) {
   return (
     <Button
+      disabled={props.disabled}
       variant={props.color ? (variants[props.color] as any) : "text"}
       color={props.color ? (colors[props.color] as any) : "primary"}
       onClick={props.onClick}

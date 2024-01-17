@@ -3,24 +3,28 @@ import colors from "@nadabot/theme/colors";
 import { ShadowContainer } from "../../containers/ShadowContainer";
 import { AddFilterSearchInput } from "../../ui/AddFilterSearchInput";
 import ContractsContainer from "../../containers/ContractsContainer";
+import { useUser } from "@nadabot/hooks/store/useUser";
 
-type Props = {};
+export default function ChecksSection() {
+  const { isAdmin } = useUser();
 
-export default function ChecksSection(props: Props) {
   return (
     <Stack mt={6}>
       <Typography variant="h4" fontWeight={700}>
-        Checks
+        {isAdmin ? "Checks that Need your Approval" : "Checks"}
       </Typography>
-      <Typography color={colors.SECONDARY} fontSize={16}>
-        Add additional checks for 3rd party providers to become a verified
-        human.
-      </Typography>
+
+      {!isAdmin && (
+        <Typography color={colors.SECONDARY} fontSize={16}>
+          Add additional checks for 3rd party providers to become a verified
+          human.
+        </Typography>
+      )}
 
       {/* Checks Container */}
       <ShadowContainer sx={{ mt: 2 }}>
         {/* Search + Add Filter button */}
-        <AddFilterSearchInput />
+        <>{!isAdmin && <AddFilterSearchInput />}</>
         <ContractsContainer />
       </ShadowContainer>
     </Stack>

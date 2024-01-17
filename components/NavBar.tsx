@@ -10,6 +10,9 @@ import Tag from "./ui/Tag";
 const NavBar = () => {
   const { walletConnected, isAdmin, accountId } = useUser();
 
+  // TODO: check if it's a verified human
+  const isVerifiedHuman = false;
+
   const connectWalletHandler = useCallback(() => {
     walletApi.signInModal();
   }, []);
@@ -75,7 +78,13 @@ const NavBar = () => {
                   >
                     {accountId[0]}
                   </Avatar>
-                  <Tag label="Not A Human" />
+                  <Tag
+                    label={
+                      isAdmin || isVerifiedHuman
+                        ? "Verified Human"
+                        : "Not A Human"
+                    }
+                  />
                 </Stack>
               </Stack>
             )}

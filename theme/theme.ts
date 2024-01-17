@@ -162,7 +162,7 @@ export const theme = createTheme({
               backgroundColor: colors.PEACH100,
             },
             ":disabled": {
-              color: colors.WHITE,
+              color: colors.PRIMARY,
               backgroundColor: colors.PEACH,
               opacity: ".6",
             },

@@ -13,7 +13,7 @@ import {
 } from "use-file-picker/validators";
 import colors from "@nadabot/theme/colors";
 import ProtectedPage from "@nadabot/components/auth/ProtectedPage";
-import Input from "@nadabot/components/pages/add-stamp/Input";
+import Input from "@nadabot/components/ui/Input";
 import ContractInfo from "@nadabot/components/ContractInfo";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import CustomButton from "@nadabot/components/ui/CustomButton";
@@ -27,7 +27,6 @@ import { walletApi } from "@nadabot/services/web3/web3api";
 import useDialogs from "@nadabot/hooks/useDialogs";
 import { DIALOGS } from "@nadabot/contexts/DialogsProvider";
 import useTransactionDetection from "@nadabot/hooks/useTransactionDetection";
-import { Routes } from "@nadabot/routes";
 
 const formSchema = Yup.object().shape({
   imageURL: Yup.string()

@@ -43,3 +43,13 @@ export interface RegisterProviderInput {
   icon_url?: string;
   external_url?: string;
 }
+
+export interface UpdateProviderInput {
+  provider_id: string;
+  name?: string;
+  description?: string;
+  gas?: number;
+  tags?: string[];
+  icon_url?: string;
+  external_url?: string;
+}

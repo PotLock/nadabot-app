@@ -1,6 +1,7 @@
-import { CircularProgress, Stack } from "@mui/material";
-import colors from "@nadabot/theme/colors";
 import { createContext, useCallback, useState } from "react";
+import { Stack } from "@mui/material";
+import nadabotIcon from "@nadabot/assets/images/nadabot-icon.png";
+import Image from "next/image";
 
 type SpinnerContextProps = {
   showSpinner: () => void;
@@ -42,7 +43,16 @@ export const SpinnerProvider = ({ children }: { children: JSX.Element }) => {
           bgcolor="rgba(255, 255, 255, 0.8)"
           zIndex={999}
         >
-          <CircularProgress sx={{ color: colors.BLUE }} />
+          <div className="nadabot-spinner">
+            <Image
+              src={nadabotIcon.src}
+              priority={true}
+              width={50}
+              height={50}
+              alt="Nada.Bot"
+              style={{ marginRight: "8px" }}
+            />
+          </div>
         </Stack>
       )}
       {children}

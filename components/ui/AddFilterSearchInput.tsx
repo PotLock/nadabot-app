@@ -5,7 +5,7 @@ import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import { FilterIcon, SearchIconA } from "@nadabot/theme/icons";
 
 export function AddFilterSearchInput() {
-  const { maxWidth700 } = useBreakPoints();
+  const { maxWidth962, maxWidth700 } = useBreakPoints();
 
   return (
     <Stack
@@ -13,7 +13,7 @@ export function AddFilterSearchInput() {
       alignItems="center"
       justifyContent="space-between"
     >
-      <Stack width={maxWidth700 ? "100%" : "80%"}>
+      <Stack width={maxWidth700 ? "100%" : maxWidth962 ? "70%" : "80%"}>
         <RegularInput
           placeholder="Search"
           rightComponent={<SearchIconA sx={{ width: 16, mr: 2 }} />}

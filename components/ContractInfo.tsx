@@ -3,19 +3,25 @@ import {
   Box,
   Button,
   Chip,
+  Slider,
   Stack,
   SxProps,
   Theme,
   Typography,
 } from "@mui/material";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import colors from "@nadabot/theme/colors";
-import React, { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useDebounce } from "@uidotdev/usehooks";
+import CustomCircularProgress from "./ui/CustomCircularProgress";
+import * as contract from "@nadabot/services/web3/contract-interface";
 
 type Props = {
   hidePoints?: boolean;
   sx?: SxProps<Theme>;
   details: {
+    providerId: string;
     title: string;
     imageURL?: string;
     contractName: string;
@@ -40,6 +46,28 @@ export default function ContractInfo({
       // Handle here
     }
   }, [isPreview]);
+
+  const [points, setPoints] = useState(details.points);
+  const [previousPoints, setPreviousPoints] = useState(details.points);
+  const debouncedPoints = useDebounce(points, 1200);
+  const [updating, setUpdating] = useState(false);
+
+  useEffect(() => {
+    if (debouncedPoints !== previousPoints) {
+      setPreviousPoints(debouncedPoints);
+
+      // Update this Provider points
+      (async () => {
+        setUpdating(true);
+        await contract.update_provider({ provider_id: details.providerId });
+        setUpdating(false);
+      })();
+    }
+  }, [debouncedPoints, points, previousPoints, details.providerId]);
+
+  const changePointsHandler = useCallback(async (newValue: number) => {
+    setPoints(newValue);
+  }, []);
 
   return (
     <Stack maxWidth={maxWidth430 ? "100%" : 352} width="100%" sx={sx}>
@@ -72,7 +100,7 @@ export default function ContractInfo({
           {!hidePoints && (
             <Stack alignItems="flex-end">
               <Typography fontWeight={600} fontSize={24}>
-                {details.points}
+                {points}
               </Typography>
               <Typography fontSize={17}>Points</Typography>
             </Stack>
@@ -111,6 +139,38 @@ export default function ContractInfo({
           {details.description ||
             "Lorem ipsum dolor sit amet, consectet adipiscing elit, sed do eiusmod tempor ncididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
         </Typography>
+
+        {/* Edit Points */}
+        <Stack>
+          <Stack direction="row" justifyContent="space-between">
+            <Stack direction="row">
+              <Typography fontWeight={600} mr={1}>
+                Edit Points
+              </Typography>
+              <InfoOutlinedIcon sx={{ color: colors.NEUTRAL300, width: 16 }} />
+            </Stack>
+            <Stack borderRadius="4px" border={`1px solid ${colors.NEUTRAL100}`}>
+              <Typography fontWeight={600} color={colors.NEUTRAL500} px={1}>
+                {points} pts
+              </Typography>
+            </Stack>
+          </Stack>
+          {updating ? (
+            <CustomCircularProgress sx={{ py: 1 }} size={30} />
+          ) : (
+            <Slider
+              value={points}
+              // NOTE: Check this with Lachlan
+              max={100}
+              min={0}
+              aria-label="Default"
+              valueLabelDisplay="auto"
+              onChange={(_, newValue) =>
+                changePointsHandler(newValue as number)
+              }
+            />
+          )}
+        </Stack>
       </Stack>
 
       {/* Author - SUBMITTED BY - section */}
@@ -148,7 +208,7 @@ export default function ContractInfo({
               color={colors.NEUTRAL400}
               fontSize={16}
               className="ellipsis"
-              maxWidth="200px"
+              maxWidth="180px"
             >
               {details.submittedByAccountId}
             </Typography>
