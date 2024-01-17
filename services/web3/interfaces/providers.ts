@@ -1,3 +1,33 @@
+export interface Provider {
+  // NB: contract address/ID and method name are contained in the Provider's ID (see `ProviderId`) so do not need to be stored here
+  /// Name of the provider, e.g. "I Am Human"
+  name: string;
+  /// Description of the provider
+  description?: string;
+  /// Whether this provider is active (updated by admin)
+  is_active: boolean;
+  /// Whether this provider is flagged (updated by admin)
+  is_flagged: boolean;
+  /// Admin notes, e.g. reason for flagging or marking inactive
+  admin_notes?: string;
+  /// Default weight for this provider, e.g. 100
+  default_weight: number;
+  /// Custom gas amount required
+  gas?: number;
+  /// Optional tags
+  tags?: string[];
+  /// Optional icon URL
+  icon_url?: string;
+  /// Optional external URL
+  external_url?: string;
+  /// User who submitted this provider
+  submitted_by?: string;
+  /// Timestamp of when this provider was submitted
+  submitted_at_ms?: number;
+  /// Total number of times this provider has been used successfully
+  stamp_count: number;
+}
+
 export interface ProviderExternal {
   // Provider ID
   provider_id: string;
@@ -52,4 +82,19 @@ export interface UpdateProviderInput {
   tags?: string[];
   icon_url?: string;
   external_url?: string;
+  default_weight?: number;
+  is_active?: boolean;
+  is_flagged?: boolean;
 }
+
+export interface ActivateProviderInput {
+  provider_id: string;
+  default_weight: number;
+}
+
+export interface DeactivateProviderInput {
+  provider_id: string;
+}
+
+export type FlagProviderInput = DeactivateProviderInput;
+export type UnflagProviderInput = DeactivateProviderInput;

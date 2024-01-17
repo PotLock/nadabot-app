@@ -13,6 +13,7 @@ type State = {
 
 interface Actions {
   fetchProviders: () => Promise<void>;
+  updateProvider: (newProviderInfo: UpdateProviderInput) => void;
   reset: () => void;
 }
 

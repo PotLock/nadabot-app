@@ -16,12 +16,14 @@ const colors = {
   white: "primary",
   blue: "primary",
   beige: "warning",
+  red: "error",
 };
 
 const variants = {
   white: "text",
   blue: "contained",
   beige: "contained",
+  red: "contained",
 };
 
 type Props = {
@@ -29,7 +31,7 @@ type Props = {
   onClick?: () => void;
   fontSize?: "small" | "medium" | "large";
   bodySize?: "small" | "medium" | "large";
-  color?: "white" | "blue" | "beige";
+  color?: "white" | "blue" | "beige" | "red";
   sx?: SxProps<Theme>;
   disabled?: boolean;
 };

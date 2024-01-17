@@ -1,11 +1,16 @@
 import { contractApi } from "./web3api";
 import { Config } from "./interfaces/lib";
 import {
+  ActivateProviderInput,
+  DeactivateProviderInput,
+  FlagProviderInput,
   ProviderExternal,
   RegisterProviderInput,
+  UnflagProviderInput,
   UpdateProviderInput,
 } from "./interfaces/providers";
 import { StampExternal } from "./interfaces/stamps";
+import { Provider } from "near-api-js/lib/providers";
 
 // READ METHODS
 
@@ -92,5 +97,45 @@ export const set_stamp = (provider_id: string) =>
  */
 export const update_provider = (args: UpdateProviderInput) =>
   contractApi.call<typeof args, ProviderExternal>("update_provider", {
+    args,
+  });
+
+/**
+ * Activate Provider
+ * @param args
+ * @returns
+ */
+export const admin_activate_provider = (args: ActivateProviderInput) =>
+  contractApi.call<typeof args, Provider>("admin_activate_provider", {
+    args,
+  });
+
+/**
+ * Deactivate Provider
+ * @param args
+ * @returns
+ */
+export const admin_deactivate_provider = (args: DeactivateProviderInput) =>
+  contractApi.call<typeof args, Provider>("admin_deactivate_provider", {
+    args,
+  });
+
+/**
+ * Flag Provider
+ * @param args
+ * @returns
+ */
+export const admin_flag_provider = (args: FlagProviderInput) =>
+  contractApi.call<typeof args, Provider>("admin_flag_provider", {
+    args,
+  });
+
+/**
+ * Unflag Provider
+ * @param args
+ * @returns
+ */
+export const admin_unflag_provider = (args: UnflagProviderInput) =>
+  contractApi.call<typeof args, Provider>("admin_unflag_provider", {
     args,
   });

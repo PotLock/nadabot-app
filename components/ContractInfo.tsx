@@ -16,11 +16,16 @@ import { useCallback, useEffect, useState } from "react";
 import { useDebounce } from "@uidotdev/usehooks";
 import CustomCircularProgress from "./ui/CustomCircularProgress";
 import * as contract from "@nadabot/services/web3/contract-interface";
+import { useUser } from "@nadabot/hooks/store/useUser";
+import CustomButton from "./ui/CustomButton";
+import { useProviders } from "@nadabot/hooks/store/useProviders";
 
 type Props = {
   hidePoints?: boolean;
   sx?: SxProps<Theme>;
   details: {
+    isFlagged?: boolean;
+    isActive?: boolean;
     providerId: string;
     title: string;
     imageURL?: string;
@@ -39,6 +44,8 @@ export default function ContractInfo({
   details,
   isPreview,
 }: Props) {
+  const { isAdmin } = useUser();
+  const { updateProvider } = useProviders();
   const { maxWidth430 } = useBreakPoints();
 
   const verifyHandler = useCallback(() => {
@@ -69,8 +76,55 @@ export default function ContractInfo({
     setPoints(newValue);
   }, []);
 
+  // Switch Activation
+  const switchActivation = useCallback(async () => {
+    setUpdating(true);
+    if (!details.isActive) {
+      await contract.admin_activate_provider({
+        provider_id: details.providerId,
+        default_weight: details.points || 0,
+      });
+      updateProvider({
+        provider_id: details.providerId,
+        default_weight: details.points || 0,
+        is_active: true,
+      });
+    } else {
+      await contract.admin_deactivate_provider({
+        provider_id: details.providerId,
+      });
+      updateProvider({ provider_id: details.providerId, is_active: false });
+    }
+    setUpdating(false);
+  }, [details.isActive, details.points, details.providerId, updateProvider]);
+
+  // Switch Flag
+  const switchFlag = useCallback(async () => {
+    setUpdating(true);
+    if (!details.isFlagged) {
+      await contract.admin_flag_provider({
+        provider_id: details.providerId,
+      });
+      updateProvider({
+        provider_id: details.providerId,
+        is_flagged: true,
+      });
+    } else {
+      await contract.admin_unflag_provider({
+        provider_id: details.providerId,
+      });
+      updateProvider({ provider_id: details.providerId, is_flagged: false });
+    }
+    setUpdating(false);
+  }, [details.isFlagged, details.providerId, updateProvider]);
+
   return (
-    <Stack maxWidth={maxWidth430 ? "100%" : 352} width="100%" sx={sx}>
+    <Stack
+      minWidth={maxWidth430 ? 0 : 352}
+      maxWidth={maxWidth430 ? "100%" : 352}
+      width="100%"
+      sx={sx}
+    >
       <Stack
         p={2}
         sx={{
@@ -108,7 +162,7 @@ export default function ContractInfo({
         </Stack>
 
         {/* Contract Name */}
-        <Typography fontWeight={600} fontSize={20} mt={3}>
+        <Typography fontWeight={600} fontSize={20} mt={3} className="ellipsis">
           {details.title || "Contract Title"}
         </Typography>
 
@@ -175,7 +229,7 @@ export default function ContractInfo({
 
       {/* Author - SUBMITTED BY - section */}
       <Stack
-        direction="row"
+        direction={maxWidth430 ? "column" : "row"}
         justifyContent="space-between"
         p={2}
         sx={{
@@ -208,21 +262,62 @@ export default function ContractInfo({
               color={colors.NEUTRAL400}
               fontSize={16}
               className="ellipsis"
-              maxWidth="180px"
+              maxWidth={maxWidth430 ? "100%" : isAdmin ? "80px" : "180px"}
             >
               {details.submittedByAccountId}
             </Typography>
           </Stack>
         </Stack>
-        <Button
-          variant="contained"
-          color="warning"
-          size="medium"
-          disableRipple
-          onClick={verifyHandler}
-        >
-          Verify
-        </Button>
+
+        {updating ? (
+          <CustomCircularProgress sx={{ py: 1, pb: 1.7 }} size={30} />
+        ) : (
+          <>
+            {isAdmin ? (
+              <Stack direction="row">
+                <CustomButton
+                  color="beige"
+                  bodySize="medium"
+                  onClick={switchActivation}
+                  sx={{
+                    mt: maxWidth430 ? 2 : 0,
+                    mr: 1,
+                    ...(details.isActive
+                      ? {
+                          backgroundColor: colors.PRIMARY,
+                          color: colors.WHITE,
+                          ":hover": {
+                            backgroundColor: colors.NEUTRAL700,
+                          },
+                        }
+                      : {}),
+                  }}
+                >
+                  {details.isActive ? "Active" : "Activate"}
+                </CustomButton>
+                <CustomButton
+                  color="red"
+                  bodySize="medium"
+                  onClick={switchFlag}
+                  sx={{ mt: maxWidth430 ? 2 : 0, pb: 0.4 }}
+                >
+                  {details.isFlagged ? "Flagged" : "Flag"}
+                </CustomButton>
+              </Stack>
+            ) : (
+              <Button
+                variant="contained"
+                color="warning"
+                size="medium"
+                disableRipple
+                onClick={verifyHandler}
+                sx={{ mt: maxWidth430 ? 2 : 0 }}
+              >
+                Verify
+              </Button>
+            )}
+          </>
+        )}
       </Stack>
     </Stack>
   );

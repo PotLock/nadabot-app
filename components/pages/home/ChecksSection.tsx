@@ -4,9 +4,11 @@ import { ShadowContainer } from "../../containers/ShadowContainer";
 import { AddFilterSearchInput } from "../../ui/AddFilterSearchInput";
 import ContractsContainer from "../../containers/ContractsContainer";
 import { useUser } from "@nadabot/hooks/store/useUser";
+import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 
 export default function ChecksSection() {
   const { isAdmin } = useUser();
+  const { maxWidth430 } = useBreakPoints();
 
   return (
     <Stack mt={6}>
@@ -25,7 +27,11 @@ export default function ChecksSection() {
       <ShadowContainer sx={{ mt: 2 }}>
         {/* Search + Add Filter button */}
         <>{!isAdmin && <AddFilterSearchInput />}</>
-        <ContractsContainer />
+        {isAdmin && !maxWidth430 ? (
+          <ContractsContainer inline={isAdmin ? true : false} />
+        ) : (
+          <ContractsContainer />
+        )}
       </ShadowContainer>
     </Stack>
   );
