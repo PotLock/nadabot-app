@@ -341,6 +341,7 @@ export default function AddStampPage() {
                 hidePoints
                 details={{
                   ...formik.values,
+                  providerId: "",
                   imageURL: filesContent[0]?.content,
                   submittedByAccountId: walletApi.accounts[0].accountId,
                 }}
