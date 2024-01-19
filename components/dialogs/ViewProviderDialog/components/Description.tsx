@@ -55,13 +55,13 @@ export default function Description({ providerInfo }: Props) {
           Contract Description
         </Typography>
         <Typography textOverflow="ellipsis" mt={2}>
-          {/* {providerInfo?.description} */}
-          Lorem ipsum dolor sit amet, consectet adipiscing elit, sed do eiusmod
+          {providerInfo?.description}
+          {/* Lorem ipsum dolor sit amet, consectet adipiscing elit, sed do eiusmod
           tempor ncididunt ut labore et dolore magna aliqua. Ut enim ad minim
           veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
           ea commodo consequat. Lorem ipsum dolor sit amet, consectetur
           adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua.
+          magna aliqua. */}
         </Typography>
         {/* Verifiers */}
         <Stack direction="row" mt={2}>
@@ -147,7 +147,7 @@ export default function Description({ providerInfo }: Props) {
             value={points}
             // NOTE: Check this with Lachlan
             max={100}
-            min={0}
+            min={1}
             aria-label="Default"
             valueLabelDisplay="auto"
             onChange={(_, newValue) => changePointsHandler(newValue as number)}

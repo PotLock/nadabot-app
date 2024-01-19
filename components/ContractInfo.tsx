@@ -284,7 +284,7 @@ export default function ContractInfo({
                 value={points}
                 // NOTE: Check this with Lachlan
                 max={100}
-                min={0}
+                min={1}
                 aria-label="Default"
                 valueLabelDisplay="auto"
                 onChange={(_, newValue) =>

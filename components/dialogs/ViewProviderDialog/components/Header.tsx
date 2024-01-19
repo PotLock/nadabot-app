@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { Avatar, Box, Button, Stack, Typography } from "@mui/material";
+import { useRouter } from "next/router";
 import CustomButton from "@nadabot/components/ui/CustomButton";
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import Tag from "@nadabot/components/ui/Tag";
@@ -10,6 +11,8 @@ import { useProviders } from "@nadabot/hooks/store/useProviders";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import * as contract from "@nadabot/services/web3/contract-interface";
 import truncate from "@nadabot/utils/truncate";
+import useSnackbars from "@nadabot/hooks/useSnackbars";
+import { Routes } from "@nadabot/routes";
 
 type Props = {
   providerInfo?: ProviderExternal;
@@ -21,6 +24,8 @@ export default function Header({ providerInfo }: Props) {
   const { updateProvider } = useProviders();
   const { maxWidth1280, maxWidth805, maxWidth700, maxWidth430 } =
     useBreakPoints();
+  const { showSnackbar } = useSnackbars();
+  const router = useRouter();
 
   const imageURL = providerInfo?.icon_url
     ? providerInfo.icon_url.replace(
@@ -42,6 +47,14 @@ export default function Header({ providerInfo }: Props) {
         default_weight: providerInfo!.default_weight || 0,
         is_active: true,
       });
+
+      showSnackbar({
+        description: "Stamp Activated, Check all the Active stamps",
+        actionText: "here",
+        onClickActionText: () => {
+          router.push(Routes.HOME_WITH_FILTERED_CHECKS("active"));
+        },
+      });
     } else {
       await contract.admin_deactivate_provider({
         provider_id: providerInfo!.provider_id,
@@ -52,7 +65,7 @@ export default function Header({ providerInfo }: Props) {
       });
     }
     setUpdating(false);
-  }, [providerInfo, updateProvider]);
+  }, [providerInfo, updateProvider, showSnackbar, router]);
 
   // Switch Flag
   const switchFlag = useCallback(async () => {
@@ -65,6 +78,15 @@ export default function Header({ providerInfo }: Props) {
         provider_id: providerInfo!.provider_id,
         is_flagged: true,
       });
+
+      showSnackbar({
+        bgColor: "red",
+        description: "Stamp Flagged, Check all the flagged stamps",
+        actionText: "here",
+        onClickActionText: () => {
+          router.push(Routes.HOME_WITH_FILTERED_CHECKS("flagged"));
+        },
+      });
     } else {
       await contract.admin_unflag_provider({
         provider_id: providerInfo!.provider_id,
@@ -75,7 +97,7 @@ export default function Header({ providerInfo }: Props) {
       });
     }
     setUpdating(false);
-  }, [providerInfo, updateProvider]);
+  }, [providerInfo, updateProvider, router, showSnackbar]);
 
   // Active / De-Activate
   const [activeLabel, setActiveLabel] = useState("Active");

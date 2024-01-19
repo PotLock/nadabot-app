@@ -5,6 +5,7 @@ import NavBar from "@nadabot/components/NavBar";
 import DialogsProvider from "@nadabot/contexts/DialogsProvider";
 import { SpinnerProvider } from "@nadabot/contexts/SpinnerProvider";
 import { Suspense } from "react";
+import SnackbarProvider from "@nadabot/contexts/SnackbarProvider";
 
 function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -13,12 +14,14 @@ function Providers({ children }: { children: React.ReactNode }) {
       <Suspense fallback={<p>Loading...</p>}>
         <SpinnerProvider>
           <Web3AuthProvider>
-            <DialogsProvider>
-              <Box>
-                <NavBar />
-                {children}
-              </Box>
-            </DialogsProvider>
+            <SnackbarProvider>
+              <DialogsProvider>
+                <Box>
+                  <NavBar />
+                  {children}
+                </Box>
+              </DialogsProvider>
+            </SnackbarProvider>
           </Web3AuthProvider>
         </SpinnerProvider>
       </Suspense>
