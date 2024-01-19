@@ -8,12 +8,14 @@ import colors from "@nadabot/theme/colors";
 import { useDebounce } from "@uidotdev/usehooks";
 import * as contract from "@nadabot/services/web3/contract-interface";
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
+import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 
 type Props = {
   providerInfo?: ProviderExternal;
 };
 
 export default function Description({ providerInfo }: Props) {
+  const { maxWidth962, maxWidth600, maxWidth430 } = useBreakPoints();
   const [updating, setUpdating] = useState(false);
   const [points, setPoints] = useState(providerInfo?.default_weight);
   const [previousPoints, setPreviousPoints] = useState(
@@ -42,7 +44,11 @@ export default function Description({ providerInfo }: Props) {
   }, [debouncedPoints, points, previousPoints, providerInfo]);
 
   return (
-    <Stack mt={6} direction="row" justifyContent="space-between">
+    <Stack
+      mt={6}
+      direction={maxWidth962 ? "column" : "row"}
+      justifyContent="space-between"
+    >
       {/* Left */}
       <Stack>
         <Typography fontSize={20} fontWeight={600}>
@@ -90,20 +96,25 @@ export default function Description({ providerInfo }: Props) {
           </Typography>
         </Stack>
         {/* Tags */}
-        <Stack direction="row" mt={2}>
+        <Stack direction={maxWidth430 ? "column" : "row"} mt={2}>
           {providerInfo?.tags?.map((tag) => (
-            <Tag key={tag} label={tag} sx={{ mr: 2 }} />
+            <Tag
+              key={tag}
+              label={tag}
+              sx={{ mr: maxWidth430 ? 0 : 2, mt: maxWidth430 ? 1 : 0 }}
+            />
           ))}
         </Stack>
       </Stack>
       {/* Right */}
       <Stack
         p={2}
-        ml={4}
+        ml={maxWidth962 ? 0 : 4}
+        mt={maxWidth962 ? 2 : 0}
         gap="20px"
         borderRadius="6px"
         border={`1px solid ${colors.NEUTRAL200}`}
-        minWidth="344px"
+        minWidth={maxWidth600 ? "100%" : "344px"}
         height="fit-content"
       >
         <Stack direction="row" alignItems="center">
@@ -122,6 +133,7 @@ export default function Description({ providerInfo }: Props) {
           </Stack>
           <Stack borderRadius="4px" border={`1px solid ${colors.NEUTRAL100}`}>
             <Typography fontWeight={600} color={colors.NEUTRAL500} px={1}>
+              {/* {debouncedPoints} pts */}
               {providerInfo?.default_weight} pts
             </Typography>
           </Stack>

@@ -19,7 +19,8 @@ export default function Header({ providerInfo }: Props) {
   const [updating, setUpdating] = useState(false);
   const { isAdmin } = useUser();
   const { updateProvider } = useProviders();
-  const { maxWidth1280, maxWidth700, maxWidth430 } = useBreakPoints();
+  const { maxWidth1280, maxWidth805, maxWidth700, maxWidth430 } =
+    useBreakPoints();
 
   const imageURL = providerInfo?.icon_url
     ? providerInfo.icon_url.replace(
@@ -107,7 +108,10 @@ export default function Header({ providerInfo }: Props) {
       alignItems={maxWidth1280 ? "center" : "flex-start"}
     >
       {/* Left */}
-      <Stack direction="row">
+      <Stack
+        direction={maxWidth805 ? "column" : "row"}
+        alignItems={maxWidth805 ? "center" : "flex-start"}
+      >
         {/* Circle */}
         <Box
           bgcolor={"rgba(0, 0,0,.2)"}
@@ -115,7 +119,7 @@ export default function Header({ providerInfo }: Props) {
           height={84}
           borderRadius={999}
           sx={{
-            mr: 4,
+            mr: maxWidth805 ? 0 : 4,
             ...(providerInfo?.icon_url
               ? {
                   backgroundImage: `url(${imageURL})`,
@@ -127,11 +131,20 @@ export default function Header({ providerInfo }: Props) {
         />
 
         <Stack direction="column">
-          <Typography fontWeight={600} fontSize={32}>
+          <Typography
+            fontWeight={600}
+            fontSize={maxWidth805 ? 26 : 32}
+            textAlign={maxWidth805 ? "center" : "left"}
+            mb={maxWidth805 ? 2 : 0}
+          >
             {truncate(providerInfo?.name || "", 28)}
           </Typography>
-          <Stack direction="row">
-            <Stack mr={4}>
+          <Stack direction={maxWidth700 ? "column" : "row"}>
+            <Stack
+              mr={maxWidth700 ? 0 : 4}
+              mb={maxWidth700 ? 2 : 0}
+              alignItems={maxWidth700 ? "center" : "flex-start"}
+            >
               <Typography
                 color={colors.NEUTRAL700}
                 fontSize={12}
@@ -146,7 +159,11 @@ export default function Header({ providerInfo }: Props) {
                 sx={{ px: 1, py: 0 }}
               />
             </Stack>
-            <Stack mr={4}>
+            <Stack
+              mr={maxWidth700 ? 0 : 4}
+              mb={maxWidth700 ? 2 : 0}
+              alignItems={maxWidth700 ? "center" : "flex-start"}
+            >
               <Typography
                 color={colors.NEUTRAL700}
                 fontSize={12}
@@ -161,7 +178,7 @@ export default function Header({ providerInfo }: Props) {
                 sx={{ px: 1, py: 0 }}
               />
             </Stack>
-            <Stack>
+            <Stack alignItems={maxWidth700 ? "center" : "flex-start"}>
               <Typography
                 color={colors.NEUTRAL700}
                 fontSize={12}
@@ -212,7 +229,7 @@ export default function Header({ providerInfo }: Props) {
           <Stack alignItems="center" mr={maxWidth700 ? 0 : 2} width="142px">
             {/* TODO: Where to get this information? "People Verified" */}
             <Typography fontWeight={700} fontSize={36} textAlign="center">
-              3.000
+              {providerInfo?.stamp_count}
             </Typography>
             <Typography fontSize={17} fontWeight={400} textAlign="center">
               People Verified
