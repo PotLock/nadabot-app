@@ -33,6 +33,7 @@ export default function ContractsContainer({ inline }: Props) {
         <ContractInfo
           key={provider.provider_id}
           details={{
+            imageURL: provider.icon_url,
             isFlagged: provider.is_flagged,
             isActive: provider.is_active,
             providerId: provider.provider_id,

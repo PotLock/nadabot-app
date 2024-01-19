@@ -19,10 +19,14 @@ import * as contract from "@nadabot/services/web3/contract-interface";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import CustomButton from "./ui/CustomButton";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
+import useDialogs from "@nadabot/hooks/useDialogs";
+import { DIALOGS } from "@nadabot/contexts/DialogsProvider";
+import ButtonContainer from "./containers/ButtonContainer";
 
 type Props = {
   hidePoints?: boolean;
   sx?: SxProps<Theme>;
+  colorSystem?: "regular" | "admin";
   details: {
     isFlagged?: boolean;
     isActive?: boolean;
@@ -43,10 +47,12 @@ export default function ContractInfo({
   sx,
   details,
   isPreview,
+  colorSystem = "regular",
 }: Props) {
   const { isAdmin } = useUser();
   const { updateProvider } = useProviders();
   const { maxWidth430 } = useBreakPoints();
+  const { openDialog } = useDialogs();
 
   const verifyHandler = useCallback(() => {
     if (!isPreview) {
@@ -58,16 +64,25 @@ export default function ContractInfo({
   const [previousPoints, setPreviousPoints] = useState(details.points);
   const debouncedPoints = useDebounce(points, 1200);
   const [updating, setUpdating] = useState(false);
+  const imageURL = details.imageURL
+    ? details.imageURL.replace(
+        "https://gateway.pinata.cloud/ipfs/",
+        "https://ipfs.io/ipfs/"
+      )
+    : null;
 
+  // Check if it's needed to update the Provider points
   useEffect(() => {
     if (debouncedPoints !== previousPoints) {
-      setPreviousPoints(debouncedPoints);
-
       // Update this Provider points
       (async () => {
         setUpdating(true);
-        await contract.update_provider({ provider_id: details.providerId });
+        await contract.update_provider({
+          provider_id: details.providerId,
+          default_weight: debouncedPoints,
+        });
         setUpdating(false);
+        setPreviousPoints(debouncedPoints);
       })();
     }
   }, [debouncedPoints, points, previousPoints, details.providerId]);
@@ -118,6 +133,36 @@ export default function ContractInfo({
     setUpdating(false);
   }, [details.isFlagged, details.providerId, updateProvider]);
 
+  // Active / De-Activate
+  const [activeLabel, setActiveLabel] = useState("Active");
+  const activeMouseOverHandler = useCallback(() => {
+    setActiveLabel("De-Activate");
+  }, []);
+
+  const activeMouseOutHandler = useCallback(() => {
+    setActiveLabel("Active");
+  }, []);
+
+  // Flagged / Unflag
+  const [flaggedLabel, setFlaggedLabel] = useState("Flagged");
+  const flaggedMouseOverHandler = useCallback(() => {
+    setFlaggedLabel("Un-Flag");
+  }, []);
+
+  const flaggedMouseOutHandler = useCallback(() => {
+    setFlaggedLabel("Flagged");
+  }, []);
+
+  /**
+   * Open up the View Provider Dialog
+   */
+  const openViewProviderDialog = useCallback(() => {
+    openDialog({
+      dialog: DIALOGS.ViewProvider,
+      props: { providerId: details.providerId },
+    });
+  }, [openDialog, details.providerId]);
+
   return (
     <Stack
       minWidth={maxWidth430 ? 0 : 352}
@@ -136,25 +181,27 @@ export default function ContractInfo({
       >
         <Stack direction="row" justifyContent="space-between">
           {/* Circle */}
-          <Box
-            bgcolor={"rgba(0, 0,0,.2)"}
-            width={80}
-            height={80}
-            borderRadius={999}
-            sx={{
-              ...(details.imageURL
-                ? {
-                    backgroundImage: `url(${details.imageURL})`,
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
-                  }
-                : {}),
-            }}
-          />
+          <ButtonContainer onClick={openViewProviderDialog}>
+            <Box
+              bgcolor={"rgba(0, 0,0,.2)"}
+              width={80}
+              height={80}
+              borderRadius={999}
+              sx={{
+                ...(details.imageURL
+                  ? {
+                      backgroundImage: `url(${imageURL})`,
+                      backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat",
+                    }
+                  : {}),
+              }}
+            />
+          </ButtonContainer>
           {!hidePoints && (
             <Stack alignItems="flex-end">
               <Typography fontWeight={600} fontSize={24}>
-                {points}
+                {previousPoints}
               </Typography>
               <Typography fontSize={17}>Points</Typography>
             </Stack>
@@ -162,69 +209,91 @@ export default function ContractInfo({
         </Stack>
 
         {/* Contract Name */}
-        <Typography fontWeight={600} fontSize={20} mt={3} className="ellipsis">
-          {details.title || "Contract Title"}
-        </Typography>
+        <ButtonContainer onClick={openViewProviderDialog}>
+          <Typography
+            textAlign="left"
+            fontWeight={600}
+            fontSize={20}
+            mt={3}
+            className="ellipsis"
+          >
+            {details.title || "Contract Title"}
+          </Typography>
+        </ButtonContainer>
 
         {/* Contract's accountId and Method */}
-        <Stack direction="row" alignItems="center">
-          <Typography
-            fontWeight={500}
-            fontSize={16}
-            color={colors.NEUTRAL}
-            mr={1}
-            className="stamp-contractid-multiline-ellipsis"
-          >
-            {details.contractName || "contract.name.near"}
-          </Typography>
-          <Chip
-            label={details.method ? `${details.method}()` : "IsHuman()"}
-            variant="outlined"
-          />
-        </Stack>
+        <ButtonContainer onClick={openViewProviderDialog}>
+          <Stack direction="row" alignItems="center">
+            <Typography
+              textAlign="left"
+              fontWeight={500}
+              fontSize={16}
+              color={colors.NEUTRAL}
+              mr={1}
+              className="stamp-contractid-multiline-ellipsis"
+            >
+              {details.contractName || "contract.name.near"}
+            </Typography>
+            <Chip
+              label={details.method ? `${details.method}()` : "IsHuman()"}
+              variant="outlined"
+            />
+          </Stack>
+        </ButtonContainer>
 
         {/* Description */}
-        <Typography
-          fontWeight={400}
-          className="stamp-description-multiline-ellipsis"
-          mt={2}
-          mb={2}
-        >
-          {details.description ||
-            "Lorem ipsum dolor sit amet, consectet adipiscing elit, sed do eiusmod tempor ncididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
-        </Typography>
+        <ButtonContainer onClick={openViewProviderDialog}>
+          <Typography
+            color={colors.PRIMARY}
+            textAlign="left"
+            fontWeight={400}
+            className="stamp-description-multiline-ellipsis"
+            mt={2}
+            mb={2}
+          >
+            {details.description ||
+              "Lorem ipsum dolor sit amet, consectet adipiscing elit, sed do eiusmod tempor ncididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
+          </Typography>
+        </ButtonContainer>
 
         {/* Edit Points */}
-        <Stack>
-          <Stack direction="row" justifyContent="space-between">
-            <Stack direction="row">
-              <Typography fontWeight={600} mr={1}>
-                Edit Points
-              </Typography>
-              <InfoOutlinedIcon sx={{ color: colors.NEUTRAL300, width: 16 }} />
+        {isAdmin && (
+          <Stack>
+            <Stack direction="row" justifyContent="space-between">
+              <Stack direction="row">
+                <Typography fontWeight={600} mr={1}>
+                  Edit Points
+                </Typography>
+                <InfoOutlinedIcon
+                  sx={{ color: colors.NEUTRAL300, width: 16 }}
+                />
+              </Stack>
+              <Stack
+                borderRadius="4px"
+                border={`1px solid ${colors.NEUTRAL100}`}
+              >
+                <Typography fontWeight={600} color={colors.NEUTRAL500} px={1}>
+                  {previousPoints} pts
+                </Typography>
+              </Stack>
             </Stack>
-            <Stack borderRadius="4px" border={`1px solid ${colors.NEUTRAL100}`}>
-              <Typography fontWeight={600} color={colors.NEUTRAL500} px={1}>
-                {points} pts
-              </Typography>
-            </Stack>
+            {updating ? (
+              <CustomCircularProgress sx={{ py: 1 }} size={30} />
+            ) : (
+              <Slider
+                value={points}
+                // NOTE: Check this with Lachlan
+                max={100}
+                min={0}
+                aria-label="Default"
+                valueLabelDisplay="auto"
+                onChange={(_, newValue) =>
+                  changePointsHandler(newValue as number)
+                }
+              />
+            )}
           </Stack>
-          {updating ? (
-            <CustomCircularProgress sx={{ py: 1 }} size={30} />
-          ) : (
-            <Slider
-              value={points}
-              // NOTE: Check this with Lachlan
-              max={100}
-              min={0}
-              aria-label="Default"
-              valueLabelDisplay="auto"
-              onChange={(_, newValue) =>
-                changePointsHandler(newValue as number)
-              }
-            />
-          )}
-        </Stack>
+        )}
       </Stack>
 
       {/* Author - SUBMITTED BY - section */}
@@ -274,34 +343,72 @@ export default function ContractInfo({
         ) : (
           <>
             {isAdmin ? (
-              <Stack direction="row">
+              <Stack direction="row" justifyContent="space-evenly" width="64%">
                 <CustomButton
                   color="beige"
                   bodySize="medium"
                   onClick={switchActivation}
+                  onMouseOver={activeMouseOverHandler}
+                  onMouseOut={activeMouseOutHandler}
                   sx={{
                     mt: maxWidth430 ? 2 : 0,
                     mr: 1,
+                    px: 2,
+                    ...(activeLabel === "De-Activate" && details.isActive
+                      ? { px: 1 }
+                      : {}),
                     ...(details.isActive
                       ? {
-                          backgroundColor: colors.PRIMARY,
-                          color: colors.WHITE,
+                          backgroundColor:
+                            colorSystem === "regular"
+                              ? colors.PEACH
+                              : colors.PRIMARY,
+                          color:
+                            colorSystem === "regular"
+                              ? colors.PRIMARY
+                              : colors.NEUTRAL50,
                           ":hover": {
-                            backgroundColor: colors.NEUTRAL700,
+                            backgroundColor:
+                              colorSystem === "regular"
+                                ? colors.PEACH
+                                : colors.NEUTRAL700,
                           },
                         }
                       : {}),
                   }}
                 >
-                  {details.isActive ? "Active" : "Activate"}
+                  {details.isActive ? activeLabel : "Activate"}
                 </CustomButton>
                 <CustomButton
                   color="red"
                   bodySize="medium"
                   onClick={switchFlag}
-                  sx={{ mt: maxWidth430 ? 2 : 0, pb: 0.4 }}
+                  onMouseOver={flaggedMouseOverHandler}
+                  onMouseOut={flaggedMouseOutHandler}
+                  sx={{
+                    mt: maxWidth430 ? 2 : 0,
+                    px: 2,
+                    pb: 0.4,
+                    ...(flaggedLabel === "Un-Flag" && details.isFlagged
+                      ? { px: 2 }
+                      : {}),
+                    ...(details.isFlagged
+                      ? {
+                          backgroundColor:
+                            colorSystem === "regular"
+                              ? colors.ERROR_RED
+                              : colors.PRIMARY,
+                          color: colors.PEACH,
+                          ":hover": {
+                            ...(colorSystem !== "regular"
+                              ? { backgroundColor: colors.NEUTRAL700 }
+                              : {}),
+                          },
+                        }
+                      : {}),
+                  }}
                 >
-                  {details.isFlagged ? "Flagged" : "Flag"}
+                  {details.isFlagged ? flaggedLabel : "Flag"}
                 </CustomButton>
               </Stack>
             ) : (

@@ -1,6 +1,7 @@
 import ErrorDialog from "@nadabot/components/dialogs/ErrorDialog";
 import NoConnectedDialog from "@nadabot/components/dialogs/NoConnectedDialog";
 import StampSentDialog from "@nadabot/components/dialogs/StampSentDialog";
+import ViewProviderDialog from "@nadabot/components/dialogs/ViewProviderDialog";
 import { FC, createContext, useCallback, useState } from "react";
 
 export enum DIALOGS {
@@ -8,11 +9,13 @@ export enum DIALOGS {
   NoConnected,
   StampSent,
   Error,
+  ViewProvider,
 }
 
 export type DialogProps = {
   title?: string;
   description?: string;
+  providerId?: string;
 };
 
 type openDialogProps = {
@@ -65,7 +68,6 @@ const DialogsProvider: FC<Props> = ({ children }) => {
 
   return (
     <DialogsContext.Provider value={{ openDialog }}>
-      {children}
       <NoConnectedDialog
         open={_openDialog.dialog === DIALOGS.NoConnected}
         onClose={closeDialog}
@@ -79,6 +81,12 @@ const DialogsProvider: FC<Props> = ({ children }) => {
         onClose={closeDialog}
         props={props}
       />
+      <ViewProviderDialog
+        open={_openDialog.dialog === DIALOGS.ViewProvider}
+        onClose={closeDialog}
+        props={props}
+      />
+      {children}
     </DialogsContext.Provider>
   );
 };

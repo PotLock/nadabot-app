@@ -4,4 +4,4 @@
  * @returns
  */
 export const buildFileURL = (fileCID: string) =>
-  `https://gateway.pinata.cloud/ipfs/${fileCID}`;
+  `https://ipfs.io/ipfs/${fileCID}`;

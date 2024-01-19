@@ -29,6 +29,8 @@ const variants = {
 type Props = {
   children: any;
   onClick?: () => void;
+  onMouseOver?: () => void;
+  onMouseOut?: () => void;
   fontSize?: "small" | "medium" | "large";
   bodySize?: "small" | "medium" | "large";
   color?: "white" | "blue" | "beige" | "red";
@@ -43,6 +45,8 @@ export default function CustomButton(props: Props) {
       variant={props.color ? (variants[props.color] as any) : "text"}
       color={props.color ? (colors[props.color] as any) : "primary"}
       onClick={props.onClick}
+      onMouseOver={props.onMouseOver}
+      onMouseOut={props.onMouseOut}
       sx={{
         fontSize: fontSizes[props.fontSize || "small"],
         height: bodySizes[props.bodySize || "small"],
