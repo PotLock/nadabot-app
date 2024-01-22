@@ -1,3 +1,4 @@
+import { CSSProperties } from "react";
 import { Typography } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import colors from "@nadabot/theme/colors";
@@ -7,6 +8,7 @@ type Props = {
   counter: string | number;
   active?: boolean;
   onClick?: () => void;
+  style?: CSSProperties;
 };
 
 export default function FilterButton({
@@ -14,6 +16,7 @@ export default function FilterButton({
   counter,
   active,
   onClick,
+  style,
 }: Props) {
   return (
     <button
@@ -23,6 +26,7 @@ export default function FilterButton({
         ...(active
           ? { background: colors.PEACH, paddingRight: 16, paddingLeft: 16 }
           : { paddingRight: 28, paddingLeft: 28 }),
+        ...style,
       }}
     >
       {active && <CheckIcon sx={{ fontSize: 16, color: "#F4B37D", mr: 1 }} />}
