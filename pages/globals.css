@@ -105,3 +105,20 @@ nextjs-portal {
   border-radius: 2px;
   border: 2px solid #292929;
 }
+
+/* Filter Button */
+.filter-button {
+  display: flex;
+  align-items: center;
+  font-family: Mona Sans;
+  font-weight: 400;
+  padding: 8px 16px;
+  border-radius: 4px;
+  box-shadow: 0px -1px 0px 0px #C7C7C7 inset, 0px 0px 0px 0.5px #C7C7C7;
+  background: #ffffff;
+  border: none;
+  cursor: pointer;
+}
+.filter-button:hover {
+  background: #efefef;
+}

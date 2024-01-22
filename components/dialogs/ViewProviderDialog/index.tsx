@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { Dialog, DialogContent, Stack } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { DialogProps } from "@nadabot/contexts/DialogsProvider";
@@ -21,6 +21,10 @@ export default function ViewProviderDialog({ open, onClose, props }: Props) {
   const providerInfo = useGetProviderById(props?.providerId);
   const { maxWidth962 } = useBreakPoints();
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [open]);
+
   if (!open) {
     return;
   }
@@ -28,11 +32,10 @@ export default function ViewProviderDialog({ open, onClose, props }: Props) {
   return (
     <Stack
       width="100vw"
-      height={maxWidth962 ? "200%" : "150%"}
+      height={maxWidth962 ? "200%" : "250%"}
       bgcolor="rgba(0, 0, 0, 0.50)"
       zIndex={999}
       position="absolute"
-      // justifyContent="center"
       alignItems="center"
       px={4}
     >
