@@ -1,4 +1,5 @@
 import { Stack, Typography } from "@mui/material";
+import { useStamps } from "@nadabot/hooks/store/useStamps";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import colors from "@nadabot/theme/colors";
 
@@ -22,6 +23,8 @@ export default function RecentCheckItem({
   points,
 }: Props) {
   const { maxWidth480 } = useBreakPoints();
+  const { stamps } = useStamps();
+  console.log("RecentCheckItem.tsx STAMPS:", stamps);
 
   // Style Item 1
   let styleItem1 = "hs-item-full-radius";

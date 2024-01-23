@@ -9,7 +9,7 @@ import {
   UnflagProviderInput,
   UpdateProviderInput,
 } from "./interfaces/providers";
-import { StampExternal } from "./interfaces/stamps";
+import { GetStampsForAccountIdInput, StampExternal } from "./interfaces/stamps";
 import { Provider } from "near-api-js/lib/providers";
 
 // READ METHODS
@@ -25,6 +25,15 @@ export const get_config = () => contractApi.view<{}, Config>("get_config");
  */
 export const get_providers = () =>
   contractApi.view<{}, ProviderExternal[]>("get_providers");
+
+/**
+ * Get Stamps for Account Id
+ * @returns
+ */
+export const get_stamps_for_account_id = (args: GetStampsForAccountIdInput) =>
+  contractApi.view<typeof args, StampExternal[]>("get_stamps_for_account_id", {
+    args,
+  });
 
 // WRITE METHODS
 /**

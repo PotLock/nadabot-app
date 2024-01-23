@@ -2,6 +2,7 @@ import FullScreenSpinner from "@nadabot/components/ui/FullScreenSpinner";
 import { useAdmins } from "@nadabot/hooks/store/useAdmins";
 import { useConfig } from "@nadabot/hooks/store/useConfig";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
+import { useStamps } from "@nadabot/hooks/store/useStamps";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import * as contract from "@nadabot/services/web3/contract-interface";
 import { walletApi } from "@nadabot/services/web3/web3api";
@@ -33,24 +34,32 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
   const [ready, isReady] = useState(false);
 
   // Store: Check store and initial contract's data
-  const { updateInfo: updateUserInfo, reset: resetUserStore } = useUser();
+  const {
+    updateInfo: updateUserInfo,
+    reset: resetUserStore,
+    accountId,
+  } = useUser();
   const { setAdmins, reset: resetAdminsStore } = useAdmins();
   const { fetchConfig, config, reset: resetConfigStore } = useConfig();
   const { fetchProviders, reset: resetProvidersStore } = useProviders();
+  const { fetchStamps, reset: resetStamps } = useStamps();
 
   // Init Store
   const initStore = useCallback(async () => {
-    if (isWalletConnected) {
+    if (isWalletConnected && accountId) {
       // Config
       await fetchConfig();
 
       // Providers
       await fetchProviders();
 
+      // Stamps
+      await fetchStamps(accountId);
+
       // App is ready to be shown
       isReady(true);
     }
-  }, [isWalletConnected, fetchConfig, fetchProviders]);
+  }, [isWalletConnected, fetchConfig, fetchProviders, fetchStamps, accountId]);
 
   useEffect(() => {
     if (config) {
@@ -89,10 +98,17 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
     resetAdminsStore();
     resetConfigStore();
     resetProvidersStore();
+    resetStamps();
 
     // Redirects user
     window.location.replace(window.location.origin + window.location.pathname);
-  }, [resetAdminsStore, resetUserStore, resetConfigStore, resetProvidersStore]);
+  }, [
+    resetAdminsStore,
+    resetUserStore,
+    resetConfigStore,
+    resetProvidersStore,
+    resetStamps,
+  ]);
 
   if (!ready) {
     return <FullScreenSpinner />;

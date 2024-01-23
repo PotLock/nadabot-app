@@ -6,10 +6,13 @@ import { useConfig } from "@nadabot/hooks/store/useConfig";
 import colors from "@nadabot/theme/colors";
 import Tag from "@nadabot/components/ui/Tag";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import { useStamps } from "@nadabot/hooks/store/useStamps";
 
 export default function MyHumanityScore() {
-  const { config } = useConfig();
   const { maxWidth1144, maxWidth700, maxWidth480 } = useBreakPoints();
+  const { config } = useConfig();
+  const { stamps } = useStamps();
+  console.log("MyHumanityScore.tsx STAMPS:", stamps);
 
   // TODO: Fake for now
   const userStampsScore = 12; // sum all stamp scores then divide by the lenght of stamps

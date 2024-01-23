@@ -5,3 +5,9 @@ export interface StampExternal {
   provider: ProviderExternal;
   validated_at_ms: number;
 }
+
+export interface GetStampsForAccountIdInput {
+  account_id: string;
+  from_index?: number;
+  limit?: number;
+}
