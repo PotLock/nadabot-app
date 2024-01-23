@@ -25,8 +25,14 @@ export default function AdminReviewChecksSection() {
   const router = useRouter();
   const { maxWidth1110, maxWidth805, maxWidth600 } = useBreakPoints();
 
+  // Try to get the filterType from url query
+  let queryFilterType = (router.query?.filterType || "all") as FilterType;
+  if (!["all", "active", "deactivated", "flagged"].includes(queryFilterType)) {
+    queryFilterType = "all";
+  }
+
   const [fuse, setFuse] = useState<Fuse<ProviderExternal>>();
-  const [filter, setFilter] = useState<FilterType>("all");
+  const [filter, setFilter] = useState<FilterType>(queryFilterType);
   const [searchPattern, setSearchPattern] = useState("");
   const providers = useFilteredProviders();
   const [selectedProviders, setSelectedProviders] = useState(providers.all);
