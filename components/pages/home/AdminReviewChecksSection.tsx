@@ -49,9 +49,9 @@ export default function AdminReviewChecksSection() {
         setFilteredProviders(_filteredProviders);
         return;
       }
-      setFilteredProviders(providers.all);
+      setFilteredProviders(selectedProviders);
     }
-  }, [searchPattern, fuse, selectedProviders, providers.all]);
+  }, [searchPattern, fuse, selectedProviders]);
 
   const changeFilterHandler = useCallback(
     (type: FilterType) => {

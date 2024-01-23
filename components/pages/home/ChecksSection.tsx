@@ -1,3 +1,4 @@
+import { useCallback, useState } from "react";
 import { Stack, Typography } from "@mui/material";
 import colors from "@nadabot/theme/colors";
 import { useRouter } from "next/router";
@@ -7,13 +8,13 @@ import ContractsContainer from "../../containers/ContractsContainer";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import CustomButton from "@nadabot/components/ui/CustomButton";
-import { useCallback } from "react";
 import { Routes } from "@nadabot/routes";
 
 export default function ChecksSection() {
   const router = useRouter();
   const { isAdmin, walletConnected } = useUser();
   const { maxWidth805, maxWidth430 } = useBreakPoints();
+  const [searchPattern, setSearchPattern] = useState("");
 
   const addCustomCheckHandler = useCallback(() => {
     router.push(Routes.ADD_STAMP);
@@ -53,11 +54,18 @@ export default function ChecksSection() {
       {/* Checks Container */}
       <ShadowContainer sx={{ mt: 2 }}>
         {/* Search + Add Filter button */}
-        <>{!isAdmin && <AddFilterSearchInput />}</>
+        <>
+          {!isAdmin && (
+            <AddFilterSearchInput
+              onChange={(text) => setSearchPattern(text)}
+              hideAddFilterButton
+            />
+          )}
+        </>
         {isAdmin && !maxWidth430 ? (
           <ContractsContainer inline={isAdmin ? true : false} />
         ) : (
-          <ContractsContainer />
+          <ContractsContainer searchPattern={searchPattern} />
         )}
       </ShadowContainer>
     </Stack>
