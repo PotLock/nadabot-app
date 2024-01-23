@@ -1,11 +1,13 @@
-import { Stack, Typography } from "@mui/material";
 import AttachFileOutlinedIcon from "@mui/icons-material/AttachFileOutlined";
+import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
+
 import cameraUploadSvg from "@nadabot/assets/svgs/camera-upload.svg";
-import colors from "@nadabot/theme/colors";
-import Tag from "./ui/Tag";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import colors from "@nadabot/theme/colors";
+
 import ButtonContainer from "./containers/ButtonContainer";
+import Tag from "./ui/Tag";
 
 type Props = {
   onClick?: () => void;
@@ -25,7 +27,7 @@ export default function UploadImage({
       <Stack
         p={4}
         border={`1px solid ${
-          !!errorMessage ? colors.ERROR_RED : colors.LIGHTGRAY
+          errorMessage ? colors.ERROR_RED : colors.LIGHTGRAY
         }`}
         borderRadius="8px"
         direction={maxWidth430 ? "column" : "row"}

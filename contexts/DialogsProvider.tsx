@@ -1,8 +1,9 @@
+import { FC, createContext, useCallback, useState } from "react";
+
 import ErrorDialog from "@nadabot/components/dialogs/ErrorDialog";
 import NoConnectedDialog from "@nadabot/components/dialogs/NoConnectedDialog";
 import StampSentDialog from "@nadabot/components/dialogs/StampSentDialog";
 import ViewProviderDialog from "@nadabot/components/dialogs/ViewProviderDialog";
-import { FC, createContext, useCallback, useState } from "react";
 
 export enum DIALOGS {
   None,

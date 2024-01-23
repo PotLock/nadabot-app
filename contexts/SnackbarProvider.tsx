@@ -1,11 +1,8 @@
 import { Stack, Typography } from "@mui/material";
-import ButtonContainer from "@nadabot/components/containers/ButtonContainer";
-import ErrorDialog from "@nadabot/components/dialogs/ErrorDialog";
-import NoConnectedDialog from "@nadabot/components/dialogs/NoConnectedDialog";
-import StampSentDialog from "@nadabot/components/dialogs/StampSentDialog";
-import ViewProviderDialog from "@nadabot/components/dialogs/ViewProviderDialog";
-import colors from "@nadabot/theme/colors";
 import { FC, createContext, useCallback, useState } from "react";
+
+import ButtonContainer from "@nadabot/components/containers/ButtonContainer";
+import colors from "@nadabot/theme/colors";
 
 type OpenSnackbarProps = {
   description: string;

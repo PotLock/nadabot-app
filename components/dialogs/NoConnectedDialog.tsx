@@ -1,5 +1,3 @@
-import { useCallback } from "react";
-import { walletApi } from "@nadabot/services/web3/web3api";
 import {
   Dialog,
   DialogActions,
@@ -7,6 +5,10 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
+import { useCallback } from "react";
+
+import { walletApi } from "@nadabot/services/web3/web3api";
+
 import CustomButton from "../ui/CustomButton";
 
 type Props = {

@@ -1,6 +1,7 @@
-import { useEffect } from "react";
-import { useUser } from "@nadabot/hooks/store/useUser";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
+
+import { useUser } from "@nadabot/hooks/store/useUser";
 import { Routes } from "@nadabot/routes";
 
 type Props = {

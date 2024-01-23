@@ -1,14 +1,15 @@
-import { useCallback, useEffect, useState } from "react";
-import { Avatar, AvatarGroup, Slider, Stack, Typography } from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { Avatar, AvatarGroup, Slider, Stack, Typography } from "@mui/material";
+import { useDebounce } from "@uidotdev/usehooks";
+import { useCallback, useEffect, useState } from "react";
+
+import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import Tag from "@nadabot/components/ui/Tag";
+import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import * as contract from "@nadabot/services/web3/contract-interface";
 import { ProviderExternal } from "@nadabot/services/web3/interfaces/providers";
 import colors from "@nadabot/theme/colors";
-import { useDebounce } from "@uidotdev/usehooks";
-import * as contract from "@nadabot/services/web3/contract-interface";
-import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 
 type Props = {
   providerInfo?: ProviderExternal;
@@ -19,7 +20,7 @@ export default function Description({ providerInfo }: Props) {
   const [updating, setUpdating] = useState(false);
   const [points, setPoints] = useState(providerInfo?.default_weight);
   const [previousPoints, setPreviousPoints] = useState(
-    providerInfo!.default_weight
+    providerInfo!.default_weight,
   );
   const debouncedPoints = useDebounce(points, 1200);
 

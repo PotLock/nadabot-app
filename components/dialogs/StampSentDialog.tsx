@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import {
   Dialog,
   DialogActions,
@@ -6,9 +5,12 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import CustomButton from "../ui/CustomButton";
 import { useRouter } from "next/router";
+import { useCallback } from "react";
+
 import { Routes } from "@nadabot/routes";
+
+import CustomButton from "../ui/CustomButton";
 
 type Props = {
   open: boolean;

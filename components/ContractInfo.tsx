@@ -1,3 +1,4 @@
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {
   Avatar,
   Box,
@@ -9,22 +10,23 @@ import {
   Theme,
   Typography,
 } from "@mui/material";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import { useRouter } from "next/router";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import colors from "@nadabot/theme/colors";
-import { useCallback, useEffect, useState } from "react";
 import { useDebounce } from "@uidotdev/usehooks";
-import CustomCircularProgress from "./ui/CustomCircularProgress";
-import * as contract from "@nadabot/services/web3/contract-interface";
-import { useUser } from "@nadabot/hooks/store/useUser";
-import CustomButton from "./ui/CustomButton";
-import { useProviders } from "@nadabot/hooks/store/useProviders";
-import useDialogs from "@nadabot/hooks/useDialogs";
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useState } from "react";
+
 import { DIALOGS } from "@nadabot/contexts/DialogsProvider";
-import ButtonContainer from "./containers/ButtonContainer";
+import { useProviders } from "@nadabot/hooks/store/useProviders";
+import { useUser } from "@nadabot/hooks/store/useUser";
+import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import useDialogs from "@nadabot/hooks/useDialogs";
 import useSnackbars from "@nadabot/hooks/useSnackbars";
 import { Routes } from "@nadabot/routes";
+import * as contract from "@nadabot/services/web3/contract-interface";
+import colors from "@nadabot/theme/colors";
+
+import ButtonContainer from "./containers/ButtonContainer";
+import CustomButton from "./ui/CustomButton";
+import CustomCircularProgress from "./ui/CustomCircularProgress";
 
 type Props = {
   hidePoints?: boolean;
@@ -73,7 +75,7 @@ export default function ContractInfo({
   const imageURL = details.imageURL
     ? details.imageURL.replace(
         "https://gateway.pinata.cloud/ipfs/",
-        "https://ipfs.io/ipfs/"
+        "https://ipfs.io/ipfs/",
       )
     : null;
 

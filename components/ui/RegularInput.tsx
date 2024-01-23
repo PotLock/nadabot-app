@@ -1,6 +1,8 @@
-import { ChangeEvent, HTMLInputTypeAttribute } from "react";
 import { Box, Stack, SxProps, Theme } from "@mui/material";
+import { ChangeEvent, HTMLInputTypeAttribute } from "react";
+
 import colors from "@nadabot/theme/colors";
+
 import CustomInput from "./CustomInput";
 
 type Props = {
@@ -73,7 +75,7 @@ const RegularInput = ({
                   }
                 },
                 onPaste: (event) => {
-                  let pasteData = event.clipboardData.getData("text");
+                  const pasteData = event.clipboardData.getData("text");
                   if (pasteData) {
                     pasteData.replace(/[^0-9]*/g, "");
                   }

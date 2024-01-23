@@ -1,4 +1,5 @@
 import { Stack, Typography } from "@mui/material";
+
 import ContractInfo from "@nadabot/components/ContractInfo";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";

@@ -1,5 +1,6 @@
 import { Stack } from "@mui/material";
 import Image from "next/image";
+
 import nadabotIcon from "@nadabot/assets/images/nadabot-icon.png";
 
 export default function FullScreenSpinner() {

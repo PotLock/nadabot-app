@@ -1,6 +1,7 @@
-import { ChangeEvent, HTMLInputTypeAttribute } from "react";
-import { Stack, SxProps, Theme, Typography } from "@mui/material";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { Stack, SxProps, Theme, Typography } from "@mui/material";
+import { ChangeEvent, HTMLInputTypeAttribute } from "react";
+
 import RegularInput from "@nadabot/components/ui/RegularInput";
 import colors from "@nadabot/theme/colors";
 

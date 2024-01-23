@@ -1,10 +1,12 @@
 import { Avatar, Button, Container, Divider, Link, Stack } from "@mui/material";
 import { useCallback } from "react";
+
 import NadabotLogo from "@nadabot/assets/icons/nadabot-logo";
-import { BellIcon } from "@nadabot/theme/icons";
-import colors from "@nadabot/theme/colors";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import { walletApi } from "@nadabot/services/web3/web3api";
+import colors from "@nadabot/theme/colors";
+import { BellIcon } from "@nadabot/theme/icons";
+
 import Tag from "./ui/Tag";
 
 const NavBar = () => {

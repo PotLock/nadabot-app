@@ -1,18 +1,19 @@
-import { useCallback, useState } from "react";
 import { Avatar, Box, Button, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
+import { useCallback, useState } from "react";
+
 import CustomButton from "@nadabot/components/ui/CustomButton";
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import Tag from "@nadabot/components/ui/Tag";
-import { ProviderExternal } from "@nadabot/services/web3/interfaces/providers";
-import colors from "@nadabot/theme/colors";
-import { useUser } from "@nadabot/hooks/store/useUser";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
+import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import * as contract from "@nadabot/services/web3/contract-interface";
-import truncate from "@nadabot/utils/truncate";
 import useSnackbars from "@nadabot/hooks/useSnackbars";
 import { Routes } from "@nadabot/routes";
+import * as contract from "@nadabot/services/web3/contract-interface";
+import { ProviderExternal } from "@nadabot/services/web3/interfaces/providers";
+import colors from "@nadabot/theme/colors";
+import truncate from "@nadabot/utils/truncate";
 
 type Props = {
   providerInfo?: ProviderExternal;
@@ -30,7 +31,7 @@ export default function Header({ providerInfo }: Props) {
   const imageURL = providerInfo?.icon_url
     ? providerInfo.icon_url.replace(
         "https://gateway.pinata.cloud/ipfs/",
-        "https://ipfs.io/ipfs/"
+        "https://ipfs.io/ipfs/",
       )
     : null;
 

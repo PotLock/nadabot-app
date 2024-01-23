@@ -1,8 +1,10 @@
 import { Box, Stack, SxProps, Theme } from "@mui/material";
+
 import colors from "@nadabot/theme/colors";
 import { SearchIconA, SearchIconB } from "@nadabot/theme/icons";
-import RoundedSearchButton from "./RoundedSearchButton";
+
 import CustomInput from "./CustomInput";
+import RoundedSearchButton from "./RoundedSearchButton";
 
 type Props = {
   placeholder?: string;
