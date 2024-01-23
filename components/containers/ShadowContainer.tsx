@@ -3,7 +3,7 @@ import colors from "@nadabot/theme/colors";
 import React, { ReactElement } from "react";
 
 type Props = {
-  children: ReactElement[];
+  children: ReactElement[] | ReactElement;
   sx?: SxProps<Theme>;
 };
 

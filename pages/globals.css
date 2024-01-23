@@ -122,3 +122,58 @@ nextjs-portal {
 .filter-button:hover {
   background: #efefef;
 }
+
+/* Circle */
+.progress-bar {
+  width: 164px;
+  height: 164px;
+  border-radius: 50%;
+  transform: rotate(-180deg);
+  position: absolute;
+  background: 
+    radial-gradient(closest-side, white 88%, transparent 89% 100%),
+    conic-gradient(#DD3345 90%, #DBDBDB 0);
+}
+
+.circle-limiter {
+  width: 100px;
+  height: 40px;
+  background-color: #FFFFFF;
+  position: absolute;
+  margin-top: 130px;
+}
+
+/* Humanity Score List */
+.hs-item-full-radius {
+  border: 1px solid #F0F0F0;
+  border-radius: 6px;
+  padding: 3px 16px
+}
+
+.hs-item-without-bottom-radius {
+  border: 1px solid #F0F0F0;
+  border-radius: 6px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  padding: 3px 16px
+}
+
+.hs-item-without-top-radius, .hs-with-full-border {
+  border: 1px solid #F0F0F0;
+  border-radius: 6px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-top: none;
+  padding: 3px 16px
+}
+
+.hs-with-full-border {
+  border: 1px solid #F0F0F0;
+}
+
+.hs-item-without-top-bottom-radius {
+  border: 1px solid #F0F0F0;
+  border-top: none;
+  border-bottom: none;
+  padding: 3px 16px
+}
