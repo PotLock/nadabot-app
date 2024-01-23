@@ -1,4 +1,5 @@
 import { styled } from "@mui/system";
+
 import colors from "@nadabot/theme/colors";
 
 const RoundedSearchButton = styled("button")({

@@ -26,7 +26,7 @@ async function POST(request: NextApiRequest, response: NextApiResponse) {
     data.append(
       "file",
       file,
-      `${Date.now()}-${Math.round(Math.random() * Date.now())}`
+      `${Date.now()}-${Math.round(Math.random() * Date.now())}`,
     );
     data.append("pinataMetadata", JSON.stringify({ name: "File to upload" }));
 
@@ -55,7 +55,7 @@ async function GET(response: NextApiResponse) {
         headers: {
           Authorization: PINATA_JWT_AUTH,
         },
-      }
+      },
     );
     const resData = await res.json();
     const files = resData.rows[0];

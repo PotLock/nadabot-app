@@ -1,6 +1,8 @@
-import React, { useCallback } from "react";
 import { Stack, SxProps, Theme, Typography } from "@mui/material";
+import React, { useCallback } from "react";
+
 import colors from "@nadabot/theme/colors";
+
 import ButtonContainer from "../containers/ButtonContainer";
 
 const bgColors = {
@@ -53,7 +55,7 @@ export default function Tag({
         </Typography>
       </Stack>
     ),
-    [label, leftContent, size, removeBg, sx, type]
+    [label, leftContent, size, removeBg, sx, type],
   );
 
   if (asButton) {

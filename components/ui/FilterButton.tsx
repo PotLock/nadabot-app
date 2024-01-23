@@ -1,6 +1,7 @@
-import { CSSProperties } from "react";
-import { Typography } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
+import { Typography } from "@mui/material";
+import { CSSProperties } from "react";
+
 import colors from "@nadabot/theme/colors";
 
 type Props = {

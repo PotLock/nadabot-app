@@ -1,4 +1,5 @@
-import { contractApi } from "./web3api";
+import { Provider } from "near-api-js/lib/providers";
+
 import { Config } from "./interfaces/lib";
 import {
   ActivateProviderInput,
@@ -10,7 +11,7 @@ import {
   UpdateProviderInput,
 } from "./interfaces/providers";
 import { GetStampsForAccountIdInput, StampExternal } from "./interfaces/stamps";
-import { Provider } from "near-api-js/lib/providers";
+import { contractApi } from "./web3api";
 
 // READ METHODS
 
@@ -24,7 +25,7 @@ export const get_config = () => contractApi.view<{}, Config>("get_config");
  * @returns
  */
 export const get_providers = () =>
-  contractApi.view<{}, ProviderExternal[]>("get_providers");
+  contractApi.view<object, ProviderExternal[]>("get_providers");
 
 /**
  * Get Stamps for Account Id
@@ -77,7 +78,7 @@ export const register_provider = (args: RegisterProviderInput) => {
  * @returns
  */
 export const admin_set_default_human_threshold = (
-  default_human_threshold: number
+  default_human_threshold: number,
 ) =>
   contractApi.call("admin_set_default_human_threshold", {
     args: {
@@ -93,7 +94,7 @@ export const admin_set_default_human_threshold = (
  * @returns
  */
 export const set_stamp = (provider_id: string) =>
-  contractApi.call<{}, StampExternal | undefined>("set_stamp", {
+  contractApi.call<object, StampExternal | undefined>("set_stamp", {
     args: {
       provider_id,
     },

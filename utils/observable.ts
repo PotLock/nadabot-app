@@ -13,7 +13,7 @@ class Observable<D> {
 
   unsubscribe(handler: (data: D) => void) {
     this.observers = this.observers.filter(
-      (subscriber) => subscriber !== handler
+      (subscriber) => subscriber !== handler,
     );
   }
 

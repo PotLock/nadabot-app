@@ -1,9 +1,11 @@
 import { Stack, Typography } from "@mui/material";
+
+import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import colors from "@nadabot/theme/colors";
-import RoundedSearchInput from "../../../ui/RoundedSearchInput";
+
 import MyHumanityScore from "./components/MyHumanityScore";
 import RecentChecks from "./components/RecentChecks";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import RoundedSearchInput from "../../../ui/RoundedSearchInput";
 
 export default function ExploreSection() {
   const { maxWidth1144 } = useBreakPoints();

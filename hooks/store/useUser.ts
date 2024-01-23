@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+
 import { updateState } from "./utils";
 
 interface State {
@@ -27,13 +28,13 @@ export const useUser = create<State & Actions>()(
       ...initialState,
       // update info
       updateInfo: (info: UpdateInfo) =>
-        set((state) => {
+        set(() => {
           return updateState(info);
         }),
 
       // reset
       reset: () => set(initialState),
     }),
-    { name: "userStore" }
-  )
+    { name: "userStore" },
+  ),
 );

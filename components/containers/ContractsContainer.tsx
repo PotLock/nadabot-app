@@ -1,12 +1,14 @@
 import { Stack } from "@mui/material";
-import { useEffect, useState } from "react";
 import Fuse from "fuse.js";
-import ContractInfo from "../ContractInfo";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import { useUser } from "@nadabot/hooks/store/useUser";
+import { useEffect, useState } from "react";
+
 import { useProviders } from "@nadabot/hooks/store/useProviders";
-import CustomCircularProgress from "../ui/CustomCircularProgress";
+import { useUser } from "@nadabot/hooks/store/useUser";
+import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import { ProviderExternal } from "@nadabot/services/web3/interfaces/providers";
+
+import ContractInfo from "../ContractInfo";
+import CustomCircularProgress from "../ui/CustomCircularProgress";
 
 type Props = {
   inline?: boolean;

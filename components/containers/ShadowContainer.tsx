@@ -1,6 +1,7 @@
 import { Box, Stack, SxProps, Theme } from "@mui/material";
-import colors from "@nadabot/theme/colors";
 import React, { ReactElement } from "react";
+
+import colors from "@nadabot/theme/colors";
 
 type Props = {
   children: ReactElement[] | ReactElement;

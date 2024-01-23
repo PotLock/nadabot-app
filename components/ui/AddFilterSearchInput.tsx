@@ -1,8 +1,10 @@
 import { Box, Button, Stack } from "@mui/material";
 import React from "react";
-import RegularInput from "./RegularInput";
+
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import { FilterIcon, SearchIconA } from "@nadabot/theme/icons";
+
+import RegularInput from "./RegularInput";
 
 type Props = {
   hideAddFilterButton?: boolean;
@@ -24,8 +26,8 @@ export function AddFilterSearchInput({ hideAddFilterButton, onChange }: Props) {
             ? maxWidth700
               ? "100%"
               : maxWidth962
-              ? "70%"
-              : "80%"
+                ? "70%"
+                : "80%"
             : "100%"
         }
       >

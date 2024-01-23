@@ -1,18 +1,20 @@
-import { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import { Stack, Typography } from "@mui/material";
 import Fuse from "fuse.js";
-import colors from "@nadabot/theme/colors";
-import { ShadowContainer } from "../../containers/ShadowContainer";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import RegularInput from "@nadabot/components/ui/RegularInput";
-import { SearchIconA } from "@nadabot/theme/icons";
-import FilterButton from "@nadabot/components/ui/FilterButton";
-import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useState } from "react";
+
 import ContractInfo from "@nadabot/components/ContractInfo";
-import { ProviderExternal } from "@nadabot/services/web3/interfaces/providers";
 import CustomButton from "@nadabot/components/ui/CustomButton";
+import FilterButton from "@nadabot/components/ui/FilterButton";
+import RegularInput from "@nadabot/components/ui/RegularInput";
+import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import { Routes } from "@nadabot/routes";
+import { ProviderExternal } from "@nadabot/services/web3/interfaces/providers";
+import colors from "@nadabot/theme/colors";
+import { SearchIconA } from "@nadabot/theme/icons";
+
+import { ShadowContainer } from "../../containers/ShadowContainer";
 
 type FilterType = "all" | "active" | "deactivated" | "flagged";
 
@@ -64,7 +66,7 @@ export default function AdminReviewChecksSection() {
       setFilter(type);
       setSelectedProviders(providers[type]);
     },
-    [providers]
+    [providers],
   );
 
   const addCustomCheckHandler = useCallback(() => {

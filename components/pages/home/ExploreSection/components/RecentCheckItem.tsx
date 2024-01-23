@@ -1,4 +1,5 @@
 import { Stack, Typography } from "@mui/material";
+
 import { useStamps } from "@nadabot/hooks/store/useStamps";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import colors from "@nadabot/theme/colors";
@@ -14,14 +15,7 @@ type Props = {
   points: number;
 };
 
-export default function RecentCheckItem({
-  index,
-  totalItems,
-  contractName,
-  contractId,
-  method,
-  points,
-}: Props) {
+export default function RecentCheckItem({ index, totalItems }: Props) {
   const { maxWidth480 } = useBreakPoints();
   const { stamps } = useStamps();
   console.log("RecentCheckItem.tsx STAMPS:", stamps);
@@ -39,7 +33,7 @@ export default function RecentCheckItem({
   }
 
   // Style Item 3
-  let styleItem3 = "hs-item-without-top-radius hs-with-full-border";
+  const styleItem3 = "hs-item-without-top-radius hs-with-full-border";
 
   const borderStyles: Record<string, string> = {
     0: styleItem1,

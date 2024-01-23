@@ -1,12 +1,12 @@
+import { FC, createContext, useCallback, useEffect, useState } from "react";
+
 import FullScreenSpinner from "@nadabot/components/ui/FullScreenSpinner";
 import { useAdmins } from "@nadabot/hooks/store/useAdmins";
 import { useConfig } from "@nadabot/hooks/store/useConfig";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
 import { useStamps } from "@nadabot/hooks/store/useStamps";
 import { useUser } from "@nadabot/hooks/store/useUser";
-import * as contract from "@nadabot/services/web3/contract-interface";
 import { walletApi } from "@nadabot/services/web3/web3api";
-import { FC, createContext, useCallback, useEffect, useState } from "react";
 
 type Web3AuthProps = {
   accountId: string;

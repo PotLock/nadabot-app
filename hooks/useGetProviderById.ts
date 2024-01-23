@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { useProviders } from "./store/useProviders";
+
 import { ProviderExternal } from "@nadabot/services/web3/interfaces/providers";
+
+import { useProviders } from "./store/useProviders";
 
 const useGetProviderById = (providerId?: string) => {
   const { providers } = useProviders();
@@ -9,7 +11,7 @@ const useGetProviderById = (providerId?: string) => {
   useEffect(() => {
     if (providerId) {
       setProvider(
-        providers.find((provider) => provider.provider_id === providerId)
+        providers.find((provider) => provider.provider_id === providerId),
       );
     }
   }, [providerId, providers]);

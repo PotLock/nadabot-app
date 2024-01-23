@@ -1,10 +1,11 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+
+import * as contract from "@nadabot/services/web3/contract-interface";
 import {
   ProviderExternal,
   UpdateProviderInput,
 } from "@nadabot/services/web3/interfaces/providers";
-import * as contract from "@nadabot/services/web3/contract-interface";
 
 type State = {
   providers: ProviderExternal[];
@@ -49,6 +50,6 @@ export const useProviders = create<State & Actions>()(
       // reset
       reset: () => set(initialState),
     }),
-    { name: "providersStore" }
-  )
+    { name: "providersStore" },
+  ),
 );

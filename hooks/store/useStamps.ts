@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+
 import * as contract from "@nadabot/services/web3/contract-interface";
 import { StampExternal } from "@nadabot/services/web3/interfaces/stamps";
 
@@ -35,6 +36,6 @@ export const useStamps = create<State & Actions>()(
       // reset
       reset: () => set(initialState),
     }),
-    { name: "stampsStore" }
-  )
+    { name: "stampsStore" },
+  ),
 );

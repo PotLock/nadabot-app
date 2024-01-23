@@ -1,12 +1,12 @@
 import "@near-wallet-selector/modal-ui/styles.css";
-import naxios from "@wpdas/naxios";
 
-import { setupMyNearWallet } from "@near-wallet-selector/my-near-wallet";
-import { setupLedger } from "@near-wallet-selector/ledger";
-import { setupNearWallet } from "@near-wallet-selector/near-wallet";
 import { setupHereWallet } from "@near-wallet-selector/here-wallet";
-import { setupNearMobileWallet } from "@near-wallet-selector/near-mobile-wallet";
+import { setupLedger } from "@near-wallet-selector/ledger";
 import { setupMeteorWallet } from "@near-wallet-selector/meteor-wallet";
+import { setupMyNearWallet } from "@near-wallet-selector/my-near-wallet";
+import { setupNearMobileWallet } from "@near-wallet-selector/near-mobile-wallet";
+import { setupNearWallet } from "@near-wallet-selector/near-wallet";
+import naxios from "@wpdas/naxios";
 
 import { CONTRACT_ID } from "./constants";
 

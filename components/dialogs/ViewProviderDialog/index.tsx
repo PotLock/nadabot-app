@@ -1,15 +1,17 @@
-import { useCallback, useEffect } from "react";
-import { Dialog, DialogContent, Stack } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { Stack } from "@mui/material";
+import { useEffect } from "react";
+
+import ButtonContainer from "@nadabot/components/containers/ButtonContainer";
+import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import { DialogProps } from "@nadabot/contexts/DialogsProvider";
+import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useGetProviderById from "@nadabot/hooks/useGetProviderById";
 import colors from "@nadabot/theme/colors";
-import ButtonContainer from "@nadabot/components/containers/ButtonContainer";
-import Header from "./components/Header";
+
 import Description from "./components/Description";
+import Header from "./components/Header";
 import NextProviders from "./components/NextProviders";
-import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 
 type Props = {
   open: boolean;

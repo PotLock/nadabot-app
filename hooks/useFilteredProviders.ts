@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { useProviders } from "./store/useProviders";
+
 import { ProviderExternal } from "@nadabot/services/web3/interfaces/providers";
+
+import { useProviders } from "./store/useProviders";
 
 /**
  * Provide filtered providers

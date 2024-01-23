@@ -1,4 +1,3 @@
-import { walletApi } from "@nadabot/services/web3/web3api";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -25,12 +24,12 @@ export const useAdmins = create<State & Actions>()(
       ...initialState,
       // update info
       setAdmins: (admins: AdminsInfo) => {
-        return set((state) => ({ admins, initialized: true }));
+        return set(() => ({ admins, initialized: true }));
       },
 
       // reset
       reset: () => set(initialState),
     }),
-    { name: "adminsStore" }
-  )
+    { name: "adminsStore" },
+  ),
 );

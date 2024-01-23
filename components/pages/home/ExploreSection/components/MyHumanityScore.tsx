@@ -1,12 +1,13 @@
-import { Stack, Typography } from "@mui/material";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import PersonIcon from "@mui/icons-material/Person";
+import { Stack, Typography } from "@mui/material";
+
 import { ShadowContainer } from "@nadabot/components/containers/ShadowContainer";
-import { useConfig } from "@nadabot/hooks/store/useConfig";
-import colors from "@nadabot/theme/colors";
 import Tag from "@nadabot/components/ui/Tag";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import { useConfig } from "@nadabot/hooks/store/useConfig";
 import { useStamps } from "@nadabot/hooks/store/useStamps";
+import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import colors from "@nadabot/theme/colors";
 
 export default function MyHumanityScore() {
   const { maxWidth1144, maxWidth700, maxWidth480 } = useBreakPoints();

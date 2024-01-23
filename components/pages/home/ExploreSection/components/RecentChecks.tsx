@@ -1,9 +1,11 @@
-import { Stack, Typography } from "@mui/material";
 import HistoryIcon from "@mui/icons-material/History";
-import colors from "@nadabot/theme/colors";
+import { Stack, Typography } from "@mui/material";
+
 import { ShadowContainer } from "@nadabot/components/containers/ShadowContainer";
-import RecentCheckItem from "./RecentCheckItem";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import colors from "@nadabot/theme/colors";
+
+import RecentCheckItem from "./RecentCheckItem";
 
 export default function RecentChecks() {
   const { maxWidth1144, maxWidth430 } = useBreakPoints();
@@ -45,9 +47,30 @@ export default function RecentChecks() {
         </Stack>
 
         {/* List - Max 3 items */}
-        <RecentCheckItem totalItems={3} index={0} />
-        <RecentCheckItem totalItems={3} index={1} />
-        <RecentCheckItem totalItems={3} index={2} />
+        <RecentCheckItem
+          totalItems={3}
+          index={0}
+          contractName={""}
+          contractId={""}
+          method={""}
+          points={0}
+        />
+        <RecentCheckItem
+          totalItems={3}
+          index={1}
+          contractName={""}
+          contractId={""}
+          method={""}
+          points={0}
+        />
+        <RecentCheckItem
+          totalItems={3}
+          index={2}
+          contractName={""}
+          contractId={""}
+          method={""}
+          points={0}
+        />
       </ShadowContainer>
     </Stack>
   );
