@@ -1,6 +1,6 @@
 import { debounce } from "@mui/material";
 
-import Observable from "./Observable";
+import Observable from "@nadabot/utils/observable";
 
 type IsHumanCacheProps = Record<
   string,
