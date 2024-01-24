@@ -1,6 +1,7 @@
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import { Stack, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 
 import { ShadowContainer } from "@nadabot/components/containers/ShadowContainer";
 import Tag from "@nadabot/components/ui/Tag";
@@ -13,12 +14,26 @@ export default function MyHumanityScore() {
   const { maxWidth1144, maxWidth700, maxWidth480 } = useBreakPoints();
   const { config } = useConfig();
   const { stamps } = useStamps();
-  console.log("MyHumanityScore.tsx STAMPS:", stamps);
+  const [percentageScore, setPercentageScore] = useState(0);
+  const [score, setScore] = useState(0);
 
-  // TODO: Fake for now
-  const userStampsScore = 12; // sum all stamp scores then divide by the lenght of stamps
-  const weightPoints = (userStampsScore * 100) / config.default_human_threshold;
-  const visualWeidghtPoints = weightPoints / 10;
+  // Update score
+  useEffect(() => {
+    let userStampsSum = 0;
+    stamps.forEach((stamp) => {
+      userStampsSum +=
+        stamp.provider.default_weight > config.default_human_threshold
+          ? config.default_human_threshold
+          : stamp.provider.default_weight;
+    });
+    const userStampsScore = userStampsSum / stamps.length;
+
+    setPercentageScore(
+      (userStampsScore * 100) / config.default_human_threshold,
+    );
+
+    setScore(userStampsScore);
+  }, [stamps, config.default_human_threshold]);
 
   // TODO: check if it's a verified human
   const isVerifiedHuman = false;
@@ -59,7 +74,7 @@ export default function MyHumanityScore() {
               fontWeight={900}
               lineHeight="normal"
             >
-              {visualWeidghtPoints}
+              {score.toFixed(1)}
             </Typography>
             <Typography
               color={colors.NEUTRAL300}
@@ -73,7 +88,7 @@ export default function MyHumanityScore() {
             className="progress-bar"
             style={{
               background: `radial-gradient(closest-side, white 88%, transparent 89% 100%),
-conic-gradient(#DD3345 ${weightPoints}%, #DBDBDB 0)`,
+conic-gradient(#DD3345 ${percentageScore}%, #DBDBDB 0)`,
             }}
           />
           <div className="circle-limiter" />

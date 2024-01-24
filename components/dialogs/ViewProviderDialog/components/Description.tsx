@@ -47,12 +47,15 @@ export default function Description({ providerInfo }: Props) {
   }, [debouncedPoints, points, previousPoints, providerInfo]);
 
   // Users for Stamp
+  const [verifiedUsers, setVerifiedUsers] = useState<string[]>();
   useEffect(() => {
     if (providerInfo?.provider_id) {
       (async () => {
         const usersForStamp = await contract.get_users_for_stamp({
           provider_id: providerInfo.provider_id,
         });
+        setVerifiedUsers(usersForStamp);
+
         // TODO: Users for stamp
         console.log("USERS FOR STAMP:", usersForStamp);
       })();
@@ -80,37 +83,42 @@ export default function Description({ providerInfo }: Props) {
           magna aliqua. */}
         </Typography>
         {/* Verifiers */}
-        <Stack direction="row" mt={2}>
-          <AvatarGroup>
-            <Avatar
-              alt="Remy Sharp"
-              src="https://i.pravatar.cc/150?u=1"
-              sx={{ width: 16, height: 16 }}
-            />
-            <Avatar
-              alt="Travis Howard"
-              src="https://i.pravatar.cc/150?u=2"
-              sx={{ width: 16, height: 16 }}
-            />
-            <Avatar
-              alt="Agnes Walker"
-              src="https://i.pravatar.cc/150?u=3"
-              sx={{ width: 16, height: 16 }}
-            />
-            <Avatar
-              alt="Trevor Henderson"
-              src="https://i.pravatar.cc/150?u=4"
-              sx={{ width: 16, height: 16 }}
-            />
-          </AvatarGroup>
-          <Typography fontSize={12} ml={1}>
-            <strong>lorem.ipsum</strong>
-          </Typography>
-          {/* Se tiver mais */}
-          <Typography fontSize={12} ml={0.5}>
-            and <strong>2.999 others</strong> Verified
-          </Typography>
-        </Stack>
+        {verifiedUsers && verifiedUsers[0] && (
+          <Stack direction="row" mt={2}>
+            {/* TODO: buscar as imagens do NEAR Social DB */}
+            <AvatarGroup>
+              <Avatar
+                alt="Remy Sharp"
+                src="https://i.pravatar.cc/150?u=1"
+                sx={{ width: 16, height: 16 }}
+              />
+              <Avatar
+                alt="Travis Howard"
+                src="https://i.pravatar.cc/150?u=2"
+                sx={{ width: 16, height: 16 }}
+              />
+              <Avatar
+                alt="Agnes Walker"
+                src="https://i.pravatar.cc/150?u=3"
+                sx={{ width: 16, height: 16 }}
+              />
+              <Avatar
+                alt="Trevor Henderson"
+                src="https://i.pravatar.cc/150?u=4"
+                sx={{ width: 16, height: 16 }}
+              />
+            </AvatarGroup>
+            <Typography fontSize={12} ml={1}>
+              <strong>{verifiedUsers[0]}</strong>
+            </Typography>
+            {/* Se tiver mais */}
+            {verifiedUsers.length > 1 && (
+              <Typography fontSize={12} ml={0.5}>
+                and <strong>{verifiedUsers.length - 1} others</strong> Verified
+              </Typography>
+            )}
+          </Stack>
+        )}
         {/* Tags */}
         <Stack direction={maxWidth430 ? "column" : "row"} mt={2}>
           {providerInfo?.tags?.map((tag) => (

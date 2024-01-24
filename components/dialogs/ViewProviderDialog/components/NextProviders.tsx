@@ -1,6 +1,7 @@
 import { Stack, Typography } from "@mui/material";
 
 import ContractInfo from "@nadabot/components/ContractInfo";
+import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import { ProviderExternal } from "@nadabot/services/web3/interfaces/providers";
@@ -10,8 +11,13 @@ type Props = {
 };
 
 export default function NextProviders({ providerInfo }: Props) {
-  const { deactivated } = useFilteredProviders(providerInfo!.provider_id);
+  const { active, deactivated } = useFilteredProviders(
+    providerInfo!.provider_id,
+  );
   const { maxWidth805 } = useBreakPoints();
+  const { isAdmin } = useUser();
+
+  const providers = isAdmin ? deactivated : active;
 
   if (deactivated.length === 0) {
     return;
@@ -28,7 +34,7 @@ export default function NextProviders({ providerInfo }: Props) {
         gap={2}
         flexWrap="wrap"
       >
-        {deactivated.slice(0, 3).map((provider) => (
+        {providers.slice(0, 3).map((provider) => (
           <ContractInfo key={provider.provider_id} providerInfo={provider} />
         ))}
       </Stack>

@@ -30,7 +30,13 @@ export const useStamps = create<State & Actions>()(
         const response = await contract.get_stamps_for_account_id({
           account_id,
         });
-        set({ ready: true, stamps: response });
+
+        // sort stamps to show the newest first
+        const sortedStamps = response.sort(
+          (stampA, stampB) => stampA.validated_at_ms - stampB.validated_at_ms,
+        );
+
+        set({ ready: true, stamps: sortedStamps });
       },
 
       // reset

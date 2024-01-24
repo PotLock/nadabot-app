@@ -2,7 +2,6 @@ import { Stack } from "@mui/material";
 import Fuse from "fuse.js";
 import { useEffect, useState } from "react";
 
-import { useProviders } from "@nadabot/hooks/store/useProviders";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";

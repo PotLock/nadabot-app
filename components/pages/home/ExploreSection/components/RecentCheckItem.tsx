@@ -1,24 +1,35 @@
 import { Stack, Typography } from "@mui/material";
 
-import { useStamps } from "@nadabot/hooks/store/useStamps";
+import { useConfig } from "@nadabot/hooks/store/useConfig";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import colors from "@nadabot/theme/colors";
+import truncate from "@nadabot/utils/truncate";
 
 type Props = {
   // used the determine the layout
   index: number;
   totalItems: number;
-
   contractName: string;
   contractId: string;
   method: string;
   points: number;
 };
 
-export default function RecentCheckItem({ index, totalItems }: Props) {
-  const { maxWidth480 } = useBreakPoints();
-  const { stamps } = useStamps();
-  console.log("RecentCheckItem.tsx STAMPS:", stamps);
+export default function RecentCheckItem({
+  index,
+  totalItems,
+  contractName,
+  contractId,
+  method,
+  points,
+}: Props) {
+  const { maxWidth1144, maxWidth480 } = useBreakPoints();
+  const { config } = useConfig();
+
+  const fixedPoints =
+    points > config.default_human_threshold
+      ? config.default_human_threshold
+      : points;
 
   // Style Item 1
   let styleItem1 = "hs-item-full-radius";
@@ -54,7 +65,7 @@ export default function RecentCheckItem({ index, totalItems }: Props) {
         alignItems={maxWidth480 ? "flex-start" : "center"}
       >
         <Typography fontSize={12} fontWeight={600} lineHeight="normal" mr={2}>
-          Lorem Ipsum Contract
+          {maxWidth1144 ? contractName : truncate(contractName, 15)}
         </Typography>
         <Typography
           fontSize={10}
@@ -64,7 +75,7 @@ export default function RecentCheckItem({ index, totalItems }: Props) {
           mr={2}
           color={colors.NEUTRAL500}
         >
-          I-am-human.near
+          {maxWidth1144 ? contractId : truncate(contractId, 18)}
         </Typography>
         <Typography
           fontSize={10}
@@ -73,7 +84,7 @@ export default function RecentCheckItem({ index, totalItems }: Props) {
           sx={{ textDecoration: "underline" }}
           color={colors.NEUTRAL500}
         >
-          IsHuman()
+          {`${method}()`}
         </Typography>
       </Stack>
       <Stack direction="row" alignItems="center">
@@ -83,7 +94,7 @@ export default function RecentCheckItem({ index, totalItems }: Props) {
           fontWeight={700}
           mr={0.5}
         >
-          19
+          {fixedPoints}
         </Typography>
         <Typography color={colors.NEUTRAL700} lineHeight="normal">
           Pts

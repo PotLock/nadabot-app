@@ -1,3 +1,4 @@
+import CheckIcon from "@mui/icons-material/Check";
 import {
   Avatar,
   Box,
@@ -6,16 +7,18 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import CustomButton from "@nadabot/components/ui/CustomButton";
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import Tag from "@nadabot/components/ui/Tag";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
+import { useStamps } from "@nadabot/hooks/store/useStamps";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useIsHumanChacheCheck from "@nadabot/hooks/useIsHumanCacheCheck";
 import useSnackbars from "@nadabot/hooks/useSnackbars";
+import useSpinner from "@nadabot/hooks/useSpinner";
 import { Routes } from "@nadabot/routes";
 import * as contract from "@nadabot/services/web3/contract-interface";
 import { ProviderExternal } from "@nadabot/services/web3/interfaces/providers";
@@ -34,6 +37,23 @@ export default function Header({ providerInfo }: Props) {
     useBreakPoints();
   const { showSnackbar } = useSnackbars();
   const router = useRouter();
+  const { showSpinner } = useSpinner();
+
+  // Check if user has a stamp with this provider [verified]
+  const { stamps } = useStamps();
+  const [isVerified, setIsVerified] = useState(false);
+  useEffect(() => {
+    let hasStamp = false;
+    stamps.forEach((stamp) => {
+      if (
+        !hasStamp &&
+        stamp.provider.provider_id === providerInfo?.provider_id
+      ) {
+        hasStamp = true;
+      }
+    });
+    setIsVerified(hasStamp);
+  }, [stamps, providerInfo]);
 
   const imageURL = providerInfo?.icon_url
     ? providerInfo.icon_url.replace(
@@ -127,21 +147,32 @@ export default function Header({ providerInfo }: Props) {
     setFlaggedLabel("Flagged");
   }, []);
 
-  const verifyHandler = useCallback(() => {
-    // Handle here
-  }, []);
+  // Is Human Check
+  const {
+    isHuman,
+    ready: isHumanVerificationReady,
+    verify,
+  } = useIsHumanChacheCheck(
+    providerInfo?.provider_id,
+    providerInfo?.contract_id,
+    providerInfo?.method_name,
+  );
+
+  const verifyHandler = useCallback(async () => {
+    showSpinner();
+    // Check if it isHuman (and cache result)
+    const isHumanVerify = await verify();
+
+    // If so, then, call add_stamp method
+    if (isHumanVerify && providerInfo?.provider_id) {
+      await contract.add_stamp(providerInfo.provider_id);
+    }
+  }, [providerInfo?.provider_id, verify, showSpinner]);
 
   const getCheckHandler = useCallback(() => {
     // Open up the external URL
     window.open(providerInfo?.external_url, "_blank");
   }, [providerInfo?.external_url]);
-
-  // Is Human Check
-  const { isHuman, ready: isHumanVerificationReady } = useIsHumanChacheCheck(
-    providerInfo?.provider_id,
-    providerInfo?.contract_id,
-    providerInfo?.method_name,
-  );
 
   return (
     <Stack
@@ -345,25 +376,50 @@ export default function Header({ providerInfo }: Props) {
               </Stack>
             ) : (
               <>
-                {!isHumanVerificationReady ? (
-                  <CircularProgress
-                    size={22}
-                    sx={{ color: colors.BLUE, mt: 2, mb: 1.7, mr: 4 }}
-                  />
-                ) : (
+                {isVerified ? (
                   <CustomButton
-                    color="beige"
+                    color="blue"
                     bodySize={maxWidth430 ? "medium" : "large"}
                     fontSize={maxWidth430 ? "small" : "medium"}
-                    onClick={isHuman ? verifyHandler : getCheckHandler}
                     sx={{
                       mt: maxWidth430 ? 2 : 0,
                       mr: 2,
                       px: 2,
                     }}
                   >
-                    {isHuman ? "Verify" : "Get Check"}
+                    <CheckIcon
+                      sx={{
+                        fontSize: 28,
+                        color: colors.WHITE,
+                        mr: 1,
+                        mt: -0.3,
+                      }}
+                    />
+                    Verified
                   </CustomButton>
+                ) : (
+                  <>
+                    {!isHumanVerificationReady ? (
+                      <CircularProgress
+                        size={22}
+                        sx={{ color: colors.BLUE, mt: 2, mb: 1.7, mr: 4 }}
+                      />
+                    ) : (
+                      <CustomButton
+                        color="beige"
+                        bodySize={maxWidth430 ? "medium" : "large"}
+                        fontSize={maxWidth430 ? "small" : "medium"}
+                        onClick={isHuman ? verifyHandler : getCheckHandler}
+                        sx={{
+                          mt: maxWidth430 ? 2 : 0,
+                          mr: 2,
+                          px: 2,
+                        }}
+                      >
+                        {isHuman ? "Verify" : "Get Check"}
+                      </CustomButton>
+                    )}
+                  </>
                 )}
               </>
             )}

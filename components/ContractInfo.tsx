@@ -1,3 +1,4 @@
+import CheckIcon from "@mui/icons-material/Check";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {
   Avatar,
@@ -38,6 +39,7 @@ type Props = {
   colorSystem?: "regular" | "admin";
   providerInfo: ProviderExternal;
   isPreview?: boolean;
+  isStamp?: boolean;
 };
 
 export default function ContractInfo({
@@ -46,12 +48,13 @@ export default function ContractInfo({
   providerInfo,
   isPreview,
   colorSystem = "regular",
+  isStamp,
 }: Props) {
   const { isAdmin } = useUser();
   const { updateProvider } = useProviders();
   const { maxWidth430 } = useBreakPoints();
   const { openDialog } = useDialogs();
-  const { showSpinner, hideSpinner } = useSpinner();
+  const { showSpinner } = useSpinner();
 
   // Is Human Check
   const {
@@ -73,16 +76,12 @@ export default function ContractInfo({
     showSpinner();
     // Check if it isHuman (and cache result)
     const isHumanVerify = await verify();
-    console.log(isHumanVerify);
 
     // If so, then, call add_stamp method
     if (isHumanVerify) {
-      const foo = await contract.add_stamp(providerInfo.provider_id);
-      console.log("RESPONSE:", foo);
+      await contract.add_stamp(providerInfo.provider_id);
     }
-
-    hideSpinner();
-  }, [isPreview, showSpinner, hideSpinner, verify, providerInfo.provider_id]);
+  }, [isPreview, showSpinner, verify, providerInfo.provider_id]);
 
   const getCheckHandler = useCallback(() => {
     if (isPreview) {
@@ -244,7 +243,7 @@ export default function ContractInfo({
       minWidth={maxWidth430 ? 0 : 352}
       maxWidth={maxWidth430 ? "100%" : 352}
       width="100%"
-      sx={sx}
+      sx={{ background: isStamp ? colors.GRAY100 : "transparent", ...sx }}
     >
       <Stack
         p={2}
@@ -418,102 +417,130 @@ export default function ContractInfo({
           </Stack>
         </Stack>
 
-        {updating ? (
-          <CustomCircularProgress sx={{ py: 1, pb: 1.7 }} size={30} />
-        ) : (
-          <>
-            {isAdmin ? (
-              <Stack direction="row" justifyContent="space-evenly" width="64%">
-                <CustomButton
-                  color="beige"
-                  bodySize="medium"
-                  onClick={switchActivation}
-                  onMouseOver={activeMouseOverHandler}
-                  onMouseOut={activeMouseOutHandler}
-                  sx={{
-                    mt: maxWidth430 ? 2 : 0,
-                    mr: 1,
-                    px: 2,
-                    ...(activeLabel === "De-Activate" && providerInfo.is_active
-                      ? { px: 1 }
-                      : {}),
-                    ...(providerInfo.is_active
-                      ? {
-                          backgroundColor:
-                            colorSystem === "regular"
-                              ? colors.PEACH
-                              : colors.PRIMARY,
-                          color:
-                            colorSystem === "regular"
-                              ? colors.PRIMARY
-                              : colors.NEUTRAL50,
-                          ":hover": {
-                            backgroundColor:
-                              colorSystem === "regular"
-                                ? colors.PEACH
-                                : colors.NEUTRAL700,
-                          },
-                        }
-                      : {}),
-                  }}
-                >
-                  {providerInfo.is_active ? activeLabel : "Activate"}
-                </CustomButton>
-                <CustomButton
-                  color="red"
-                  bodySize="medium"
-                  onClick={switchFlag}
-                  onMouseOver={flaggedMouseOverHandler}
-                  onMouseOut={flaggedMouseOutHandler}
-                  sx={{
-                    mt: maxWidth430 ? 2 : 0,
-                    px: 2,
-                    pb: 0.4,
-                    ...(flaggedLabel === "Un-Flag" && providerInfo.is_flagged
-                      ? { px: 2 }
-                      : {}),
-                    ...(providerInfo.is_flagged
-                      ? {
-                          backgroundColor:
-                            colorSystem === "regular"
-                              ? colors.ERROR_RED
-                              : colors.PRIMARY,
-                          color: colors.PEACH,
-                          ":hover": {
-                            ...(colorSystem !== "regular"
-                              ? { backgroundColor: colors.NEUTRAL700 }
-                              : {}),
-                          },
-                        }
-                      : {}),
-                  }}
-                >
-                  {providerInfo.is_flagged ? flaggedLabel : "Flag"}
-                </CustomButton>
-              </Stack>
-            ) : (
-              <>
-                {!isHumanVerificationReady && !isPreview ? (
-                  <CircularProgress
-                    size={22}
-                    sx={{ color: colors.BLUE, mt: 2, mb: 1.7, mr: 4 }}
-                  />
-                ) : (
-                  <Button
-                    variant="contained"
-                    color="warning"
-                    size="medium"
-                    disableRipple
-                    onClick={isHuman ? verifyHandler : getCheckHandler}
-                    sx={{ mt: maxWidth430 ? 2 : 0 }}
-                  >
-                    {isHuman ? "Verify" : "Get Check"}
-                  </Button>
-                )}
-              </>
-            )}
-          </>
-        )}
+        {/* Footer Buttons */}
+        <>
+          {isStamp ? (
+            <CustomButton
+              color="blue"
+              bodySize="medium"
+              sx={{
+                mt: maxWidth430 ? 2 : 0,
+                mr: 1,
+                px: 2,
+              }}
+            >
+              <CheckIcon
+                sx={{ fontSize: 18, color: colors.WHITE, mr: 1, mt: -0.3 }}
+              />
+              Verified
+            </CustomButton>
+          ) : (
+            <>
+              {updating ? (
+                <CustomCircularProgress sx={{ py: 1, pb: 1.7 }} size={30} />
+              ) : (
+                <>
+                  {isAdmin ? (
+                    <Stack
+                      direction="row"
+                      justifyContent="space-evenly"
+                      width="64%"
+                    >
+                      <CustomButton
+                        color="beige"
+                        bodySize="medium"
+                        onClick={switchActivation}
+                        onMouseOver={activeMouseOverHandler}
+                        onMouseOut={activeMouseOutHandler}
+                        sx={{
+                          mt: maxWidth430 ? 2 : 0,
+                          mr: 1,
+                          px: 2,
+                          ...(activeLabel === "De-Activate" &&
+                          providerInfo.is_active
+                            ? { px: 1 }
+                            : {}),
+                          ...(providerInfo.is_active
+                            ? {
+                                backgroundColor:
+                                  colorSystem === "regular"
+                                    ? colors.PEACH
+                                    : colors.PRIMARY,
+                                color:
+                                  colorSystem === "regular"
+                                    ? colors.PRIMARY
+                                    : colors.NEUTRAL50,
+                                ":hover": {
+                                  backgroundColor:
+                                    colorSystem === "regular"
+                                      ? colors.PEACH
+                                      : colors.NEUTRAL700,
+                                },
+                              }
+                            : {}),
+                        }}
+                      >
+                        {providerInfo.is_active ? activeLabel : "Activate"}
+                      </CustomButton>
+                      <CustomButton
+                        color="red"
+                        bodySize="medium"
+                        onClick={switchFlag}
+                        onMouseOver={flaggedMouseOverHandler}
+                        onMouseOut={flaggedMouseOutHandler}
+                        sx={{
+                          mt: maxWidth430 ? 2 : 0,
+                          px: 2,
+                          pb: 0.4,
+                          ...(flaggedLabel === "Un-Flag" &&
+                          providerInfo.is_flagged
+                            ? { px: 2 }
+                            : {}),
+                          ...(providerInfo.is_flagged
+                            ? {
+                                backgroundColor:
+                                  colorSystem === "regular"
+                                    ? colors.ERROR_RED
+                                    : colors.PRIMARY,
+                                color: colors.PEACH,
+                                ":hover": {
+                                  ...(colorSystem !== "regular"
+                                    ? { backgroundColor: colors.NEUTRAL700 }
+                                    : {}),
+                                },
+                              }
+                            : {}),
+                        }}
+                      >
+                        {providerInfo.is_flagged ? flaggedLabel : "Flag"}
+                      </CustomButton>
+                    </Stack>
+                  ) : (
+                    <>
+                      {!isHumanVerificationReady && !isPreview ? (
+                        <CircularProgress
+                          size={22}
+                          sx={{ color: colors.BLUE, mt: 2, mb: 1.7, mr: 4 }}
+                        />
+                      ) : (
+                        <Button
+                          variant="contained"
+                          color="warning"
+                          size="medium"
+                          disableRipple
+                          onClick={isHuman ? verifyHandler : getCheckHandler}
+                          sx={{ mt: maxWidth430 ? 2 : 0 }}
+                        >
+                          {isHuman ? "Verify" : "Get Check"}
+                        </Button>
+                      )}
+                    </>
+                  )}
+                </>
+              )}
+            </>
+          )}
+        </>
       </Stack>
     </Stack>
   );

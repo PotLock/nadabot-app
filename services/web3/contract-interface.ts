@@ -99,6 +99,7 @@ export const admin_set_default_human_threshold = (
     args: {
       default_human_threshold,
     },
+    deposit: HALF_YOCTO_NEAR,
   });
 
 /**

@@ -1,9 +1,12 @@
+import { CSSProperties } from "react";
+
 type Props = {
   children: JSX.Element;
   onClick?: () => void;
+  style?: CSSProperties;
 };
 
-export default function ButtonContainer({ children, onClick }: Props) {
+export default function ButtonContainer({ children, onClick, style }: Props) {
   return (
     <button
       onClick={onClick}
@@ -12,6 +15,7 @@ export default function ButtonContainer({ children, onClick }: Props) {
         border: "none",
         cursor: "pointer",
         background: "transparent",
+        ...style,
       }}
     >
       {children}

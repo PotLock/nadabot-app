@@ -28,8 +28,9 @@ const useFilteredProviders = (skipProviderId: string = "") => {
       // Check if current user has a stamp for this provider, if so, skip it
       let hasStamp = false;
       stamps.forEach((stamp) => {
-        hasStamp =
-          !hasStamp && stamp.provider.provider_id === provider.provider_id;
+        if (!hasStamp && stamp.provider.provider_id === provider.provider_id) {
+          hasStamp = true;
+        }
       });
 
       if (provider.provider_id !== skipProviderId && !hasStamp) {
