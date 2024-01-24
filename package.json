@@ -23,7 +23,7 @@
     "@near-wallet-selector/near-mobile-wallet": "^8.9.1",
     "@near-wallet-selector/near-wallet": "^8.9.1",
     "@uidotdev/usehooks": "^2.4.1",
-    "@wpdas/naxios": "^1.1.0",
+    "@wpdas/naxios": "^1.1.1",
     "formik": "^2.4.5",
     "fuse.js": "^7.0.0",
     "near-api-js": "^2.1.4",
