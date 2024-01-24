@@ -12,12 +12,13 @@ import useVerifiedProviderSuccess from "@nadabot/hooks/useVerifiedProviderSucces
 export default function Home() {
   // Show ViewProviderDialog with Verified button + Snackbar notification if user comes back from a `add_stamp` tx
   useVerifiedProviderSuccess();
-  const { isAdmin } = useUser();
+  const { isAdmin, walletConnected } = useUser();
 
   return (
     <>
       <Container>
-        {isAdmin ? <AdminDashboardSection /> : <ExploreSection />}
+        {isAdmin && <AdminDashboardSection />}
+        {walletConnected && <ExploreSection />}
         <ChecksSection />
         {!isAdmin && <CompletedSection />}
         {isAdmin && <AdminReviewChecksSection />}

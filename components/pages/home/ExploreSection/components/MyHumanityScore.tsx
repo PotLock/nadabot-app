@@ -19,20 +19,22 @@ export default function MyHumanityScore() {
 
   // Update score
   useEffect(() => {
-    let userStampsSum = 0;
-    stamps.forEach((stamp) => {
-      userStampsSum +=
-        stamp.provider.default_weight > config.default_human_threshold
-          ? config.default_human_threshold
-          : stamp.provider.default_weight;
-    });
-    const userStampsScore = userStampsSum / stamps.length;
+    if (stamps.length > 0) {
+      let userStampsSum = 0;
+      stamps.forEach((stamp) => {
+        userStampsSum +=
+          stamp.provider.default_weight > config.default_human_threshold
+            ? config.default_human_threshold
+            : stamp.provider.default_weight;
+      });
+      const userStampsScore = userStampsSum / stamps.length;
 
-    setPercentageScore(
-      (userStampsScore * 100) / config.default_human_threshold,
-    );
+      setPercentageScore(
+        (userStampsScore * 100) / config.default_human_threshold,
+      );
 
-    setScore(userStampsScore);
+      setScore(userStampsScore);
+    }
   }, [stamps, config.default_human_threshold]);
 
   // TODO: check if it's a verified human
