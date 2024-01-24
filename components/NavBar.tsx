@@ -1,4 +1,5 @@
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import {
   Button,
   Container,
@@ -82,7 +83,7 @@ const Dropbox = () => {
           boxShadow="0px -1px 0px 0px #292929 inset, 0px 0px 0px 0.5px #292929"
         >
           <CustomAvatar accountId={accountId} size={24} />
-          <KeyboardArrowDownIcon />
+          {open ? <KeyboardArrowRightIcon /> : <KeyboardArrowDownIcon />}
         </Stack>
       </ButtonContainer>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
