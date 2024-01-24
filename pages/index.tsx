@@ -18,7 +18,7 @@ export default function Home() {
     <>
       <Container>
         {isAdmin && <AdminDashboardSection />}
-        {walletConnected && <ExploreSection />}
+        {!isAdmin && walletConnected && <ExploreSection />}
         <ChecksSection />
         {!isAdmin && walletConnected && <CompletedSection />}
         {isAdmin && <AdminReviewChecksSection />}

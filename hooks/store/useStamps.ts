@@ -10,7 +10,7 @@ type State = {
 };
 
 interface Actions {
-  fetchStamps: (account_id: string) => Promise<void>;
+  fetchStamps: (account_id: string) => Promise<StampExternal[]>;
   reset: () => void;
 }
 
@@ -37,6 +37,8 @@ export const useStamps = create<State & Actions>()(
         );
 
         set({ ready: true, stamps: sortedStamps });
+
+        return sortedStamps;
       },
 
       // reset

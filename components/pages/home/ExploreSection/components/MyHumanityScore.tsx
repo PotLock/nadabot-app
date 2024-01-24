@@ -6,39 +6,21 @@ import { useEffect, useState } from "react";
 import { ShadowContainer } from "@nadabot/components/containers/ShadowContainer";
 import Tag from "@nadabot/components/ui/Tag";
 import { useConfig } from "@nadabot/hooks/store/useConfig";
-import { useStamps } from "@nadabot/hooks/store/useStamps";
+import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import colors from "@nadabot/theme/colors";
 
 export default function MyHumanityScore() {
   const { maxWidth1144, maxWidth700, maxWidth480 } = useBreakPoints();
   const { config } = useConfig();
-  const { stamps } = useStamps();
+  const { isVerifiedHuman, score } = useUser();
   const [percentageScore, setPercentageScore] = useState(0);
-  const [score, setScore] = useState(0);
 
   // Update score
   useEffect(() => {
-    if (stamps.length > 0) {
-      let userStampsSum = 0;
-      stamps.forEach((stamp) => {
-        userStampsSum +=
-          stamp.provider.default_weight > config.default_human_threshold
-            ? config.default_human_threshold
-            : stamp.provider.default_weight;
-      });
-      const userStampsScore = userStampsSum / stamps.length;
-
-      setPercentageScore(
-        (userStampsScore * 100) / config.default_human_threshold,
-      );
-
-      setScore(userStampsScore);
-    }
-  }, [stamps, config.default_human_threshold]);
-
-  // TODO: check if it's a verified human
-  const isVerifiedHuman = false;
+    const percentage = (score * 100) / config.default_human_threshold;
+    setPercentageScore(percentage > 100 ? 100 : percentage);
+  }, [score, config.default_human_threshold]);
 
   return (
     <Stack width={maxWidth1144 ? "100%" : "55%"} mt={4}>
@@ -76,7 +58,7 @@ export default function MyHumanityScore() {
               fontWeight={900}
               lineHeight="normal"
             >
-              {score.toFixed(1)}
+              {score.toFixed(0)}
             </Typography>
             <Typography
               color={colors.NEUTRAL300}

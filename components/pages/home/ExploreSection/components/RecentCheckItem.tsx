@@ -1,6 +1,5 @@
 import { Stack, Typography } from "@mui/material";
 
-import { useConfig } from "@nadabot/hooks/store/useConfig";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import colors from "@nadabot/theme/colors";
 import truncate from "@nadabot/utils/truncate";
@@ -24,12 +23,6 @@ export default function RecentCheckItem({
   points,
 }: Props) {
   const { maxWidth1144, maxWidth480 } = useBreakPoints();
-  const { config } = useConfig();
-
-  const fixedPoints =
-    points > config.default_human_threshold
-      ? config.default_human_threshold
-      : points;
 
   // Style Item 1
   let styleItem1 = "hs-item-full-radius";
@@ -94,7 +87,7 @@ export default function RecentCheckItem({
           fontWeight={700}
           mr={0.5}
         >
-          {fixedPoints}
+          {points}
         </Typography>
         <Typography color={colors.NEUTRAL700} lineHeight="normal">
           Pts

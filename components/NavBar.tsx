@@ -11,10 +11,7 @@ import CustomAvatar from "./ui/CustomAvatar";
 import Tag from "./ui/Tag";
 
 const NavBar = () => {
-  const { walletConnected, isAdmin, accountId } = useUser();
-
-  // TODO: check if it's a verified human
-  const isVerifiedHuman = false;
+  const { walletConnected, isAdmin, accountId, isVerifiedHuman } = useUser();
 
   const connectWalletHandler = useCallback(() => {
     walletApi.signInModal();

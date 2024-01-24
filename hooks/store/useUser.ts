@@ -10,6 +10,8 @@ interface State {
   walletConnected: boolean;
   isAdmin: boolean;
   profileInfo?: NEARSocialUserProfile;
+  isVerifiedHuman: boolean;
+  score: number;
 }
 
 type UpdateInfo = Partial<State>;
@@ -24,6 +26,8 @@ const initialState: State = {
   walletConnected: false,
   isAdmin: false,
   profileInfo: undefined,
+  isVerifiedHuman: false,
+  score: 0,
 };
 
 export const useUser = create<State & Actions>()(

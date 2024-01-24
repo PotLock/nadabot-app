@@ -48,19 +48,34 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
   // Init Store
   const initStore = useCallback(async () => {
     // Config
-    await fetchConfig();
+    const _config = await fetchConfig();
 
     // Providers
     await fetchProviders();
 
     if (accountId) {
       // Stamps
-      await fetchStamps(accountId);
+      const _stamps = await fetchStamps(accountId);
+
+      // Calculation to check if user is a verified human or not
+      let userStampsSum = 0;
+      _stamps.forEach((stamp) => {
+        userStampsSum += stamp.provider.default_weight;
+      });
+
+      const userStampsAvarageScore = userStampsSum / _stamps.length;
+
+      // useUser => update isHuman state
+      updateUserInfo({
+        isVerifiedHuman:
+          userStampsAvarageScore >= _config.default_human_threshold,
+        score: userStampsAvarageScore,
+      });
     }
 
     // App is ready to be shown
     isReady(true);
-  }, [fetchConfig, fetchProviders, fetchStamps, accountId]);
+  }, [fetchConfig, fetchProviders, fetchStamps, accountId, updateUserInfo]);
 
   useEffect(() => {
     if (config && walletApi.accounts[0]) {

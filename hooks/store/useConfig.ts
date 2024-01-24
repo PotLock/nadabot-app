@@ -10,7 +10,7 @@ type State = {
 };
 
 interface Actions {
-  fetchConfig: () => Promise<void>;
+  fetchConfig: () => Promise<Config>;
   updateHumanThreshold: (humanThreshold: number) => void;
   reset: () => void;
 }
@@ -35,6 +35,8 @@ export const useConfig = create<State & Actions>()(
         set({ ready: false, config: get().config });
         const response = await contract.get_config();
         set({ ready: true, config: response });
+
+        return response;
       },
 
       // update human threshold locally

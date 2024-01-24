@@ -57,9 +57,6 @@ export default function Description({ providerInfo }: Props) {
           provider_id: providerInfo.provider_id,
         });
         setVerifiedUsers(usersForStamp);
-
-        // TODO: Users for stamp
-        console.log("USERS FOR STAMP:", usersForStamp);
       })();
     }
   }, [providerInfo?.provider_id]);
