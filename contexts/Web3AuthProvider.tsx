@@ -35,15 +35,11 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
   const [ready, isReady] = useState(false);
 
   // Store: Check store and initial contract's data
-  const {
-    updateInfo: updateUserInfo,
-    reset: resetUserStore,
-    accountId,
-  } = useUser();
-  const { setAdmins, reset: resetAdminsStore } = useAdmins();
-  const { fetchConfig, config, reset: resetConfigStore } = useConfig();
-  const { fetchProviders, reset: resetProvidersStore } = useProviders();
-  const { fetchStamps, reset: resetStamps } = useStamps();
+  const { updateInfo: updateUserInfo, accountId } = useUser();
+  const { setAdmins } = useAdmins();
+  const { fetchConfig, config } = useConfig();
+  const { fetchProviders } = useProviders();
+  const { fetchStamps } = useStamps();
 
   // Init Store
   const initStore = useCallback(async () => {
@@ -123,21 +119,11 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
   // Sign out and reset all store states
   const signOut = useCallback(async () => {
     await walletApi.wallet?.signOut();
-    resetUserStore();
-    resetAdminsStore();
-    resetConfigStore();
-    resetProvidersStore();
-    resetStamps();
+    localStorage.clear();
 
     // Redirects user
     window.location.replace(window.location.origin + window.location.pathname);
-  }, [
-    resetAdminsStore,
-    resetUserStore,
-    resetConfigStore,
-    resetProvidersStore,
-    resetStamps,
-  ]);
+  }, []);
 
   if (!ready) {
     return <FullScreenSpinner />;

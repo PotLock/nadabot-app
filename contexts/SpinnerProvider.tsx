@@ -5,7 +5,7 @@ import { createContext, useCallback, useState } from "react";
 import nadabotIcon from "@nadabot/assets/images/nadabot-icon.png";
 
 type SpinnerContextProps = {
-  showSpinner: () => void;
+  showSpinner: (bgOpacity?: number) => void;
   hideSpinner: () => void;
 };
 
@@ -22,8 +22,10 @@ export default SpinnerContext;
 
 export const SpinnerProvider = ({ children }: { children: JSX.Element }) => {
   const [show, setShow] = useState(false);
+  const [opacity, setOpacity] = useState(0.8);
 
-  const showSpinner = useCallback(() => {
+  const showSpinner = useCallback((bgOpacity?: number) => {
+    setOpacity(bgOpacity ? bgOpacity : 0.8);
     setShow(true);
   }, []);
 
@@ -41,7 +43,7 @@ export const SpinnerProvider = ({ children }: { children: JSX.Element }) => {
           position="fixed"
           justifyContent="center"
           alignItems="center"
-          bgcolor="rgba(255, 255, 255, 0.8)"
+          bgcolor={`rgba(255, 255, 255, ${opacity})`}
           zIndex={999}
         >
           <div className="nadabot-spinner">

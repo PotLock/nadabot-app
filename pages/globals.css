@@ -106,6 +106,18 @@ nextjs-portal {
   border: 2px solid #292929;
 }
 
+/* MUI List */
+.MuiPaper-root {
+  width: 231px;
+  padding: 8px;
+  gap: 8px;
+  border-radius: 6px;
+  border: 1px solid #292929;
+  background-color: #ffffff;
+  box-shadow: 0px 12px 20px -4px rgba(123, 123, 123, 0.32), 0px 4px 8px -3px rgba(123, 123, 123, 0.20), 0px 0px 2px 0px rgba(123, 123, 123, 0.36), 0px 0px 0px 0.5px rgba(41, 41, 41, 0.36);
+  margin-top: 8px;
+}
+
 /* Filter Button */
 .filter-button {
   display: flex;

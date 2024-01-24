@@ -1,13 +1,4 @@
-import naxios from "@wpdas/naxios";
-
-import { NETWORK, SOCIAL_DB_CONTRACT_ID } from "./constants";
-
-const naxiosInstance = new naxios({
-  contractId: SOCIAL_DB_CONTRACT_ID,
-  network: NETWORK,
-});
-
-const socialDbContractApi = naxiosInstance.contractApi();
+import { nearSocialDbContractApi } from "./web3api";
 
 interface NEARSocialUserProfileInput {
   keys: string[];
@@ -43,7 +34,7 @@ type NEARSocialGetResponse = {
  * @returns
  */
 export const get_user_profile = async (input: { accountId: string }) => {
-  const response = await socialDbContractApi.view<
+  const response = await nearSocialDbContractApi.view<
     NEARSocialUserProfileInput,
     NEARSocialGetResponse
   >("get", {

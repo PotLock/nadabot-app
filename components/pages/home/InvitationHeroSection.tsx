@@ -101,7 +101,7 @@ export default function InvitationHeroSection() {
             Add your own
           </Button>
         </Box>
-        <Box mt={4}>
+        {/* <Box mt={4}>
           <Button
             variant="contained"
             color="primary"
@@ -110,7 +110,7 @@ export default function InvitationHeroSection() {
           >
             Check here
           </Button>
-        </Box>
+        </Box> */}
       </Stack>
     </Container>
   );
