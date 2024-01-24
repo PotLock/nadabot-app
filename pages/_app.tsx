@@ -5,8 +5,9 @@ import "@fontsource/roboto/700.css";
 import "./globals.css";
 
 import type { AppProps } from "next/app";
-import Providers from "./providers";
 import Head from "next/head";
+
+import Providers from "./providers";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
