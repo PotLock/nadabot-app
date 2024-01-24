@@ -1,12 +1,15 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+import { NEARSocialUserProfile } from "@nadabot/services/web3/social-db-interface";
+
 import { updateState } from "./utils";
 
 interface State {
   accountId: string;
   walletConnected: boolean;
   isAdmin: boolean;
+  profileInfo?: NEARSocialUserProfile;
 }
 
 type UpdateInfo = Partial<State>;
@@ -20,6 +23,7 @@ const initialState: State = {
   accountId: "",
   walletConnected: false,
   isAdmin: false,
+  profileInfo: undefined,
 };
 
 export const useUser = create<State & Actions>()(

@@ -6,6 +6,7 @@ import { useConfig } from "@nadabot/hooks/store/useConfig";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
 import { useStamps } from "@nadabot/hooks/store/useStamps";
 import { useUser } from "@nadabot/hooks/store/useUser";
+import { get_user_profile } from "@nadabot/services/web3/social-db-interface";
 import { walletApi } from "@nadabot/services/web3/web3api";
 
 type Web3AuthProps = {
@@ -63,12 +64,24 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
 
   useEffect(() => {
     if (config && walletApi.accounts[0]) {
-      // useAdmin
-      setAdmins(config.admins);
-      // useUser => check if user is admin
-      updateUserInfo({
-        isAdmin: config.admins.includes(walletApi.accounts[0].accountId || ""),
-      });
+      (async () => {
+        // useAdmin
+        setAdmins(config.admins);
+
+        const _accountId = walletApi.accounts[0].accountId;
+
+        // get user profile info from NEAR Social DB
+        const profileInfo = await get_user_profile({ accountId: _accountId });
+
+        // useUser => check if user is admin + set user profile info
+        updateUserInfo({
+          isAdmin: config.admins.includes(
+            walletApi.accounts[0].accountId || "",
+          ),
+
+          profileInfo,
+        });
+      })();
     }
   }, [config, setAdmins, updateUserInfo]);
 

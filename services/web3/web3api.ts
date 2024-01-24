@@ -8,11 +8,11 @@ import { setupNearMobileWallet } from "@near-wallet-selector/near-mobile-wallet"
 import { setupNearWallet } from "@near-wallet-selector/near-wallet";
 import naxios from "@wpdas/naxios";
 
-import { CONTRACT_ID } from "./constants";
+import { CONTRACT_ID, NETWORK } from "./constants";
 
 const naxiosInstance = new naxios({
   contractId: CONTRACT_ID,
-  network: "testnet",
+  network: NETWORK,
   walletSelectorModules: [
     setupMyNearWallet(),
     setupNearWallet(),

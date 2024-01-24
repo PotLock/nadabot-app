@@ -1,7 +1,6 @@
 import CheckIcon from "@mui/icons-material/Check";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {
-  Avatar,
   Box,
   Button,
   Chip,
@@ -30,6 +29,7 @@ import { ProviderExternal } from "@nadabot/services/web3/interfaces/providers";
 import colors from "@nadabot/theme/colors";
 
 import ButtonContainer from "./containers/ButtonContainer";
+import CustomAvatar from "./ui/CustomAvatar";
 import CustomButton from "./ui/CustomButton";
 import CustomCircularProgress from "./ui/CustomCircularProgress";
 
@@ -393,18 +393,12 @@ export default function ContractInfo({
             SUBMITTED BY
           </Typography>
           <Stack direction="row" alignItems="center">
-            <Avatar
-              sx={{
-                background: colors.PRIMARY,
-                width: 20,
-                height: 20,
-                fontSize: 12,
-                mr: 1,
-              }}
-            >
-              {/* First letter only */}
-              {providerInfo.submitted_by[0]}
-            </Avatar>
+            <CustomAvatar
+              accountId={providerInfo.submitted_by}
+              size={20}
+              fontSize={12}
+              sx={{ mr: 1 }}
+            />
             <Typography
               fontWeight={500}
               color={colors.NEUTRAL400}

@@ -1,14 +1,9 @@
 import CheckIcon from "@mui/icons-material/Check";
-import {
-  Avatar,
-  Box,
-  CircularProgress,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
+import CustomAvatar from "@nadabot/components/ui/CustomAvatar";
 import CustomButton from "@nadabot/components/ui/CustomButton";
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import Tag from "@nadabot/components/ui/Tag";
@@ -265,18 +260,12 @@ export default function Header({ providerInfo }: Props) {
                 removeBg
                 sx={{ px: 1, py: 0 }}
                 leftContent={
-                  <Avatar
-                    sx={{
-                      background: colors.PRIMARY,
-                      width: 16,
-                      height: 16,
-                      fontSize: 12,
-                      mr: 1,
-                    }}
-                  >
-                    {/* First letter only */}
-                    {providerInfo?.submitted_by[0]}
-                  </Avatar>
+                  <CustomAvatar
+                    accountId={providerInfo?.submitted_by}
+                    size={16}
+                    fontSize={12}
+                    sx={{ mr: 1 }}
+                  />
                 }
               />
             </Stack>

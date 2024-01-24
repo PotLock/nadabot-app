@@ -1,4 +1,4 @@
-import { Avatar, Button, Container, Divider, Link, Stack } from "@mui/material";
+import { Button, Container, Divider, Link, Stack } from "@mui/material";
 import { useCallback } from "react";
 
 import NadabotLogo from "@nadabot/assets/icons/nadabot-logo";
@@ -7,6 +7,7 @@ import { walletApi } from "@nadabot/services/web3/web3api";
 import colors from "@nadabot/theme/colors";
 import { BellIcon } from "@nadabot/theme/icons";
 
+import CustomAvatar from "./ui/CustomAvatar";
 import Tag from "./ui/Tag";
 
 const NavBar = () => {
@@ -70,16 +71,7 @@ const NavBar = () => {
                     sx={{ bgcolor: colors.PRIMARY }}
                     flexItem
                   />
-                  <Avatar
-                    sx={{
-                      background: colors.PRIMARY,
-                      width: 36,
-                      height: 36,
-                      fontSize: 14,
-                    }}
-                  >
-                    {accountId[0]}
-                  </Avatar>
+                  <CustomAvatar accountId={accountId} size={36} fontSize={14} />
                   <Tag
                     label={
                       isAdmin || isVerifiedHuman

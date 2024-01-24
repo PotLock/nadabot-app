@@ -1,6 +1,6 @@
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { Avatar, AvatarGroup, Slider, Stack, Typography } from "@mui/material";
+import { AvatarGroup, Slider, Stack, Typography } from "@mui/material";
 import { useDebounce } from "@uidotdev/usehooks";
 import { useCallback, useEffect, useState } from "react";
 
@@ -11,6 +11,8 @@ import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import * as contract from "@nadabot/services/web3/contract-interface";
 import { ProviderExternal } from "@nadabot/services/web3/interfaces/providers";
 import colors from "@nadabot/theme/colors";
+
+import CustomAvatar from "../../../ui/CustomAvatar";
 
 type Props = {
   providerInfo?: ProviderExternal;
@@ -87,26 +89,9 @@ export default function Description({ providerInfo }: Props) {
           <Stack direction="row" mt={2}>
             {/* TODO: buscar as imagens do NEAR Social DB */}
             <AvatarGroup>
-              <Avatar
-                alt="Remy Sharp"
-                src="https://i.pravatar.cc/150?u=1"
-                sx={{ width: 16, height: 16 }}
-              />
-              <Avatar
-                alt="Travis Howard"
-                src="https://i.pravatar.cc/150?u=2"
-                sx={{ width: 16, height: 16 }}
-              />
-              <Avatar
-                alt="Agnes Walker"
-                src="https://i.pravatar.cc/150?u=3"
-                sx={{ width: 16, height: 16 }}
-              />
-              <Avatar
-                alt="Trevor Henderson"
-                src="https://i.pravatar.cc/150?u=4"
-                sx={{ width: 16, height: 16 }}
-              />
+              {verifiedUsers.slice(0, 3).map((userAccountId) => (
+                <CustomAvatar key={userAccountId} accountId={userAccountId} />
+              ))}
             </AvatarGroup>
             <Typography fontSize={12} ml={1}>
               <strong>{verifiedUsers[0]}</strong>
