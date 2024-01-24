@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import Tag from "@nadabot/components/ui/Tag";
+import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import * as contract from "@nadabot/services/web3/contract-interface";
 import { ProviderExternal } from "@nadabot/services/web3/interfaces/providers";
@@ -16,6 +17,7 @@ type Props = {
 };
 
 export default function Description({ providerInfo }: Props) {
+  const { isAdmin } = useUser();
   const { maxWidth962, maxWidth600, maxWidth430 } = useBreakPoints();
   const [updating, setUpdating] = useState(false);
   const [points, setPoints] = useState(providerInfo?.default_weight);
@@ -43,6 +45,19 @@ export default function Description({ providerInfo }: Props) {
       })();
     }
   }, [debouncedPoints, points, previousPoints, providerInfo]);
+
+  // Users for Stamp
+  useEffect(() => {
+    if (providerInfo?.provider_id) {
+      (async () => {
+        const usersForStamp = await contract.get_users_for_stamp({
+          provider_id: providerInfo.provider_id,
+        });
+        // TODO: Users for stamp
+        console.log("USERS FOR STAMP:", usersForStamp);
+      })();
+    }
+  }, [providerInfo?.provider_id]);
 
   return (
     <Stack
@@ -108,53 +123,57 @@ export default function Description({ providerInfo }: Props) {
         </Stack>
       </Stack>
       {/* Right */}
-      <Stack
-        p={2}
-        ml={maxWidth962 ? 0 : 4}
-        mt={maxWidth962 ? 2 : 0}
-        gap="20px"
-        borderRadius="6px"
-        border={`1px solid ${colors.NEUTRAL200}`}
-        minWidth={maxWidth600 ? "100%" : "344px"}
-        height="fit-content"
-      >
-        <Stack direction="row" alignItems="center">
-          <SettingsIcon sx={{ width: 20, height: 20 }} />
-          <Typography fontSize={20} fontWeight={700} ml={1}>
-            Settings
-          </Typography>
-        </Stack>
-        {/* Edit Points and Slider */}
-        <Stack direction="row" justifyContent="space-between">
-          <Stack direction="row">
-            <Typography fontWeight={600} mr={1}>
-              Edit Points
-            </Typography>
-            <InfoOutlinedIcon sx={{ color: colors.NEUTRAL300, width: 16 }} />
-          </Stack>
-          <Stack borderRadius="4px" border={`1px solid ${colors.NEUTRAL100}`}>
-            <Typography fontWeight={600} color={colors.NEUTRAL500} px={1}>
-              {/* {debouncedPoints} pts */}
-              {providerInfo?.default_weight} pts
+      {isAdmin && (
+        <Stack
+          p={2}
+          ml={maxWidth962 ? 0 : 4}
+          mt={maxWidth962 ? 2 : 0}
+          gap="20px"
+          borderRadius="6px"
+          border={`1px solid ${colors.NEUTRAL200}`}
+          minWidth={maxWidth600 ? "100%" : "344px"}
+          height="fit-content"
+        >
+          <Stack direction="row" alignItems="center">
+            <SettingsIcon sx={{ width: 20, height: 20 }} />
+            <Typography fontSize={20} fontWeight={700} ml={1}>
+              Settings
             </Typography>
           </Stack>
+          {/* Edit Points and Slider */}
+          <Stack direction="row" justifyContent="space-between">
+            <Stack direction="row">
+              <Typography fontWeight={600} mr={1}>
+                Edit Points
+              </Typography>
+              <InfoOutlinedIcon sx={{ color: colors.NEUTRAL300, width: 16 }} />
+            </Stack>
+            <Stack borderRadius="4px" border={`1px solid ${colors.NEUTRAL100}`}>
+              <Typography fontWeight={600} color={colors.NEUTRAL500} px={1}>
+                {/* {debouncedPoints} pts */}
+                {providerInfo?.default_weight} pts
+              </Typography>
+            </Stack>
+          </Stack>
+          {/* Slider */}
+          {updating ? (
+            <CustomCircularProgress sx={{ py: 1 }} size={30} />
+          ) : (
+            <Slider
+              sx={{ mt: -2 }}
+              value={points}
+              // NOTE: Check this with Lachlan
+              max={100}
+              min={1}
+              aria-label="Default"
+              valueLabelDisplay="auto"
+              onChange={(_, newValue) =>
+                changePointsHandler(newValue as number)
+              }
+            />
+          )}
         </Stack>
-        {/* Slider */}
-        {updating ? (
-          <CustomCircularProgress sx={{ py: 1 }} size={30} />
-        ) : (
-          <Slider
-            sx={{ mt: -2 }}
-            value={points}
-            // NOTE: Check this with Lachlan
-            max={100}
-            min={1}
-            aria-label="Default"
-            valueLabelDisplay="auto"
-            onChange={(_, newValue) => changePointsHandler(newValue as number)}
-          />
-        )}
-      </Stack>
+      )}
     </Stack>
   );
 }

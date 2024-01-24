@@ -1,5 +1,6 @@
 import { Provider } from "near-api-js/lib/providers";
 
+import { FULL_TGAS, HALF_YOCTO_NEAR } from "./constants";
 import { Config } from "./interfaces/lib";
 import {
   ActivateProviderInput,
@@ -10,7 +11,12 @@ import {
   UnflagProviderInput,
   UpdateProviderInput,
 } from "./interfaces/providers";
-import { GetStampsForAccountIdInput, StampExternal } from "./interfaces/stamps";
+import {
+  AccountId,
+  GetStampsForAccountIdInput,
+  GetUsersForStampInput,
+  StampExternal,
+} from "./interfaces/stamps";
 import { contractApi } from "./web3api";
 
 // READ METHODS
@@ -33,6 +39,15 @@ export const get_providers = () =>
  */
 export const get_stamps_for_account_id = (args: GetStampsForAccountIdInput) =>
   contractApi.view<typeof args, StampExternal[]>("get_stamps_for_account_id", {
+    args,
+  });
+
+/**
+ * Get Users for Stamps
+ * @returns
+ */
+export const get_users_for_stamp = (args: GetUsersForStampInput) =>
+  contractApi.view<typeof args, AccountId[]>("get_users_for_stamp", {
     args,
   });
 
@@ -98,6 +113,23 @@ export const set_stamp = (provider_id: string) =>
     args: {
       provider_id,
     },
+  });
+
+/**
+ * Add Stamp
+ *
+ * Undefined response indicates that user is not verified on target provider
+ * @param provider_id
+ * @returns
+ */
+export const add_stamp = (provider_id: string) =>
+  contractApi.call<object, StampExternal | undefined>("add_stamp", {
+    args: {
+      provider_id,
+    },
+    gas: FULL_TGAS,
+    deposit: HALF_YOCTO_NEAR,
+    callbackUrl: `${window.location.href}?verifiedProvider=${provider_id}`,
   });
 
 /**

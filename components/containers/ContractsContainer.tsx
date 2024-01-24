@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import { ProviderExternal } from "@nadabot/services/web3/interfaces/providers";
 
 import ContractInfo from "../ContractInfo";
@@ -24,8 +25,8 @@ export default function ContractsContainer({ inline, searchPattern }: Props) {
   const { maxWidth805 } = useBreakPoints();
   const { isAdmin } = useUser();
 
-  // Providers
-  const { ready, providers } = useProviders();
+  // Providers (activated ones only)
+  const { active: providers, ready } = useFilteredProviders();
 
   // Fuse
   const [fuse, setFuse] = useState<Fuse<ProviderExternal>>();
@@ -49,6 +50,8 @@ export default function ContractsContainer({ inline, searchPattern }: Props) {
         return;
       }
       setFilteredProviders(providers);
+    } else {
+      setFilteredProviders(providers);
     }
   }, [searchPattern, fuse, providers]);
 
@@ -66,21 +69,7 @@ export default function ContractsContainer({ inline, searchPattern }: Props) {
       overflow="scroll"
     >
       {filteredProviders.map((provider) => (
-        <ContractInfo
-          key={provider.provider_id}
-          details={{
-            imageURL: provider.icon_url,
-            isFlagged: provider.is_flagged,
-            isActive: provider.is_active,
-            providerId: provider.provider_id,
-            title: provider.name,
-            contractName: provider.contract_id,
-            method: provider.method_name,
-            description: provider.description || "",
-            submittedByAccountId: provider.submitted_by,
-            points: provider.default_weight,
-          }}
-        />
+        <ContractInfo key={provider.provider_id} providerInfo={provider} />
       ))}
     </Stack>
   );

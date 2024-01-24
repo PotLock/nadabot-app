@@ -46,23 +46,23 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
 
   // Init Store
   const initStore = useCallback(async () => {
-    if (isWalletConnected && accountId) {
-      // Config
-      await fetchConfig();
+    // Config
+    await fetchConfig();
 
-      // Providers
-      await fetchProviders();
+    // Providers
+    await fetchProviders();
 
+    if (accountId) {
       // Stamps
       await fetchStamps(accountId);
-
-      // App is ready to be shown
-      isReady(true);
     }
-  }, [isWalletConnected, fetchConfig, fetchProviders, fetchStamps, accountId]);
+
+    // App is ready to be shown
+    isReady(true);
+  }, [fetchConfig, fetchProviders, fetchStamps, accountId]);
 
   useEffect(() => {
-    if (config) {
+    if (config && walletApi.accounts[0]) {
       // useAdmin
       setAdmins(config.admins);
       // useUser => check if user is admin
@@ -78,7 +78,8 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
       // Starts the wallet manager
       await walletApi.initNear();
 
-      setIsConnected(walletApi.walletSelector.isSignedIn());
+      const isSignedIn = walletApi.walletSelector.isSignedIn();
+      setIsConnected(isSignedIn);
 
       // update user store
       updateUserInfo({

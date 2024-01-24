@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Chip,
+  CircularProgress,
   Slider,
   Stack,
   SxProps,
@@ -19,9 +20,12 @@ import { useProviders } from "@nadabot/hooks/store/useProviders";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useDialogs from "@nadabot/hooks/useDialogs";
+import useIsHumanChacheCheck from "@nadabot/hooks/useIsHumanCacheCheck";
 import useSnackbars from "@nadabot/hooks/useSnackbars";
+import useSpinner from "@nadabot/hooks/useSpinner";
 import { Routes } from "@nadabot/routes";
 import * as contract from "@nadabot/services/web3/contract-interface";
+import { ProviderExternal } from "@nadabot/services/web3/interfaces/providers";
 import colors from "@nadabot/theme/colors";
 
 import ButtonContainer from "./containers/ButtonContainer";
@@ -32,25 +36,14 @@ type Props = {
   hidePoints?: boolean;
   sx?: SxProps<Theme>;
   colorSystem?: "regular" | "admin";
-  details: {
-    isFlagged?: boolean;
-    isActive?: boolean;
-    providerId: string;
-    title: string;
-    imageURL?: string;
-    contractName: string;
-    method: string;
-    description: string;
-    submittedByAccountId: string;
-    points?: number;
-  };
+  providerInfo: ProviderExternal;
   isPreview?: boolean;
 };
 
 export default function ContractInfo({
   hidePoints,
   sx,
-  details,
+  providerInfo,
   isPreview,
   colorSystem = "regular",
 }: Props) {
@@ -58,22 +51,61 @@ export default function ContractInfo({
   const { updateProvider } = useProviders();
   const { maxWidth430 } = useBreakPoints();
   const { openDialog } = useDialogs();
+  const { showSpinner, hideSpinner } = useSpinner();
 
-  const verifyHandler = useCallback(() => {
-    if (!isPreview) {
-      // Handle here
+  // Is Human Check
+  const {
+    isHuman,
+    ready: isHumanVerificationReady,
+    verify,
+  } = useIsHumanChacheCheck(
+    providerInfo.provider_id,
+    providerInfo.contract_id,
+    providerInfo.method_name,
+    isPreview,
+  );
+
+  const verifyHandler = useCallback(async () => {
+    if (isPreview) {
+      return;
     }
-  }, [isPreview]);
 
-  const [points, setPoints] = useState(details.points);
-  const [previousPoints, setPreviousPoints] = useState(details.points);
+    showSpinner();
+    // Check if it isHuman (and cache result)
+    const isHumanVerify = await verify();
+    console.log(isHumanVerify);
+
+    // If so, then, call add_stamp method
+    if (isHumanVerify) {
+      const foo = await contract.add_stamp(providerInfo.provider_id);
+      console.log("RESPONSE:", foo);
+    }
+
+    hideSpinner();
+  }, [isPreview, showSpinner, hideSpinner, verify, providerInfo.provider_id]);
+
+  const getCheckHandler = useCallback(() => {
+    if (isPreview) {
+      return;
+    }
+
+    // Open up the external URL
+    window.open(providerInfo.external_url, "_blank");
+
+    // TODO: Apos voltar para a aba, fazer uma call para checar?
+  }, [isPreview, providerInfo.external_url]);
+
+  const [points, setPoints] = useState(providerInfo.default_weight);
+  const [previousPoints, setPreviousPoints] = useState(
+    providerInfo.default_weight,
+  );
   const debouncedPoints = useDebounce(points, 1200);
   const [updating, setUpdating] = useState(false);
   const { showSnackbar } = useSnackbars();
   const router = useRouter();
 
-  const imageURL = details.imageURL
-    ? details.imageURL.replace(
+  const imageURL = providerInfo.icon_url
+    ? providerInfo.icon_url.replace(
         "https://gateway.pinata.cloud/ipfs/",
         "https://ipfs.io/ipfs/",
       )
@@ -86,14 +118,14 @@ export default function ContractInfo({
       (async () => {
         setUpdating(true);
         await contract.update_provider({
-          provider_id: details.providerId,
+          provider_id: providerInfo.provider_id,
           default_weight: debouncedPoints,
         });
         setUpdating(false);
         setPreviousPoints(debouncedPoints);
       })();
     }
-  }, [debouncedPoints, points, previousPoints, details.providerId]);
+  }, [debouncedPoints, points, previousPoints, providerInfo.provider_id]);
 
   const changePointsHandler = useCallback(async (newValue: number) => {
     setPoints(newValue);
@@ -102,14 +134,14 @@ export default function ContractInfo({
   // Switch Activation
   const switchActivation = useCallback(async () => {
     setUpdating(true);
-    if (!details.isActive) {
+    if (!providerInfo.is_active) {
       await contract.admin_activate_provider({
-        provider_id: details.providerId,
-        default_weight: details.points || 0,
+        provider_id: providerInfo.provider_id,
+        default_weight: providerInfo.default_weight || 0,
       });
       updateProvider({
-        provider_id: details.providerId,
-        default_weight: details.points || 0,
+        provider_id: providerInfo.provider_id,
+        default_weight: providerInfo.default_weight || 0,
         is_active: true,
       });
 
@@ -122,15 +154,18 @@ export default function ContractInfo({
       });
     } else {
       await contract.admin_deactivate_provider({
-        provider_id: details.providerId,
+        provider_id: providerInfo.provider_id,
       });
-      updateProvider({ provider_id: details.providerId, is_active: false });
+      updateProvider({
+        provider_id: providerInfo.provider_id,
+        is_active: false,
+      });
     }
     setUpdating(false);
   }, [
-    details.isActive,
-    details.points,
-    details.providerId,
+    providerInfo.is_active,
+    providerInfo.default_weight,
+    providerInfo.provider_id,
     updateProvider,
     router,
     showSnackbar,
@@ -139,12 +174,12 @@ export default function ContractInfo({
   // Switch Flag
   const switchFlag = useCallback(async () => {
     setUpdating(true);
-    if (!details.isFlagged) {
+    if (!providerInfo.is_flagged) {
       await contract.admin_flag_provider({
-        provider_id: details.providerId,
+        provider_id: providerInfo.provider_id,
       });
       updateProvider({
-        provider_id: details.providerId,
+        provider_id: providerInfo.provider_id,
         is_flagged: true,
       });
 
@@ -158,14 +193,17 @@ export default function ContractInfo({
       });
     } else {
       await contract.admin_unflag_provider({
-        provider_id: details.providerId,
+        provider_id: providerInfo.provider_id,
       });
-      updateProvider({ provider_id: details.providerId, is_flagged: false });
+      updateProvider({
+        provider_id: providerInfo.provider_id,
+        is_flagged: false,
+      });
     }
     setUpdating(false);
   }, [
-    details.isFlagged,
-    details.providerId,
+    providerInfo.is_flagged,
+    providerInfo.provider_id,
     updateProvider,
     router,
     showSnackbar,
@@ -197,9 +235,9 @@ export default function ContractInfo({
   const openViewProviderDialog = useCallback(() => {
     openDialog({
       dialog: DIALOGS.ViewProvider,
-      props: { providerId: details.providerId },
+      props: { providerId: providerInfo.provider_id },
     });
-  }, [openDialog, details.providerId]);
+  }, [openDialog, providerInfo.provider_id]);
 
   return (
     <Stack
@@ -226,7 +264,7 @@ export default function ContractInfo({
               height={80}
               borderRadius={999}
               sx={{
-                ...(details.imageURL
+                ...(providerInfo.icon_url
                   ? {
                       backgroundImage: `url(${imageURL})`,
                       backgroundSize: "cover",
@@ -255,7 +293,7 @@ export default function ContractInfo({
             mt={3}
             className="ellipsis"
           >
-            {details.title || "Contract Title"}
+            {providerInfo.name || "Contract Title"}
           </Typography>
         </ButtonContainer>
 
@@ -270,10 +308,14 @@ export default function ContractInfo({
               mr={1}
               className="stamp-contractid-multiline-ellipsis"
             >
-              {details.contractName || "contract.name.near"}
+              {providerInfo.contract_id || "contract.name.near"}
             </Typography>
             <Chip
-              label={details.method ? `${details.method}()` : "IsHuman()"}
+              label={
+                providerInfo.method_name
+                  ? `${providerInfo.method_name}()`
+                  : "IsHuman()"
+              }
               variant="outlined"
             />
           </Stack>
@@ -289,7 +331,7 @@ export default function ContractInfo({
             mt={2}
             mb={2}
           >
-            {details.description ||
+            {providerInfo.description ||
               "Lorem ipsum dolor sit amet, consectet adipiscing elit, sed do eiusmod tempor ncididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
           </Typography>
         </ButtonContainer>
@@ -362,16 +404,16 @@ export default function ContractInfo({
               }}
             >
               {/* First letter only */}
-              {details.submittedByAccountId[0]}
+              {providerInfo.submitted_by[0]}
             </Avatar>
             <Typography
               fontWeight={500}
               color={colors.NEUTRAL400}
               fontSize={16}
               className="ellipsis"
-              maxWidth={maxWidth430 ? "100%" : isAdmin ? "80px" : "180px"}
+              maxWidth={maxWidth430 ? "100%" : isAdmin ? "80px" : "160px"}
             >
-              {details.submittedByAccountId}
+              {providerInfo.submitted_by}
             </Typography>
           </Stack>
         </Stack>
@@ -392,10 +434,10 @@ export default function ContractInfo({
                     mt: maxWidth430 ? 2 : 0,
                     mr: 1,
                     px: 2,
-                    ...(activeLabel === "De-Activate" && details.isActive
+                    ...(activeLabel === "De-Activate" && providerInfo.is_active
                       ? { px: 1 }
                       : {}),
-                    ...(details.isActive
+                    ...(providerInfo.is_active
                       ? {
                           backgroundColor:
                             colorSystem === "regular"
@@ -415,7 +457,7 @@ export default function ContractInfo({
                       : {}),
                   }}
                 >
-                  {details.isActive ? activeLabel : "Activate"}
+                  {providerInfo.is_active ? activeLabel : "Activate"}
                 </CustomButton>
                 <CustomButton
                   color="red"
@@ -427,10 +469,10 @@ export default function ContractInfo({
                     mt: maxWidth430 ? 2 : 0,
                     px: 2,
                     pb: 0.4,
-                    ...(flaggedLabel === "Un-Flag" && details.isFlagged
+                    ...(flaggedLabel === "Un-Flag" && providerInfo.is_flagged
                       ? { px: 2 }
                       : {}),
-                    ...(details.isFlagged
+                    ...(providerInfo.is_flagged
                       ? {
                           backgroundColor:
                             colorSystem === "regular"
@@ -446,20 +488,29 @@ export default function ContractInfo({
                       : {}),
                   }}
                 >
-                  {details.isFlagged ? flaggedLabel : "Flag"}
+                  {providerInfo.is_flagged ? flaggedLabel : "Flag"}
                 </CustomButton>
               </Stack>
             ) : (
-              <Button
-                variant="contained"
-                color="warning"
-                size="medium"
-                disableRipple
-                onClick={verifyHandler}
-                sx={{ mt: maxWidth430 ? 2 : 0 }}
-              >
-                Verify
-              </Button>
+              <>
+                {!isHumanVerificationReady && !isPreview ? (
+                  <CircularProgress
+                    size={22}
+                    sx={{ color: colors.BLUE, mt: 2, mb: 1.7, mr: 4 }}
+                  />
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="warning"
+                    size="medium"
+                    disableRipple
+                    onClick={isHuman ? verifyHandler : getCheckHandler}
+                    sx={{ mt: maxWidth430 ? 2 : 0 }}
+                  >
+                    {isHuman ? "Verify" : "Get Check"}
+                  </Button>
+                )}
+              </>
             )}
           </>
         )}

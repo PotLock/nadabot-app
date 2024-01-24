@@ -11,3 +11,11 @@ export interface GetStampsForAccountIdInput {
   from_index?: number;
   limit?: number;
 }
+
+export type GetUsersForStampInput = {
+  provider_id: string;
+  from_index?: number;
+  limit?: number;
+};
+
+export type AccountId = string;

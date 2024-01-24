@@ -1,4 +1,10 @@
-import { Avatar, Box, Button, Stack, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  CircularProgress,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
@@ -8,6 +14,7 @@ import Tag from "@nadabot/components/ui/Tag";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import useIsHumanChacheCheck from "@nadabot/hooks/useIsHumanCacheCheck";
 import useSnackbars from "@nadabot/hooks/useSnackbars";
 import { Routes } from "@nadabot/routes";
 import * as contract from "@nadabot/services/web3/contract-interface";
@@ -123,6 +130,18 @@ export default function Header({ providerInfo }: Props) {
   const verifyHandler = useCallback(() => {
     // Handle here
   }, []);
+
+  const getCheckHandler = useCallback(() => {
+    // Open up the external URL
+    window.open(providerInfo?.external_url, "_blank");
+  }, [providerInfo?.external_url]);
+
+  // Is Human Check
+  const { isHuman, ready: isHumanVerificationReady } = useIsHumanChacheCheck(
+    providerInfo?.provider_id,
+    providerInfo?.contract_id,
+    providerInfo?.method_name,
+  );
 
   return (
     <Stack
@@ -325,16 +344,28 @@ export default function Header({ providerInfo }: Props) {
                 </CustomButton>
               </Stack>
             ) : (
-              <Button
-                variant="contained"
-                color="warning"
-                size="medium"
-                disableRipple
-                onClick={verifyHandler}
-                sx={{ mt: maxWidth430 ? 2 : 0 }}
-              >
-                Verify
-              </Button>
+              <>
+                {!isHumanVerificationReady ? (
+                  <CircularProgress
+                    size={22}
+                    sx={{ color: colors.BLUE, mt: 2, mb: 1.7, mr: 4 }}
+                  />
+                ) : (
+                  <CustomButton
+                    color="beige"
+                    bodySize={maxWidth430 ? "medium" : "large"}
+                    fontSize={maxWidth430 ? "small" : "medium"}
+                    onClick={isHuman ? verifyHandler : getCheckHandler}
+                    sx={{
+                      mt: maxWidth430 ? 2 : 0,
+                      mr: 2,
+                      px: 2,
+                    }}
+                  >
+                    {isHuman ? "Verify" : "Get Check"}
+                  </CustomButton>
+                )}
+              </>
             )}
           </>
         )}

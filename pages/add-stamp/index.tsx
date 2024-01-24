@@ -1,32 +1,33 @@
-import { useCallback, useEffect } from "react";
-import { Network, getContractApi } from "@wpdas/naxios";
-import { Box, Container, Stack, Typography } from "@mui/material";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { Box, Container, Stack, Typography } from "@mui/material";
+import { Network, getContractApi } from "@wpdas/naxios";
 import { useFormik } from "formik";
-import * as Yup from "yup";
-import { useFilePicker } from "use-file-picker";
 import { utils } from "near-api-js";
+import { useRouter } from "next/router";
+import { useCallback, useEffect } from "react";
+import { useFilePicker } from "use-file-picker";
 import {
   FileAmountLimitValidator,
   FileSizeValidator,
   FileTypeValidator,
 } from "use-file-picker/validators";
-import colors from "@nadabot/theme/colors";
+import * as Yup from "yup";
+
 import ProtectedPage from "@nadabot/components/auth/ProtectedPage";
-import Input from "@nadabot/components/ui/Input";
 import ContractInfo from "@nadabot/components/ContractInfo";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import CustomButton from "@nadabot/components/ui/CustomButton";
+import Input from "@nadabot/components/ui/Input";
 import UploadImage from "@nadabot/components/UploadImage";
-import { useRouter } from "next/router";
+import { DIALOGS } from "@nadabot/contexts/DialogsProvider";
+import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import useDialogs from "@nadabot/hooks/useDialogs";
 import useSpinner from "@nadabot/hooks/useSpinner";
-import { NETWORK } from "@nadabot/services/web3/constants";
+import useTransactionDetection from "@nadabot/hooks/useTransactionDetection";
 import * as pinataServices from "@nadabot/services/pinata";
+import { NETWORK } from "@nadabot/services/web3/constants";
 import * as sybilContractInterface from "@nadabot/services/web3/contract-interface";
 import { walletApi } from "@nadabot/services/web3/web3api";
-import useDialogs from "@nadabot/hooks/useDialogs";
-import { DIALOGS } from "@nadabot/contexts/DialogsProvider";
-import useTransactionDetection from "@nadabot/hooks/useTransactionDetection";
+import colors from "@nadabot/theme/colors";
 
 const formSchema = Yup.object().shape({
   imageURL: Yup.string()
@@ -115,7 +116,7 @@ export default function AddStampPage() {
             "method",
             `The return is not a boolean, it is a${
               Array.isArray(response) ? "n array" : ` ${typeof response}`
-            }!`
+            }!`,
           );
           hideSpinner();
           return;
@@ -124,7 +125,7 @@ export default function AddStampPage() {
         // 1.2 validate the `account_id` parameter or other kind of contract error
         formik.setFieldError(
           "method",
-          "The contract/method does not exist or does not have an `account_id` parameter."
+          "The contract/method does not exist or does not have an `account_id` parameter.",
         );
         hideSpinner();
         return;
@@ -133,13 +134,13 @@ export default function AddStampPage() {
       // 2 - Upload the image
       // Upload image and get its CID
       const iconImageCID = await pinataServices.uploadFile(
-        filesContent[0].content
+        filesContent[0].content,
       );
       if (!iconImageCID) {
         // Validate image upload
         formik.setFieldError(
           "imageURL",
-          "There was an issue while trying to upload the image!"
+          "There was an issue while trying to upload the image!",
         );
         hideSpinner();
         return;
@@ -152,7 +153,7 @@ export default function AddStampPage() {
           method_name: method,
           name: title,
           description,
-          gas,
+          gas: gas > 0 ? gas : undefined,
           icon_url: pinataServices.buildFileURL(iconImageCID),
           external_url: externalLink,
         })
@@ -271,8 +272,8 @@ export default function AddStampPage() {
             <Input
               name="contractName"
               disabled={formik.isSubmitting}
-              label="Contract Name"
-              placeholder="Enter a contract name"
+              label="Contract ID (Address)"
+              placeholder="Enter the contract address"
               errorMessage={formik.errors.contractName}
               onChange={formik.handleChange}
               sx={{ mt: 2 }}
@@ -339,11 +340,20 @@ export default function AddStampPage() {
                   backgroundColor: colors.WHITE,
                 }}
                 hidePoints
-                details={{
-                  ...formik.values,
-                  providerId: "",
-                  imageURL: filesContent[0]?.content,
-                  submittedByAccountId: walletApi.accounts[0].accountId,
+                providerInfo={{
+                  default_weight: 20,
+                  submitted_at_ms: 0,
+                  stamp_count: 0,
+                  is_active: true,
+                  is_flagged: true,
+                  provider_id: "",
+                  icon_url: filesContent[0]?.content,
+                  submitted_by: walletApi.accounts[0].accountId,
+                  name: formik.values.title,
+                  description: formik.values.description,
+                  contract_id: formik.values.contractName,
+                  method_name: formik.values.method,
+                  external_url: formik.values.externalLink,
                 }}
               />
             </Box>

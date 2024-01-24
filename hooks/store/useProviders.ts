@@ -32,7 +32,14 @@ export const useProviders = create<State & Actions>()(
       fetchProviders: async () => {
         set({ ready: false, providers: get().providers });
         const response = await contract.get_providers();
-        set({ ready: true, providers: response });
+
+        // sort providers to show the newest first
+        const sortedProviders = response.sort(
+          (providerA, providerB) =>
+            providerB.submitted_at_ms - providerA.submitted_at_ms,
+        );
+
+        set({ ready: true, providers: sortedProviders });
       },
 
       // update provider

@@ -29,21 +29,7 @@ export default function NextProviders({ providerInfo }: Props) {
         flexWrap="wrap"
       >
         {deactivated.slice(0, 3).map((provider) => (
-          <ContractInfo
-            key={provider.provider_id}
-            details={{
-              imageURL: provider.icon_url,
-              isFlagged: provider.is_flagged,
-              isActive: provider.is_active,
-              providerId: provider.provider_id,
-              title: provider.name,
-              contractName: provider.contract_id,
-              method: provider.method_name,
-              description: provider.description || "",
-              submittedByAccountId: provider.submitted_by,
-              points: provider.default_weight,
-            }}
-          />
+          <ContractInfo key={provider.provider_id} providerInfo={provider} />
         ))}
       </Stack>
     </Stack>
