@@ -151,6 +151,7 @@ export const update_provider = (args: UpdateProviderInput) =>
 export const admin_activate_provider = (args: ActivateProviderInput) =>
   contractApi.call<typeof args, Provider>("admin_activate_provider", {
     args,
+    deposit: HALF_YOCTO_NEAR,
   });
 
 /**
@@ -161,6 +162,7 @@ export const admin_activate_provider = (args: ActivateProviderInput) =>
 export const admin_deactivate_provider = (args: DeactivateProviderInput) =>
   contractApi.call<typeof args, Provider>("admin_deactivate_provider", {
     args,
+    deposit: HALF_YOCTO_NEAR,
   });
 
 /**
