@@ -26,7 +26,8 @@ export default function ContractsContainer({ inline, searchPattern }: Props) {
   const { isAdmin } = useUser();
 
   // Providers (activated ones only)
-  const { active: providers, ready } = useFilteredProviders();
+  const { active, deactivated, ready } = useFilteredProviders();
+  const providers = isAdmin ? deactivated : active;
 
   // Fuse
   const [fuse, setFuse] = useState<Fuse<ProviderExternal>>();
