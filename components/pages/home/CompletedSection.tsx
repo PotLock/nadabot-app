@@ -13,6 +13,10 @@ export default function CompletedSection() {
   const { maxWidth805 } = useBreakPoints();
   const { stamps } = useStamps();
 
+  if (stamps.length === 0) {
+    return;
+  }
+
   return (
     <Stack mt={6}>
       <Stack

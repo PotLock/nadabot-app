@@ -20,7 +20,7 @@ export default function Home() {
         {isAdmin && <AdminDashboardSection />}
         {walletConnected && <ExploreSection />}
         <ChecksSection />
-        {!isAdmin && <CompletedSection />}
+        {!isAdmin && walletConnected && <CompletedSection />}
         {isAdmin && <AdminReviewChecksSection />}
       </Container>
       <InvitationHeroSection />
