@@ -19,6 +19,7 @@ type Props = {
   size?: "small" | "normal";
   removeBg?: boolean;
   sx?: SxProps<Theme>;
+  labelSx?: SxProps<Theme>;
   type?: "normal" | "red" | "blue";
 };
 
@@ -30,6 +31,7 @@ export default function Tag({
   size = "normal",
   removeBg,
   sx,
+  labelSx,
   type = "normal",
 }: Props) {
   const getBody = useCallback(
@@ -50,6 +52,7 @@ export default function Tag({
           fontWeight={type === "normal" ? 400 : 600}
           color={type === "normal" ? colors.GRAY : colors.WHITE}
           fontSize={size === "small" ? 14 : 16}
+          sx={{ ...labelSx }}
         >
           {label}
         </Typography>

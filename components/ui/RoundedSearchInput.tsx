@@ -1,5 +1,9 @@
 import { Box, Stack, SxProps, Theme, Typography } from "@mui/material";
+import { useCallback, useState } from "react";
 
+import useSpinner from "@nadabot/hooks/useSpinner";
+import * as contract from "@nadabot/services/web3/contract-interface";
+import { HumanScoreResponse } from "@nadabot/services/web3/interfaces/is-human";
 import colors from "@nadabot/theme/colors";
 import { SearchIconA, SearchIconB } from "@nadabot/theme/icons";
 
@@ -8,10 +12,12 @@ import CustomInput from "./CustomInput";
 import RoundedSearchButton from "./RoundedSearchButton";
 import Tag from "./Tag";
 
-const Item = (props: { accountId: string; useDivider?: boolean }) => {
-  // TODO: use real info
-  const isVerifiedHuman = true;
-
+const Item = (props: {
+  accountId: string;
+  isVerifiedHuman: boolean;
+  score: number;
+  useDivider?: boolean;
+}) => {
   return (
     <Stack
       direction="row"
@@ -36,14 +42,14 @@ const Item = (props: { accountId: string; useDivider?: boolean }) => {
             {props.accountId}
           </Typography>
           <Typography fontSize={20} fontWeight={600} lineHeight="24px">
-            20 Score
+            {props.score} Score
           </Typography>
         </Stack>
       </Stack>
 
       <Tag
-        type={isVerifiedHuman ? "blue" : "red"}
-        label={isVerifiedHuman ? "Verified Human" : "Not A Human"}
+        type={props.isVerifiedHuman ? "blue" : "red"}
+        label={props.isVerifiedHuman ? "Verified Human" : "Not A Human"}
       />
     </Stack>
   );
@@ -56,6 +62,25 @@ type Props = {
 };
 
 const RoundedSearchInput = ({ placeholder, enableShadow, sx }: Props) => {
+  const [search, setSearch] = useState("");
+  const [human, setHuman] = useState<HumanScoreResponse>();
+  const { showSpinner, hideSpinner } = useSpinner();
+
+  const searchHandler = useCallback(async () => {
+    if (search) {
+      showSpinner();
+      try {
+        const response = await contract.get_human_score({
+          account_id: search,
+        });
+        setHuman(response);
+      } catch {
+        setHuman(undefined);
+      }
+      hideSpinner();
+    }
+  }, [search, showSpinner, hideSpinner]);
+
   return (
     <Box pb={1}>
       <Stack
@@ -74,30 +99,45 @@ const RoundedSearchInput = ({ placeholder, enableShadow, sx }: Props) => {
       >
         <Stack direction="row" alignItems="center" width="100%">
           <SearchIconA sx={{ width: 16, m: 2, mr: 1 }} />
-          <CustomInput placeholder={placeholder} />
+          <CustomInput
+            placeholder={placeholder}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setHuman(undefined);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                searchHandler();
+              }
+            }}
+          />
         </Stack>
-        <RoundedSearchButton>
+        <RoundedSearchButton onClick={searchHandler}>
           <SearchIconB sx={{ width: 18 }} />
         </RoundedSearchButton>
       </Stack>
 
       {/* Result Items */}
-      {/* <Stack
-        alignItems="center"
-        justifyContent="space-between"
-        sx={{
-          border: `1px solid ${colors.LIGHTGRAY}`,
-          borderRadius: "32px",
-          boxShadow: enableShadow
-            ? `4px 4px 0px 0px ${colors.LIGHTGRAY}`
-            : "none",
-          ...sx,
-        }}
-      >
-        <Item accountId="wendersonpires.testnet" useDivider />
-        <Item accountId="wendersonpires.testnet" useDivider />
-        <Item accountId="wendersonpires.testnet" />
-      </Stack> */}
+      {human && (
+        <Stack
+          alignItems="center"
+          justifyContent="space-between"
+          sx={{
+            border: `1px solid ${colors.LIGHTGRAY}`,
+            borderRadius: "32px",
+            boxShadow: enableShadow
+              ? `4px 4px 0px 0px ${colors.LIGHTGRAY}`
+              : "none",
+            ...sx,
+          }}
+        >
+          <Item
+            accountId={search}
+            isVerifiedHuman={human.is_human}
+            score={human.score}
+          />
+        </Stack>
+      )}
     </Box>
   );
 };

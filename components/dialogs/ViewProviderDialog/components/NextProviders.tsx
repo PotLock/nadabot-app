@@ -19,7 +19,7 @@ export default function NextProviders({ providerInfo }: Props) {
 
   const providers = isAdmin ? deactivated : active;
 
-  if (deactivated.length === 0) {
+  if (providers.length === 0) {
     return;
   }
 

@@ -1,6 +1,7 @@
 import { Provider } from "near-api-js/lib/providers";
 
 import { FULL_TGAS, HALF_YOCTO_NEAR } from "./constants";
+import { GetHumanScoreInput, HumanScoreResponse } from "./interfaces/is-human";
 import { Config } from "./interfaces/lib";
 import {
   ActivateProviderInput,
@@ -48,6 +49,15 @@ export const get_stamps_for_account_id = (args: GetStampsForAccountIdInput) =>
  */
 export const get_users_for_stamp = (args: GetUsersForStampInput) =>
   contractApi.view<typeof args, AccountId[]>("get_users_for_stamp", {
+    args,
+  });
+
+/**
+ * Get Human Score
+ * @returns
+ */
+export const get_human_score = (args: GetHumanScoreInput) =>
+  contractApi.view<typeof args, HumanScoreResponse>("get_human_score", {
     args,
   });
 
