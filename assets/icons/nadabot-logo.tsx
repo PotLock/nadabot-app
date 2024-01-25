@@ -1,7 +1,9 @@
 import { Stack } from "@mui/material";
-import nadabotIcon from "../images/nadabot-icon.png";
 import Image from "next/image";
+
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+
+import nadabotIcon from "../images/nadabot-icon.png";
 
 const NadabotLogo = () => {
   const { maxWidth600 } = useBreakPoints();

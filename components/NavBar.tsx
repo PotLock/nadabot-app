@@ -4,12 +4,12 @@ import {
   Button,
   Container,
   Divider,
-  Link,
   Menu,
   MenuItem,
   Stack,
   Typography,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
 import NadabotLogo from "@nadabot/assets/icons/nadabot-logo";
@@ -17,6 +17,7 @@ import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useSpinner from "@nadabot/hooks/useSpinner";
 import useWeb3Auth from "@nadabot/hooks/useWeb3Auth";
+import { Routes } from "@nadabot/routes";
 import { NETWORK } from "@nadabot/services/web3/constants";
 import { walletApi } from "@nadabot/services/web3/web3api";
 import colors from "@nadabot/theme/colors";
@@ -28,7 +29,7 @@ import CustomAvatar from "./ui/CustomAvatar";
 import Tag from "./ui/Tag";
 
 const Dropbox = () => {
-  const { accountId, profileInfo } = useUser();
+  const { accountId, profileInfo, isAdmin } = useUser();
   const { signOut } = useWeb3Auth();
   const { showSpinner } = useSpinner();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -83,6 +84,17 @@ const Dropbox = () => {
           boxShadow="0px -1px 0px 0px #292929 inset, 0px 0px 0px 0.5px #292929"
         >
           <CustomAvatar accountId={accountId} size={24} />
+          {isAdmin && (
+            <Typography
+              sx={{ textDecorationLine: "underline" }}
+              fontWeight={600}
+              lineHeight="20px"
+              fontSize={14}
+              ml={0.2}
+            >
+              Admin
+            </Typography>
+          )}
           {open ? <KeyboardArrowRightIcon /> : <KeyboardArrowDownIcon />}
         </Stack>
       </ButtonContainer>
@@ -119,15 +131,16 @@ const Dropbox = () => {
 };
 
 const NavBar = () => {
+  const router = useRouter();
   const { walletConnected, isAdmin, isVerifiedHuman } = useUser();
   const { maxWidth430 } = useBreakPoints();
 
+  const goHomeHandler = useCallback(() => {
+    router.push(Routes.HOME);
+  }, [router]);
+
   const connectWalletHandler = useCallback(() => {
     walletApi.signInModal();
-  }, []);
-
-  const viewAdminHandler = useCallback(() => {
-    console.log("TODO: View Admin Dashboard");
   }, []);
 
   return (
@@ -149,25 +162,17 @@ const NavBar = () => {
           alignItems="center"
         >
           {/* Left */}
-          <NadabotLogo />
+          <ButtonContainer onClick={goHomeHandler}>
+            <NadabotLogo />
+          </ButtonContainer>
 
           {/* Right */}
           <Stack>
             {walletConnected && (
               <Stack direction="row" mb={maxWidth430 ? 2 : 0}>
-                {isAdmin && (
-                  <Link
-                    component="button"
-                    variant="body2"
-                    sx={{ mr: 4 }}
-                    onClick={viewAdminHandler}
-                  >
-                    View Admin Dashboard
-                  </Link>
-                )}
                 <Stack
                   direction={maxWidth430 ? "column" : "row"}
-                  width={300}
+                  width={isAdmin ? 350 : 300}
                   justifyContent="space-between"
                   alignItems="center"
                 >

@@ -1,7 +1,10 @@
 import { Box, Stack, SxProps, Theme, Typography } from "@mui/material";
+import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
+import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useSpinner from "@nadabot/hooks/useSpinner";
+import { Routes } from "@nadabot/routes";
 import * as contract from "@nadabot/services/web3/contract-interface";
 import { HumanScoreResponse } from "@nadabot/services/web3/interfaces/is-human";
 import colors from "@nadabot/theme/colors";
@@ -11,6 +14,7 @@ import CustomAvatar from "./CustomAvatar";
 import CustomInput from "./CustomInput";
 import RoundedSearchButton from "./RoundedSearchButton";
 import Tag from "./Tag";
+import ButtonContainer from "../containers/ButtonContainer";
 
 const Item = (props: {
   accountId: string;
@@ -18,40 +22,49 @@ const Item = (props: {
   score: number;
   useDivider?: boolean;
 }) => {
-  return (
-    <Stack
-      direction="row"
-      justifyContent="space-between"
-      width="100%"
-      alignItems="center"
-      sx={{
-        borderBottom: props.useDivider ? "1px solid #F0F0F0" : "transparent",
-        py: 1.5,
-        px: 2,
-      }}
-    >
-      <Stack direction="row" alignItems="center">
-        <CustomAvatar accountId={props.accountId} size={64} fontSize={22} />
-        <Stack ml={2}>
-          <Typography
-            fontSize={20}
-            color={colors.NEUTRAL500}
-            fontWeight={500}
-            lineHeight="20px"
-          >
-            {props.accountId}
-          </Typography>
-          <Typography fontSize={20} fontWeight={600} lineHeight="24px">
-            {props.score} Score
-          </Typography>
-        </Stack>
-      </Stack>
+  const router = useRouter();
+  const { maxWidth600 } = useBreakPoints();
 
-      <Tag
-        type={props.isVerifiedHuman ? "blue" : "red"}
-        label={props.isVerifiedHuman ? "Verified Human" : "Not A Human"}
-      />
-    </Stack>
+  const openAccountInfoHandler = useCallback(() => {
+    router.push(Routes.ACCOUNT_INFO(props.accountId));
+  }, [router, props.accountId]);
+
+  return (
+    <ButtonContainer onClick={openAccountInfoHandler} style={{ width: "100%" }}>
+      <Stack
+        direction={maxWidth600 ? "column" : "row"}
+        justifyContent="space-between"
+        width="100%"
+        alignItems="center"
+        sx={{
+          borderBottom: props.useDivider ? "1px solid #F0F0F0" : "transparent",
+          py: 1.5,
+          px: 2,
+        }}
+      >
+        <Stack direction="row" alignItems="center" mb={maxWidth600 ? 2 : 0}>
+          <CustomAvatar accountId={props.accountId} size={64} fontSize={22} />
+          <Stack ml={2}>
+            <Typography
+              fontSize={20}
+              color={colors.NEUTRAL500}
+              fontWeight={500}
+              lineHeight="20px"
+            >
+              {props.accountId}
+            </Typography>
+            <Typography fontSize={20} fontWeight={600} lineHeight="24px">
+              {props.score} Score
+            </Typography>
+          </Stack>
+        </Stack>
+
+        <Tag
+          type={props.isVerifiedHuman ? "blue" : "red"}
+          label={props.isVerifiedHuman ? "Verified Human" : "Not A Human"}
+        />
+      </Stack>
+    </ButtonContainer>
   );
 };
 
