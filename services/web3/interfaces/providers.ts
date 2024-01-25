@@ -1,13 +1,17 @@
+enum ProviderStatus {
+  Pending,
+  Active,
+  Deactivated,
+}
+
 export interface Provider {
   // NB: contract address/ID and method name are contained in the Provider's ID (see `ProviderId`) so do not need to be stored here
   /// Name of the provider, e.g. "I Am Human"
   name: string;
   /// Description of the provider
   description?: string;
-  /// Whether this provider is active (updated by admin)
-  is_active: boolean;
-  /// Whether this provider is flagged (updated by admin)
-  is_flagged: boolean;
+  /// Status of the provider
+  status: ProviderStatus;
   /// Admin notes, e.g. reason for flagging or marking inactive
   admin_notes?: string;
   /// Default weight for this provider, e.g. 100
@@ -39,10 +43,8 @@ export interface ProviderExternal {
   name: string;
   // Description of the provider
   description?: string;
-  // Whether this provider is active (updated by admin)
-  is_active: boolean;
-  // Whether this provider is flagged (updated by admin)
-  is_flagged: boolean;
+  /// Status of the provider
+  status: ProviderStatus;
   // Admin notes, e.g. reason for flagging or marking inactive
   admin_notes?: string;
   // Default weight for this provider, e.g. 100
@@ -82,11 +84,10 @@ export interface UpdateProviderInput {
   tags?: string[];
   icon_url?: string;
   external_url?: string;
-  default_weight?: number;
-  is_active?: boolean;
-  is_flagged?: boolean;
+  default_weight?: number; // owner/admin-only
+  status?: ProviderStatus; // owner/admin-only
+  admin_notes?: string; // owner/admin-only
 }
-
 export interface ActivateProviderInput {
   provider_id: string;
   default_weight: number;
