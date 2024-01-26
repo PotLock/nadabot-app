@@ -189,3 +189,40 @@ nextjs-portal {
   border-bottom: none;
   padding: 3px 16px
 }
+
+/* Yellow Strong Text */
+.yellow-strong {
+  color: #F7CE55;
+  -webkit-text-stroke: #292929 2px;
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 48px;
+}
+
+/* Blue logo text */
+.blue-strong {
+  color: #2D6FDB;
+  -webkit-text-stroke: #FAFAFA 1.5px;
+  font-family: Oi, serif;
+  font-size: 72px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.u-list {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+  gap: 36px;
+  margin-top: 18px;
+
+  li, a {
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+}

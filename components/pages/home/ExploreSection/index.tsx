@@ -12,6 +12,7 @@ export default function ExploreSection() {
 
   return (
     <Stack>
+      <div id="explore" />
       <Typography variant="h4" fontWeight={700}>
         Explore
       </Typography>

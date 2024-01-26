@@ -1,6 +1,7 @@
 import { Box, CssBaseline, ThemeProvider } from "@mui/material";
 import { Suspense } from "react";
 
+import Footer from "@nadabot/components/Footer";
 import NavBar from "@nadabot/components/NavBar";
 import DialogsProvider from "@nadabot/contexts/DialogsProvider";
 import SnackbarProvider from "@nadabot/contexts/SnackbarProvider";
@@ -20,6 +21,7 @@ function Providers({ children }: { children: React.ReactNode }) {
                 <Box>
                   <NavBar />
                   {children}
+                  <Footer />
                 </Box>
               </DialogsProvider>
             </SnackbarProvider>

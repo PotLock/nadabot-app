@@ -17,6 +17,10 @@ export default function Document() {
           href="https://fonts.cdnfonts.com/css/mona-sans?styles=144345,144339,144351,144321"
           rel="stylesheet"
         />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Oi&display=swap"
+          rel="stylesheet"
+        />
       </Head>
       <body>
         <Main />
