@@ -14,9 +14,13 @@ import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useIsHumanChacheCheck from "@nadabot/hooks/useIsHumanCacheCheck";
 import useSnackbars from "@nadabot/hooks/useSnackbars";
 import useSpinner from "@nadabot/hooks/useSpinner";
+import useWindowTabFocus from "@nadabot/hooks/useWindowTabFocus";
 import { Routes } from "@nadabot/routes";
 import * as contract from "@nadabot/services/web3/contract-interface";
-import { ProviderExternal } from "@nadabot/services/web3/interfaces/providers";
+import {
+  ProviderExternal,
+  ProviderStatus,
+} from "@nadabot/services/web3/interfaces/providers";
 import colors from "@nadabot/theme/colors";
 import truncate from "@nadabot/utils/truncate";
 
@@ -37,6 +41,7 @@ export default function Header({ providerInfo }: Props) {
   // Check if user has a stamp with this provider [verified]
   const { stamps } = useStamps();
   const [isVerified, setIsVerified] = useState(false);
+
   useEffect(() => {
     let hasStamp = false;
     stamps.forEach((stamp) => {
@@ -57,10 +62,14 @@ export default function Header({ providerInfo }: Props) {
       )
     : null;
 
+  const [isProviderActive] = useState(
+    providerInfo?.status === ProviderStatus.Active,
+  );
+
   // Switch Activation
   const switchActivation = useCallback(async () => {
     setUpdating(true);
-    if (!providerInfo!.is_active) {
+    if (!isProviderActive) {
       await contract.admin_activate_provider({
         provider_id: providerInfo!.provider_id,
         default_weight: providerInfo!.default_weight || 0,
@@ -68,7 +77,7 @@ export default function Header({ providerInfo }: Props) {
       updateProvider({
         provider_id: providerInfo!.provider_id,
         default_weight: providerInfo!.default_weight || 0,
-        is_active: true,
+        status: ProviderStatus.Active,
       });
 
       showSnackbar({
@@ -84,43 +93,11 @@ export default function Header({ providerInfo }: Props) {
       });
       updateProvider({
         provider_id: providerInfo!.provider_id,
-        is_active: false,
+        status: ProviderStatus.Deactivated,
       });
     }
     setUpdating(false);
-  }, [providerInfo, updateProvider, showSnackbar, router]);
-
-  // Switch Flag
-  const switchFlag = useCallback(async () => {
-    setUpdating(true);
-    if (!providerInfo!.is_flagged) {
-      await contract.admin_flag_provider({
-        provider_id: providerInfo!.provider_id,
-      });
-      updateProvider({
-        provider_id: providerInfo!.provider_id,
-        is_flagged: true,
-      });
-
-      showSnackbar({
-        bgColor: "red",
-        description: "Stamp Flagged, Check all the flagged stamps",
-        actionText: "here",
-        onClickActionText: () => {
-          router.push(Routes.HOME_WITH_FILTERED_CHECKS("flagged"));
-        },
-      });
-    } else {
-      await contract.admin_unflag_provider({
-        provider_id: providerInfo!.provider_id,
-      });
-      updateProvider({
-        provider_id: providerInfo!.provider_id,
-        is_flagged: false,
-      });
-    }
-    setUpdating(false);
-  }, [providerInfo, updateProvider, router, showSnackbar]);
+  }, [providerInfo, updateProvider, showSnackbar, router, isProviderActive]);
 
   // Active / De-Activate
   const [activeLabel, setActiveLabel] = useState("Active");
@@ -130,16 +107,6 @@ export default function Header({ providerInfo }: Props) {
 
   const activeMouseOutHandler = useCallback(() => {
     setActiveLabel("Active");
-  }, []);
-
-  // Flagged / Unflag
-  const [flaggedLabel, setFlaggedLabel] = useState("Flagged");
-  const flaggedMouseOverHandler = useCallback(() => {
-    setFlaggedLabel("Un-Flag");
-  }, []);
-
-  const flaggedMouseOutHandler = useCallback(() => {
-    setFlaggedLabel("Flagged");
   }, []);
 
   // Is Human Check
@@ -152,6 +119,11 @@ export default function Header({ providerInfo }: Props) {
     providerInfo?.contract_id,
     providerInfo?.method_name,
   );
+
+  // Verify if it's human every time the window tab is focused
+  useWindowTabFocus(async () => {
+    await verify();
+  });
 
   const verifyHandler = useCallback(async () => {
     showSpinner();
@@ -192,6 +164,7 @@ export default function Header({ providerInfo }: Props) {
               ? {
                   backgroundImage: `url(${imageURL})`,
                   backgroundSize: "cover",
+                  backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
                 }
               : {}),
@@ -317,12 +290,11 @@ export default function Header({ providerInfo }: Props) {
                   onMouseOut={activeMouseOutHandler}
                   sx={{
                     mt: maxWidth430 ? 2 : 0,
-                    mr: 2,
                     px: 2,
-                    ...(activeLabel === "De-Activate" && providerInfo?.is_active
+                    ...(activeLabel === "De-Activate" && isProviderActive
                       ? { px: 1 }
                       : {}),
-                    ...(providerInfo?.is_active
+                    ...(isProviderActive
                       ? {
                           backgroundColor: colors.PRIMARY,
                           color: colors.NEUTRAL50,
@@ -333,34 +305,7 @@ export default function Header({ providerInfo }: Props) {
                       : {}),
                   }}
                 >
-                  {providerInfo?.is_active ? activeLabel : "Activate"}
-                </CustomButton>
-                <CustomButton
-                  color="red"
-                  bodySize={maxWidth430 ? "medium" : "large"}
-                  fontSize={maxWidth430 ? "small" : "medium"}
-                  onClick={switchFlag}
-                  onMouseOver={flaggedMouseOverHandler}
-                  onMouseOut={flaggedMouseOutHandler}
-                  sx={{
-                    mt: maxWidth430 ? 2 : 0,
-                    px: 2,
-                    pb: 0.4,
-                    ...(flaggedLabel === "Un-Flag" && providerInfo?.is_flagged
-                      ? { px: 2 }
-                      : {}),
-                    ...(providerInfo?.is_flagged
-                      ? {
-                          // backgroundColor: colors.PRIMARY,
-                          color: colors.PEACH,
-                          ":hover": {
-                            backgroundColor: colors.NEUTRAL700,
-                          },
-                        }
-                      : {}),
-                  }}
-                >
-                  {providerInfo?.is_flagged ? flaggedLabel : "Flag"}
+                  {isProviderActive ? activeLabel : "Activate"}
                 </CustomButton>
               </Stack>
             ) : (

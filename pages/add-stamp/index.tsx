@@ -2,7 +2,6 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { Box, Container, Stack, Typography } from "@mui/material";
 import { Network, getContractApi } from "@wpdas/naxios";
 import { useFormik } from "formik";
-import { utils } from "near-api-js";
 import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
 import { useFilePicker } from "use-file-picker";
@@ -26,6 +25,7 @@ import useTransactionDetection from "@nadabot/hooks/useTransactionDetection";
 import * as pinataServices from "@nadabot/services/pinata";
 import { NETWORK } from "@nadabot/services/web3/constants";
 import * as sybilContractInterface from "@nadabot/services/web3/contract-interface";
+import { ProviderStatus } from "@nadabot/services/web3/interfaces/providers";
 import { walletApi } from "@nadabot/services/web3/web3api";
 import colors from "@nadabot/theme/colors";
 
@@ -166,44 +166,16 @@ export default function AddStampPage() {
         .catch((error) => {
           hideSpinner();
 
-          // TODO: Abstrair esse erro como JSON
           const errorObj = JSON.parse(error.message);
           const errorMsg = errorObj.kind.ExecutionError as string;
 
-          // attach yoctoNEAR Error
-          if (errorMsg.includes("yoctoNEAR to cover storage")) {
-            // Show Error Dialog
-            const gasErrorMsg = errorMsg.split(": ")[1];
-            const yoctoNEARNeeded = gasErrorMsg.replace(/\D/g, "");
-            const gasNeeded = utils.format.formatNearAmount(yoctoNEARNeeded);
-            const finalGasRequiredMsg = gasErrorMsg
-              .replace(yoctoNEARNeeded, Math.ceil(Number(gasNeeded)).toString())
-              .replace("yoctoNEAR", "Gas Unit(s)");
-
-            openDialog({
-              dialog: DIALOGS.Error,
-              props: {
-                title: "Gas Required",
-                description: finalGasRequiredMsg,
-              },
-            });
-          } else if (errorMsg.includes("already exists")) {
-            openDialog({
-              dialog: DIALOGS.Error,
-              props: {
-                title: "Error",
-                description: `Provider "${contractName}:${method}" already exists.`,
-              },
-            });
-          } else {
-            openDialog({
-              dialog: DIALOGS.Error,
-              props: {
-                title: "Error",
-                description: errorMsg,
-              },
-            });
-          }
+          openDialog({
+            dialog: DIALOGS.Error,
+            props: {
+              title: "Error",
+              description: errorMsg,
+            },
+          });
         });
     },
   });
@@ -344,11 +316,10 @@ export default function AddStampPage() {
                   default_weight: 20,
                   submitted_at_ms: 0,
                   stamp_count: 0,
-                  is_active: true,
-                  is_flagged: true,
+                  status: ProviderStatus.Active,
                   provider_id: "",
                   icon_url: filesContent[0]?.content,
-                  submitted_by: walletApi.accounts[0].accountId,
+                  submitted_by: walletApi?.accounts[0]?.accountId,
                   name: formik.values.title,
                   description: formik.values.description,
                   contract_id: formik.values.contractName,

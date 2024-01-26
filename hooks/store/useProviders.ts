@@ -13,7 +13,7 @@ type State = {
 };
 
 interface Actions {
-  fetchProviders: () => Promise<void>;
+  fetchProviders: (changeReadyState?: boolean) => Promise<void>;
   updateProvider: (newProviderInfo: UpdateProviderInput) => void;
   reset: () => void;
 }
@@ -29,8 +29,11 @@ export const useProviders = create<State & Actions>()(
       ...initialState,
 
       // fetch providers
-      fetchProviders: async () => {
-        set({ ready: false, providers: get().providers });
+      fetchProviders: async (changeReadyState = true) => {
+        set({
+          ready: changeReadyState ? false : get().ready,
+          providers: get().providers,
+        });
         const response = await contract.get_providers();
 
         // sort providers to show the newest first
@@ -39,7 +42,10 @@ export const useProviders = create<State & Actions>()(
             providerB.submitted_at_ms - providerA.submitted_at_ms,
         );
 
-        set({ ready: true, providers: sortedProviders });
+        set({
+          ready: changeReadyState ? true : get().ready,
+          providers: sortedProviders,
+        });
       },
 
       // update provider

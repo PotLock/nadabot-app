@@ -19,7 +19,7 @@ export default function ExploreSection() {
         Check whether someone is human or not.
       </Typography>
       <RoundedSearchInput
-        placeholder="Enter a username"
+        placeholder="Enter an account id"
         enableShadow
         sx={{ mt: 2 }}
       />

@@ -5,6 +5,7 @@ import { useCallback, useState } from "react";
 import CustomButton from "@nadabot/components/ui/CustomButton";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import { Routes } from "@nadabot/routes";
 import colors from "@nadabot/theme/colors";
 
@@ -17,10 +18,13 @@ export default function ChecksSection() {
   const { isAdmin, walletConnected } = useUser();
   const { maxWidth805, maxWidth430 } = useBreakPoints();
   const [searchPattern, setSearchPattern] = useState("");
+  const { active } = useFilteredProviders();
 
   const addCustomCheckHandler = useCallback(() => {
     router.push(Routes.ADD_STAMP);
   }, [router]);
+
+  const hasProviders = active.length > 0;
 
   return (
     <Stack mt={6}>
@@ -57,7 +61,7 @@ export default function ChecksSection() {
       <ShadowContainer sx={{ mt: 2 }}>
         {/* Search + Add Filter button */}
         <>
-          {!isAdmin && (
+          {!isAdmin && hasProviders && (
             <AddFilterSearchInput
               onChange={(text) => setSearchPattern(text)}
               hideAddFilterButton
@@ -67,7 +71,7 @@ export default function ChecksSection() {
         {isAdmin && !maxWidth430 ? (
           <ContractsContainer inline={isAdmin ? true : false} />
         ) : (
-          <ContractsContainer searchPattern={searchPattern} />
+          <ContractsContainer searchPattern={searchPattern} showLoadingState />
         )}
       </ShadowContainer>
     </Stack>

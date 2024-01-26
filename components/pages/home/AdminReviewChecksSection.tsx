@@ -16,7 +16,7 @@ import { SearchIconA } from "@nadabot/theme/icons";
 
 import { ShadowContainer } from "../../containers/ShadowContainer";
 
-type FilterType = "all" | "active" | "deactivated" | "flagged";
+type FilterType = "all" | "active" | "deactivated";
 
 // Fields to use as search keyword filter
 const fuseOptions = {
@@ -29,7 +29,7 @@ export default function AdminReviewChecksSection() {
 
   // Try to get the filterType from url query
   let queryFilterType = (router.query?.filterType || "all") as FilterType;
-  if (!["all", "active", "deactivated", "flagged"].includes(queryFilterType)) {
+  if (!["all", "active", "deactivated"].includes(queryFilterType)) {
     queryFilterType = "all";
   }
 
@@ -120,7 +120,7 @@ export default function AdminReviewChecksSection() {
           <Stack
             direction={maxWidth600 ? "column" : "row"}
             justifyContent="space-between"
-            width="100%"
+            width="440px"
             mt={maxWidth1110 ? 2 : 0}
           >
             <FilterButton
@@ -141,13 +141,6 @@ export default function AdminReviewChecksSection() {
               counter={providers.deactivated.length}
               onClick={() => changeFilterHandler("deactivated")}
               active={filter === "deactivated"}
-              style={{ marginTop: maxWidth600 ? "8px" : "0px" }}
-            />
-            <FilterButton
-              label="Flagged"
-              counter={providers.flagged.length}
-              onClick={() => changeFilterHandler("flagged")}
-              active={filter === "flagged"}
               style={{ marginTop: maxWidth600 ? "8px" : "0px" }}
             />
           </Stack>

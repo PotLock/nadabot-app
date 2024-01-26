@@ -44,7 +44,7 @@ export const SpinnerProvider = ({ children }: { children: JSX.Element }) => {
           justifyContent="center"
           alignItems="center"
           bgcolor={`rgba(255, 255, 255, ${opacity})`}
-          zIndex={999}
+          zIndex={1010}
         >
           <div className="nadabot-spinner">
             <Image

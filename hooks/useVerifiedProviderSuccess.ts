@@ -16,6 +16,7 @@ const useVerifiedProviderSuccess = () => {
   const { showSnackbar } = useSnackbars();
   const [verifiedProviderId, setVerifiedProvider] = useState("");
   const provider = useGetProviderById(verifiedProviderId);
+  const [done, setDone] = useState(false);
 
   useEffect(() => {
     if (router.query.verifiedProvider) {
@@ -24,7 +25,7 @@ const useVerifiedProviderSuccess = () => {
   }, [router]);
 
   useEffect(() => {
-    if (provider) {
+    if (provider && !done) {
       openDialog({
         dialog: DIALOGS.ViewProvider,
         props: { providerId: provider.provider_id },
@@ -34,8 +35,10 @@ const useVerifiedProviderSuccess = () => {
         bgColor: "blue",
         description: `Stamp Verification Complete ${provider.default_weight} Points Recieved`,
       });
+
+      setDone(true);
     }
-  }, [router, openDialog, provider, showSnackbar]);
+  }, [router, openDialog, provider, showSnackbar, done]);
 };
 
 export default useVerifiedProviderSuccess;

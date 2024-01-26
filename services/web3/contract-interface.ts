@@ -1,6 +1,6 @@
 import { Provider } from "near-api-js/lib/providers";
 
-import { FULL_TGAS, HALF_YOCTO_NEAR } from "./constants";
+import { FULL_TGAS, HALF_YOCTO_NEAR, ONE_YOCTO_NEAR } from "./constants";
 import { GetHumanScoreInput, HumanScoreResponse } from "./interfaces/is-human";
 import { Config } from "./interfaces/lib";
 import {
@@ -65,37 +65,12 @@ export const get_human_score = (args: GetHumanScoreInput) =>
 /**
  * Anyone can call this method to register a provider. If caller is admin, provider is automatically activated.
  */
-export const register_provider = (args: RegisterProviderInput) => {
-  return new Promise((resolve, reject) => {
-    // First try without attaching yoctoNEAR
-    contractApi
-      .call<typeof args, ProviderExternal>("register_provider", {
-        args,
-      })
-      .then((result1) => resolve(result1))
-      .catch((error1) => {
-        // Second try attaching yoctoNEAR
-        const errorObj = JSON.parse(error1.message);
-        const errorMsg = errorObj.kind.ExecutionError as string;
-
-        // attach yoctoNEAR Error
-        if (errorMsg.includes("yoctoNEAR to cover storage")) {
-          const gasErrorMsg = errorMsg.split(": ")[1];
-          const yoctoNEARNeeded = gasErrorMsg.replace(/\D/g, "");
-
-          contractApi
-            .call<typeof args, ProviderExternal>("register_provider", {
-              args,
-              deposit: yoctoNEARNeeded,
-            })
-            .then((result2) => resolve(result2))
-            .catch((error2) => reject(error2));
-        } else {
-          reject(error1);
-        }
-      });
+export const register_provider = (args: RegisterProviderInput) =>
+  contractApi.call<typeof args, ProviderExternal>("register_provider", {
+    args,
+    gas: FULL_TGAS,
+    deposit: ONE_YOCTO_NEAR,
   });
-};
 
 /**
  * Set default human threshold

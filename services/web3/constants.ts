@@ -12,6 +12,8 @@ export const CONTRACT_ID = process.env.NEXT_PUBLIC_CONTRACT_NAME as string;
 export const SOCIAL_DB_CONTRACT_ID = process.env
   .NEXT_PUBLIC_SOCIAL_DB_CONTRACT_ID as string;
 
+// 1 NEAR
+export const ONE_YOCTO_NEAR = utils.format.parseNearAmount("1")!;
 // 0.5 NEAR
 export const HALF_YOCTO_NEAR = utils.format.parseNearAmount("0.5")!;
 // 300 Gas (full)

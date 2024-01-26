@@ -6,6 +6,7 @@ import { useConfig } from "@nadabot/hooks/store/useConfig";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
 import { useStamps } from "@nadabot/hooks/store/useStamps";
 import { useUser } from "@nadabot/hooks/store/useUser";
+import useWindowTabFocus from "@nadabot/hooks/useWindowTabFocus";
 import { get_user_profile } from "@nadabot/services/web3/social-db-interface";
 import { walletApi } from "@nadabot/services/web3/web3api";
 
@@ -72,6 +73,14 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
     // App is ready to be shown
     isReady(true);
   }, [fetchConfig, fetchProviders, fetchStamps, accountId, updateUserInfo]);
+
+  // Re-fetch config, providers and stamps when the window tab is focused
+  const reFetch = useCallback(() => {
+    if (ready && accountId) {
+      initStore();
+    }
+  }, [initStore, ready, accountId]);
+  useWindowTabFocus(reFetch);
 
   useEffect(() => {
     if (config && walletApi.accounts[0]) {

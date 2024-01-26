@@ -53,7 +53,13 @@ const Item = (props: {
             >
               {props.accountId}
             </Typography>
-            <Typography fontSize={20} fontWeight={600} lineHeight="24px">
+            <Typography
+              fontSize={20}
+              fontWeight={600}
+              lineHeight="24px"
+              textAlign="left"
+              mt={1}
+            >
               {props.score} Score
             </Typography>
           </Stack>

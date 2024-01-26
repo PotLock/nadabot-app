@@ -50,6 +50,7 @@ export default function UploadImage({
                 ? {
                     backgroundImage: `url(${previewFileContent})`,
                     backgroundSize: "cover",
+                    backgroundPosition: "center",
                     backgroundRepeat: "no-repeat",
                   }
                 : {}),

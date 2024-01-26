@@ -25,7 +25,10 @@ import useSnackbars from "@nadabot/hooks/useSnackbars";
 import useSpinner from "@nadabot/hooks/useSpinner";
 import { Routes } from "@nadabot/routes";
 import * as contract from "@nadabot/services/web3/contract-interface";
-import { ProviderExternal } from "@nadabot/services/web3/interfaces/providers";
+import {
+  ProviderExternal,
+  ProviderStatus,
+} from "@nadabot/services/web3/interfaces/providers";
 import colors from "@nadabot/theme/colors";
 
 import ButtonContainer from "./containers/ButtonContainer";
@@ -90,8 +93,6 @@ export default function ContractInfo({
 
     // Open up the external URL
     window.open(providerInfo.external_url, "_blank");
-
-    // TODO: Apos voltar para a aba, fazer uma call para checar?
   }, [isPreview, providerInfo.external_url]);
 
   const [points, setPoints] = useState(providerInfo.default_weight);
@@ -112,6 +113,11 @@ export default function ContractInfo({
 
   // Check if it's needed to update the Provider points
   useEffect(() => {
+    if (isPreview) {
+      setPreviousPoints(debouncedPoints);
+      return;
+    }
+
     if (debouncedPoints !== previousPoints) {
       // Update this Provider points
       (async () => {
@@ -122,18 +128,39 @@ export default function ContractInfo({
         });
         setUpdating(false);
         setPreviousPoints(debouncedPoints);
+
+        // Update this provider withing store
+        updateProvider({
+          provider_id: providerInfo.provider_id,
+          default_weight: debouncedPoints,
+        });
       })();
     }
-  }, [debouncedPoints, points, previousPoints, providerInfo.provider_id]);
+  }, [
+    debouncedPoints,
+    points,
+    previousPoints,
+    providerInfo.provider_id,
+    isPreview,
+    updateProvider,
+  ]);
 
   const changePointsHandler = useCallback(async (newValue: number) => {
     setPoints(newValue);
   }, []);
 
+  const [isProviderActive] = useState(
+    providerInfo.status === ProviderStatus.Active,
+  );
+
   // Switch Activation
   const switchActivation = useCallback(async () => {
+    if (isPreview) {
+      return;
+    }
+
     setUpdating(true);
-    if (!providerInfo.is_active) {
+    if (!isProviderActive) {
       await contract.admin_activate_provider({
         provider_id: providerInfo.provider_id,
         default_weight: providerInfo.default_weight || 0,
@@ -141,7 +168,7 @@ export default function ContractInfo({
       updateProvider({
         provider_id: providerInfo.provider_id,
         default_weight: providerInfo.default_weight || 0,
-        is_active: true,
+        status: ProviderStatus.Active,
       });
 
       showSnackbar({
@@ -157,55 +184,18 @@ export default function ContractInfo({
       });
       updateProvider({
         provider_id: providerInfo.provider_id,
-        is_active: false,
+        status: ProviderStatus.Deactivated,
       });
     }
     setUpdating(false);
   }, [
-    providerInfo.is_active,
     providerInfo.default_weight,
     providerInfo.provider_id,
     updateProvider,
     router,
     showSnackbar,
-  ]);
-
-  // Switch Flag
-  const switchFlag = useCallback(async () => {
-    setUpdating(true);
-    if (!providerInfo.is_flagged) {
-      await contract.admin_flag_provider({
-        provider_id: providerInfo.provider_id,
-      });
-      updateProvider({
-        provider_id: providerInfo.provider_id,
-        is_flagged: true,
-      });
-
-      showSnackbar({
-        bgColor: "red",
-        description: "Stamp Flagged, Check all the flagged stamps",
-        actionText: "here",
-        onClickActionText: () => {
-          router.push(Routes.HOME_WITH_FILTERED_CHECKS("flagged"));
-        },
-      });
-    } else {
-      await contract.admin_unflag_provider({
-        provider_id: providerInfo.provider_id,
-      });
-      updateProvider({
-        provider_id: providerInfo.provider_id,
-        is_flagged: false,
-      });
-    }
-    setUpdating(false);
-  }, [
-    providerInfo.is_flagged,
-    providerInfo.provider_id,
-    updateProvider,
-    router,
-    showSnackbar,
+    isPreview,
+    isProviderActive,
   ]);
 
   // Active / De-Activate
@@ -216,16 +206,6 @@ export default function ContractInfo({
 
   const activeMouseOutHandler = useCallback(() => {
     setActiveLabel("Active");
-  }, []);
-
-  // Flagged / Unflag
-  const [flaggedLabel, setFlaggedLabel] = useState("Flagged");
-  const flaggedMouseOverHandler = useCallback(() => {
-    setFlaggedLabel("Un-Flag");
-  }, []);
-
-  const flaggedMouseOutHandler = useCallback(() => {
-    setFlaggedLabel("Flagged");
   }, []);
 
   /**
@@ -267,6 +247,7 @@ export default function ContractInfo({
                   ? {
                       backgroundImage: `url(${imageURL})`,
                       backgroundSize: "cover",
+                      backgroundPosition: "center",
                       backgroundRepeat: "no-repeat",
                     }
                   : {}),
@@ -404,7 +385,7 @@ export default function ContractInfo({
               color={colors.NEUTRAL400}
               fontSize={16}
               className="ellipsis"
-              maxWidth={maxWidth430 ? "100%" : isAdmin ? "80px" : "160px"}
+              maxWidth={maxWidth430 ? "100%" : isAdmin ? "180px" : "160px"}
             >
               {providerInfo.submitted_by}
             </Typography>
@@ -435,11 +416,7 @@ export default function ContractInfo({
               ) : (
                 <>
                   {isAdmin ? (
-                    <Stack
-                      direction="row"
-                      justifyContent="space-evenly"
-                      width="64%"
-                    >
+                    <Stack direction="row">
                       <CustomButton
                         color="beige"
                         bodySize="medium"
@@ -448,13 +425,11 @@ export default function ContractInfo({
                         onMouseOut={activeMouseOutHandler}
                         sx={{
                           mt: maxWidth430 ? 2 : 0,
-                          mr: 1,
                           px: 2,
-                          ...(activeLabel === "De-Activate" &&
-                          providerInfo.is_active
+                          ...(activeLabel === "De-Activate" && isProviderActive
                             ? { px: 1 }
                             : {}),
-                          ...(providerInfo.is_active
+                          ...(isProviderActive
                             ? {
                                 backgroundColor:
                                   colorSystem === "regular"
@@ -474,39 +449,7 @@ export default function ContractInfo({
                             : {}),
                         }}
                       >
-                        {providerInfo.is_active ? activeLabel : "Activate"}
-                      </CustomButton>
-                      <CustomButton
-                        color="red"
-                        bodySize="medium"
-                        onClick={switchFlag}
-                        onMouseOver={flaggedMouseOverHandler}
-                        onMouseOut={flaggedMouseOutHandler}
-                        sx={{
-                          mt: maxWidth430 ? 2 : 0,
-                          px: 2,
-                          pb: 0.4,
-                          ...(flaggedLabel === "Un-Flag" &&
-                          providerInfo.is_flagged
-                            ? { px: 2 }
-                            : {}),
-                          ...(providerInfo.is_flagged
-                            ? {
-                                backgroundColor:
-                                  colorSystem === "regular"
-                                    ? colors.ERROR_RED
-                                    : colors.PRIMARY,
-                                color: colors.PEACH,
-                                ":hover": {
-                                  ...(colorSystem !== "regular"
-                                    ? { backgroundColor: colors.NEUTRAL700 }
-                                    : {}),
-                                },
-                              }
-                            : {}),
-                        }}
-                      >
-                        {providerInfo.is_flagged ? flaggedLabel : "Flag"}
+                        {isProviderActive ? activeLabel : "Activate"}
                       </CustomButton>
                     </Stack>
                   ) : (

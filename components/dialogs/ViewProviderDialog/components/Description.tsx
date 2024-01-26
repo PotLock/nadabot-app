@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import Tag from "@nadabot/components/ui/Tag";
+import { useProviders } from "@nadabot/hooks/store/useProviders";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import * as contract from "@nadabot/services/web3/contract-interface";
@@ -27,6 +28,7 @@ export default function Description({ providerInfo }: Props) {
     providerInfo!.default_weight,
   );
   const debouncedPoints = useDebounce(points, 1200);
+  const { updateProvider } = useProviders();
 
   const changePointsHandler = useCallback(async (newValue: number) => {
     setPoints(newValue);
@@ -44,9 +46,15 @@ export default function Description({ providerInfo }: Props) {
         });
         setUpdating(false);
         setPreviousPoints(debouncedPoints);
+
+        // Update this provider withing store
+        updateProvider({
+          provider_id: providerInfo.provider_id,
+          default_weight: debouncedPoints,
+        });
       })();
     }
-  }, [debouncedPoints, points, previousPoints, providerInfo]);
+  }, [debouncedPoints, points, previousPoints, providerInfo, updateProvider]);
 
   // Users for Stamp
   const [verifiedUsers, setVerifiedUsers] = useState<string[]>();
@@ -140,8 +148,7 @@ export default function Description({ providerInfo }: Props) {
             </Stack>
             <Stack borderRadius="4px" border={`1px solid ${colors.NEUTRAL100}`}>
               <Typography fontWeight={600} color={colors.NEUTRAL500} px={1}>
-                {/* {debouncedPoints} pts */}
-                {providerInfo?.default_weight} pts
+                {debouncedPoints} pts
               </Typography>
             </Stack>
           </Stack>
@@ -152,7 +159,6 @@ export default function Description({ providerInfo }: Props) {
             <Slider
               sx={{ mt: -2 }}
               value={points}
-              // NOTE: Check this with Lachlan
               max={100}
               min={1}
               aria-label="Default"

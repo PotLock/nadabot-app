@@ -58,7 +58,7 @@ export default function Tag({
         </Typography>
       </Stack>
     ),
-    [label, leftContent, size, removeBg, sx, type],
+    [label, leftContent, size, removeBg, sx, type, labelSx],
   );
 
   if (asButton) {

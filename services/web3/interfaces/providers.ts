@@ -1,7 +1,7 @@
-enum ProviderStatus {
-  Pending,
-  Active,
-  Deactivated,
+export enum ProviderStatus {
+  Pending = "Pending",
+  Active = "Active",
+  Deactivated = "Deactivated",
 }
 
 export interface Provider {
