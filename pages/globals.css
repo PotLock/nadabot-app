@@ -210,9 +210,10 @@ nextjs-portal {
   font-weight: 400;
 }
 
-.u-list {
+.u-list, .u-list-socials {
   display: flex;
   flex-direction: row;
+  align-items: center;
   list-style-type: none;
   gap: 36px;
   margin-top: 18px;
@@ -225,4 +226,8 @@ nextjs-portal {
   a:hover {
     text-decoration: underline;
   }
+}
+
+.u-list-socials {
+  margin-top: 0;
 }
