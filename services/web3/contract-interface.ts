@@ -1,6 +1,6 @@
 import { Provider } from "near-api-js/lib/providers";
 
-import { FULL_TGAS, HALF_YOCTO_NEAR, ONE_YOCTO_NEAR } from "./constants";
+import { FULL_TGAS, HALF_YOCTO_NEAR, ONE_TENTH_NEAR } from "./constants";
 import { GetHumanScoreInput, HumanScoreResponse } from "./interfaces/is-human";
 import { Config } from "./interfaces/lib";
 import {
@@ -69,7 +69,7 @@ export const register_provider = (args: RegisterProviderInput) =>
   contractApi.call<typeof args, ProviderExternal>("register_provider", {
     args,
     gas: FULL_TGAS,
-    deposit: ONE_YOCTO_NEAR,
+    deposit: ONE_TENTH_NEAR,
   });
 
 /**
@@ -114,7 +114,7 @@ export const add_stamp = (provider_id: string) =>
       provider_id,
     },
     gas: FULL_TGAS,
-    deposit: HALF_YOCTO_NEAR,
+    deposit: ONE_TENTH_NEAR,
     callbackUrl: `${window.location.href}?verifiedProvider=${provider_id}`,
   });
 
