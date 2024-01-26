@@ -190,16 +190,6 @@ nextjs-portal {
   padding: 3px 16px
 }
 
-/* Yellow Strong Text */
-.yellow-strong {
-  color: #F7CE55;
-  -webkit-text-stroke: #292929 2px;
-  font-size: 64px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 48px;
-}
-
 /* Blue logo text */
 .blue-strong {
   color: #2D6FDB;
@@ -226,8 +216,16 @@ nextjs-portal {
   a:hover {
     text-decoration: underline;
   }
+
+  @media screen and (max-width:600px) {
+    flex-direction: column;
+  }
 }
 
 .u-list-socials {
   margin-top: 0;
+
+  @media screen and (max-width:600px) {
+    flex-direction: row;
+  }
 }

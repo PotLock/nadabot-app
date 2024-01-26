@@ -8,17 +8,34 @@ import Link from "next/link";
 import nearIconImage from "@nadabot/assets/images/near-icon.png";
 import robotImage from "@nadabot/assets/images/robot.png";
 import { useUser } from "@nadabot/hooks/store/useUser";
+import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import colors from "@nadabot/theme/colors";
 
 const Footer = () => {
   const { walletConnected } = useUser();
+  const { maxWidth600, maxWidth430 } = useBreakPoints();
 
   return (
     <Stack sx={{ background: `${colors.NEUTRAL50} url(${robotImage.src})` }}>
       <Container>
         <Stack alignItems="center" py={14}>
-          <Typography className="yellow-strong">prove that you are</Typography>
-          <Typography className="blue-strong">nada.bot</Typography>
+          <Typography
+            color="#F7CE55"
+            fontSize={maxWidth600 ? (maxWidth430 ? "28px" : "42px") : "64px"}
+            fontWeight={500}
+            lineHeight="48px"
+            sx={{ WebkitTextStroke: "#292929 1px" }}
+          >
+            prove that you are
+          </Typography>
+          <Typography
+            color="#2D6FDB"
+            fontSize={maxWidth600 ? (maxWidth430 ? "34px" : "54px") : "72px"}
+            fontFamily="Oi"
+            sx={{ WebkitTextStroke: "#FAFAFA 1.5px" }}
+          >
+            nada.bot
+          </Typography>
 
           <ul className="u-list">
             <li>
@@ -32,15 +49,17 @@ const Footer = () => {
               </Link>
             </li>
             {walletConnected && (
-              <li>
-                <Link href="/add-stamp" target="_self">
-                  Submit Check
-                </Link>
-              </li>
+              <>
+                <li>
+                  <Link href="/add-stamp" target="_self">
+                    Submit Check
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/#explore">Search Humans</Link>
+                </li>
+              </>
             )}
-            <li>
-              <Link href="/#explore">Search Humans</Link>
-            </li>
           </ul>
 
           <Divider
