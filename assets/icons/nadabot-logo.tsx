@@ -6,7 +6,7 @@ import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import nadabotIcon from "../images/nadabot-icon.png";
 
 const NadabotLogo = () => {
-  const { maxWidth600 } = useBreakPoints();
+  const { maxWidth600, maxWidth430 } = useBreakPoints();
 
   return (
     <Stack direction="row" alignItems="center">
@@ -16,7 +16,7 @@ const NadabotLogo = () => {
         width={50}
         height={50}
         alt="Nada.Bot"
-        style={{ marginRight: "8px" }}
+        style={{ marginRight: maxWidth430 ? "0px" : "8px" }}
       />
       {!maxWidth600 && (
         <svg

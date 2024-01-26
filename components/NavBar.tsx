@@ -156,10 +156,11 @@ const NavBar = () => {
     >
       <Container>
         <Stack
-          direction={maxWidth430 ? "column" : "row"}
+          direction={maxWidth430 && walletConnected ? "column" : "row"}
           height={maxWidth430 ? "fit-content" : 96}
           justifyContent="space-between"
           alignItems="center"
+          my={maxWidth430 ? 2 : 0}
         >
           {/* Left */}
           <ButtonContainer onClick={goHomeHandler}>
@@ -168,7 +169,7 @@ const NavBar = () => {
 
           {/* Right */}
           <Stack>
-            {walletConnected && (
+            {walletConnected ? (
               <Stack direction="row" mb={maxWidth430 ? 2 : 0}>
                 <Stack
                   direction={maxWidth430 ? "column" : "row"}
@@ -199,9 +200,7 @@ const NavBar = () => {
                   />
                 </Stack>
               </Stack>
-            )}
-
-            {!walletConnected && (
+            ) : (
               <Button
                 variant="contained"
                 color="primary"
