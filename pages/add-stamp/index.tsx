@@ -1,7 +1,8 @@
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import { Box, Container, Stack, Typography } from "@mui/material";
+import { Box, Container, Stack, Tooltip, Typography } from "@mui/material";
 import { Network, getContractApi } from "@wpdas/naxios";
 import { useFormik } from "formik";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
 import { useFilePicker } from "use-file-picker";
@@ -195,16 +196,24 @@ export default function AddStampPage() {
   return (
     <ProtectedPage>
       <Container>
-        <Stack>
-          <Typography variant="h4" fontWeight={700}>
-            Add Stamp/Check
-          </Typography>
-          <Typography color={colors.SECONDARY} fontSize={16}>
-            A stamp is a smart-contract enabled check on NEAR to be added to the
-            nadabot sybil registry, to verify something about an account whether
-            it be a role, identity, proof of ownership, or behavior.
-          </Typography>
-        </Stack>
+        <Tooltip
+          title={
+            <Link href="https://docs.nada.bot/" target="_blank">
+              See the Docs here
+            </Link>
+          }
+        >
+          <Stack>
+            <Typography variant="h4" fontWeight={700}>
+              Add Stamp/Check
+            </Typography>
+            <Typography color={colors.SECONDARY} fontSize={16}>
+              A stamp is a smart-contract enabled check on NEAR to be added to
+              the nadabot sybil registry, to verify something about an account
+              whether it be a role, identity, proof of ownership, or behavior.
+            </Typography>
+          </Stack>
+        </Tooltip>
 
         {/* Stamp Inputs and Preview */}
         <Stack
