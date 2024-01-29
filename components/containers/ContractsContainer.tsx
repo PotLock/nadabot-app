@@ -18,7 +18,7 @@ type Props = {
 
 // Fields to use as search keyword filter
 const fuseOptions = {
-  keys: ["name", "contract_id", "submitted_by"],
+  keys: ["name", "contract_id", "submitted_by", "default_weight"],
 };
 
 export default function ContractsContainer({
