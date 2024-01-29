@@ -200,7 +200,9 @@ export default function AddStampPage() {
             Add Stamp/Check
           </Typography>
           <Typography color={colors.SECONDARY} fontSize={16}>
-            A stamp is...
+            A stamp is a smart-contract enabled check on NEAR to be added to the
+            nadabot sybil registry, to verify something about an account whether
+            it be a role, identity, proof of ownership, or behavior.
           </Typography>
         </Stack>
 
