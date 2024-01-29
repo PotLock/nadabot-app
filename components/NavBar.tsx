@@ -50,7 +50,7 @@ const Dropbox = () => {
 
     if (NETWORK === "mainnet") {
       window.open(
-        `https://near.org/near/widget/ProfilePage?accountId=${accountId}`,
+        `https://bos.potlock.org/near/widget/ProfilePage?accountId=${accountId}`,
         "_blank",
       );
     } else {

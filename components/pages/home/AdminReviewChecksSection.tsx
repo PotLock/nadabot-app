@@ -20,7 +20,7 @@ type FilterType = "all" | "active" | "deactivated";
 
 // Fields to use as search keyword filter
 const fuseOptions = {
-  keys: ["name", "contract_id"],
+  keys: ["name", "contract_id", "submitted_by"],
 };
 
 export default function AdminReviewChecksSection() {
