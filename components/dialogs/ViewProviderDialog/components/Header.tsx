@@ -11,7 +11,7 @@ import { useProviders } from "@nadabot/hooks/store/useProviders";
 import { useStamps } from "@nadabot/hooks/store/useStamps";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import useIsHumanChacheCheck from "@nadabot/hooks/useIsHumanCacheCheck";
+import useIsHumanCacheCheck from "@nadabot/hooks/useIsHumanCacheCheck";
 import useSnackbars from "@nadabot/hooks/useSnackbars";
 import useSpinner from "@nadabot/hooks/useSpinner";
 import useWindowTabFocus from "@nadabot/hooks/useWindowTabFocus";
@@ -114,7 +114,7 @@ export default function Header({ providerInfo }: Props) {
     isHuman,
     ready: isHumanVerificationReady,
     verify,
-  } = useIsHumanChacheCheck(
+  } = useIsHumanCacheCheck(
     providerInfo?.provider_id,
     providerInfo?.contract_id,
     providerInfo?.method_name,

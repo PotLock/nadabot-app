@@ -16,7 +16,7 @@ import { useUser } from "./store/useUser";
  * @param method
  * @returns
  */
-const useIsHumanChacheCheck = (
+const useIsHumanCacheCheck = (
   providerId?: string,
   contractId?: string,
   method?: string,
@@ -108,4 +108,4 @@ const useIsHumanChacheCheck = (
   return { isHuman, ready, verify };
 };
 
-export default useIsHumanChacheCheck;
+export default useIsHumanCacheCheck;

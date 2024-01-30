@@ -20,7 +20,7 @@ import { useProviders } from "@nadabot/hooks/store/useProviders";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useDialogs from "@nadabot/hooks/useDialogs";
-import useIsHumanChacheCheck from "@nadabot/hooks/useIsHumanCacheCheck";
+import useIsHumanCacheCheck from "@nadabot/hooks/useIsHumanCacheCheck";
 import useSnackbars from "@nadabot/hooks/useSnackbars";
 import useSpinner from "@nadabot/hooks/useSpinner";
 import { Routes } from "@nadabot/routes";
@@ -64,7 +64,7 @@ export default function ContractInfo({
     isHuman,
     ready: isHumanVerificationReady,
     verify,
-  } = useIsHumanChacheCheck(
+  } = useIsHumanCacheCheck(
     providerInfo.provider_id,
     providerInfo.contract_id,
     providerInfo.method_name,
