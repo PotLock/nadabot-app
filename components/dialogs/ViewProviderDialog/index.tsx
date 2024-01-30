@@ -9,6 +9,7 @@ import { DialogProps } from "@nadabot/contexts/DialogsProvider";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useGetProviderById from "@nadabot/hooks/useGetProviderById";
 import colors from "@nadabot/theme/colors";
+import removeViewStampFromURLQuery from "@nadabot/utils/removeViewStampFromURLQuery";
 
 import Description from "./components/Description";
 import Header from "./components/Header";
@@ -31,16 +32,7 @@ export default function ViewProviderDialog({ open, onClose, props }: Props) {
 
   const onCloseHandler = useCallback(() => {
     // Remove viewStamp query
-    const filteredQueryKeys = Object.keys(router.query).filter(
-      (key) => key !== "viewStamp",
-    );
-    let updatedQueryBody = filteredQueryKeys.length > 0 ? "?" : "";
-    filteredQueryKeys.forEach((queryKey, index) => {
-      updatedQueryBody += `${queryKey}=${router.query[queryKey]}`;
-      if (filteredQueryKeys[index + 1]) {
-        updatedQueryBody += "&";
-      }
-    });
+    const updatedQueryBody = removeViewStampFromURLQuery(router.query);
     router.replace(`${router.pathname}${updatedQueryBody}`);
 
     onClose();

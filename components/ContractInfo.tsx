@@ -30,6 +30,7 @@ import {
   ProviderStatus,
 } from "@nadabot/services/web3/interfaces/providers";
 import colors from "@nadabot/theme/colors";
+import removeViewStampFromURLQuery from "@nadabot/utils/removeViewStampFromURLQuery";
 
 import ButtonContainer from "./containers/ButtonContainer";
 import CustomAvatar from "./ui/CustomAvatar";
@@ -218,11 +219,11 @@ export default function ContractInfo({
     });
 
     // Set route for this provider view
-    const currentPath = router.asPath.includes("?")
-      ? `${router.asPath}&`
-      : `${router.asPath}?`;
+    const updatedQueryBody = removeViewStampFromURLQuery(router.query);
+    const hasPreviousQuery = updatedQueryBody.length > 0;
+    const updatedPath = `${router.pathname}${updatedQueryBody}${hasPreviousQuery ? "&" : "?"}`;
 
-    router.replace(`${currentPath}viewStamp=${providerInfo.provider_id}`);
+    router.replace(`${updatedPath}viewStamp=${providerInfo.provider_id}`);
   }, [openDialog, providerInfo.provider_id, router]);
 
   return (
