@@ -14,6 +14,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Env vars
 
+Create an env file named `.env.local` at the root of the project with the following content:
+
 ```sh
 # NETWORK (testnet or mainnet)
 NEXT_PUBLIC_NETWORK=testnet
