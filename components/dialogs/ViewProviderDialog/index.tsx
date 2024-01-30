@@ -45,7 +45,6 @@ export default function ViewProviderDialog({ open, onClose, props }: Props) {
 
     onClose();
   }, [onClose, router]);
-  console.log(router);
 
   if (!open) {
     return;

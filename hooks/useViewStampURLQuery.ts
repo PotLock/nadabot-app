@@ -21,7 +21,6 @@ const useViewStampURLQuery = () => {
 
   useEffect(() => {
     if (router.query.viewStamp && !done) {
-      console.log("OI", router.query.viewStamp);
       openDialog({
         dialog: DIALOGS.ViewProvider,
         props: { providerId: router.query.viewStamp as string },

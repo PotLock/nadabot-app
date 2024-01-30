@@ -16,6 +16,7 @@ import useSnackbars from "@nadabot/hooks/useSnackbars";
 import useSpinner from "@nadabot/hooks/useSpinner";
 import useWindowTabFocus from "@nadabot/hooks/useWindowTabFocus";
 import { Routes } from "@nadabot/routes";
+import { NETWORK } from "@nadabot/services/web3/constants";
 import * as contract from "@nadabot/services/web3/contract-interface";
 import {
   ProviderExternal,
@@ -141,6 +142,15 @@ export default function Header({ providerInfo }: Props) {
     window.open(providerInfo?.external_url, "_blank");
   }, [providerInfo?.external_url]);
 
+  const openContractAddress = useCallback(() => {
+    const explorerURL =
+      NETWORK === "mainnet"
+        ? `https://nearblocks.io/address/${providerInfo?.contract_id}`
+        : `https://testnet.nearblocks.io/address/${providerInfo?.contract_id}`;
+
+    window.open(explorerURL, "_blank");
+  }, [providerInfo?.contract_id]);
+
   return (
     <Stack
       direction={maxWidth1280 ? "column" : "row"}
@@ -197,6 +207,8 @@ export default function Header({ providerInfo }: Props) {
                 label={truncate(providerInfo?.contract_id || "", 14)}
                 size="small"
                 removeBg
+                asButton
+                onClick={openContractAddress}
                 sx={{ px: 1, py: 0 }}
               />
             </Stack>
