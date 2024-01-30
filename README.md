@@ -4,11 +4,9 @@ Nada.bot application https://nada.bot
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
 nvm use; npm install;
-# then
+# then run the development server
 npm run dev
 ```
 
@@ -21,12 +19,15 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 NEXT_PUBLIC_NETWORK=testnet
 
 # The smart contract ID (ID of the account where the contract was deployed)
-NEXT_PUBLIC_CONTRACT_NAME=<smart contract - account id>
+# testnet: v1.nadabot.testnet
+# staging: v1.staging.nadabot.near
+# mainnet: v1.nadabot.near
+NEXT_PUBLIC_CONTRACT_NAME=<smart_contract_address>
 
 # SOCIAL DB Smart Contract: v1.social08.testnet OR social.near
 # Get to know more here: https://github.com/NearSocial/social-db
 NEXT_PUBLIC_SOCIAL_DB_CONTRACT_ID=v1.social08.testnet
 
-# Pinata JWT
+# Pinata JWT (ask Shot for the JWT Key)
 PINATA_JWT=<jwt-code>
 ```
