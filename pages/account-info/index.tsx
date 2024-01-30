@@ -7,6 +7,7 @@ import CustomAvatar from "@nadabot/components/ui/CustomAvatar";
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import Tag from "@nadabot/components/ui/Tag";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import useViewStampURLQuery from "@nadabot/hooks/useViewStampURLQuery";
 import * as contract from "@nadabot/services/web3/contract-interface";
 import { HumanScoreResponse } from "@nadabot/services/web3/interfaces/is-human";
 import { StampExternal } from "@nadabot/services/web3/interfaces/stamps";
@@ -14,6 +15,9 @@ import { get_user_profile } from "@nadabot/services/web3/social-db-interface";
 import colors from "@nadabot/theme/colors";
 
 export default function AccountInfoPage() {
+  // Show ViewProviderDialog if the URL has `viewStamp` query
+  useViewStampURLQuery();
+
   const { maxWidth805, maxWidth600 } = useBreakPoints();
   const router = useRouter();
   const [accountId, setAccountId] = useState<string>();

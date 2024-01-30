@@ -28,9 +28,11 @@ type openDialogProps = {
 
 type DialogContextProps = {
   openDialog: (props: openDialogProps) => void;
+  currentDialog: DIALOGS;
 };
 
 export const DialogsContext = createContext<DialogContextProps>({
+  currentDialog: DIALOGS.None,
   openDialog: () => {
     throw new Error("openDialog must be defined");
   },
@@ -74,7 +76,9 @@ const DialogsProvider: FC<Props> = ({ children }) => {
   }, []);
 
   return (
-    <DialogsContext.Provider value={{ openDialog }}>
+    <DialogsContext.Provider
+      value={{ openDialog, currentDialog: _openDialog.dialog }}
+    >
       <NoConnectedDialog
         open={_openDialog.dialog === DIALOGS.NoConnected}
         onClose={closeDialog}

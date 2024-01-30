@@ -216,7 +216,14 @@ export default function ContractInfo({
       dialog: DIALOGS.ViewProvider,
       props: { providerId: providerInfo.provider_id },
     });
-  }, [openDialog, providerInfo.provider_id]);
+
+    // Set route for this provider view
+    const currentPath = router.asPath.includes("?")
+      ? `${router.asPath}&`
+      : `${router.asPath}?`;
+
+    router.replace(`${currentPath}viewStamp=${providerInfo.provider_id}`);
+  }, [openDialog, providerInfo.provider_id, router]);
 
   return (
     <Stack

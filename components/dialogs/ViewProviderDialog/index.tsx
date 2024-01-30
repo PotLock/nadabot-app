@@ -1,6 +1,7 @@
 import CloseIcon from "@mui/icons-material/Close";
 import { Stack } from "@mui/material";
-import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { useCallback, useEffect } from "react";
 
 import ButtonContainer from "@nadabot/components/containers/ButtonContainer";
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
@@ -22,10 +23,29 @@ type Props = {
 export default function ViewProviderDialog({ open, onClose, props }: Props) {
   const providerInfo = useGetProviderById(props?.providerId);
   const { maxWidth962 } = useBreakPoints();
+  const router = useRouter();
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [open]);
+
+  const onCloseHandler = useCallback(() => {
+    // Remove viewStamp query
+    const filteredQueryKeys = Object.keys(router.query).filter(
+      (key) => key !== "viewStamp",
+    );
+    let updatedQueryBody = filteredQueryKeys.length > 0 ? "?" : "";
+    filteredQueryKeys.forEach((queryKey, index) => {
+      updatedQueryBody += `${queryKey}=${router.query[queryKey]}`;
+      if (filteredQueryKeys[index + 1]) {
+        updatedQueryBody += "&";
+      }
+    });
+    router.replace(`${router.pathname}${updatedQueryBody}`);
+
+    onClose();
+  }, [onClose, router]);
+  console.log(router);
 
   if (!open) {
     return;
@@ -52,7 +72,7 @@ export default function ViewProviderDialog({ open, onClose, props }: Props) {
       >
         {/* Close Button */}
         <Stack alignItems="flex-end">
-          <ButtonContainer onClick={onClose}>
+          <ButtonContainer onClick={onCloseHandler}>
             <CloseIcon sx={{ m: 2, mb: 0, mr: -2 }} />
           </ButtonContainer>
         </Stack>
