@@ -47,7 +47,10 @@ const DialogsProvider: FC<Props> = ({ children }) => {
     dialog: DIALOGS.None,
   });
 
-  const [props, setProps] = useState<DialogProps>({});
+  // Dialog Props
+  const [title, setTitle] = useState<string>();
+  const [description, setDescription] = useState<string>();
+  const [providerId, setProviderId] = useState<string>();
 
   const openDialog = useCallback((props: openDialogProps) => {
     setOpenDialog({
@@ -56,7 +59,10 @@ const DialogsProvider: FC<Props> = ({ children }) => {
       dialog: props.dialog,
     });
 
-    setProps(props.props || {});
+    // Props
+    setTitle(props.props?.title || "");
+    setDescription(props.props?.description || "");
+    setProviderId(props.props?.providerId || "");
   }, []);
 
   const closeDialog = useCallback(() => {
@@ -80,13 +86,17 @@ const DialogsProvider: FC<Props> = ({ children }) => {
       <ErrorDialog
         open={_openDialog.dialog === DIALOGS.Error}
         onClose={closeDialog}
-        props={props}
+        props={{ title, description, providerId }}
       />
-      <ViewProviderDialog
-        open={_openDialog.dialog === DIALOGS.ViewProvider}
-        onClose={closeDialog}
-        props={props}
-      />
+
+      {/* This is needed because it's a custom modal, not one created using MUI */}
+      {_openDialog.dialog === DIALOGS.ViewProvider && (
+        <ViewProviderDialog
+          open={_openDialog.dialog === DIALOGS.ViewProvider}
+          onClose={closeDialog}
+          props={{ title, description, providerId }}
+        />
+      )}
       {children}
     </DialogsContext.Provider>
   );

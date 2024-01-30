@@ -56,7 +56,7 @@ export default function AccountInfoPage() {
   }, [accountId]);
 
   return (
-    <Container>
+    <Container sx={{ mb: 8 }}>
       {/* Header */}
       {!loading && (
         <Stack
