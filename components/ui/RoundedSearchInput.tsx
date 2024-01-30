@@ -5,6 +5,7 @@ import { useCallback, useState } from "react";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useSpinner from "@nadabot/hooks/useSpinner";
 import { Routes } from "@nadabot/routes";
+import { NETWORK } from "@nadabot/services/web3/constants";
 import * as contract from "@nadabot/services/web3/contract-interface";
 import { HumanScoreResponse } from "@nadabot/services/web3/interfaces/is-human";
 import colors from "@nadabot/theme/colors";
@@ -80,6 +81,8 @@ type Props = {
   sx?: SxProps<Theme>;
 };
 
+const nearIdentityName = NETWORK === "mainnet" ? ".near" : ".testnet";
+
 const RoundedSearchInput = ({ placeholder, enableShadow, sx }: Props) => {
   const [search, setSearch] = useState("");
   const [human, setHuman] = useState<HumanScoreResponse>();
@@ -87,10 +90,18 @@ const RoundedSearchInput = ({ placeholder, enableShadow, sx }: Props) => {
 
   const searchHandler = useCallback(async () => {
     if (search) {
+      const fixedSearch = search.includes(nearIdentityName)
+        ? search
+        : `${search}${nearIdentityName}`;
+
+      if (fixedSearch !== search) {
+        setSearch(fixedSearch);
+      }
+
       showSpinner();
       try {
         const response = await contract.get_human_score({
-          account_id: search,
+          account_id: fixedSearch,
         });
         setHuman(response);
       } catch {
@@ -119,6 +130,7 @@ const RoundedSearchInput = ({ placeholder, enableShadow, sx }: Props) => {
         <Stack direction="row" alignItems="center" width="100%">
           <SearchIconA sx={{ width: 16, m: 2, mr: 1 }} />
           <CustomInput
+            value={search}
             placeholder={placeholder}
             onChange={(e) => {
               setSearch(e.target.value);
