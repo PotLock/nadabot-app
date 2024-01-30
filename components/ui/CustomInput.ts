@@ -7,6 +7,7 @@ const CustomInput = styled("input")({
   fontWeight: 500,
   fontSize: 16,
   color: colors.NEUTRAL700,
+  background: "transparent",
   "::placeholder": {
     color: colors.GRAY,
     opacity: 1,

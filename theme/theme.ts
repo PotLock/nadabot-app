@@ -24,6 +24,13 @@ export const theme = createTheme({
     fontFamily: ["Mona-Sans", "Roboto", "sans-serif"].join(","),
   },
   components: {
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          color: colors.PRIMARY,
+        },
+      },
+    },
     MuiLink: {
       variants: [
         {

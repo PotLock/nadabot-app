@@ -120,7 +120,7 @@ export default function AdminReviewChecksSection() {
           <Stack
             direction={maxWidth600 ? "column" : "row"}
             justifyContent="space-between"
-            width="440px"
+            width={maxWidth600 ? "100%" : "440px"}
             mt={maxWidth1110 ? 2 : 0}
           >
             <FilterButton

@@ -6,9 +6,9 @@ import { useCallback, useEffect } from "react";
 import ButtonContainer from "@nadabot/components/containers/ButtonContainer";
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import { DialogProps } from "@nadabot/contexts/DialogsProvider";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useGetProviderById from "@nadabot/hooks/useGetProviderById";
 import colors from "@nadabot/theme/colors";
+import getDocumentResolution from "@nadabot/utils/getDocumentResolution";
 import removeViewStampFromURLQuery from "@nadabot/utils/removeViewStampFromURLQuery";
 
 import Description from "./components/Description";
@@ -23,7 +23,6 @@ type Props = {
 
 export default function ViewProviderDialog({ open, onClose, props }: Props) {
   const providerInfo = useGetProviderById(props?.providerId);
-  const { maxWidth962 } = useBreakPoints();
   const router = useRouter();
 
   useEffect(() => {
@@ -42,10 +41,12 @@ export default function ViewProviderDialog({ open, onClose, props }: Props) {
     return;
   }
 
+  const { height: documentHeight } = getDocumentResolution();
+
   return (
     <Stack
       width="100vw"
-      height={maxWidth962 ? "200%" : "250%"}
+      height={documentHeight}
       bgcolor="rgba(0, 0, 0, 0.50)"
       zIndex={999}
       position="absolute"
@@ -64,7 +65,7 @@ export default function ViewProviderDialog({ open, onClose, props }: Props) {
         {/* Close Button */}
         <Stack alignItems="flex-end">
           <ButtonContainer onClick={onCloseHandler}>
-            <CloseIcon sx={{ m: 2, mb: 0, mr: -2 }} />
+            <CloseIcon sx={{ m: 2, mb: 0, mr: -2, color: colors.PRIMARY }} />
           </ButtonContainer>
         </Stack>
         {!providerInfo ? (

@@ -59,6 +59,7 @@ const Item = (props: {
               fontWeight={600}
               lineHeight="24px"
               textAlign="left"
+              color={colors.PRIMARY}
               mt={1}
             >
               {props.score} Score

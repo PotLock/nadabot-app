@@ -280,6 +280,7 @@ export default function ContractInfo({
             fontSize={20}
             mt={3}
             className="ellipsis"
+            color={colors.PRIMARY}
           >
             {providerInfo.name || "Contract Title"}
           </Typography>
