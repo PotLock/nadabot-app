@@ -226,7 +226,6 @@ export default function AddStampPage() {
   const handleOnChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       formik.handleChange(event);
-      console.log(event.target.name);
       formik.setErrors({ ...formik.errors, [event.target.name]: "" });
     },
     [formik],
