@@ -119,6 +119,7 @@ export default function Header({ providerInfo }: Props) {
     providerInfo?.provider_id,
     providerInfo?.contract_id,
     providerInfo?.method_name,
+    providerInfo?.account_id_arg_name,
   );
 
   // Verify if it's human every time the window tab is focused

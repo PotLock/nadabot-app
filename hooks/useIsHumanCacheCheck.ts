@@ -20,6 +20,7 @@ const useIsHumanCacheCheck = (
   providerId?: string,
   contractId?: string,
   method?: string,
+  accountIdArgName?: string,
   isPreview?: boolean,
 ) => {
   const { accountId } = useUser();
@@ -30,16 +31,16 @@ const useIsHumanCacheCheck = (
    * Fetch a new verification to determine if it isHuman
    */
   const verify = useCallback(async () => {
-    if (providerId && contractId && method && accountId) {
+    if (providerId && contractId && method && accountIdArgName && accountId) {
       // New contract instance
       const providerContract = await getContractApi({
         contractId: contractId,
         network: NETWORK,
       });
 
-      // View call to check if account_id is human
+      // View call to check if account_id (aka accountIdArgName) is human
       const isHuman = await providerContract.view<{}, boolean>(method, {
-        args: { account_id: accountId },
+        args: { [accountIdArgName]: accountId },
       });
 
       // Update the isHuman state
@@ -58,10 +59,17 @@ const useIsHumanCacheCheck = (
       return isHuman;
     }
     return false;
-  }, [accountId, providerId, contractId, method]);
+  }, [accountId, providerId, contractId, method, accountIdArgName]);
 
   useEffect(() => {
-    if (providerId && contractId && method && accountId && !isPreview) {
+    if (
+      providerId &&
+      contractId &&
+      method &&
+      accountIdArgName &&
+      accountId &&
+      !isPreview
+    ) {
       // Check if the previous data is still valid (withing the interval)
       const cached = isHumanCache[providerId];
 
@@ -79,9 +87,9 @@ const useIsHumanCacheCheck = (
             network: NETWORK,
           });
 
-          // View call to check if account_id is human
+          // View call to check if account_id (aka accountIdArgName) is human
           const isHuman = await providerContract.view<{}, boolean>(method, {
-            args: { account_id: accountId },
+            args: { [accountIdArgName]: accountId },
           });
 
           setIsHuman(isHuman);
@@ -103,7 +111,7 @@ const useIsHumanCacheCheck = (
     } else {
       isReady(true);
     }
-  }, [accountId, providerId, contractId, method, isPreview]);
+  }, [accountId, providerId, contractId, method, accountIdArgName, isPreview]);
 
   return { isHuman, ready, verify };
 };

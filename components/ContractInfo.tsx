@@ -69,6 +69,7 @@ export default function ContractInfo({
     providerInfo.provider_id,
     providerInfo.contract_id,
     providerInfo.method_name,
+    providerInfo.account_id_arg_name,
     isPreview,
   );
 
