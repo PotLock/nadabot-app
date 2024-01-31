@@ -4,7 +4,7 @@ import { Network, getContractApi } from "@wpdas/naxios";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useCallback, useEffect } from "react";
+import { ChangeEvent, useCallback, useEffect } from "react";
 import { useFilePicker } from "use-file-picker";
 import {
   FileAmountLimitValidator,
@@ -223,6 +223,15 @@ export default function AddStampPage() {
     router.back();
   }, [router]);
 
+  const handleOnChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      formik.handleChange(event);
+      console.log(event.target.name);
+      formik.setErrors({ ...formik.errors, [event.target.name]: "" });
+    },
+    [formik],
+  );
+
   return (
     <ProtectedPage>
       <Container>
@@ -270,7 +279,7 @@ export default function AddStampPage() {
               label="Title"
               placeholder="Enter a title"
               errorMessage={formik.errors.title}
-              onChange={formik.handleChange}
+              onChange={handleOnChange}
               sx={{ mt: 2 }}
             />
             <Input
@@ -279,7 +288,7 @@ export default function AddStampPage() {
               label="Description"
               placeholder="Describe what this check is"
               errorMessage={formik.errors.description}
-              onChange={formik.handleChange}
+              onChange={handleOnChange}
               sx={{ mt: 2 }}
             />
             <Input
@@ -288,7 +297,7 @@ export default function AddStampPage() {
               label="Contract ID (Address)"
               placeholder="Enter the contract address"
               errorMessage={formik.errors.contractName}
-              onChange={formik.handleChange}
+              onChange={handleOnChange}
               sx={{ mt: 2 }}
               autoComplete
             />
@@ -299,7 +308,7 @@ export default function AddStampPage() {
               placeholder="Enter a method"
               info="Method must take single input and return boolean"
               errorMessage={formik.errors.method}
-              onChange={formik.handleChange}
+              onChange={handleOnChange}
               sx={{ mt: 2 }}
               autoComplete
             />
@@ -309,7 +318,8 @@ export default function AddStampPage() {
               label="Account Id Arg Name"
               placeholder="account_id"
               errorMessage={formik.errors.accountIdArgName}
-              onChange={formik.handleChange}
+              onChange={handleOnChange}
+              defaultValue={DEFAULT_ARG_NAME}
               sx={{ mt: 2 }}
               autoComplete
             />
@@ -319,7 +329,7 @@ export default function AddStampPage() {
               label="External link"
               placeholder="Enter an external link"
               errorMessage={formik.errors.externalLink}
-              onChange={formik.handleChange}
+              onChange={handleOnChange}
               sx={{ mt: 2 }}
             />
             <Input
@@ -330,7 +340,7 @@ export default function AddStampPage() {
               type="number"
               errorMessage={formik.errors.gas}
               defaultValue={0}
-              onChange={formik.handleChange}
+              onChange={handleOnChange}
               min={0}
               max={MAX_GAS}
               integersOnly
