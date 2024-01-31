@@ -24,7 +24,14 @@ import useDialogs from "@nadabot/hooks/useDialogs";
 import useSpinner from "@nadabot/hooks/useSpinner";
 import useTransactionDetection from "@nadabot/hooks/useTransactionDetection";
 import * as pinataServices from "@nadabot/services/pinata";
-import { NETWORK } from "@nadabot/services/web3/constants";
+import {
+  MAX_GAS,
+  MAX_PROVIDER_DESCRIPTION_LENGTH,
+  MAX_PROVIDER_EXTERNAL_URL_LENGTH,
+  MAX_PROVIDER_ICON_URL_LENGTH,
+  MAX_PROVIDER_NAME_LENGTH,
+  NETWORK,
+} from "@nadabot/services/web3/constants";
 import * as sybilContractInterface from "@nadabot/services/web3/contract-interface";
 import { ProviderStatus } from "@nadabot/services/web3/interfaces/providers";
 import { walletApi } from "@nadabot/services/web3/web3api";
@@ -33,21 +40,37 @@ import colors from "@nadabot/theme/colors";
 const formSchema = Yup.object().shape({
   imageURL: Yup.string()
     .min(4, "You should attach an image")
+    .max(
+      MAX_PROVIDER_ICON_URL_LENGTH,
+      `Image URL shouldn't exceed ${MAX_PROVIDER_ICON_URL_LENGTH} characters`,
+    )
     .required("Attach an image"),
   title: Yup.string()
     .min(4, "Insert a valid title")
+    .max(
+      MAX_PROVIDER_NAME_LENGTH,
+      `Title shouldn't exceed ${MAX_PROVIDER_NAME_LENGTH} characters`,
+    )
     .required("Insert a valid title"),
   description: Yup.string()
     .min(4, "Insert a valid description")
+    .max(
+      MAX_PROVIDER_DESCRIPTION_LENGTH,
+      `Description shouldn't exceed ${MAX_PROVIDER_DESCRIPTION_LENGTH} characters`,
+    )
     .required("Insert a valid description"),
   contractName: Yup.string()
-    .min(4, "Insert a valid ontract name")
+    .min(4, "Insert a valid contract address name")
     .required("Insert a valid contract name"),
   method: Yup.string()
     .min(3, "Insert a valid method")
     .required("Insert a valid method"),
   externalLink: Yup.string()
     .min(4, "Insert a valid external link")
+    .max(
+      MAX_PROVIDER_EXTERNAL_URL_LENGTH,
+      `Link shouldn't exceed ${MAX_PROVIDER_EXTERNAL_URL_LENGTH} characters`,
+    )
     .required("Insert a valid external link"),
 });
 
@@ -152,7 +175,7 @@ export default function AddStampPage() {
         return;
       }
 
-      const validatedGas = gas && gas > 300 ? 300 : gas;
+      const validatedGas = gas && gas > MAX_GAS ? MAX_GAS : gas;
       // Convert to indivisable gas units
       // multiplying Tgas units by 10^12
       const providerGas =
@@ -350,6 +373,7 @@ export default function AddStampPage() {
                   default_weight: 20,
                   submitted_at_ms: 0,
                   stamp_count: 0,
+                  account_id_arg_name: "account_id",
                   status: ProviderStatus.Active,
                   provider_id: "",
                   icon_url: filesContent[0]?.content,
