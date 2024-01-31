@@ -19,6 +19,8 @@ type Props = {
   defaultValue?: string | number | readonly string[];
   autoComplete?: boolean;
   integersOnly?: boolean;
+  min?: string | number;
+  max?: string | number;
 };
 
 export default function Input({
@@ -35,6 +37,8 @@ export default function Input({
   defaultValue,
   autoComplete,
   integersOnly,
+  min,
+  max,
 }: Props) {
   return (
     <Stack sx={sx}>
@@ -69,6 +73,8 @@ export default function Input({
         defaultValue={defaultValue}
         autoComplete={autoComplete}
         integersOnly={integersOnly}
+        min={min}
+        max={max}
       />
       {info && (
         <Stack direction="row" alignItems="center" mt={1}>

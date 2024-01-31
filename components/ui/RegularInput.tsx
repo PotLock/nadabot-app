@@ -18,6 +18,8 @@ type Props = {
   defaultValue?: string | number | readonly string[];
   autoComplete?: boolean;
   integersOnly?: boolean;
+  min?: string | number;
+  max?: string | number;
 };
 
 const RegularInput = ({
@@ -33,6 +35,8 @@ const RegularInput = ({
   defaultValue,
   autoComplete,
   integersOnly,
+  min,
+  max,
 }: Props) => {
   return (
     <Box pb={enableShadow ? 1 : 0}>
@@ -54,6 +58,8 @@ const RegularInput = ({
         }}
       >
         <CustomInput
+          min={min}
+          max={max}
           disabled={disabled}
           placeholder={placeholder}
           type={type}

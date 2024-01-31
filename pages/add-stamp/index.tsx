@@ -51,6 +51,8 @@ const formSchema = Yup.object().shape({
     .required("Insert a valid external link"),
 });
 
+const DEFAULT_ARG_NAME = "account_id";
+
 export default function AddStampPage() {
   const router = useRouter();
   const { showSpinner, hideSpinner } = useSpinner();
@@ -84,6 +86,7 @@ export default function AddStampPage() {
       description: "",
       contractName: "",
       method: "",
+      accountIdArgName: DEFAULT_ARG_NAME,
       externalLink: "",
       gas: 0,
     },
@@ -93,6 +96,7 @@ export default function AddStampPage() {
       description,
       contractName,
       method,
+      accountIdArgName,
       externalLink,
       gas,
     }) => {
@@ -106,7 +110,8 @@ export default function AddStampPage() {
       // 1 - Check contract and method: The method must have a `account_id` parameter
       try {
         const response = await contract.view(method, {
-          args: { account_id: "no.account.near" },
+          // e.g.: args: {account_id: "no.account.near"}
+          args: { [accountIdArgName || DEFAULT_ARG_NAME]: "no.account.near" },
         });
 
         // 1.1 validate if the response is a boolean
@@ -123,10 +128,10 @@ export default function AddStampPage() {
           return;
         }
       } catch (error) {
-        // 1.2 validate the `account_id` parameter or other kind of contract error
+        // 1.2 validate the `accountIdArgName` parameter or other kind of contract error
         formik.setFieldError(
           "method",
-          "The contract/method does not exist or does not have an `account_id` parameter.",
+          `The contract/method does not exist or does not have an "${accountIdArgName || DEFAULT_ARG_NAME}" parameter.`,
         );
         hideSpinner();
         return;
@@ -147,14 +152,21 @@ export default function AddStampPage() {
         return;
       }
 
+      const validatedGas = gas && gas > 300 ? 300 : gas;
+      // Convert to indivisable gas units
+      // multiplying Tgas units by 10^12
+      const providerGas =
+        validatedGas > 0 ? validatedGas * 10 ** 12 : undefined;
+
       // 3 - Register Stamp/Check
       sybilContractInterface
         .register_provider({
           contract_id: contractName,
           method_name: method,
+          account_id_arg_name: accountIdArgName || DEFAULT_ARG_NAME,
           name: title,
           description,
-          gas: gas > 0 ? gas : undefined,
+          gas: providerGas,
           icon_url: pinataServices.buildFileURL(iconImageCID),
           external_url: externalLink,
         })
@@ -274,6 +286,16 @@ export default function AddStampPage() {
               autoComplete
             />
             <Input
+              name="accountIdArgName"
+              disabled={formik.isSubmitting}
+              label="Account Id Arg Name"
+              placeholder="account_id"
+              errorMessage={formik.errors.accountIdArgName}
+              onChange={formik.handleChange}
+              sx={{ mt: 2 }}
+              autoComplete
+            />
+            <Input
               name="externalLink"
               disabled={formik.isSubmitting}
               label="External link"
@@ -291,6 +313,7 @@ export default function AddStampPage() {
               errorMessage={formik.errors.gas}
               defaultValue={0}
               onChange={formik.handleChange}
+              max={300}
               integersOnly
               optional
               sx={{ mt: 2 }}

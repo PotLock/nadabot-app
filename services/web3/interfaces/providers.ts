@@ -39,6 +39,8 @@ export interface ProviderExternal {
   contract_id: string;
   // Method name of the external contract that is the source of this provider
   method_name: string;
+  /// Account ID arg name
+  account_id_arg_name: string;
   // Name of the provider, e.g. "I Am Human"
   name: string;
   // Description of the provider
@@ -68,6 +70,7 @@ export interface ProviderExternal {
 export interface RegisterProviderInput {
   contract_id: string;
   method_name: string;
+  account_id_arg_name?: string;
   name: string;
   description?: string;
   gas?: number;
