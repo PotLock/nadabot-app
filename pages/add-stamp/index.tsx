@@ -28,7 +28,6 @@ import {
   MAX_GAS,
   MAX_PROVIDER_DESCRIPTION_LENGTH,
   MAX_PROVIDER_EXTERNAL_URL_LENGTH,
-  MAX_PROVIDER_ICON_URL_LENGTH,
   MAX_PROVIDER_NAME_LENGTH,
   NETWORK,
 } from "@nadabot/services/web3/constants";
@@ -40,10 +39,6 @@ import colors from "@nadabot/theme/colors";
 const formSchema = Yup.object().shape({
   imageURL: Yup.string()
     .min(4, "You should attach an image")
-    .max(
-      MAX_PROVIDER_ICON_URL_LENGTH,
-      `Image URL shouldn't exceed ${MAX_PROVIDER_ICON_URL_LENGTH} characters`,
-    )
     .required("Attach an image"),
   title: Yup.string()
     .min(4, "Insert a valid title")
@@ -336,7 +331,8 @@ export default function AddStampPage() {
               errorMessage={formik.errors.gas}
               defaultValue={0}
               onChange={formik.handleChange}
-              max={300}
+              min={0}
+              max={MAX_GAS}
               integersOnly
               optional
               sx={{ mt: 2 }}
