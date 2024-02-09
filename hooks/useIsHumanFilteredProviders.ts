@@ -17,7 +17,7 @@ import { useUser } from "./store/useUser";
  * @returns
  */
 const useIsHumanFilteredProviders = (skipProviderId: string = "") => {
-  const { accountId, isAdmin } = useUser();
+  const { accountId } = useUser();
   const [active, setActive] = useState<ProviderExternalWithIsHuman[]>([]);
   const [activeIsHuman, setActiveIsHuman] = useState<
     ProviderExternalWithIsHuman[]
@@ -33,27 +33,43 @@ const useIsHumanFilteredProviders = (skipProviderId: string = "") => {
   const { stamps } = useStamps();
 
   const fetchIsHumanInfo = useCallback(async () => {
-    if (providersReady && !isAdmin) {
+    if (providersReady) {
+      const tempActive: ProviderExternalWithIsHuman[] = [];
       const tempHuman: ProviderExternalWithIsHuman[] = [];
 
       // is human check
       const promises = providers.map(async (provider) => {
-        // Is Human Check
-        const isHuman = await isHumanCheck(
-          provider.contract_id,
-          provider.method_name,
-          provider.account_id_arg_name,
-          accountId,
-        );
+        // Active (not logged in)
+        if (!accountId) {
+          if (provider.status === ProviderStatus.Active) {
+            tempActive.push({ ...provider, is_user_a_human: false });
+          }
+        }
 
-        tempHuman.push({ ...provider, is_user_a_human: isHuman });
+        // Is Human Check
+        if (accountId) {
+          const isHuman = await isHumanCheck(
+            provider.contract_id,
+            provider.method_name,
+            provider.account_id_arg_name,
+            accountId,
+          );
+
+          tempHuman.push({ ...provider, is_user_a_human: isHuman });
+        }
       });
 
       await Promise.allSettled(promises);
+
+      // (not logged in state)
+      if (!accountId) {
+        setActive(tempActive);
+      }
+
       setUpdatedProviders(tempHuman);
       isReady(true);
     }
-  }, [accountId, providers, providersReady, isAdmin]);
+  }, [accountId, providers, providersReady]);
 
   useEffect(() => {
     fetchIsHumanInfo();
@@ -80,7 +96,7 @@ const useIsHumanFilteredProviders = (skipProviderId: string = "") => {
         if (provider.provider_id !== skipProviderId && !hasStamp) {
           // Active
           if (provider.status === ProviderStatus.Active) {
-            tempActive.push(provider);
+            tempActive.push({ ...provider, is_user_a_human: false });
 
             // Provider in with this user is human
             if (provider.is_user_a_human) {
@@ -93,7 +109,10 @@ const useIsHumanFilteredProviders = (skipProviderId: string = "") => {
         }
       });
 
-      setActive(tempActive);
+      if (accountId) {
+        setActive(tempActive);
+      }
+
       setActiveIsHuman(tempActiveIsHuman);
       setActiveNoHuman(tempActiveNoHuman);
     }

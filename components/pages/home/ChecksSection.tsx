@@ -18,13 +18,16 @@ export default function ChecksSection() {
   const { walletConnected } = useUser();
   const { maxWidth805 } = useBreakPoints();
   const [searchPattern, setSearchPattern] = useState("");
-  const { activeNoHuman } = useIsHumanFilteredProviders();
+  const { activeNoHuman, active } = useIsHumanFilteredProviders();
 
   const addCustomCheckHandler = useCallback(() => {
     router.push(Routes.ADD_STAMP);
   }, [router]);
 
-  const hasProviders = activeNoHuman.length > 0;
+  const providers =
+    walletConnected && activeNoHuman.length > 0 ? activeNoHuman : active;
+
+  const hasProviders = providers.length > 0;
 
   return (
     <Stack mt={6}>
@@ -69,7 +72,7 @@ export default function ChecksSection() {
         <ContractsContainer
           searchPattern={searchPattern}
           showLoadingState
-          providersList={activeNoHuman}
+          providersList={providers}
         />
       </ShadowContainer>
     </Stack>

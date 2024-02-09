@@ -79,7 +79,7 @@ export default function ContractsContainer({
     );
   }
 
-  if (!isAdmin && active.length === 0) {
+  if (!isAdmin && providers.length === 0) {
     return (
       <Stack direction="row" justifyContent="center" my={4}>
         <Typography fontWeight={500}>No providers available</Typography>

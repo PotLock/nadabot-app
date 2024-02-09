@@ -135,8 +135,7 @@ export default function Header({ providerInfo }: Props) {
     // If so, then, call add_stamp method
     if (isHumanVerify && providerInfo?.provider_id) {
       try {
-        const result = await contract.add_stamp(providerInfo.provider_id);
-        console.log("RESULT:", result);
+        await contract.add_stamp(providerInfo.provider_id);
       } catch (error) {
         console.error(error);
       }

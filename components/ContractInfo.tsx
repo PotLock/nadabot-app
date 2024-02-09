@@ -87,8 +87,7 @@ export default function ContractInfo({
     // If so, then, call add_stamp method
     if (isHumanVerify) {
       try {
-        const result = await contract.add_stamp(providerInfo.provider_id);
-        console.log("RESULT:", result);
+        await contract.add_stamp(providerInfo.provider_id);
       } catch (error) {
         console.error(error);
       }
