@@ -5,7 +5,7 @@ import { useCallback, useState } from "react";
 import CustomButton from "@nadabot/components/ui/CustomButton";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
+import useIsHumanFilteredProviders from "@nadabot/hooks/useIsHumanFilteredProviders";
 import { Routes } from "@nadabot/routes";
 import colors from "@nadabot/theme/colors";
 
@@ -15,16 +15,16 @@ import { AddFilterSearchInput } from "../../ui/AddFilterSearchInput";
 
 export default function ChecksSection() {
   const router = useRouter();
-  const { isAdmin, walletConnected } = useUser();
-  const { maxWidth805, maxWidth430 } = useBreakPoints();
+  const { walletConnected } = useUser();
+  const { maxWidth805 } = useBreakPoints();
   const [searchPattern, setSearchPattern] = useState("");
-  const { active } = useFilteredProviders();
+  const { activeNoHuman } = useIsHumanFilteredProviders();
 
   const addCustomCheckHandler = useCallback(() => {
     router.push(Routes.ADD_STAMP);
   }, [router]);
 
-  const hasProviders = active.length > 0;
+  const hasProviders = activeNoHuman.length > 0;
 
   return (
     <Stack mt={6}>
@@ -35,17 +35,15 @@ export default function ChecksSection() {
       >
         <Stack>
           <Typography variant="h4" fontWeight={700}>
-            {isAdmin ? "Checks that Need your Approval" : "Checks"}
+            Checks
           </Typography>
 
-          {!isAdmin && (
-            <Typography color={colors.SECONDARY} fontSize={16}>
-              Add additional checks for 3rd party providers to become a verified
-              human.
-            </Typography>
-          )}
+          <Typography color={colors.SECONDARY} fontSize={16}>
+            Add additional checks for 3rd party providers to become a verified
+            human.
+          </Typography>
         </Stack>
-        {!isAdmin && walletConnected && (
+        {walletConnected && (
           <CustomButton
             sx={{ mt: maxWidth805 ? 1 : 0 }}
             bodySize="medium"
@@ -61,18 +59,18 @@ export default function ChecksSection() {
       <ShadowContainer sx={{ mt: 2 }}>
         {/* Search + Add Filter button */}
         <>
-          {!isAdmin && hasProviders && (
+          {hasProviders && (
             <AddFilterSearchInput
               onChange={(text) => setSearchPattern(text)}
               hideAddFilterButton
             />
           )}
         </>
-        {isAdmin && !maxWidth430 ? (
-          <ContractsContainer inline={isAdmin ? true : false} />
-        ) : (
-          <ContractsContainer searchPattern={searchPattern} showLoadingState />
-        )}
+        <ContractsContainer
+          searchPattern={searchPattern}
+          showLoadingState
+          providersList={activeNoHuman}
+        />
       </ShadowContainer>
     </Stack>
   );

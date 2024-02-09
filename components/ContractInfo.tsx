@@ -44,6 +44,7 @@ type Props = {
   providerInfo: ProviderExternal;
   isPreview?: boolean;
   isStamp?: boolean;
+  verifyButtonSx?: SxProps<Theme>;
 };
 
 export default function ContractInfo({
@@ -53,6 +54,7 @@ export default function ContractInfo({
   isPreview,
   colorSystem = "regular",
   isStamp,
+  verifyButtonSx,
 }: Props) {
   const { isAdmin } = useUser();
   const { updateProvider } = useProviders();
@@ -248,6 +250,7 @@ export default function ContractInfo({
           borderBottomLeftRadius: 0,
           borderBottomRightRadius: 0,
         }}
+        minHeight={isAdmin ? "336px" : "280px"}
       >
         <Stack direction="row" justifyContent="space-between">
           {/* Circle */}
@@ -482,7 +485,10 @@ export default function ContractInfo({
                           size="medium"
                           disableRipple
                           onClick={isHuman ? verifyHandler : getCheckHandler}
-                          sx={{ mt: maxWidth430 ? 2 : 0 }}
+                          sx={{
+                            mt: maxWidth430 ? 2 : 0,
+                            ...verifyButtonSx,
+                          }}
                         >
                           {isHuman ? "Verify" : "Get Check"}
                         </Button>

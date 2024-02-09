@@ -67,6 +67,10 @@ export interface ProviderExternal {
   stamp_count: number;
 }
 
+export type ProviderExternalWithIsHuman = ProviderExternal & {
+  is_user_a_human: boolean;
+};
+
 export interface RegisterProviderInput {
   contract_id: string;
   method_name: string;

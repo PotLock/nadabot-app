@@ -14,6 +14,7 @@ type Props = {
   inline?: boolean;
   searchPattern?: string;
   showLoadingState?: boolean;
+  providersList?: ProviderExternal[];
 };
 
 // Fields to use as search keyword filter
@@ -25,13 +26,19 @@ export default function ContractsContainer({
   inline,
   searchPattern,
   showLoadingState,
+  providersList,
 }: Props) {
   const { maxWidth805 } = useBreakPoints();
   const { isAdmin } = useUser();
 
   // Providers (activated ones only)
   const { active, deactivated, ready } = useFilteredProviders();
-  const providers = isAdmin ? deactivated : active;
+  // Give preference to providersList
+  const providers = providersList
+    ? providersList
+    : isAdmin
+      ? deactivated
+      : active;
 
   // Fuse
   const [fuse, setFuse] = useState<Fuse<ProviderExternal>>();

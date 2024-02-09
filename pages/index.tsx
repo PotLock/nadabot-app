@@ -1,11 +1,13 @@
 import { Container } from "@mui/material";
 
+import AdminChecksSection from "@nadabot/components/pages/home/AdminChecksSection";
 import AdminDashboardSection from "@nadabot/components/pages/home/AdminDashboardSection";
 import AdminReviewChecksSection from "@nadabot/components/pages/home/AdminReviewChecksSection";
 import ChecksSection from "@nadabot/components/pages/home/ChecksSection";
 import CompletedSection from "@nadabot/components/pages/home/CompletedSection";
 import ExploreSection from "@nadabot/components/pages/home/ExploreSection";
 import InvitationHeroSection from "@nadabot/components/pages/home/InvitationHeroSection";
+import PendingVerificationSection from "@nadabot/components/pages/home/PendingVerificationSection";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useVerifiedProviderSuccess from "@nadabot/hooks/useVerifiedProviderSuccess";
 import useViewStampURLQuery from "@nadabot/hooks/useViewStampURLQuery";
@@ -22,7 +24,8 @@ export default function Home() {
       <Container>
         {isAdmin && <AdminDashboardSection />}
         {!isAdmin && <ExploreSection />}
-        <ChecksSection />
+        {!isAdmin && <PendingVerificationSection />}
+        {isAdmin ? <AdminChecksSection /> : <ChecksSection />}
         {!isAdmin && walletConnected && <CompletedSection />}
         {isAdmin && <AdminReviewChecksSection />}
       </Container>

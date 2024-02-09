@@ -6,9 +6,15 @@ import colors from "@nadabot/theme/colors";
 import ButtonContainer from "../containers/ButtonContainer";
 
 const bgColors = {
-  red: colors.ERROR_RED,
-  blue: colors.BLUE,
+  red: "#FCCFCF",
+  blue: "#D5E1F8",
   normal: colors.GRAY100,
+};
+
+const textColors = {
+  red: "#DD3345",
+  blue: "#2D6FDB",
+  normal: colors.GRAY,
 };
 
 type Props = {
@@ -44,14 +50,17 @@ export default function Tag({
         borderRadius={type === "normal" ? "6px" : "32px"}
         direction="row"
         alignItems="center"
-        boxShadow={type === "normal" ? "none" : "0px 0px 0px 1px #464646"}
+        boxShadow={
+          type === "normal" ? "none" : `0px 0px 0px 1px ${textColors[type]}`
+        }
         sx={{ ...sx }}
       >
         {leftContent && <Stack mr={1}>{leftContent}</Stack>}
         <Typography
           fontWeight={type === "normal" ? 400 : 600}
-          color={type === "normal" ? colors.GRAY : colors.WHITE}
-          fontSize={size === "small" ? 14 : 16}
+          color={textColors[type]}
+          fontSize={size === "small" ? 14 : 14}
+          py={size === "small" ? 0 : 0.4}
           sx={{ ...labelSx }}
         >
           {label}
