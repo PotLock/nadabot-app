@@ -330,26 +330,23 @@ export default function Header({ providerInfo }: Props) {
             ) : (
               <>
                 {isVerified ? (
-                  <CustomButton
-                    color="blue"
-                    bodySize={maxWidth430 ? "medium" : "large"}
-                    fontSize={maxWidth430 ? "small" : "medium"}
-                    sx={{
-                      mt: maxWidth430 ? 2 : 0,
-                      mr: 2,
-                      px: 2,
-                    }}
-                  >
+                  <Stack direction="row" alignItems="center" ml={1.5}>
                     <CheckIcon
                       sx={{
-                        fontSize: 28,
-                        color: colors.WHITE,
+                        fontSize: 32,
+                        color: colors.BLUE,
                         mr: 1,
-                        mt: -0.3,
+                        mt: -0.4,
                       }}
                     />
-                    Verified
-                  </CustomButton>
+                    <Typography
+                      color={colors.BLUE}
+                      fontSize={28}
+                      fontWeight={600}
+                    >
+                      Verified
+                    </Typography>
+                  </Stack>
                 ) : (
                   <>
                     {!isHumanVerificationReady ? (

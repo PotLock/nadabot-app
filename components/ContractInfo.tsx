@@ -413,20 +413,19 @@ export default function ContractInfo({
         {/* Footer Buttons */}
         <>
           {isStamp ? (
-            <CustomButton
-              color="blue"
-              bodySize="medium"
-              sx={{
-                mt: maxWidth430 ? 2 : 0,
-                mr: 1,
-                px: 2,
-              }}
-            >
+            <Stack direction="row" alignItems="center">
               <CheckIcon
-                sx={{ fontSize: 18, color: colors.WHITE, mr: 1, mt: -0.3 }}
+                sx={{
+                  fontSize: 19,
+                  color: colors.BLUE,
+                  mr: 1,
+                  mt: -0.3,
+                }}
               />
-              Verified
-            </CustomButton>
+              <Typography color={colors.BLUE} fontSize={14} fontWeight={600}>
+                Verified
+              </Typography>
+            </Stack>
           ) : (
             <>
               {updating ? (
