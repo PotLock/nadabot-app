@@ -1,7 +1,6 @@
-import { getContractApi } from "@wpdas/naxios";
 import { useCallback, useEffect, useState } from "react";
 
-import { NETWORK } from "@nadabot/services/web3/constants";
+import { naxiosInstance } from "@nadabot/services/contracts";
 import {
   isHumanCache,
   isHumanCacheUpdatedObservable,
@@ -33,9 +32,8 @@ const useIsHumanCacheCheck = (
   const verify = useCallback(async () => {
     if (providerId && contractId && method && accountIdArgName && accountId) {
       // New contract instance
-      const providerContract = await getContractApi({
+      const providerContract = await naxiosInstance.contractApi({
         contractId: contractId,
-        network: NETWORK,
       });
 
       // View call to check if account_id (aka accountIdArgName) is human
@@ -82,9 +80,8 @@ const useIsHumanCacheCheck = (
         // If cache non existent or expired
         (async () => {
           // New contract instance
-          const providerContract = await getContractApi({
+          const providerContract = await naxiosInstance.contractApi({
             contractId: contractId,
-            network: NETWORK,
           });
 
           // View call to check if account_id (aka accountIdArgName) is human

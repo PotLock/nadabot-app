@@ -1,4 +1,16 @@
-import { nearSocialDbContractApi } from "./web3api";
+import { StorageCache } from "@wpdas/naxios";
+
+import { SOCIAL_DB_CONTRACT_ID } from "@nadabot/constants";
+
+import { naxiosInstance } from "..";
+
+/**
+ * NEAR Social DB Contract API
+ */
+const nearSocialDbContractApi = naxiosInstance.contractApi({
+  contractId: SOCIAL_DB_CONTRACT_ID,
+  cache: new StorageCache({ expirationTime: 5 * 60 }), // 5 minutes
+});
 
 interface NEARSocialUserProfileInput {
   keys: string[];
@@ -37,11 +49,15 @@ export const get_user_profile = async (input: { accountId: string }) => {
   const response = await nearSocialDbContractApi.view<
     NEARSocialUserProfileInput,
     NEARSocialGetResponse
-  >("get", {
-    args: {
-      keys: [`${input.accountId}/profile/**`],
+  >(
+    "get",
+    {
+      args: {
+        keys: [`${input.accountId}/profile/**`],
+      },
     },
-  });
+    { useCache: true },
+  );
 
   return response[input.accountId]?.profile;
 };

@@ -3,6 +3,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "./globals.css";
+import "@near-wallet-selector/modal-ui/styles.css";
 
 import type { AppProps } from "next/app";
 import Head from "next/head";

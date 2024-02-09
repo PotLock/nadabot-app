@@ -13,13 +13,13 @@ import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
 import NadabotLogo from "@nadabot/assets/icons/nadabot-logo";
+import { NETWORK } from "@nadabot/constants";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useSpinner from "@nadabot/hooks/useSpinner";
 import useWeb3Auth from "@nadabot/hooks/useWeb3Auth";
 import { Routes } from "@nadabot/routes";
-import { NETWORK } from "@nadabot/services/web3/constants";
-import { walletApi } from "@nadabot/services/web3/web3api";
+import { walletApi } from "@nadabot/services/contracts";
 import colors from "@nadabot/theme/colors";
 import { BellIcon } from "@nadabot/theme/icons";
 import truncate from "@nadabot/utils/truncate";
@@ -140,6 +140,8 @@ const NavBar = () => {
   }, [router]);
 
   const connectWalletHandler = useCallback(() => {
+    // TODO: Alterar o estado da aplicação
+    // TODO: Como saber que a carteira foi conectada? HERE-wallet faz isso sem atualizar a tela
     walletApi.signInModal();
   }, []);
 

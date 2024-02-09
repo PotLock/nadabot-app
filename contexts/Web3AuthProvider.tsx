@@ -7,8 +7,8 @@ import { useProviders } from "@nadabot/hooks/store/useProviders";
 import { useStamps } from "@nadabot/hooks/store/useStamps";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useWindowTabFocus from "@nadabot/hooks/useWindowTabFocus";
-import { get_user_profile } from "@nadabot/services/web3/social-db-interface";
-import { walletApi } from "@nadabot/services/web3/web3api";
+import { walletApi } from "@nadabot/services/contracts";
+import { get_user_profile } from "@nadabot/services/contracts/social";
 
 type Web3AuthProps = {
   accountId: string;
@@ -38,7 +38,7 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
   // Store: Check store and initial contract's data
   const { updateInfo: updateUserInfo, accountId } = useUser();
   const { setAdmins } = useAdmins();
-  const { fetchConfig, config } = useConfig();
+  const { fetchConfig } = useConfig();
   const { fetchProviders } = useProviders();
   const { fetchStamps } = useStamps();
 
@@ -47,10 +47,23 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
     // Config
     const _config = await fetchConfig();
 
+    // useAdmin
+    setAdmins(_config.admins);
+
     // Providers
     await fetchProviders();
 
     if (accountId) {
+      // get user profile info from NEAR Social DB
+      const profileInfo = await get_user_profile({ accountId });
+
+      // useUser => check if user is admin + set user profile info
+      updateUserInfo({
+        isAdmin: _config.admins.includes(walletApi.accountId || ""),
+
+        profileInfo,
+      });
+
       // Stamps
       const _stamps = await fetchStamps(accountId);
 
@@ -72,7 +85,14 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
 
     // App is ready to be shown
     isReady(true);
-  }, [fetchConfig, fetchProviders, fetchStamps, accountId, updateUserInfo]);
+  }, [
+    fetchConfig,
+    fetchProviders,
+    fetchStamps,
+    accountId,
+    updateUserInfo,
+    setAdmins,
+  ]);
 
   // Re-fetch config, providers and stamps when the window tab is focused
   const reFetch = useCallback(() => {
@@ -82,48 +102,36 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
   }, [initStore, ready, accountId]);
   useWindowTabFocus(reFetch);
 
-  useEffect(() => {
-    if (config && walletApi.accounts[0]) {
-      (async () => {
-        // useAdmin
-        setAdmins(config.admins);
-
-        const _accountId = walletApi.accounts[0].accountId;
-
-        // get user profile info from NEAR Social DB
-        const profileInfo = await get_user_profile({ accountId: _accountId });
-
-        // useUser => check if user is admin + set user profile info
-        updateUserInfo({
-          isAdmin: config.admins.includes(
-            walletApi.accounts[0].accountId || "",
-          ),
-
-          profileInfo,
-        });
-      })();
-    }
-  }, [config, setAdmins, updateUserInfo]);
-
   // Check wallet
-  useEffect(() => {
-    (async () => {
-      // Starts the wallet manager
-      await walletApi.initNear();
+  const checkWallet = useCallback(async () => {
+    // Starts the wallet manager
+    await walletApi.initNear();
 
-      const isSignedIn = walletApi.walletSelector.isSignedIn();
-      setIsConnected(isSignedIn);
+    const isSignedIn = walletApi.walletSelector.isSignedIn();
+    setIsConnected(isSignedIn);
 
-      // update user store
-      updateUserInfo({
-        accountId: walletApi.accounts[0]?.accountId || "",
-        walletConnected: walletApi.walletSelector.isSignedIn(),
-      });
+    // update user store
+    updateUserInfo({
+      accountId: walletApi.accountId || "",
+      walletConnected: isSignedIn,
+    });
 
-      // Initializes the store
-      await initStore();
-    })();
+    // Initializes the store
+    await initStore();
   }, [updateUserInfo, initStore]);
+
+  // Re-init when user is signed in
+  useEffect(() => {
+    // Initial wallet state
+    checkWallet();
+
+    // On sign in wallet state
+    walletApi.walletSelector.on("signedIn", checkWallet);
+
+    return () => {
+      walletApi.walletSelector.off("signedIn", checkWallet);
+    };
+  }, [checkWallet, initStore]);
 
   // Sign out and reset all store states
   const signOut = useCallback(async () => {

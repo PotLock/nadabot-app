@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { ProviderExternal } from "@nadabot/services/web3/interfaces/providers";
+import { ProviderExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
 
 import { useProviders } from "./store/useProviders";
 

@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { useCallback } from "react";
 
-import { walletApi } from "@nadabot/services/web3/web3api";
+import { walletApi } from "@nadabot/services/contracts";
 
 import CustomButton from "../ui/CustomButton";
 

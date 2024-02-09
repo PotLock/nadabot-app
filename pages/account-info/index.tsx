@@ -8,10 +8,10 @@ import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgres
 import Tag from "@nadabot/components/ui/Tag";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useViewStampURLQuery from "@nadabot/hooks/useViewStampURLQuery";
-import * as contract from "@nadabot/services/web3/contract-interface";
-import { HumanScoreResponse } from "@nadabot/services/web3/interfaces/is-human";
-import { StampExternal } from "@nadabot/services/web3/interfaces/stamps";
-import { get_user_profile } from "@nadabot/services/web3/social-db-interface";
+import { get_user_profile } from "@nadabot/services/contracts/social";
+import * as contract from "@nadabot/services/contracts/sybil.nadabot";
+import { HumanScoreResponse } from "@nadabot/services/contracts/sybil.nadabot/interfaces/is-human";
+import { StampExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/stamps";
 import colors from "@nadabot/theme/colors";
 
 export default function AccountInfoPage() {

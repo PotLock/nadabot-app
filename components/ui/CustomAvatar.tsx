@@ -1,7 +1,7 @@
 import { Avatar, SxProps, Theme } from "@mui/material";
 import { useEffect, useState } from "react";
 
-import { get_user_profile } from "@nadabot/services/web3/social-db-interface";
+import { get_user_profile } from "@nadabot/services/contracts/social";
 import colors from "@nadabot/theme/colors";
 import getNearSocialProfileAvatarImage from "@nadabot/utils/getNearSocialProfileAvatarImage";
 

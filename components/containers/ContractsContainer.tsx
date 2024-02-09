@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
-import { ProviderExternal } from "@nadabot/services/web3/interfaces/providers";
+import { ProviderExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
 
 import ContractInfo from "../ContractInfo";
 import CustomCircularProgress from "../ui/CustomCircularProgress";

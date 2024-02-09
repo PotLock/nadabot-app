@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import * as contract from "@nadabot/services/web3/contract-interface";
-import { StampExternal } from "@nadabot/services/web3/interfaces/stamps";
+import * as contract from "@nadabot/services/contracts/sybil.nadabot";
+import { StampExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/stamps";
 
 type State = {
   stamps: StampExternal[];

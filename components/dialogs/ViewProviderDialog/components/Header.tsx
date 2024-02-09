@@ -7,6 +7,7 @@ import CustomAvatar from "@nadabot/components/ui/CustomAvatar";
 import CustomButton from "@nadabot/components/ui/CustomButton";
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import Tag from "@nadabot/components/ui/Tag";
+import { NETWORK } from "@nadabot/constants";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
 import { useStamps } from "@nadabot/hooks/store/useStamps";
 import { useUser } from "@nadabot/hooks/store/useUser";
@@ -16,12 +17,11 @@ import useSnackbars from "@nadabot/hooks/useSnackbars";
 import useSpinner from "@nadabot/hooks/useSpinner";
 import useWindowTabFocus from "@nadabot/hooks/useWindowTabFocus";
 import { Routes } from "@nadabot/routes";
-import { NETWORK } from "@nadabot/services/web3/constants";
-import * as contract from "@nadabot/services/web3/contract-interface";
+import * as contract from "@nadabot/services/contracts/sybil.nadabot";
 import {
   ProviderExternal,
   ProviderStatus,
-} from "@nadabot/services/web3/interfaces/providers";
+} from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
 import colors from "@nadabot/theme/colors";
 import truncate from "@nadabot/utils/truncate";
 
@@ -37,7 +37,7 @@ export default function Header({ providerInfo }: Props) {
     useBreakPoints();
   const { showSnackbar } = useSnackbars();
   const router = useRouter();
-  const { showSpinner } = useSpinner();
+  const { showSpinner, hideSpinner } = useSpinner();
 
   // Check if user has a stamp with this provider [verified]
   const { stamps } = useStamps();
@@ -134,9 +134,16 @@ export default function Header({ providerInfo }: Props) {
 
     // If so, then, call add_stamp method
     if (isHumanVerify && providerInfo?.provider_id) {
-      await contract.add_stamp(providerInfo.provider_id);
+      try {
+        const result = await contract.add_stamp(providerInfo.provider_id);
+        console.log("RESULT:", result);
+      } catch (error) {
+        console.error(error);
+      }
+
+      hideSpinner();
     }
-  }, [providerInfo?.provider_id, verify, showSpinner]);
+  }, [providerInfo?.provider_id, verify, showSpinner, hideSpinner]);
 
   const getCheckHandler = useCallback(() => {
     // Open up the external URL

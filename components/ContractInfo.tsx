@@ -24,11 +24,11 @@ import useIsHumanCacheCheck from "@nadabot/hooks/useIsHumanCacheCheck";
 import useSnackbars from "@nadabot/hooks/useSnackbars";
 import useSpinner from "@nadabot/hooks/useSpinner";
 import { Routes } from "@nadabot/routes";
-import * as contract from "@nadabot/services/web3/contract-interface";
+import * as contract from "@nadabot/services/contracts/sybil.nadabot";
 import {
   ProviderExternal,
   ProviderStatus,
-} from "@nadabot/services/web3/interfaces/providers";
+} from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
 import colors from "@nadabot/theme/colors";
 import removeViewStampFromURLQuery from "@nadabot/utils/removeViewStampFromURLQuery";
 
@@ -58,7 +58,7 @@ export default function ContractInfo({
   const { updateProvider } = useProviders();
   const { maxWidth430 } = useBreakPoints();
   const { openDialog } = useDialogs();
-  const { showSpinner } = useSpinner();
+  const { showSpinner, hideSpinner } = useSpinner();
 
   // Is Human Check
   const {
@@ -84,9 +84,15 @@ export default function ContractInfo({
 
     // If so, then, call add_stamp method
     if (isHumanVerify) {
-      await contract.add_stamp(providerInfo.provider_id);
+      try {
+        const result = await contract.add_stamp(providerInfo.provider_id);
+        console.log("RESULT:", result);
+      } catch (error) {
+        console.error(error);
+      }
+      hideSpinner();
     }
-  }, [isPreview, showSpinner, verify, providerInfo.provider_id]);
+  }, [isPreview, showSpinner, hideSpinner, verify, providerInfo.provider_id]);
 
   const getCheckHandler = useCallback(() => {
     if (isPreview) {

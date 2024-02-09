@@ -10,7 +10,7 @@ import RegularInput from "@nadabot/components/ui/RegularInput";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import { Routes } from "@nadabot/routes";
-import { ProviderExternal } from "@nadabot/services/web3/interfaces/providers";
+import { ProviderExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
 import colors from "@nadabot/theme/colors";
 import { SearchIconA } from "@nadabot/theme/icons";
 

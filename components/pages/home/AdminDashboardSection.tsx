@@ -8,7 +8,7 @@ import Input from "@nadabot/components/ui/Input";
 import { useConfig } from "@nadabot/hooks/store/useConfig";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useSpinner from "@nadabot/hooks/useSpinner";
-import * as contract from "@nadabot/services/web3/contract-interface";
+import * as contract from "@nadabot/services/contracts/sybil.nadabot";
 import colors from "@nadabot/theme/colors";
 import { ListDashboardIcon } from "@nadabot/theme/icons";
 

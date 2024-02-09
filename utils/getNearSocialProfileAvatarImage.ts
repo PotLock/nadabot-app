@@ -1,4 +1,4 @@
-import { IPFS_NEAR_SOCIAL_THUMBNAIL_URL } from "@nadabot/services/web3/constants";
+import { IPFS_NEAR_SOCIAL_THUMBNAIL_URL } from "@nadabot/constants";
 
 const getNearSocialProfileAvatarImage = (image_ipfs_cid?: string) =>
   image_ipfs_cid

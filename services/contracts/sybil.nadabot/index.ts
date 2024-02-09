@@ -1,6 +1,7 @@
 import { Provider } from "near-api-js/lib/providers";
 
-import { FULL_TGAS, HALF_YOCTO_NEAR, ONE_TENTH_NEAR } from "./constants";
+import { FULL_TGAS, HALF_YOCTO_NEAR, ONE_TENTH_NEAR } from "@nadabot/constants";
+
 import { GetHumanScoreInput, HumanScoreResponse } from "./interfaces/is-human";
 import { Config } from "./interfaces/lib";
 import {
@@ -18,7 +19,12 @@ import {
   GetUsersForStampInput,
   StampExternal,
 } from "./interfaces/stamps";
-import { contractApi } from "./web3api";
+import { naxiosInstance } from "..";
+
+/**
+ * NEAR Contract API
+ */
+export const contractApi = naxiosInstance.contractApi();
 
 // READ METHODS
 

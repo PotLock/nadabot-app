@@ -9,8 +9,8 @@ import Tag from "@nadabot/components/ui/Tag";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import * as contract from "@nadabot/services/web3/contract-interface";
-import { ProviderExternal } from "@nadabot/services/web3/interfaces/providers";
+import * as contract from "@nadabot/services/contracts/sybil.nadabot";
+import { ProviderExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
 import colors from "@nadabot/theme/colors";
 
 import CustomAvatar from "../../../ui/CustomAvatar";

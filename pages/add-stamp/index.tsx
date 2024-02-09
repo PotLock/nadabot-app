@@ -1,6 +1,5 @@
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { Box, Container, Stack, Tooltip, Typography } from "@mui/material";
-import { Network, getContractApi } from "@wpdas/naxios";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -18,22 +17,21 @@ import ContractInfo from "@nadabot/components/ContractInfo";
 import CustomButton from "@nadabot/components/ui/CustomButton";
 import Input from "@nadabot/components/ui/Input";
 import UploadImage from "@nadabot/components/UploadImage";
-import { DIALOGS } from "@nadabot/contexts/DialogsProvider";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import useDialogs from "@nadabot/hooks/useDialogs";
-import useSpinner from "@nadabot/hooks/useSpinner";
-import useTransactionDetection from "@nadabot/hooks/useTransactionDetection";
-import * as pinataServices from "@nadabot/services/pinata";
 import {
   MAX_GAS,
   MAX_PROVIDER_DESCRIPTION_LENGTH,
   MAX_PROVIDER_EXTERNAL_URL_LENGTH,
   MAX_PROVIDER_NAME_LENGTH,
-  NETWORK,
-} from "@nadabot/services/web3/constants";
-import * as sybilContractInterface from "@nadabot/services/web3/contract-interface";
-import { ProviderStatus } from "@nadabot/services/web3/interfaces/providers";
-import { walletApi } from "@nadabot/services/web3/web3api";
+} from "@nadabot/constants";
+import { DIALOGS } from "@nadabot/contexts/DialogsProvider";
+import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import useDialogs from "@nadabot/hooks/useDialogs";
+import useSpinner from "@nadabot/hooks/useSpinner";
+import useTransactionDetection from "@nadabot/hooks/useTransactionDetection";
+import { naxiosInstance, walletApi } from "@nadabot/services/contracts";
+import * as sybilContractInterface from "@nadabot/services/contracts/sybil.nadabot";
+import { ProviderStatus } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
+import * as pinataServices from "@nadabot/services/pinata";
 import colors from "@nadabot/theme/colors";
 
 const formSchema = Yup.object().shape({
@@ -120,9 +118,8 @@ export default function AddStampPage() {
     }) => {
       showSpinner();
 
-      const contract = await getContractApi({
+      const contract = await naxiosInstance.contractApi({
         contractId: contractName,
-        network: NETWORK as Network,
       });
 
       // 1 - Check contract and method: The method must have a `account_id` parameter

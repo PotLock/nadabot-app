@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import {
   ProviderExternal,
   ProviderStatus,
-} from "@nadabot/services/web3/interfaces/providers";
+} from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
 
 import { useProviders } from "./store/useProviders";
 import { useStamps } from "./store/useStamps";
