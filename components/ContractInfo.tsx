@@ -107,7 +107,7 @@ export default function ContractInfo({
   const [previousPoints, setPreviousPoints] = useState(
     providerInfo.default_weight,
   );
-  const debouncedPoints = useDebounce(points, 1200);
+  const debouncedPoints = useDebounce(points, 800);
   const [updating, setUpdating] = useState(false);
   const { showSnackbar } = useSnackbars();
   const router = useRouter();

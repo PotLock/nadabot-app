@@ -27,7 +27,7 @@ export default function Description({ providerInfo }: Props) {
   const [previousPoints, setPreviousPoints] = useState(
     providerInfo!.default_weight,
   );
-  const debouncedPoints = useDebounce(points, 1200);
+  const debouncedPoints = useDebounce(points, 800);
   const { updateProvider } = useProviders();
 
   const changePointsHandler = useCallback(async (newValue: number) => {

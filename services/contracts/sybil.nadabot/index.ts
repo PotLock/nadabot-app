@@ -1,6 +1,11 @@
 import { Provider } from "near-api-js/lib/providers";
 
-import { FULL_TGAS, HALF_YOCTO_NEAR, ONE_TENTH_NEAR } from "@nadabot/constants";
+import {
+  FULL_TGAS,
+  HALF_YOCTO_NEAR,
+  ONE_HUNDREDTH_NEAR,
+  ONE_TENTH_NEAR,
+} from "@nadabot/constants";
 
 import { GetHumanScoreInput, HumanScoreResponse } from "./interfaces/is-human";
 import { Config } from "./interfaces/lib";
@@ -132,6 +137,7 @@ export const add_stamp = (provider_id: string) =>
 export const update_provider = (args: UpdateProviderInput) =>
   contractApi.call<typeof args, ProviderExternal>("update_provider", {
     args,
+    deposit: ONE_HUNDREDTH_NEAR,
   });
 
 /**

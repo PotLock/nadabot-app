@@ -18,6 +18,8 @@ export const ONE_YOCTO_NEAR = utils.format.parseNearAmount("1")!;
 export const HALF_YOCTO_NEAR = utils.format.parseNearAmount("0.5")!;
 // 0.1 NEAR
 export const ONE_TENTH_NEAR = utils.format.parseNearAmount("0.1")!;
+// 0.01 NEAR
+export const ONE_HUNDREDTH_NEAR = utils.format.parseNearAmount("0.01")!;
 // 300 Gas (full)
 export const FULL_TGAS = "300000000000000";
 // 30 Gas
