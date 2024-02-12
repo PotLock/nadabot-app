@@ -2,10 +2,8 @@ import { Provider } from "near-api-js/lib/providers";
 
 import {
   FULL_TGAS,
-  HALF_YOCTO_NEAR,
   ONE_HUNDREDTH_NEAR,
   TWO_HUNDREDTHS_NEAR,
-  ONE_TENTH_NEAR,
 } from "@nadabot/constants";
 
 import { GetHumanScoreInput, HumanScoreResponse } from "./interfaces/is-human";
@@ -81,7 +79,7 @@ export const register_provider = (args: RegisterProviderInput) =>
   contractApi.call<typeof args, ProviderExternal>("register_provider", {
     args,
     gas: FULL_TGAS,
-    deposit: ONE_TENTH_NEAR,
+    deposit: ONE_HUNDREDTH_NEAR,
   });
 
 /**
@@ -96,21 +94,7 @@ export const admin_set_default_human_threshold = (
     args: {
       default_human_threshold,
     },
-    deposit: HALF_YOCTO_NEAR,
-  });
-
-/**
- * Set Stamp
- *
- * Undefined response indicates that user is not verified on target provider
- * @param provider_id
- * @returns
- */
-export const set_stamp = (provider_id: string) =>
-  contractApi.call<object, StampExternal | undefined>("set_stamp", {
-    args: {
-      provider_id,
-    },
+    deposit: ONE_HUNDREDTH_NEAR,
   });
 
 /**
@@ -149,7 +133,7 @@ export const update_provider = (args: UpdateProviderInput) =>
 export const admin_activate_provider = (args: ActivateProviderInput) =>
   contractApi.call<typeof args, Provider>("admin_activate_provider", {
     args,
-    deposit: HALF_YOCTO_NEAR,
+    deposit: ONE_HUNDREDTH_NEAR,
   });
 
 /**
@@ -160,7 +144,7 @@ export const admin_activate_provider = (args: ActivateProviderInput) =>
 export const admin_deactivate_provider = (args: DeactivateProviderInput) =>
   contractApi.call<typeof args, Provider>("admin_deactivate_provider", {
     args,
-    deposit: HALF_YOCTO_NEAR,
+    deposit: ONE_HUNDREDTH_NEAR,
   });
 
 /**
