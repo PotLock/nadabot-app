@@ -13,9 +13,9 @@ export const SOCIAL_DB_CONTRACT_ID = process.env
   .NEXT_PUBLIC_SOCIAL_DB_CONTRACT_ID as string;
 
 // 1 NEAR
-export const ONE_YOCTO_NEAR = utils.format.parseNearAmount("1")!;
+export const ONE_NEAR = utils.format.parseNearAmount("1")!;
 // 0.5 NEAR
-export const HALF_YOCTO_NEAR = utils.format.parseNearAmount("0.5")!;
+export const HALF_NEAR = utils.format.parseNearAmount("0.5")!;
 // 0.1 NEAR
 export const ONE_TENTH_NEAR = utils.format.parseNearAmount("0.1")!;
 // 0.01 NEAR
