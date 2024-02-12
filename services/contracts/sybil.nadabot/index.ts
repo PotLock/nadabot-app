@@ -4,6 +4,7 @@ import {
   FULL_TGAS,
   HALF_YOCTO_NEAR,
   ONE_HUNDREDTH_NEAR,
+  TWO_HUNDREDTHS_NEAR,
   ONE_TENTH_NEAR,
 } from "@nadabot/constants";
 
@@ -125,7 +126,7 @@ export const add_stamp = (provider_id: string) =>
       provider_id,
     },
     gas: FULL_TGAS,
-    deposit: ONE_TENTH_NEAR,
+    deposit: TWO_HUNDREDTHS_NEAR,
     callbackUrl: `${window.location.href}?verifiedProvider=${provider_id}`,
   });
 
