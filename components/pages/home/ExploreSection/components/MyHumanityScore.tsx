@@ -53,7 +53,7 @@ export default function MyHumanityScore() {
               </Typography>
             </Stack>
             <Typography
-              color="#DD3345"
+              color={percentageScore === 100 ? "#06c954" : "#DD3345"}
               fontSize={54}
               fontWeight={900}
               lineHeight="normal"
@@ -72,7 +72,7 @@ export default function MyHumanityScore() {
             className="progress-bar"
             style={{
               background: `radial-gradient(closest-side, white 88%, transparent 89% 100%),
-conic-gradient(#DD3345 ${percentageScore}%, #DBDBDB 0)`,
+conic-gradient(${percentageScore === 100 ? "#06c954" : "#DD3345"} ${percentageScore}%, #DBDBDB 0)`,
             }}
           />
           <div className="circle-limiter" />
