@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint; eslint --ext .ts,tsx ./ --fix",
+    "lint": "eslint --ext .ts,tsx ./ --fix; next lint",
     "precommit": "npm run lint"
   },
   "dependencies": {

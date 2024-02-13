@@ -75,8 +75,7 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
 
       // useUser => update isHuman state
       updateUserInfo({
-        isVerifiedHuman:
-          userStampsSum >= _config.default_human_threshold,
+        isVerifiedHuman: userStampsSum >= _config.default_human_threshold,
         score: userStampsSum || 0,
       });
     }
