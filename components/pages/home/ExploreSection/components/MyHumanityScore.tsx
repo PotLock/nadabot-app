@@ -105,12 +105,8 @@ conic-gradient(${percentageScore === 100 ? "#06c954" : "#DD3345"} ${percentageSc
               sx={{ mt: maxWidth480 ? 2 : 0 }}
             />
           </Stack>
-          {!isVerifiedHuman && 
             <Typography color={colors.NEUTRAL400} lineHeight="148%">
-              You are not yet considered a human. Collect more stamps to become a
-              human so other applications can call our contract to grant you
-              permissioness for human-gated benefits.
-            </Typography>}
+              { isVerifiedHuman ? "Congrats, you're a human!" : "You are not yet considered a human. Collect more stamps to become a human so other applications can call our contract to grant you permissioness for human-gated benefits."}            </Typography>
         </Stack>
       </ShadowContainer>
     </Stack>
