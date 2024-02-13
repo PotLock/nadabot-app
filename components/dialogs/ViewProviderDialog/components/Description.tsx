@@ -82,17 +82,10 @@ export default function Description({ providerInfo }: Props) {
         </Typography>
         <Typography textOverflow="ellipsis" mt={2}>
           {providerInfo?.description}
-          {/* Lorem ipsum dolor sit amet, consectet adipiscing elit, sed do eiusmod
-          tempor ncididunt ut labore et dolore magna aliqua. Ut enim ad minim
-          veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-          ea commodo consequat. Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. */}
         </Typography>
         {/* Verifiers */}
         {verifiedUsers && verifiedUsers[0] && (
           <Stack direction="row" mt={2}>
-            {/* TODO: buscar as imagens do NEAR Social DB */}
             <AvatarGroup>
               {verifiedUsers.slice(0, 3).map((userAccountId) => (
                 <CustomAvatar key={userAccountId} accountId={userAccountId} />
@@ -101,7 +94,7 @@ export default function Description({ providerInfo }: Props) {
             <Typography fontSize={12} ml={1}>
               <strong>{verifiedUsers[0]}</strong>
             </Typography>
-            {/* Se tiver mais */}
+            {/* If there are more users... */}
             {verifiedUsers.length > 1 && (
               <Typography fontSize={12} ml={0.5}>
                 and <strong>{verifiedUsers.length - 1} others</strong> Verified

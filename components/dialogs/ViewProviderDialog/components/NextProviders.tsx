@@ -11,9 +11,9 @@ type Props = {
 };
 
 export default function NextProviders({ providerInfo }: Props) {
-  const { active, deactivated } = useFilteredProviders(
-    providerInfo!.provider_id,
-  );
+  const { active, deactivated } = useFilteredProviders({
+    skipProviderId: providerInfo!.provider_id,
+  });
   const { maxWidth805 } = useBreakPoints();
   const { isAdmin } = useUser();
 

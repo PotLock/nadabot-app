@@ -8,6 +8,7 @@ import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useIsHumanFilteredProviders from "@nadabot/hooks/useIsHumanFilteredProviders";
 import { Routes } from "@nadabot/routes";
 import colors from "@nadabot/theme/colors";
+import providerSorts from "@nadabot/utils/providerSorts";
 
 import ContractsContainer from "../../containers/ContractsContainer";
 import { ShadowContainer } from "../../containers/ShadowContainer";
@@ -18,7 +19,9 @@ export default function ChecksSection() {
   const { walletConnected } = useUser();
   const { maxWidth805 } = useBreakPoints();
   const [searchPattern, setSearchPattern] = useState("");
-  const { activeNoHuman, active } = useIsHumanFilteredProviders();
+  const { activeNoHuman, active } = useIsHumanFilteredProviders({
+    sortMethod: providerSorts.higherWeightFirst,
+  });
 
   const addCustomCheckHandler = useCallback(() => {
     router.push(Routes.ADD_STAMP);

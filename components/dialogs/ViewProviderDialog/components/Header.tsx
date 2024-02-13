@@ -281,7 +281,6 @@ export default function Header({ providerInfo }: Props) {
             </Typography>
           </Stack>
           <Stack alignItems="center" mr={maxWidth700 ? 0 : 2} width="142px">
-            {/* TODO: Where to get this information? "People Verified" */}
             <Typography fontWeight={700} fontSize={36} textAlign="center">
               {providerInfo?.stamp_count}
             </Typography>
