@@ -135,9 +135,7 @@ export default function AddStampPage() {
         if (typeof response !== "boolean") {
           formik.setFieldError(
             "method",
-            `The return is not a boolean, it is a${
-              Array.isArray(response) ? "n array" : ` ${typeof response}`
-            }!`,
+            `The return is not a boolean, it is a${Array.isArray(response) ? "n array" : ` ${typeof response}`}!`,
           );
           hideSpinner();
           return;
