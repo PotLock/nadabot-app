@@ -73,13 +73,11 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
         userStampsSum += stamp.provider.default_weight;
       });
 
-      const userStampsAvarageScore = userStampsSum / _stamps.length;
-
       // useUser => update isHuman state
       updateUserInfo({
         isVerifiedHuman:
-          userStampsAvarageScore >= _config.default_human_threshold,
-        score: userStampsAvarageScore || 0,
+          userStampsSum >= _config.default_human_threshold,
+        score: userStampsSum || 0,
       });
     }
 
