@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 import {
+  ProviderExternal,
   ProviderExternalWithIsHuman,
   ProviderStatus,
 } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
@@ -10,13 +11,21 @@ import { useProviders } from "./store/useProviders";
 import { useStamps } from "./store/useStamps";
 import { useUser } from "./store/useUser";
 
+type Props = {
+  skipProviderId?: string;
+  sortMethod?: (
+    providers: ProviderExternal[] | ProviderExternalWithIsHuman[],
+  ) => ProviderExternal[] | ProviderExternalWithIsHuman[];
+};
+
 /**
  * Provide filtered providers adding if the user is a human inside this provider or not
  * [it also removes providers in with the user has completed the requiriment / is vefiried]
- * @param skipProviderId Skip provider with this id
+ * @param props.skipProviderId Skip provider with this id
+ * @param props.sortMethod Sort list method
  * @returns
  */
-const useIsHumanFilteredProviders = (skipProviderId: string = "") => {
+const useIsHumanFilteredProviders = ({ skipProviderId, sortMethod }: Props) => {
   const { accountId } = useUser();
   const [active, setActive] = useState<ProviderExternalWithIsHuman[]>([]);
   const [activeIsHuman, setActiveIsHuman] = useState<
@@ -63,13 +72,21 @@ const useIsHumanFilteredProviders = (skipProviderId: string = "") => {
 
       // (not logged in state)
       if (!accountId) {
-        setActive(tempActive);
+        setActive(
+          sortMethod
+            ? (sortMethod(tempActive) as ProviderExternalWithIsHuman[])
+            : tempActive,
+        );
       }
 
-      setUpdatedProviders(tempHuman);
+      setUpdatedProviders(
+        sortMethod
+          ? (sortMethod(tempHuman) as ProviderExternalWithIsHuman[])
+          : tempHuman,
+      );
       isReady(true);
     }
-  }, [accountId, providers, providersReady]);
+  }, [accountId, providers, providersReady, sortMethod]);
 
   useEffect(() => {
     fetchIsHumanInfo();
@@ -110,16 +127,29 @@ const useIsHumanFilteredProviders = (skipProviderId: string = "") => {
       });
 
       if (accountId) {
-        setActive(tempActive);
+        setActive(
+          sortMethod
+            ? (sortMethod(tempActive) as ProviderExternalWithIsHuman[])
+            : tempActive,
+        );
       }
 
-      setActiveIsHuman(tempActiveIsHuman);
-      setActiveNoHuman(tempActiveNoHuman);
+      setActiveIsHuman(
+        sortMethod
+          ? (sortMethod(tempActiveIsHuman) as ProviderExternalWithIsHuman[])
+          : tempActiveIsHuman,
+      );
+
+      setActiveNoHuman(
+        sortMethod
+          ? (sortMethod(tempActiveNoHuman) as ProviderExternalWithIsHuman[])
+          : tempActiveNoHuman,
+      );
     }
-  }, [updatedProviders, skipProviderId, stamps, accountId, ready]);
+  }, [updatedProviders, skipProviderId, stamps, accountId, ready, sortMethod]);
 
   return {
-    all: providers,
+    all: sortMethod ? sortMethod(providers) : providers,
     active,
     activeIsHuman,
     activeNoHuman,

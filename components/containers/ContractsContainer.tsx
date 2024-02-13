@@ -6,6 +6,7 @@ import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import { ProviderExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
+import providerSorts from "@nadabot/utils/providerSorts";
 
 import ContractInfo from "../ContractInfo";
 import CustomCircularProgress from "../ui/CustomCircularProgress";
@@ -32,7 +33,9 @@ export default function ContractsContainer({
   const { isAdmin } = useUser();
 
   // Providers (activated ones only)
-  const { active, deactivated, ready } = useFilteredProviders();
+  const { active, deactivated, ready } = useFilteredProviders({
+    sortMethod: providerSorts.higherWeightFirst,
+  });
   // Give preference to providersList
   const providers = providersList
     ? providersList
@@ -61,6 +64,7 @@ export default function ContractsContainer({
         setFilteredProviders(_filteredProviders);
         return;
       }
+
       setFilteredProviders(providers);
     } else {
       setFilteredProviders(providers);
