@@ -36,7 +36,7 @@ export default function AdminReviewChecksSection() {
   const [fuse, setFuse] = useState<Fuse<ProviderExternal>>();
   const [filter, setFilter] = useState<FilterType>(queryFilterType);
   const [searchPattern, setSearchPattern] = useState("");
-  const providers = useFilteredProviders();
+  const providers = useFilteredProviders({});
   const [selectedProviders, setSelectedProviders] = useState(providers.all);
   const [filteredProviders, setFilteredProviders] = useState(selectedProviders);
 

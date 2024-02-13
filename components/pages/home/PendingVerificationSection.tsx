@@ -7,13 +7,16 @@ import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useIsHumanFilteredProviders from "@nadabot/hooks/useIsHumanFilteredProviders";
 import colors from "@nadabot/theme/colors";
+import providerSorts from "@nadabot/utils/providerSorts";
 
 import { ShadowContainer } from "../../containers/ShadowContainer";
 
 export default function PendingVerificationSection() {
   const { walletConnected } = useUser();
   const { maxWidth805 } = useBreakPoints();
-  const { activeIsHuman, ready } = useIsHumanFilteredProviders();
+  const { activeIsHuman, ready } = useIsHumanFilteredProviders({
+    sortMethod: providerSorts.higherWeightFirst,
+  });
 
   const hasProviders = activeIsHuman.length > 0;
 

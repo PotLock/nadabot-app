@@ -36,15 +36,9 @@ export const useProviders = create<State & Actions>()(
         });
         const response = await contract.get_providers();
 
-        // sort providers to show the most weight first
-        const sortedProviders = response.sort(
-          (providerA, providerB) =>
-            providerB.default_weight - providerA.default_weight,
-        );
-
         set({
           ready: changeReadyState ? true : get().ready,
-          providers: sortedProviders,
+          providers: response,
         });
       },
 

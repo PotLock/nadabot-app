@@ -140,8 +140,6 @@ const NavBar = () => {
   }, [router]);
 
   const connectWalletHandler = useCallback(() => {
-    // TODO: Alterar o estado da aplicação
-    // TODO: Como saber que a carteira foi conectada? HERE-wallet faz isso sem atualizar a tela
     walletApi.signInModal();
   }, []);
 
