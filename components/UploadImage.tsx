@@ -26,9 +26,7 @@ export default function UploadImage({
     <>
       <Stack
         p={4}
-        border={`1px solid ${
-          errorMessage ? colors.ERROR_RED : colors.LIGHTGRAY
-        }`}
+        border={`1px solid ${errorMessage ? colors.ERROR_RED : colors.LIGHTGRAY}`}
         borderRadius="8px"
         direction={maxWidth430 ? "column" : "row"}
         justifyContent="space-between"
