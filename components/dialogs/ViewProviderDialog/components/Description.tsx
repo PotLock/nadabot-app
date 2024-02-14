@@ -2,6 +2,7 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { AvatarGroup, Slider, Stack, Typography } from "@mui/material";
 import { useDebounce } from "@uidotdev/usehooks";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
@@ -9,6 +10,7 @@ import Tag from "@nadabot/components/ui/Tag";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import { Routes } from "@nadabot/routes";
 import * as contract from "@nadabot/services/contracts/sybil.nadabot";
 import { ProviderExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
 import colors from "@nadabot/theme/colors";
@@ -21,6 +23,7 @@ type Props = {
 
 export default function Description({ providerInfo }: Props) {
   const { isAdmin } = useUser();
+  const router = useRouter();
   const { maxWidth962, maxWidth600, maxWidth430 } = useBreakPoints();
   const [updating, setUpdating] = useState(false);
   const [points, setPoints] = useState(providerInfo?.default_weight);
@@ -114,7 +117,7 @@ export default function Description({ providerInfo }: Props) {
         </Stack>
       </Stack>
       {/* Right */}
-      {isAdmin && (
+      {isAdmin && router.route === Routes.ADMIN_HOME && (
         <Stack
           p={2}
           ml={maxWidth962 ? 0 : 4}

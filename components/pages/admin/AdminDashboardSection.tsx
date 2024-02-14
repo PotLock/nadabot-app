@@ -15,8 +15,6 @@ import { ListDashboardIcon } from "@nadabot/theme/icons";
 export default function AdminDashboardSection() {
   const { maxWidth962, maxWidth700 } = useBreakPoints();
   const { config, updateHumanThreshold } = useConfig();
-  // NOTE: Check this (/ 100) with Lachland
-  // const adjustedHumanThreshold = default_human_threshold / 100;
   const adjustedHumanThreshold = config.default_human_threshold;
 
   const [humanThreshold, setHumanThreshold] = useState(adjustedHumanThreshold);
@@ -25,8 +23,6 @@ export default function AdminDashboardSection() {
   const setThresholdHandler = useCallback(async () => {
     if (adjustedHumanThreshold !== humanThreshold) {
       showSpinner();
-      // NOTE: Check this (* 100) with Lachland
-      // const updatedHumanThreshold = humanThreshold * 100;
       const updatedHumanThreshold = humanThreshold;
       await contract.admin_set_default_human_threshold(updatedHumanThreshold);
       updateHumanThreshold(updatedHumanThreshold);

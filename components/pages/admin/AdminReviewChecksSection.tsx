@@ -153,7 +153,11 @@ export default function AdminReviewChecksSection() {
           flexWrap="wrap"
         >
           {filteredProviders.map((provider) => (
-            <ContractInfo key={provider.provider_id} providerInfo={provider} />
+            <ContractInfo
+              key={provider.provider_id}
+              providerInfo={provider}
+              adminView
+            />
           ))}
         </Stack>
       </ShadowContainer>
