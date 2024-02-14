@@ -15,6 +15,7 @@ export default function AdminHome() {
 
   if (!isAdmin) {
     router.push(Routes.HOME);
+    return;
   }
 
   return (

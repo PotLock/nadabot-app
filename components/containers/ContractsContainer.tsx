@@ -2,7 +2,6 @@ import { Stack, Typography } from "@mui/material";
 import Fuse from "fuse.js";
 import { useEffect, useState } from "react";
 
-import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import { ProviderExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
@@ -16,6 +15,7 @@ type Props = {
   searchPattern?: string;
   showLoadingState?: boolean;
   providersList?: ProviderExternal[];
+  adminView?: boolean;
 };
 
 // Fields to use as search keyword filter
@@ -28,9 +28,10 @@ export default function ContractsContainer({
   searchPattern,
   showLoadingState,
   providersList,
+  adminView,
 }: Props) {
   const { maxWidth805 } = useBreakPoints();
-  const { isAdmin } = useUser();
+  const [isAdmin] = useState(adminView || false);
 
   // Providers (activated ones only)
   const { active, deactivated, ready } = useFilteredProviders({
@@ -102,7 +103,11 @@ export default function ContractsContainer({
         overflow="scroll"
       >
         {filteredProviders.map((provider) => (
-          <ContractInfo key={provider.provider_id} providerInfo={provider} />
+          <ContractInfo
+            key={provider.provider_id}
+            providerInfo={provider}
+            adminView={adminView}
+          />
         ))}
       </Stack>
     </Stack>

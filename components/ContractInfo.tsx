@@ -17,7 +17,6 @@ import { useCallback, useEffect, useState } from "react";
 
 import { DIALOGS } from "@nadabot/contexts/DialogsProvider";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
-import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useDialogs from "@nadabot/hooks/useDialogs";
 import useIsHumanCacheCheck from "@nadabot/hooks/useIsHumanCacheCheck";
@@ -45,6 +44,7 @@ type Props = {
   isPreview?: boolean;
   isStamp?: boolean;
   verifyButtonSx?: SxProps<Theme>;
+  adminView?: boolean;
 };
 
 export default function ContractInfo({
@@ -55,8 +55,9 @@ export default function ContractInfo({
   colorSystem = "regular",
   isStamp,
   verifyButtonSx,
+  adminView,
 }: Props) {
-  const { isAdmin } = useUser();
+  const [isAdmin] = useState(adminView || false);
   const { updateProvider } = useProviders();
   const { maxWidth430 } = useBreakPoints();
   const { openDialog } = useDialogs();

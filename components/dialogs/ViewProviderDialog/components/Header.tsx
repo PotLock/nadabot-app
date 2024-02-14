@@ -293,7 +293,7 @@ export default function Header({ providerInfo }: Props) {
           <CustomCircularProgress sx={{ py: 1, pb: 1.7 }} size={30} />
         ) : (
           <>
-            {isAdmin ? (
+            {isAdmin && router.route === Routes.ADMIN_HOME ? (
               <Stack
                 direction="row"
                 justifyContent="space-evenly"
