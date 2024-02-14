@@ -24,7 +24,7 @@ export default function AdminChecksSection() {
 
       {/* Checks Container */}
       <ShadowContainer sx={{ mt: 2 }}>
-        <ContractsContainer inline />
+        <ContractsContainer inline adminView />
       </ShadowContainer>
     </Stack>
   );
