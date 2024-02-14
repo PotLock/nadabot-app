@@ -1,8 +1,5 @@
 import { Container } from "@mui/material";
 
-import AdminChecksSection from "@nadabot/components/pages/home/AdminChecksSection";
-import AdminDashboardSection from "@nadabot/components/pages/home/AdminDashboardSection";
-import AdminReviewChecksSection from "@nadabot/components/pages/home/AdminReviewChecksSection";
 import ChecksSection from "@nadabot/components/pages/home/ChecksSection";
 import CompletedSection from "@nadabot/components/pages/home/CompletedSection";
 import ExploreSection from "@nadabot/components/pages/home/ExploreSection";
@@ -17,17 +14,15 @@ export default function Home() {
   useVerifiedProviderSuccess();
   // Show ViewProviderDialog if the URL has `viewStamp` query
   useViewStampURLQuery();
-  const { isAdmin, walletConnected } = useUser();
+  const { walletConnected } = useUser();
 
   return (
     <>
       <Container>
-        {isAdmin && <AdminDashboardSection />}
-        {!isAdmin && <ExploreSection />}
-        {!isAdmin && <PendingVerificationSection />}
-        {isAdmin ? <AdminChecksSection /> : <ChecksSection />}
-        {!isAdmin && walletConnected && <CompletedSection />}
-        {isAdmin && <AdminReviewChecksSection />}
+        <ExploreSection />
+        <PendingVerificationSection />
+        <ChecksSection />
+        {walletConnected && <CompletedSection />}
       </Container>
       <InvitationHeroSection />
     </>
