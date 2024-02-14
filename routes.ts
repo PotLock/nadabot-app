@@ -5,4 +5,5 @@ export const Routes = {
   ) => `/?filterType=${filterType}`,
   ADD_STAMP: "/add-stamp",
   ACCOUNT_INFO: (accountId: string) => `/account-info?accountId=${accountId}`,
+  ADMIN_HOME: "/admin",
 };

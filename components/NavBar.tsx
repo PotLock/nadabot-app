@@ -35,6 +35,7 @@ const Dropbox = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState(false);
   const { maxWidth430 } = useBreakPoints();
+  const router = useRouter();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -43,6 +44,16 @@ const Dropbox = () => {
   const handleClose = () => {
     setAnchorEl(null);
     setOpen(false);
+  };
+
+  const adminDashboardHandler = () => {
+    handleClose();
+    router.push(Routes.ADMIN_HOME);
+  };
+
+  const goHomeHandler = () => {
+    handleClose();
+    router.push(Routes.HOME);
   };
 
   const visitNearProfileHandler = () => {
@@ -105,6 +116,31 @@ const Dropbox = () => {
             {truncate(profileInfo?.name || accountId, 14)}
           </Typography>
         </Stack>
+        {isAdmin && router.route !== Routes.ADMIN_HOME && (
+          <MenuItem
+            onClick={adminDashboardHandler}
+            sx={{
+              mb: 2,
+              fontWeight: 500,
+              lineHeight: "20px",
+            }}
+          >
+            Admin Dashboard
+          </MenuItem>
+        )}
+
+        {isAdmin && router.route === Routes.ADMIN_HOME && (
+          <MenuItem
+            onClick={goHomeHandler}
+            sx={{
+              mb: 2,
+              fontWeight: 500,
+              lineHeight: "20px",
+            }}
+          >
+            Home
+          </MenuItem>
+        )}
         <MenuItem
           onClick={visitNearProfileHandler}
           sx={{
@@ -213,12 +249,8 @@ const NavBar = () => {
                     <Dropbox />
                     <Tag
                       sx={{ mt: maxWidth430 ? 1 : 0 }}
-                      type={isAdmin || isVerifiedHuman ? "blue" : "red"}
-                      label={
-                        isAdmin || isVerifiedHuman
-                          ? "Verified Human"
-                          : "Not A Human"
-                      }
+                      type={isVerifiedHuman ? "blue" : "red"}
+                      label={isVerifiedHuman ? "Verified Human" : "Not A Human"}
                     />
                   </Stack>
                 </Stack>
