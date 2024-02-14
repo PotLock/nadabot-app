@@ -1,34 +1,21 @@
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import {
-  Button,
-  Container,
-  Divider,
-  Menu,
-  MenuItem,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Menu, MenuItem, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
-import NadabotLogo from "@nadabot/assets/icons/nadabot-logo";
+import ButtonContainer from "@nadabot/components/containers/ButtonContainer";
+import CustomAvatar from "@nadabot/components/ui/CustomAvatar";
 import { NETWORK } from "@nadabot/constants";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useSpinner from "@nadabot/hooks/useSpinner";
 import useWeb3Auth from "@nadabot/hooks/useWeb3Auth";
 import { Routes } from "@nadabot/routes";
-import { walletApi } from "@nadabot/services/contracts";
 import colors from "@nadabot/theme/colors";
-import { BellIcon } from "@nadabot/theme/icons";
 import truncate from "@nadabot/utils/truncate";
 
-import ButtonContainer from "./containers/ButtonContainer";
-import CustomAvatar from "./ui/CustomAvatar";
-import Tag from "./ui/Tag";
-
-const Dropbox = () => {
+const UserDropbox = () => {
   const { accountId, profileInfo, isAdmin } = useUser();
   const { signOut } = useWeb3Auth();
   const { showSpinner } = useSpinner();
@@ -166,111 +153,4 @@ const Dropbox = () => {
   );
 };
 
-const NavBar = () => {
-  const router = useRouter();
-  const { walletConnected, isAdmin, isVerifiedHuman } = useUser();
-  const { maxWidth430 } = useBreakPoints();
-
-  const goHomeHandler = useCallback(() => {
-    router.push(Routes.HOME);
-  }, [router]);
-
-  const connectWalletHandler = useCallback(() => {
-    walletApi.signInModal();
-  }, []);
-
-  // Environment indicator (staging and testnet only)
-  let hostEnv = window.location.host.includes("staging")
-    ? "staging"
-    : window.location.host.includes("testnet")
-      ? "testnet"
-      : null;
-
-  hostEnv = window.location.host.includes("localhost") ? "testnet" : hostEnv;
-
-  return (
-    <>
-      {/* Environment Indicator */}
-      {hostEnv && (
-        <Stack alignItems="center" mb={2} bgcolor={colors.NEUTRAL100}>
-          <Typography fontWeight={600} py={2}>
-            <strong>network:</strong> {hostEnv}
-          </Typography>
-        </Stack>
-      )}
-
-      <Stack
-        direction="row"
-        width="100%"
-        sx={{
-          borderBottomWidth: "1px",
-          borderBottomColor: colors.LIGHTGRAY,
-          borderBottomStyle: "solid",
-          mb: 3,
-        }}
-      >
-        <Container>
-          <Stack
-            direction={maxWidth430 && walletConnected ? "column" : "row"}
-            height={maxWidth430 ? "fit-content" : 96}
-            justifyContent="space-between"
-            alignItems="center"
-            my={maxWidth430 ? 2 : 0}
-          >
-            {/* Left */}
-            <ButtonContainer onClick={goHomeHandler}>
-              <NadabotLogo />
-            </ButtonContainer>
-
-            {/* Right */}
-            <Stack>
-              {walletConnected ? (
-                <Stack direction="row" mb={maxWidth430 ? 2 : 0}>
-                  <Stack
-                    direction={maxWidth430 ? "column" : "row"}
-                    width={isAdmin ? 350 : 300}
-                    justifyContent="space-between"
-                    alignItems="center"
-                  >
-                    <BellIcon
-                      sx={{
-                        width: 14,
-                        display: maxWidth430 ? "none" : "block",
-                      }}
-                    />
-                    <Divider
-                      orientation="vertical"
-                      sx={{
-                        bgcolor: colors.PRIMARY,
-                        display: maxWidth430 ? "none" : "block",
-                      }}
-                      flexItem
-                    />
-                    <Dropbox />
-                    <Tag
-                      sx={{ mt: maxWidth430 ? 1 : 0 }}
-                      type={isVerifiedHuman ? "blue" : "red"}
-                      label={isVerifiedHuman ? "Verified Human" : "Not A Human"}
-                    />
-                  </Stack>
-                </Stack>
-              ) : (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  disableRipple
-                  onClick={connectWalletHandler}
-                >
-                  Login
-                </Button>
-              )}
-            </Stack>
-          </Stack>
-        </Container>
-      </Stack>
-    </>
-  );
-};
-
-export default NavBar;
+export default UserDropbox;

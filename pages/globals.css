@@ -118,6 +118,26 @@ nextjs-portal {
   margin-top: 8px;
 }
 
+.notification-dropbox {
+  .MuiPaper-root {
+    width: 414px;
+    left: auto !important;
+    right: 72px;
+
+    > ul {
+      padding-bottom: 0;
+    }
+
+    > ul > div {
+      margin-bottom: 0px;
+    }
+
+    @media screen and (max-width:500px) {
+      right: 16px;
+    }
+  }
+}
+
 /* Filter Button */
 .filter-button {
   display: flex;

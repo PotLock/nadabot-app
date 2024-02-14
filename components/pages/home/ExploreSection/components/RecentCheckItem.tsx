@@ -80,7 +80,7 @@ export default function RecentCheckItem({
           {`${method}()`}
         </Typography>
       </Stack>
-      <Stack direction="row" alignItems="center">
+      <Stack direction="row" alignItems="center" ml={2}>
         <Typography
           color={colors.NEUTRAL700}
           lineHeight="normal"
