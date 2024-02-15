@@ -248,7 +248,7 @@ export default function ContractInfo({
 
   return (
     <Stack
-      minWidth={maxWidth430 ? 0 : 352}
+      minWidth={maxWidth430 ? "100%" : 352}
       maxWidth={maxWidth430 ? "100%" : 352}
       width="100%"
       sx={{ background: isStamp ? colors.GRAY100 : "transparent", ...sx }}

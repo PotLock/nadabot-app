@@ -141,6 +141,12 @@ export default function AccountInfoPage() {
 
       {/* Completed Checks */}
       <GridContainer
+        sx={{
+          borderRadius: "6px",
+          border: "2px solid #f0f0f0",
+          p: 2,
+          mt: 8,
+        }}
         centralize={
           userStamps.length >= 3 || loading || userStamps.length === 0
         }

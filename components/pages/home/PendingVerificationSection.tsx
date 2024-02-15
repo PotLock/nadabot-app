@@ -1,6 +1,7 @@
 import { Stack, Typography } from "@mui/material";
 import { useCallback } from "react";
 
+import GridContainer from "@nadabot/components/containers/GridContainer";
 import ContractInfo from "@nadabot/components/ContractInfo";
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import { useUser } from "@nadabot/hooks/store/useUser";
@@ -22,14 +23,7 @@ export default function PendingVerificationSection() {
 
   const Cards = useCallback(
     () => (
-      <Stack
-        mt={2}
-        direction="row"
-        justifyContent={maxWidth805 ? "center" : "space-between"}
-        gap={2}
-        flexWrap="wrap"
-        overflow="scroll"
-      >
+      <GridContainer centralize={activeIsHuman.length >= 3}>
         {activeIsHuman.map((provider) => (
           <ContractInfo
             key={provider.provider_id}
@@ -41,9 +35,9 @@ export default function PendingVerificationSection() {
             }}
           />
         ))}
-      </Stack>
+      </GridContainer>
     ),
-    [activeIsHuman, maxWidth805],
+    [activeIsHuman],
   );
 
   if (!walletConnected || !hasProviders) {
