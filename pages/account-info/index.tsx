@@ -1,7 +1,8 @@
 import { Container, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
+import GridContainer from "@nadabot/components/containers/GridContainer";
 import ContractInfo from "@nadabot/components/ContractInfo";
 import CustomAvatar from "@nadabot/components/ui/CustomAvatar";
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
@@ -58,6 +59,18 @@ export default function AccountInfoPage() {
       })();
     }
   }, [accountId]);
+
+  const StampCards = useCallback(
+    () =>
+      userStamps.map((stamp) => (
+        <ContractInfo
+          key={stamp.provider.provider_id}
+          providerInfo={stamp.provider}
+          isStamp
+        />
+      )),
+    [userStamps],
+  );
 
   return (
     <Container sx={{ mb: 8 }}>
@@ -127,50 +140,33 @@ export default function AccountInfoPage() {
       )}
 
       {/* Completed Checks */}
-      <Stack
-        mt={8}
-        p={2}
-        gap={2}
-        borderRadius="6px"
-        border="2px solid #f0f0f0"
-        flexWrap="wrap"
-        direction="row"
-        justifyContent={
-          loading || userStamps.length === 0
-            ? "center"
-            : maxWidth805
-              ? "center"
-              : "space-between"
+      <GridContainer
+        sx={{
+          borderRadius: "6px",
+          border: "2px solid #f0f0f0",
+          p: 2,
+          mt: 8,
+        }}
+        centralize={
+          userStamps.length >= 3 || loading || userStamps.length === 0
         }
       >
         {loading ? (
-          <Stack direction="row" justifyContent="center">
-            <CustomCircularProgress />
-          </Stack>
+          <CustomCircularProgress />
         ) : (
           <>
             {userStamps.length > 0 ? (
-              <>
-                {userStamps.map((stamp) => (
-                  <ContractInfo
-                    key={stamp.provider.provider_id}
-                    providerInfo={stamp.provider}
-                    isStamp
-                  />
-                ))}
-              </>
+              <StampCards />
             ) : (
-              <>
-                <Stack direction="row" justifyContent="center">
-                  <Typography fontWeight={500}>
-                    This user does not have any verified checks
-                  </Typography>
-                </Stack>
-              </>
+              <Stack direction="row" justifyContent="center" p={12}>
+                <Typography fontWeight={500}>
+                  This user does not have any verified checks
+                </Typography>
+              </Stack>
             )}
           </>
         )}
-      </Stack>
+      </GridContainer>
     </Container>
   );
 }

@@ -9,6 +9,7 @@ const useBreakPoints = () => {
   const maxWidth962 = useMediaQuery("(max-width:962px)");
   const maxWidth1110 = useMediaQuery("(max-width:1110px)");
   const maxWidth1144 = useMediaQuery("(max-width:1144px)");
+  const maxWidth1189 = useMediaQuery("(max-width:1189px)");
   const maxWidth1200 = useMediaQuery("(max-width:1200px)");
   const maxWidth1280 = useMediaQuery("(max-width:1280px)");
 
@@ -21,6 +22,7 @@ const useBreakPoints = () => {
     maxWidth962,
     maxWidth1110,
     maxWidth1144,
+    maxWidth1189,
     maxWidth1200,
     maxWidth1280,
   };

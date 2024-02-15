@@ -3,6 +3,7 @@ import Fuse from "fuse.js";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
+import GridContainer from "@nadabot/components/containers/GridContainer";
 import ContractInfo from "@nadabot/components/ContractInfo";
 import CustomButton from "@nadabot/components/ui/CustomButton";
 import FilterButton from "@nadabot/components/ui/FilterButton";
@@ -145,12 +146,12 @@ export default function AdminReviewChecksSection() {
             />
           </Stack>
         </Stack>
-        <Stack
-          mt={2}
-          direction="row"
-          justifyContent={maxWidth805 ? "center" : "space-between"}
-          gap={2}
-          flexWrap="wrap"
+        <GridContainer
+          centralize={filteredProviders.length >= 3}
+          sx={{
+            mt: 2,
+            gap: 3.6,
+          }}
         >
           {filteredProviders.map((provider) => (
             <ContractInfo
@@ -159,7 +160,7 @@ export default function AdminReviewChecksSection() {
               adminView
             />
           ))}
-        </Stack>
+        </GridContainer>
       </ShadowContainer>
     </Stack>
   );

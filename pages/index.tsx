@@ -6,6 +6,7 @@ import ExploreSection from "@nadabot/components/pages/home/ExploreSection";
 import InvitationHeroSection from "@nadabot/components/pages/home/InvitationHeroSection";
 import PendingVerificationSection from "@nadabot/components/pages/home/PendingVerificationSection";
 import { useUser } from "@nadabot/hooks/store/useUser";
+import useCheckPendingVerification from "@nadabot/hooks/useCheckPendingVerification";
 import useVerifiedProviderSuccess from "@nadabot/hooks/useVerifiedProviderSuccess";
 import useViewStampURLQuery from "@nadabot/hooks/useViewStampURLQuery";
 
@@ -14,6 +15,9 @@ export default function Home() {
   useVerifiedProviderSuccess();
   // Show ViewProviderDialog if the URL has `viewStamp` query
   useViewStampURLQuery();
+  // Detect when a provider in which the user "Got Checked" added the user as a human.
+  useCheckPendingVerification();
+
   const { walletConnected } = useUser();
 
   return (

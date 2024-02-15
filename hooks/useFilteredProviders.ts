@@ -1,5 +1,7 @@
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+import { Routes } from "@nadabot/routes";
 import {
   ProviderExternal,
   ProviderExternalWithIsHuman,
@@ -27,6 +29,8 @@ const useFilteredProviders = ({ skipProviderId, sortMethod }: Props) => {
   const [deactivated, setDeactivated] = useState<ProviderExternal[]>([]);
   const { providers, ready } = useProviders();
   const { stamps } = useStamps();
+  const router = useRouter();
+  const [isAdminPage] = useState(router.route === Routes.ADMIN_HOME);
 
   useEffect(() => {
     const tempActive: ProviderExternal[] = [];
@@ -41,7 +45,11 @@ const useFilteredProviders = ({ skipProviderId, sortMethod }: Props) => {
         }
       });
 
-      if (provider.provider_id !== skipProviderId && !hasStamp) {
+      // NOTE: If it's /admin page, should show all providers
+      if (
+        provider.provider_id !== skipProviderId &&
+        (!hasStamp || isAdminPage)
+      ) {
         if (provider.status === ProviderStatus.Active) {
           tempActive.push(provider);
         } else {
@@ -52,7 +60,7 @@ const useFilteredProviders = ({ skipProviderId, sortMethod }: Props) => {
 
     setActive(sortMethod ? sortMethod(tempActive) : tempActive);
     setDeactivated(sortMethod ? sortMethod(tempDeactivated) : tempDeactivated);
-  }, [providers, skipProviderId, stamps, sortMethod]);
+  }, [providers, skipProviderId, stamps, sortMethod, router, isAdminPage]);
 
   return {
     all: sortMethod ? sortMethod(providers) : providers,

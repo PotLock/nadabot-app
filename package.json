@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "npm run prepare; next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint --ext .ts,tsx ./ --fix; next lint",
-    "precommit": "npm run lint"
+    "precommit": "npm run lint",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
@@ -23,6 +24,7 @@
     "@near-wallet-selector/near-mobile-wallet": "^8.9.2",
     "@uidotdev/usehooks": "^2.4.1",
     "@wpdas/naxios": "^2.0.1",
+    "copy-to-clipboard": "^3.3.3",
     "formik": "^2.4.5",
     "fuse.js": "^7.0.0",
     "near-api-js": "^2.1.4",

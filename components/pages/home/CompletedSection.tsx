@@ -1,16 +1,15 @@
 import { Stack, Typography } from "@mui/material";
 
+import GridContainer from "@nadabot/components/containers/GridContainer";
 import ContractInfo from "@nadabot/components/ContractInfo";
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import { useStamps } from "@nadabot/hooks/store/useStamps";
-import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import colors from "@nadabot/theme/colors";
 
 import { ShadowContainer } from "../../containers/ShadowContainer";
 
 export default function CompletedSection() {
-  const { isAdmin } = useUser();
   const { maxWidth805 } = useBreakPoints();
   const { stamps, ready } = useStamps();
 
@@ -40,13 +39,7 @@ export default function CompletedSection() {
       {/* Checks Container */}
       <ShadowContainer sx={{ mt: 2 }}>
         {ready ? (
-          <Stack
-            mt={isAdmin ? 0 : 2}
-            direction="row"
-            justifyContent={maxWidth805 ? "center" : "space-between"}
-            gap={2}
-            flexWrap="wrap"
-          >
+          <GridContainer centralize={stamps.length >= 3}>
             {stamps.map((stamp) => (
               <ContractInfo
                 key={stamp.provider.provider_id}
@@ -54,7 +47,7 @@ export default function CompletedSection() {
                 isStamp
               />
             ))}
-          </Stack>
+          </GridContainer>
         ) : (
           <CustomCircularProgress />
         )}

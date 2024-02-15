@@ -7,6 +7,7 @@ import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import { ProviderExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
 import providerSorts from "@nadabot/utils/providerSorts";
 
+import GridContainer from "./GridContainer";
 import ContractInfo from "../ContractInfo";
 import CustomCircularProgress from "../ui/CustomCircularProgress";
 
@@ -92,8 +93,9 @@ export default function ContractsContainer({
     );
   }
 
-  return (
-    <Stack>
+  // Use Flex View
+  if (inline) {
+    return (
       <Stack
         mt={isAdmin ? 0 : 2}
         direction="row"
@@ -110,6 +112,26 @@ export default function ContractsContainer({
           />
         ))}
       </Stack>
+    );
+  }
+
+  // Use Grid View
+  return (
+    <Stack>
+      <GridContainer
+        centralize={filteredProviders.length >= 3}
+        sx={{
+          mt: 2,
+        }}
+      >
+        {filteredProviders.map((provider) => (
+          <ContractInfo
+            key={provider.provider_id}
+            providerInfo={provider}
+            adminView={adminView}
+          />
+        ))}
+      </GridContainer>
     </Stack>
   );
 }
