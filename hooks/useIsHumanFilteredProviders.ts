@@ -155,7 +155,15 @@ const useIsHumanFilteredProviders = ({ skipProviderId, sortMethod }: Props) => {
           : tempActiveNoHuman,
       );
     }
-  }, [updatedProviders, skipProviderId, stamps, accountId, ready, sortMethod]);
+  }, [
+    updatedProviders,
+    skipProviderId,
+    stamps,
+    accountId,
+    ready,
+    sortMethod,
+    isAdminPage,
+  ]);
 
   return {
     all: sortMethod ? sortMethod(providers) : providers,
