@@ -138,6 +138,13 @@ nextjs-portal {
   }
 }
 
+.custom-dialogs {
+  .MuiPaper-root {
+    max-width: 465px;
+    width: 100%;
+  }
+}
+
 /* Filter Button */
 .filter-button {
   display: flex;
@@ -220,7 +227,7 @@ nextjs-portal {
   font-weight: 400;
 }
 
-.u-list, .u-list-socials {
+.u-list, .u-list-socials, .dialog-list-socials {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -248,4 +255,9 @@ nextjs-portal {
   @media screen and (max-width:600px) {
     flex-direction: row;
   }
+}
+
+.dialog-list-socials {
+  gap: 24px;
+  margin-top: 0;
 }

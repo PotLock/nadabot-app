@@ -13,6 +13,7 @@ import { useStamps } from "@nadabot/hooks/store/useStamps";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useIsHumanCacheCheck from "@nadabot/hooks/useIsHumanCacheCheck";
+import useProviderStatusChecker from "@nadabot/hooks/useProviderStatusChecker";
 import useSnackbars from "@nadabot/hooks/useSnackbars";
 import useSpinner from "@nadabot/hooks/useSpinner";
 import useWindowTabFocus from "@nadabot/hooks/useWindowTabFocus";
@@ -144,10 +145,17 @@ export default function Header({ providerInfo }: Props) {
     }
   }, [providerInfo?.provider_id, verify, showSpinner, hideSpinner]);
 
+  const { saveProvider } = useProviderStatusChecker();
+
   const getCheckHandler = useCallback(() => {
-    // Open up the external URL
-    window.open(providerInfo?.external_url, "_blank");
-  }, [providerInfo?.external_url]);
+    if (providerInfo?.external_url && providerInfo.provider_id) {
+      // Save provider to check if the user is now a human there
+      saveProvider(providerInfo.provider_id);
+
+      // Open up the external URL
+      window.open(providerInfo?.external_url, "_blank");
+    }
+  }, [providerInfo?.external_url, providerInfo?.provider_id, saveProvider]);
 
   const openContractAddress = useCallback(() => {
     const explorerURL =

@@ -20,6 +20,7 @@ import { useProviders } from "@nadabot/hooks/store/useProviders";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useDialogs from "@nadabot/hooks/useDialogs";
 import useIsHumanCacheCheck from "@nadabot/hooks/useIsHumanCacheCheck";
+import useProviderStatusChecker from "@nadabot/hooks/useProviderStatusChecker";
 import useSnackbars from "@nadabot/hooks/useSnackbars";
 import useSpinner from "@nadabot/hooks/useSpinner";
 import { Routes } from "@nadabot/routes";
@@ -96,14 +97,24 @@ export default function ContractInfo({
     }
   }, [isPreview, showSpinner, hideSpinner, verify, providerInfo.provider_id]);
 
+  const { saveProvider } = useProviderStatusChecker();
+
   const getCheckHandler = useCallback(() => {
     if (isPreview) {
       return;
     }
 
+    // Save provider to check if the user is now a human there
+    saveProvider(providerInfo.provider_id);
+
     // Open up the external URL
     window.open(providerInfo.external_url, "_blank");
-  }, [isPreview, providerInfo.external_url]);
+  }, [
+    isPreview,
+    providerInfo.external_url,
+    providerInfo.provider_id,
+    saveProvider,
+  ]);
 
   const [points, setPoints] = useState(providerInfo.default_weight);
   const [previousPoints, setPreviousPoints] = useState(

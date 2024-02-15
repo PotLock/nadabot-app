@@ -23,7 +23,7 @@ export default function ErrorDialog({ open, onClose, props }: Props) {
   }, [onClose]);
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={onClose} className="custom-dialogs">
       <DialogTitle>{props?.title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{props?.description}</DialogContentText>

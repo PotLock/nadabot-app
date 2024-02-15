@@ -2,8 +2,8 @@ import { Container, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
+import GridContainer from "@nadabot/components/containers/GridContainer";
 import ContractInfo from "@nadabot/components/ContractInfo";
-import GridContainer from "@nadabot/components/pages/account-info/GridContainer";
 import CustomAvatar from "@nadabot/components/ui/CustomAvatar";
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import Tag from "@nadabot/components/ui/Tag";

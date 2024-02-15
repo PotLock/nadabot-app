@@ -60,7 +60,7 @@ const SnackbarProvider: FC<Props> = ({ children }) => {
           direction="row"
           position="fixed"
           bottom={0}
-          zIndex={1000}
+          zIndex={9999}
           width="100%"
         >
           <Typography color={colors.WHITE}>{props.description}</Typography>
