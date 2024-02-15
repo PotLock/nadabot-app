@@ -23,7 +23,7 @@ export default function NoConnectedDialog({ open, onClose }: Props) {
   }, [onClose]);
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={onClose} className="custom-dialogs">
       <DialogTitle>Your wallet isn&apos;t connected</DialogTitle>
       <DialogContent>
         <DialogContentText>

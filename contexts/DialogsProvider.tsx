@@ -1,5 +1,6 @@
 import { FC, createContext, useCallback, useState } from "react";
 
+import ConfirmVerificationDialog from "@nadabot/components/dialogs/ConfirmVerificationDialog";
 import ErrorDialog from "@nadabot/components/dialogs/ErrorDialog";
 import NoConnectedDialog from "@nadabot/components/dialogs/NoConnectedDialog";
 import StampSentDialog from "@nadabot/components/dialogs/StampSentDialog";
@@ -11,6 +12,7 @@ export enum DIALOGS {
   StampSent,
   Error,
   ViewProvider,
+  ConfirmVerification,
 }
 
 export type DialogProps = {
@@ -91,6 +93,11 @@ const DialogsProvider: FC<Props> = ({ children }) => {
         open={_openDialog.dialog === DIALOGS.Error}
         onClose={closeDialog}
         props={{ title, description, providerId }}
+      />
+      <ConfirmVerificationDialog
+        open={_openDialog.dialog === DIALOGS.ConfirmVerification}
+        onClose={closeDialog}
+        props={{ providerId }}
       />
 
       {/* This is needed because it's a custom modal, not one created using MUI */}

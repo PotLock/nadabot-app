@@ -26,7 +26,7 @@ export default function StampSentDialog({ open, onClose }: Props) {
   }, [onClose, router]);
 
   return (
-    <Dialog open={open} onClose={okHandler}>
+    <Dialog open={open} onClose={okHandler} className="custom-dialogs">
       <DialogTitle>Done</DialogTitle>
       <DialogContent>
         <DialogContentText>Stamp sent successfully!</DialogContentText>

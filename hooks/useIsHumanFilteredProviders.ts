@@ -1,5 +1,7 @@
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
+import { Routes } from "@nadabot/routes";
 import {
   ProviderExternal,
   ProviderExternalWithIsHuman,
@@ -40,6 +42,9 @@ const useIsHumanFilteredProviders = ({ skipProviderId, sortMethod }: Props) => {
   const { providers, ready: providersReady } = useProviders();
   const [ready, isReady] = useState(false);
   const { stamps } = useStamps();
+
+  const router = useRouter();
+  const [isAdminPage] = useState(router.route === Routes.ADMIN_HOME);
 
   const fetchIsHumanInfo = useCallback(async () => {
     if (providersReady) {
@@ -110,7 +115,11 @@ const useIsHumanFilteredProviders = ({ skipProviderId, sortMethod }: Props) => {
           }
         });
 
-        if (provider.provider_id !== skipProviderId && !hasStamp) {
+        // NOTE: If it's /admin page, should show all providers
+        if (
+          provider.provider_id !== skipProviderId &&
+          (!hasStamp || isAdminPage)
+        ) {
           // Active
           if (provider.status === ProviderStatus.Active) {
             tempActive.push({ ...provider, is_user_a_human: false });
@@ -146,7 +155,15 @@ const useIsHumanFilteredProviders = ({ skipProviderId, sortMethod }: Props) => {
           : tempActiveNoHuman,
       );
     }
-  }, [updatedProviders, skipProviderId, stamps, accountId, ready, sortMethod]);
+  }, [
+    updatedProviders,
+    skipProviderId,
+    stamps,
+    accountId,
+    ready,
+    sortMethod,
+    isAdminPage,
+  ]);
 
   return {
     all: sortMethod ? sortMethod(providers) : providers,
