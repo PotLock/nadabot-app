@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   Chip,
-  CircularProgress,
   Slider,
   Stack,
   SxProps,
@@ -19,14 +18,13 @@ import { DIALOGS } from "@nadabot/contexts/DialogsProvider";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useDialogs from "@nadabot/hooks/useDialogs";
-import useIsHumanCacheCheck from "@nadabot/hooks/useIsHumanCacheCheck";
 import useProviderStatusChecker from "@nadabot/hooks/useProviderStatusChecker";
 import useSnackbars from "@nadabot/hooks/useSnackbars";
 import useSpinner from "@nadabot/hooks/useSpinner";
 import { Routes } from "@nadabot/routes";
 import * as contract from "@nadabot/services/contracts/sybil.nadabot";
 import {
-  ProviderExternal,
+  ProviderExternalWithIsHuman,
   ProviderStatus,
 } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
 import colors from "@nadabot/theme/colors";
@@ -41,7 +39,7 @@ type Props = {
   hidePoints?: boolean;
   sx?: SxProps<Theme>;
   colorSystem?: "regular" | "admin";
-  providerInfo: ProviderExternal;
+  providerInfo: ProviderExternalWithIsHuman;
   isPreview?: boolean;
   isStamp?: boolean;
   verifyButtonSx?: SxProps<Theme>;
@@ -64,30 +62,14 @@ export default function ContractInfo({
   const { openDialog } = useDialogs();
   const { showSpinner, hideSpinner } = useSpinner();
 
-  // Is Human Check
-  const {
-    isHuman,
-    ready: isHumanVerificationReady,
-    verify,
-  } = useIsHumanCacheCheck(
-    providerInfo.provider_id,
-    providerInfo.contract_id,
-    providerInfo.method_name,
-    providerInfo.account_id_arg_name,
-    isPreview,
-  );
-
   const verifyHandler = useCallback(async () => {
     if (isPreview) {
       return;
     }
 
     showSpinner();
-    // Check if it isHuman (and cache result)
-    const isHumanVerify = await verify();
-
-    // If so, then, call add_stamp method
-    if (isHumanVerify) {
+    // Call add_stamp method
+    if (providerInfo.is_user_a_human) {
       try {
         await contract.add_stamp(providerInfo.provider_id);
       } catch (error) {
@@ -95,7 +77,13 @@ export default function ContractInfo({
       }
       hideSpinner();
     }
-  }, [isPreview, showSpinner, hideSpinner, verify, providerInfo.provider_id]);
+  }, [
+    isPreview,
+    showSpinner,
+    hideSpinner,
+    providerInfo.provider_id,
+    providerInfo.is_user_a_human,
+  ]);
 
   const { saveProvider } = useProviderStatusChecker();
 
@@ -482,28 +470,23 @@ export default function ContractInfo({
                       </CustomButton>
                     </Stack>
                   ) : (
-                    <>
-                      {!isHumanVerificationReady && !isPreview ? (
-                        <CircularProgress
-                          size={22}
-                          sx={{ color: colors.BLUE, mt: 2, mb: 1.7, mr: 4 }}
-                        />
-                      ) : (
-                        <Button
-                          variant="contained"
-                          color="warning"
-                          size="medium"
-                          disableRipple
-                          onClick={isHuman ? verifyHandler : getCheckHandler}
-                          sx={{
-                            mt: maxWidth430 ? 2 : 0,
-                            ...verifyButtonSx,
-                          }}
-                        >
-                          {isHuman ? "Verify" : "Get Check"}
-                        </Button>
-                      )}
-                    </>
+                    <Button
+                      variant="contained"
+                      color="warning"
+                      size="medium"
+                      disableRipple
+                      onClick={
+                        providerInfo.is_user_a_human
+                          ? verifyHandler
+                          : getCheckHandler
+                      }
+                      sx={{
+                        mt: maxWidth430 ? 2 : 0,
+                        ...verifyButtonSx,
+                      }}
+                    >
+                      {providerInfo.is_user_a_human ? "Verify" : "Get Check"}
+                    </Button>
                   )}
                 </>
               )}

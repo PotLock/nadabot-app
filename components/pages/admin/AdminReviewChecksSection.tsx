@@ -11,7 +11,7 @@ import RegularInput from "@nadabot/components/ui/RegularInput";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import { Routes } from "@nadabot/routes";
-import { ProviderExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
+import { ProviderExternalWithIsHuman } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
 import colors from "@nadabot/theme/colors";
 import { SearchIconA } from "@nadabot/theme/icons";
 
@@ -34,12 +34,20 @@ export default function AdminReviewChecksSection() {
     queryFilterType = "all";
   }
 
-  const [fuse, setFuse] = useState<Fuse<ProviderExternal>>();
+  const [fuse, setFuse] = useState<Fuse<ProviderExternalWithIsHuman>>();
   const [filter, setFilter] = useState<FilterType>(queryFilterType);
   const [searchPattern, setSearchPattern] = useState("");
   const providers = useFilteredProviders({});
-  const [selectedProviders, setSelectedProviders] = useState(providers.all);
+  const [selectedProviders, setSelectedProviders] =
+    useState<ProviderExternalWithIsHuman[]>();
   const [filteredProviders, setFilteredProviders] = useState(selectedProviders);
+
+  // Listen to the providers updates to update the selectedProviders
+  useEffect(() => {
+    if (providers.ready && !selectedProviders) {
+      setSelectedProviders(providers.all);
+    }
+  }, [providers, selectedProviders]);
 
   // Init Fuse
   useEffect(() => {
@@ -146,21 +154,23 @@ export default function AdminReviewChecksSection() {
             />
           </Stack>
         </Stack>
-        <GridContainer
-          centralize={filteredProviders.length >= 3}
-          sx={{
-            mt: 2,
-            gap: 3.6,
-          }}
-        >
-          {filteredProviders.map((provider) => (
-            <ContractInfo
-              key={provider.provider_id}
-              providerInfo={provider}
-              adminView
-            />
-          ))}
-        </GridContainer>
+        {filteredProviders && (
+          <GridContainer
+            centralize={filteredProviders.length >= 3}
+            sx={{
+              mt: 2,
+              gap: 3.6,
+            }}
+          >
+            {filteredProviders.map((provider) => (
+              <ContractInfo
+                key={provider.provider_id}
+                providerInfo={provider}
+                adminView
+              />
+            ))}
+          </GridContainer>
+        )}
       </ShadowContainer>
     </Stack>
   );

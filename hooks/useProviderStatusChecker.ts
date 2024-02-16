@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 
 import { useUser } from "./store/useUser";
-import useIsHumanFilteredProviders from "./useIsHumanFilteredProviders";
+import useFilteredProviders from "./useFilteredProviders";
 
 const PROVIDER_STATUS_CHECKER_KEY = "provider_status_checker";
 
@@ -11,7 +11,7 @@ const PROVIDER_STATUS_CHECKER_KEY = "provider_status_checker";
  */
 const useProviderStatusChecker = () => {
   const { walletConnected } = useUser();
-  const { activeIsHuman } = useIsHumanFilteredProviders({});
+  const { activeIsHuman } = useFilteredProviders({});
 
   const saveProvider = useCallback(
     (providerId: string) => {
