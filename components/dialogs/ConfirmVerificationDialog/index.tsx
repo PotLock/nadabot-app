@@ -73,7 +73,7 @@ export default function ConfirmVerificationDialog({
   const shareTwitter = () => {
     if (providerLink) {
       window.open(
-        `https://twitter.com/intent/tweet?url=${encodeURIComponent(providerLink)}&text=${encodeURIComponent(`I just did the "${provider?.name}" check using #NadaBot. Take a look here: `)}`,
+        `https://twitter.com/intent/tweet?url=${encodeURIComponent(providerLink)}&text=${encodeURIComponent(`I just got my "${provider?.name}" check using #NadaBot. Take a look here: `)}`,
         "_blank",
       );
     }
@@ -82,7 +82,7 @@ export default function ConfirmVerificationDialog({
   const shareTelegram = () => {
     if (providerLink) {
       window.open(
-        `https://telegram.me/share/url?url=${encodeURIComponent(providerLink)}&text=${encodeURIComponent(`I just did the "${provider?.name}" check using NadaBot. Take a look! `)}`,
+        `https://telegram.me/share/url?url=${encodeURIComponent(providerLink)}&text=${encodeURIComponent(`I just got my "${provider?.name}" check using NadaBot. Take a look! `)}`,
         "_blank",
       );
     }
@@ -182,7 +182,7 @@ export default function ConfirmVerificationDialog({
               ":hover": { backgroundColor: "#5c5c5c", color: "#FEF6EE" },
             }}
           >
-            Confirm Verification!!!
+            Confirm Verification
           </CustomButton>
         )}
       </DialogActions>
