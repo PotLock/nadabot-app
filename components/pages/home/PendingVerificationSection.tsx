@@ -6,7 +6,7 @@ import ContractInfo from "@nadabot/components/ContractInfo";
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import useIsHumanFilteredProviders from "@nadabot/hooks/useIsHumanFilteredProviders";
+import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import colors from "@nadabot/theme/colors";
 import providerSorts from "@nadabot/utils/providerSorts";
 
@@ -15,7 +15,7 @@ import { ShadowContainer } from "../../containers/ShadowContainer";
 export default function PendingVerificationSection() {
   const { walletConnected } = useUser();
   const { maxWidth805 } = useBreakPoints();
-  const { activeIsHuman, ready } = useIsHumanFilteredProviders({
+  const { activeIsHuman, ready } = useFilteredProviders({
     sortMethod: providerSorts.higherWeightFirst,
   });
 

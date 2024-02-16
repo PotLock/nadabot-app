@@ -2,9 +2,8 @@ import { Stack, Typography } from "@mui/material";
 import Fuse from "fuse.js";
 import { useEffect, useState } from "react";
 
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
-import { ProviderExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
+import { ProviderExternalWithIsHuman } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
 import providerSorts from "@nadabot/utils/providerSorts";
 
 import GridContainer from "./GridContainer";
@@ -15,7 +14,7 @@ type Props = {
   inline?: boolean;
   searchPattern?: string;
   showLoadingState?: boolean;
-  providersList?: ProviderExternal[];
+  providersList?: ProviderExternalWithIsHuman[];
   adminView?: boolean;
 };
 
@@ -31,7 +30,6 @@ export default function ContractsContainer({
   providersList,
   adminView,
 }: Props) {
-  const { maxWidth805 } = useBreakPoints();
   const [isAdmin] = useState(adminView || false);
 
   // Providers (activated ones only)
@@ -46,7 +44,7 @@ export default function ContractsContainer({
       : active;
 
   // Fuse
-  const [fuse, setFuse] = useState<Fuse<ProviderExternal>>();
+  const [fuse, setFuse] = useState<Fuse<ProviderExternalWithIsHuman>>();
   const [filteredProviders, setFilteredProviders] = useState(providers);
 
   // Init Fuse
@@ -99,9 +97,8 @@ export default function ContractsContainer({
       <Stack
         mt={isAdmin ? 0 : 2}
         direction="row"
-        justifyContent={maxWidth805 ? "center" : "space-between"}
+        justifyContent="space-between"
         gap={2}
-        flexWrap={inline ? "nowrap" : "wrap"}
         overflow="scroll"
       >
         {filteredProviders.map((provider) => (

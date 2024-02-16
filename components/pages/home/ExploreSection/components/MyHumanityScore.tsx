@@ -1,7 +1,7 @@
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import { Stack, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { ShadowContainer } from "@nadabot/components/containers/ShadowContainer";
 import Tag from "@nadabot/components/ui/Tag";
@@ -10,17 +10,16 @@ import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import colors from "@nadabot/theme/colors";
 
+const calcPercentage = (score: number, human_threshold: number) =>
+  Math.min((score * 100) / human_threshold, 100);
+
 export default function MyHumanityScore() {
   const { maxWidth1144, maxWidth700, maxWidth480 } = useBreakPoints();
   const { config } = useConfig();
   const { isVerifiedHuman, score } = useUser();
-  const [percentageScore, setPercentageScore] = useState(0);
-
-  // Update score
-  useEffect(() => {
-    const percentage = (score * 100) / config.default_human_threshold;
-    setPercentageScore(percentage > 100 ? 100 : percentage);
-  }, [score, config.default_human_threshold]);
+  const [percentageScore] = useState(
+    calcPercentage(score, config.default_human_threshold),
+  );
 
   return (
     <Stack width={maxWidth1144 ? "100%" : "55%"} mt={4}>

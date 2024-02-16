@@ -1,16 +1,11 @@
-import {
-  ProviderExternal,
-  ProviderExternalWithIsHuman,
-} from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
+import { ProviderExternalWithIsHuman } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
 
 /**
  * sort providers to show the most weight first
  * @param providers
  * @returns
  */
-const higherWeightFirst = (
-  providers: ProviderExternal[] | ProviderExternalWithIsHuman[],
-) =>
+const higherWeightFirst = (providers: ProviderExternalWithIsHuman[]) =>
   providers.sort(
     (providerA, providerB) =>
       providerB.default_weight - providerA.default_weight,

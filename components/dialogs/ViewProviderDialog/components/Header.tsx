@@ -1,5 +1,5 @@
 import CheckIcon from "@mui/icons-material/Check";
-import { Box, CircularProgress, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
@@ -12,22 +12,20 @@ import { useProviders } from "@nadabot/hooks/store/useProviders";
 import { useStamps } from "@nadabot/hooks/store/useStamps";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import useIsHumanCacheCheck from "@nadabot/hooks/useIsHumanCacheCheck";
 import useProviderStatusChecker from "@nadabot/hooks/useProviderStatusChecker";
 import useSnackbars from "@nadabot/hooks/useSnackbars";
 import useSpinner from "@nadabot/hooks/useSpinner";
-import useWindowTabFocus from "@nadabot/hooks/useWindowTabFocus";
 import { Routes } from "@nadabot/routes";
 import * as contract from "@nadabot/services/contracts/sybil.nadabot";
 import {
-  ProviderExternal,
+  ProviderExternalWithIsHuman,
   ProviderStatus,
 } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
 import colors from "@nadabot/theme/colors";
 import truncate from "@nadabot/utils/truncate";
 
 type Props = {
-  providerInfo?: ProviderExternal;
+  providerInfo?: ProviderExternalWithIsHuman;
 };
 
 export default function Header({ providerInfo }: Props) {
@@ -111,30 +109,10 @@ export default function Header({ providerInfo }: Props) {
     setActiveLabel("Active");
   }, []);
 
-  // Is Human Check
-  const {
-    isHuman,
-    ready: isHumanVerificationReady,
-    verify,
-  } = useIsHumanCacheCheck(
-    providerInfo?.provider_id,
-    providerInfo?.contract_id,
-    providerInfo?.method_name,
-    providerInfo?.account_id_arg_name,
-  );
-
-  // Verify if it's human every time the window tab is focused
-  useWindowTabFocus(async () => {
-    await verify();
-  });
-
   const verifyHandler = useCallback(async () => {
     showSpinner();
-    // Check if it isHuman (and cache result)
-    const isHumanVerify = await verify();
-
     // If so, then, call add_stamp method
-    if (isHumanVerify && providerInfo?.provider_id) {
+    if (providerInfo?.is_user_a_human && providerInfo?.provider_id) {
       try {
         await contract.add_stamp(providerInfo.provider_id);
       } catch (error) {
@@ -143,7 +121,12 @@ export default function Header({ providerInfo }: Props) {
 
       hideSpinner();
     }
-  }, [providerInfo?.provider_id, verify, showSpinner, hideSpinner]);
+  }, [
+    providerInfo?.provider_id,
+    providerInfo?.is_user_a_human,
+    showSpinner,
+    hideSpinner,
+  ]);
 
   const { saveProvider } = useProviderStatusChecker();
 
@@ -355,28 +338,23 @@ export default function Header({ providerInfo }: Props) {
                     </Typography>
                   </Stack>
                 ) : (
-                  <>
-                    {!isHumanVerificationReady ? (
-                      <CircularProgress
-                        size={22}
-                        sx={{ color: colors.BLUE, mt: 2, mb: 1.7, mr: 4 }}
-                      />
-                    ) : (
-                      <CustomButton
-                        color="beige"
-                        bodySize={maxWidth430 ? "medium" : "large"}
-                        fontSize={maxWidth430 ? "small" : "medium"}
-                        onClick={isHuman ? verifyHandler : getCheckHandler}
-                        sx={{
-                          mt: maxWidth430 ? 2 : 0,
-                          mr: 2,
-                          px: 2,
-                        }}
-                      >
-                        {isHuman ? "Verify" : "Get Check"}
-                      </CustomButton>
-                    )}
-                  </>
+                  <CustomButton
+                    color="beige"
+                    bodySize={maxWidth430 ? "medium" : "large"}
+                    fontSize={maxWidth430 ? "small" : "medium"}
+                    onClick={
+                      providerInfo?.is_user_a_human
+                        ? verifyHandler
+                        : getCheckHandler
+                    }
+                    sx={{
+                      mt: maxWidth430 ? 2 : 0,
+                      mr: 2,
+                      px: 2,
+                    }}
+                  >
+                    {providerInfo?.is_user_a_human ? "Verify" : "Get Check"}
+                  </CustomButton>
                 )}
               </>
             )}
