@@ -121,8 +121,6 @@ nextjs-portal {
 .notification-dropbox {
   .MuiPaper-root {
     width: 414px;
-    left: auto !important;
-    right: 72px;
 
     > ul {
       padding-bottom: 0;
@@ -130,10 +128,6 @@ nextjs-portal {
 
     > ul > div {
       margin-bottom: 0px;
-    }
-
-    @media screen and (max-width:500px) {
-      right: 16px;
     }
   }
 }
