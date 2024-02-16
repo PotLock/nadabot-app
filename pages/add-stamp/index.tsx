@@ -383,6 +383,7 @@ export default function AddStampPage() {
                   contract_id: formik.values.contractName,
                   method_name: formik.values.method,
                   external_url: formik.values.externalLink,
+                  is_user_a_human: false,
                 }}
               />
             </Box>

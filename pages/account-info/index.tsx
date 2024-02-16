@@ -14,6 +14,7 @@ import * as contract from "@nadabot/services/contracts/sybil.nadabot";
 import { HumanScoreResponse } from "@nadabot/services/contracts/sybil.nadabot/interfaces/is-human";
 import { StampExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/stamps";
 import colors from "@nadabot/theme/colors";
+import insertIsHumanToProvider from "@nadabot/utils/insertIsHumanToProvider";
 
 export default function AccountInfoPage() {
   // Show ViewProviderDialog if the URL has `viewStamp` query
@@ -65,7 +66,7 @@ export default function AccountInfoPage() {
       userStamps.map((stamp) => (
         <ContractInfo
           key={stamp.provider.provider_id}
-          providerInfo={stamp.provider}
+          providerInfo={insertIsHumanToProvider(stamp.provider)}
           isStamp
         />
       )),

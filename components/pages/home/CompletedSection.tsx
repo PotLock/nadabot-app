@@ -6,6 +6,7 @@ import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgres
 import { useStamps } from "@nadabot/hooks/store/useStamps";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import colors from "@nadabot/theme/colors";
+import insertIsHumanToProvider from "@nadabot/utils/insertIsHumanToProvider";
 
 import { ShadowContainer } from "../../containers/ShadowContainer";
 
@@ -43,7 +44,7 @@ export default function CompletedSection() {
             {stamps.map((stamp) => (
               <ContractInfo
                 key={stamp.provider.provider_id}
-                providerInfo={stamp.provider}
+                providerInfo={insertIsHumanToProvider(stamp.provider)}
                 isStamp
               />
             ))}
