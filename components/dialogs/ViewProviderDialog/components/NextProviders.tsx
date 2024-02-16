@@ -4,6 +4,7 @@ import ContractInfo from "@nadabot/components/ContractInfo";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
+import useIsAdminPage from "@nadabot/hooks/useIsAdminPage";
 import { ProviderExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
 
 type Props = {
@@ -14,10 +15,12 @@ export default function NextProviders({ providerInfo }: Props) {
   const { active, deactivated } = useFilteredProviders({
     skipProviderId: providerInfo!.provider_id,
   });
+
   const { maxWidth805 } = useBreakPoints();
   const { isAdmin } = useUser();
+  const isAdminPage = useIsAdminPage();
 
-  const providers = isAdmin ? deactivated : active;
+  const providers = isAdmin && isAdminPage ? deactivated : active;
 
   if (providers.length === 0) {
     return;
@@ -35,7 +38,11 @@ export default function NextProviders({ providerInfo }: Props) {
         flexWrap="wrap"
       >
         {providers.slice(0, 3).map((provider) => (
-          <ContractInfo key={provider.provider_id} providerInfo={provider} />
+          <ContractInfo
+            key={provider.provider_id}
+            providerInfo={provider}
+            adminView={isAdmin && isAdminPage}
+          />
         ))}
       </Stack>
     </Stack>

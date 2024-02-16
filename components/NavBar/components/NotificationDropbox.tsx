@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import ButtonContainer from "@nadabot/components/containers/ButtonContainer";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import useIsHumanFilteredProviders from "@nadabot/hooks/useIsHumanFilteredProviders";
+import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import { BellIcon, BellNotificationIcon } from "@nadabot/theme/icons";
 import providerSorts from "@nadabot/utils/providerSorts";
 
@@ -13,7 +13,7 @@ const NotificationDropbox = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState(false);
   const { maxWidth430 } = useBreakPoints();
-  const { activeIsHuman } = useIsHumanFilteredProviders({
+  const { activeIsHuman } = useFilteredProviders({
     sortMethod: providerSorts.higherWeightFirst,
   });
   const hasPendingVerification = activeIsHuman.length > 0;

@@ -16,7 +16,7 @@ import { useCallback, useEffect, useState } from "react";
 import NadabotLogo from "@nadabot/assets/icons/nadabot-logo";
 import ButtonContainer from "@nadabot/components/containers/ButtonContainer";
 import { DialogProps } from "@nadabot/contexts/DialogsProvider";
-import useIsHumanFilteredProviders from "@nadabot/hooks/useIsHumanFilteredProviders";
+import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import useSnackbars from "@nadabot/hooks/useSnackbars";
 import { add_stamp } from "@nadabot/services/contracts/sybil.nadabot";
 import { ProviderExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
@@ -36,7 +36,7 @@ export default function ConfirmVerificationDialog({
   onClose,
   props,
 }: Props) {
-  const { activeIsHuman } = useIsHumanFilteredProviders({});
+  const { activeIsHuman } = useFilteredProviders({});
   const [provider, setProvider] = useState<ProviderExternal>();
   const [providerLink, setProviderLink] = useState<string>();
   const [loading, isLoading] = useState(false);

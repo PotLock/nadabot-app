@@ -5,7 +5,7 @@ import { useCallback, useState } from "react";
 import CustomButton from "@nadabot/components/ui/CustomButton";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import useIsHumanFilteredProviders from "@nadabot/hooks/useIsHumanFilteredProviders";
+import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import { Routes } from "@nadabot/routes";
 import colors from "@nadabot/theme/colors";
 import providerSorts from "@nadabot/utils/providerSorts";
@@ -19,7 +19,7 @@ export default function ChecksSection() {
   const { walletConnected } = useUser();
   const { maxWidth805 } = useBreakPoints();
   const [searchPattern, setSearchPattern] = useState("");
-  const { activeNoHuman, active } = useIsHumanFilteredProviders({
+  const { activeNoHuman, active } = useFilteredProviders({
     sortMethod: providerSorts.higherWeightFirst,
   });
 

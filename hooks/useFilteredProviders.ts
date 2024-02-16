@@ -1,71 +1,171 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { Routes } from "@nadabot/routes";
 import {
-  ProviderExternal,
   ProviderExternalWithIsHuman,
   ProviderStatus,
 } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
+import { isHumanCheck } from "@nadabot/services/web3/isHumanCheck";
 
 import { useProviders } from "./store/useProviders";
 import { useStamps } from "./store/useStamps";
+import { useUser } from "./store/useUser";
 
 type Props = {
   skipProviderId?: string;
   sortMethod?: (
-    providers: ProviderExternal[] | ProviderExternalWithIsHuman[],
-  ) => ProviderExternal[] | ProviderExternalWithIsHuman[];
+    providers: ProviderExternalWithIsHuman[],
+  ) => ProviderExternalWithIsHuman[];
 };
 
 /**
- * Provide filtered providers [it also removes providers in with the user has completed the requiriment / is vefiried]
- * @param skipProviderId Skip provider with this id
+ * Provide filtered providers adding if the user is a human inside this provider or not
+ * [it also removes providers in with the user has completed the requiriment / is vefiried]
+ * @param props.skipProviderId Skip provider with this id
  * @param props.sortMethod Sort list method
  * @returns
  */
 const useFilteredProviders = ({ skipProviderId, sortMethod }: Props) => {
-  const [active, setActive] = useState<ProviderExternal[]>([]);
-  const [deactivated, setDeactivated] = useState<ProviderExternal[]>([]);
-  const { providers, ready } = useProviders();
+  const { accountId } = useUser();
+  const [active, setActive] = useState<ProviderExternalWithIsHuman[]>([]);
+  const [deactivated, setDeactivated] = useState<ProviderExternalWithIsHuman[]>(
+    [],
+  );
+  const [activeIsHuman, setActiveIsHuman] = useState<
+    ProviderExternalWithIsHuman[]
+  >([]);
+  const [activeNoHuman, setActiveNoHuman] = useState<
+    ProviderExternalWithIsHuman[]
+  >([]);
+  const [updatedProviders, setUpdatedProviders] = useState<
+    ProviderExternalWithIsHuman[]
+  >([]);
+  const { providers, ready: providersReady } = useProviders();
+  const [ready, isReady] = useState(false);
   const { stamps } = useStamps();
+
   const router = useRouter();
   const [isAdminPage] = useState(router.route === Routes.ADMIN_HOME);
 
-  useEffect(() => {
-    const tempActive: ProviderExternal[] = [];
-    const tempDeactivated: ProviderExternal[] = [];
+  // Fetch human info and update providers list with this information
+  const fetchIsHumanInfo = useCallback(async () => {
+    if (providersReady) {
+      const tempHuman: ProviderExternalWithIsHuman[] = [];
 
-    providers.forEach((provider) => {
-      // Check if current user has a stamp for this provider, if so, skip it
-      let hasStamp = false;
-      stamps.forEach((stamp) => {
-        if (!hasStamp && stamp.provider.provider_id === provider.provider_id) {
-          hasStamp = true;
+      // is human check
+      const promises = providers.map(async (provider) => {
+        // Is Human Check
+        if (accountId) {
+          const isHuman = await isHumanCheck(
+            provider.contract_id,
+            provider.method_name,
+            provider.account_id_arg_name,
+            accountId,
+          );
+
+          tempHuman.push({ ...provider, is_user_a_human: isHuman });
+        } else {
+          tempHuman.push({ ...provider, is_user_a_human: false });
         }
       });
 
-      // NOTE: If it's /admin page, should show all providers
-      if (
-        provider.provider_id !== skipProviderId &&
-        (!hasStamp || isAdminPage)
-      ) {
-        if (provider.status === ProviderStatus.Active) {
-          tempActive.push(provider);
-        } else {
-          tempDeactivated.push(provider);
-        }
-      }
-    });
+      await Promise.allSettled(promises);
 
-    setActive(sortMethod ? sortMethod(tempActive) : tempActive);
-    setDeactivated(sortMethod ? sortMethod(tempDeactivated) : tempDeactivated);
-  }, [providers, skipProviderId, stamps, sortMethod, router, isAdminPage]);
+      setUpdatedProviders(
+        sortMethod
+          ? (sortMethod(tempHuman) as ProviderExternalWithIsHuman[])
+          : tempHuman,
+      );
+      isReady(true);
+    }
+  }, [accountId, providers, providersReady, sortMethod]);
+
+  useEffect(() => {
+    fetchIsHumanInfo();
+  }, [fetchIsHumanInfo]);
+
+  useEffect(() => {
+    if (ready) {
+      const tempActive: ProviderExternalWithIsHuman[] = [];
+      const tempDeactivated: ProviderExternalWithIsHuman[] = [];
+      const tempActiveIsHuman: ProviderExternalWithIsHuman[] = [];
+      const tempActiveNoHuman: ProviderExternalWithIsHuman[] = [];
+
+      updatedProviders.forEach((provider) => {
+        // Check if current user has a stamp for this provider, if so, skip it
+        let hasStamp = false;
+        stamps.forEach((stamp) => {
+          if (
+            !hasStamp &&
+            stamp.provider.provider_id === provider.provider_id
+          ) {
+            hasStamp = true;
+          }
+        });
+
+        // NOTE: If it's /admin page, should show all providers
+        if (
+          provider.provider_id !== skipProviderId &&
+          (!hasStamp || isAdminPage)
+        ) {
+          // Active
+          if (provider.status === ProviderStatus.Active) {
+            tempActive.push(provider);
+
+            // Provider in with this user is human
+            if (provider.is_user_a_human) {
+              tempActiveIsHuman.push(provider);
+            } else {
+              // Provider in with this user is not a human
+              tempActiveNoHuman.push(provider);
+            }
+          } else {
+            tempDeactivated.push(provider);
+          }
+        }
+      });
+
+      setActive(
+        sortMethod
+          ? (sortMethod(tempActive) as ProviderExternalWithIsHuman[])
+          : tempActive,
+      );
+
+      setDeactivated(
+        sortMethod
+          ? (sortMethod(tempDeactivated) as ProviderExternalWithIsHuman[])
+          : tempDeactivated,
+      );
+
+      setActiveIsHuman(
+        sortMethod
+          ? (sortMethod(tempActiveIsHuman) as ProviderExternalWithIsHuman[])
+          : tempActiveIsHuman,
+      );
+
+      setActiveNoHuman(
+        sortMethod
+          ? (sortMethod(tempActiveNoHuman) as ProviderExternalWithIsHuman[])
+          : tempActiveNoHuman,
+      );
+    }
+  }, [
+    updatedProviders,
+    skipProviderId,
+    stamps,
+    accountId,
+    ready,
+    sortMethod,
+    isAdminPage,
+  ]);
 
   return {
-    all: sortMethod ? sortMethod(providers) : providers,
+    all: sortMethod ? sortMethod(updatedProviders) : updatedProviders,
     active,
     deactivated,
+    activeIsHuman,
+    activeNoHuman,
     ready,
   };
 };
