@@ -1,4 +1,3 @@
-import { MemoryCache } from "@wpdas/naxios";
 import { Provider } from "near-api-js/lib/providers";
 
 import {
@@ -29,9 +28,7 @@ import { naxiosInstance } from "..";
 /**
  * NEAR Contract API
  */
-export const contractApi = naxiosInstance.contractApi({
-  cache: new MemoryCache({ expirationTime: 10 }), // 10 seg
-});
+export const contractApi = naxiosInstance.contractApi();
 
 // READ METHODS
 
@@ -45,22 +42,16 @@ export const get_config = () => contractApi.view<{}, Config>("get_config");
  * @returns
  */
 export const get_providers = () =>
-  contractApi.view<object, ProviderExternal[]>("get_providers", undefined, {
-    useCache: true,
-  });
+  contractApi.view<object, ProviderExternal[]>("get_providers", undefined);
 
 /**
  * Get Stamps for Account Id
  * @returns
  */
 export const get_stamps_for_account_id = (args: GetStampsForAccountIdInput) =>
-  contractApi.view<typeof args, StampExternal[]>(
-    "get_stamps_for_account_id",
-    {
-      args,
-    },
-    { useCache: true },
-  );
+  contractApi.view<typeof args, StampExternal[]>("get_stamps_for_account_id", {
+    args,
+  });
 
 /**
  * Get Users for Stamps
