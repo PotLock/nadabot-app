@@ -5,6 +5,7 @@ import { useCallback } from "react";
 import NadabotLogo from "@nadabot/assets/icons/nadabot-logo";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import useIsAdminPage from "@nadabot/hooks/useIsAdminPage";
 import { Routes } from "@nadabot/routes";
 import { walletApi } from "@nadabot/services/contracts";
 import colors from "@nadabot/theme/colors";
@@ -18,6 +19,7 @@ const NavBar = () => {
   const router = useRouter();
   const { walletConnected, isAdmin, isVerifiedHuman } = useUser();
   const { maxWidth430 } = useBreakPoints();
+  const isAdminPage = useIsAdminPage();
 
   const goHomeHandler = useCallback(() => {
     router.push(Routes.HOME);
@@ -76,19 +78,23 @@ const NavBar = () => {
                 <Stack direction="row" mb={maxWidth430 ? 2 : 0}>
                   <Stack
                     direction={maxWidth430 ? "column" : "row"}
-                    width={isAdmin ? 350 : 300}
+                    width={isAdmin ? (isAdminPage ? 300 : 350) : 300}
                     justifyContent="space-between"
                     alignItems="center"
                   >
-                    <NotificationDropbox />
-                    <Divider
-                      orientation="vertical"
-                      sx={{
-                        bgcolor: colors.PRIMARY,
-                        display: maxWidth430 ? "none" : "block",
-                      }}
-                      flexItem
-                    />
+                    {!isAdminPage && (
+                      <>
+                        <NotificationDropbox />{" "}
+                        <Divider
+                          orientation="vertical"
+                          sx={{
+                            bgcolor: colors.PRIMARY,
+                            display: maxWidth430 ? "none" : "block",
+                          }}
+                          flexItem
+                        />
+                      </>
+                    )}
                     <UserDropbox />
                     <Tag
                       sx={{ mt: maxWidth430 ? 1 : 0 }}

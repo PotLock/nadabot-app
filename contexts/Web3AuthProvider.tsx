@@ -3,6 +3,7 @@ import { FC, createContext, useCallback, useEffect, useState } from "react";
 import FullScreenSpinner from "@nadabot/components/ui/FullScreenSpinner";
 import { useAdmins } from "@nadabot/hooks/store/useAdmins";
 import { useConfig } from "@nadabot/hooks/store/useConfig";
+import { useNotificationController } from "@nadabot/hooks/store/useNotificationController";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
 import { useStamps } from "@nadabot/hooks/store/useStamps";
 import { useUser } from "@nadabot/hooks/store/useUser";
@@ -41,6 +42,7 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
   const { fetchConfig } = useConfig();
   const { fetchProviders } = useProviders();
   const { fetchStamps } = useStamps();
+  const { registerLoginTime } = useNotificationController();
 
   // Init Store
   const initStore = useCallback(async () => {
@@ -107,6 +109,10 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
     const isSignedIn = walletApi.walletSelector.isSignedIn();
     setIsConnected(isSignedIn);
 
+    if (isSignedIn) {
+      registerLoginTime();
+    }
+
     // update user store
     updateUserInfo({
       accountId: walletApi.accountId || "",
@@ -115,7 +121,7 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
 
     // Initializes the store
     await initStore();
-  }, [updateUserInfo, initStore]);
+  }, [updateUserInfo, initStore, registerLoginTime]);
 
   // Re-init when user is signed in
   useEffect(() => {
