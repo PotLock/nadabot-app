@@ -1,7 +1,5 @@
-import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
-import { Routes } from "@nadabot/routes";
 import {
   ProviderExternalWithIsHuman,
   ProviderStatus,
@@ -11,6 +9,7 @@ import { isHumanCheck } from "@nadabot/services/web3/isHumanCheck";
 import { useProviders } from "./store/useProviders";
 import { useStamps } from "./store/useStamps";
 import { useUser } from "./store/useUser";
+import useIsAdminPage from "./useIsAdminPage";
 
 type Props = {
   skipProviderId?: string;
@@ -45,8 +44,7 @@ const useFilteredProviders = ({ skipProviderId, sortMethod }: Props) => {
   const [ready, isReady] = useState(false);
   const { stamps } = useStamps();
 
-  const router = useRouter();
-  const [isAdminPage] = useState(router.route === Routes.ADMIN_HOME);
+  const isAdminPage = useIsAdminPage();
 
   // Fetch human info and update providers list with this information
   const fetchIsHumanInfo = useCallback(async () => {
@@ -57,14 +55,32 @@ const useFilteredProviders = ({ skipProviderId, sortMethod }: Props) => {
       const promises = providers.map(async (provider) => {
         // Is Human Check
         if (accountId) {
-          const isHuman = await isHumanCheck(
-            provider.contract_id,
-            provider.method_name,
-            provider.account_id_arg_name,
-            accountId,
-          );
+          try {
+            const isHuman = await isHumanCheck(
+              provider.contract_id,
+              provider.method_name,
+              provider.account_id_arg_name,
+              accountId,
+            );
 
-          tempHuman.push({ ...provider, is_user_a_human: isHuman });
+            tempHuman.push({ ...provider, is_user_a_human: isHuman });
+          } catch (error) {
+            const titleErrorStyle =
+              "font-weight: 600; background-color: #000000; color: #FFFFFF; padding: 4px 2px; margin-top: 2px;";
+            const contentErrorStyle = "font-weight: normal;";
+            console.error(
+              `Error checking if user is human. \n%cProvider Name:%c ${provider.name} \n%cContractID:%c ${provider.contract_id} \n%cMethod Name:%c ${provider.method_name}. \n%cError Body:%c ${error}`,
+              titleErrorStyle,
+              contentErrorStyle,
+              titleErrorStyle,
+              contentErrorStyle,
+              titleErrorStyle,
+              contentErrorStyle,
+              titleErrorStyle,
+              contentErrorStyle,
+            );
+            tempHuman.push({ ...provider, is_user_a_human: false });
+          }
         } else {
           tempHuman.push({ ...provider, is_user_a_human: false });
         }

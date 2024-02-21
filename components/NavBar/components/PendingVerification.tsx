@@ -78,7 +78,7 @@ function Item({
             sx={{ textDecoration: "underline" }}
             color={colors.NEUTRAL500}
           >
-            {truncate(`${providerInfo.method_name}`, 16)}()
+            {truncate(`${providerInfo.method_name}`, 13)}()
           </Typography>
         </Stack>
 
