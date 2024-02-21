@@ -78,7 +78,7 @@ function Item({
             sx={{ textDecoration: "underline" }}
             color={colors.NEUTRAL500}
           >
-            {`${providerInfo.method_name}()`}
+            {truncate(`${providerInfo.method_name}`, 16)}()
           </Typography>
         </Stack>
 
@@ -178,7 +178,7 @@ export default function PendingVerification({
         )}
       </Stack>
 
-      <Stack>
+      <Stack width="100%">
         {/* List - Max 8 items */}
         {providers.slice(0, 8).map((provider, index) => (
           <Item
