@@ -11,7 +11,7 @@ export const isHumanCheck = async (
   // New contract instance
   const providerContract = await naxiosInstance.contractApi({
     contractId: contractId,
-    cache: new MemoryCache({ expirationTime: 5 }),
+    cache: new MemoryCache({ expirationTime: 10 }),
   });
 
   // View call to check if account_id (aka accountIdArgName) is human
