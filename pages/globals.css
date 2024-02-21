@@ -120,7 +120,8 @@ nextjs-portal {
 
 .notification-dropbox {
   .MuiPaper-root {
-    width: 414px;
+    max-width: 454px;
+    width: 100%;
 
     > ul {
       padding-bottom: 0;
