@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+import { CSSProperties, forwardRef } from "react";
 
 type Props = {
   children: JSX.Element | JSX.Element[];
@@ -7,25 +7,25 @@ type Props = {
   id?: string;
 };
 
-export default function ButtonContainer({
-  children,
-  onClick,
-  style,
-  id,
-}: Props) {
-  return (
-    <button
-      id={id}
-      onClick={onClick}
-      type="button"
-      style={{
-        border: "none",
-        cursor: "pointer",
-        background: "transparent",
-        ...style,
-      }}
-    >
-      {children}
-    </button>
-  );
-}
+const ButtonContainer = forwardRef<HTMLButtonElement, Props>(
+  function ButtonContainer({ children, onClick, style, id }, ref) {
+    return (
+      <button
+        ref={ref}
+        id={id}
+        onClick={onClick}
+        type="button"
+        style={{
+          border: "none",
+          cursor: "pointer",
+          background: "transparent",
+          ...style,
+        }}
+      >
+        {children}
+      </button>
+    );
+  },
+);
+
+export default ButtonContainer;

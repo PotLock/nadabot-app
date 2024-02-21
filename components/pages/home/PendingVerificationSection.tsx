@@ -3,10 +3,13 @@ import { useCallback } from "react";
 
 import GridContainer from "@nadabot/components/containers/GridContainer";
 import ContractInfo from "@nadabot/components/ContractInfo";
+import CustomButton from "@nadabot/components/ui/CustomButton";
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
+import useSpinner from "@nadabot/hooks/useSpinner";
+import addMultipleStamps from "@nadabot/services/web3/addMultipleStamps";
 import colors from "@nadabot/theme/colors";
 import providerSorts from "@nadabot/utils/providerSorts";
 
@@ -15,6 +18,7 @@ import { ShadowContainer } from "../../containers/ShadowContainer";
 export default function PendingVerificationSection() {
   const { walletConnected } = useUser();
   const { maxWidth805 } = useBreakPoints();
+  const { showSpinner, hideSpinner } = useSpinner();
   const { activeIsHuman, ready } = useFilteredProviders({
     sortMethod: providerSorts.higherWeightFirst,
   });
@@ -40,6 +44,12 @@ export default function PendingVerificationSection() {
     [activeIsHuman],
   );
 
+  const verifyAllHandler = useCallback(async () => {
+    showSpinner();
+    await addMultipleStamps(activeIsHuman);
+    hideSpinner();
+  }, [activeIsHuman, showSpinner, hideSpinner]);
+
   if (!walletConnected || !hasProviders) {
     return;
   }
@@ -60,6 +70,21 @@ export default function PendingVerificationSection() {
             Stamps you have completed but are not verified on the platform
           </Typography>
         </Stack>
+
+        {activeIsHuman.length > 1 && (
+          <CustomButton
+            sx={{
+              mt: maxWidth805 ? 1 : 0,
+              backgroundColor: colors.PRIMARY,
+              color: "#FFFFFF",
+              ":hover": { backgroundColor: "#5c5c5c" },
+            }}
+            bodySize="medium"
+            onClick={verifyAllHandler}
+          >
+            Verify All Checks
+          </CustomButton>
+        )}
       </Stack>
 
       {/* Checks Container */}
