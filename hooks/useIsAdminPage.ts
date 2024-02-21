@@ -1,11 +1,17 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Routes } from "@nadabot/routes";
 
 const useIsAdminPage = () => {
   const router = useRouter();
-  const [isAdminPage] = useState(router.route === Routes.ADMIN_HOME);
+  const [isAdminPage, setIsAdminPage] = useState(
+    router.route === Routes.ADMIN_HOME,
+  );
+
+  useEffect(() => {
+    setIsAdminPage(router.route === Routes.ADMIN_HOME);
+  }, [router]);
 
   return isAdminPage;
 };
