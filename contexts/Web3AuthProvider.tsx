@@ -37,12 +37,13 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
   const [ready, isReady] = useState(false);
 
   // Store: Check store and initial contract's data
-  const { updateInfo: updateUserInfo, accountId } = useUser();
-  const { setAdmins } = useAdmins();
-  const { fetchConfig } = useConfig();
-  const { fetchProviders } = useProviders();
-  const { fetchStamps } = useStamps();
-  const { registerLoginTime } = useNotificationController();
+  const { updateInfo: updateUserInfo, accountId, reset: resetUser } = useUser();
+  const { setAdmins, reset: resetAdmins } = useAdmins();
+  const { fetchConfig, reset: resetConfig } = useConfig();
+  const { fetchProviders, reset: resetProviders } = useProviders();
+  const { fetchStamps, reset: resetStamps } = useStamps();
+  const { registerLoginTime, reset: resetNotifications } =
+    useNotificationController();
 
   // Init Store
   const initStore = useCallback(async () => {
@@ -136,13 +137,35 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
     };
   }, [checkWallet, initStore]);
 
+  // Logout handler
+  useEffect(() => {
+    const signedOutHandler = () => {
+      setIsConnected(false);
+      resetUser();
+      resetAdmins();
+      resetConfig();
+      resetProviders();
+      resetStamps();
+      resetNotifications();
+    };
+
+    walletApi.walletSelector.on("signedOut", signedOutHandler);
+
+    return () => {
+      walletApi.walletSelector.off("signedOut", signedOutHandler);
+    };
+  }, [
+    resetUser,
+    resetAdmins,
+    resetConfig,
+    resetProviders,
+    resetStamps,
+    resetNotifications,
+  ]);
+
   // Sign out and reset all store states
   const signOut = useCallback(async () => {
     await walletApi.wallet?.signOut();
-    localStorage.clear();
-
-    // Redirects user
-    window.location.replace(window.location.origin + window.location.pathname);
   }, []);
 
   if (!ready) {
