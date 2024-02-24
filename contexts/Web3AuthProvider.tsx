@@ -166,10 +166,6 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
   // Sign out and reset all store states
   const signOut = useCallback(async () => {
     await walletApi.wallet?.signOut();
-    // localStorage.clear();
-
-    // Redirects user
-    // window.location.replace(window.location.origin + window.location.pathname);
   }, []);
 
   if (!ready) {
