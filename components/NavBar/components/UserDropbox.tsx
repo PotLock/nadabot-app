@@ -28,10 +28,10 @@ const UserDropbox = () => {
     setAnchorEl(event.currentTarget);
     setOpen(true);
   };
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setAnchorEl(null);
     setOpen(false);
-  };
+  }, [setAnchorEl, setOpen]);
 
   const adminDashboardHandler = () => {
     handleClose();
