@@ -21,7 +21,8 @@ const NotificationDropbox = () => {
     wasNotificationDisplayed,
     loginTime,
   } = useNotificationController();
-  const { activeIsHuman } = useFilteredProviders({
+
+  const { activeIsHuman, ready } = useFilteredProviders({
     sortMethod: providerSorts.higherWeightFirst,
   });
 
@@ -29,8 +30,10 @@ const NotificationDropbox = () => {
 
   // Pending verification
   useEffect(() => {
-    setPendingVerification(activeIsHuman.length > 0);
-  }, [setPendingVerification, activeIsHuman]);
+    if (ready) {
+      setPendingVerification(activeIsHuman.length > 0);
+    }
+  }, [setPendingVerification, activeIsHuman, ready]);
 
   // Check if notification was displayed.
   // If user logs in and there is any notification,
