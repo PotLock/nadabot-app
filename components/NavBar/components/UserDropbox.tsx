@@ -2,7 +2,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { Menu, MenuItem, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import ButtonContainer from "@nadabot/components/containers/ButtonContainer";
 import CustomAvatar from "@nadabot/components/ui/CustomAvatar";
@@ -18,7 +18,7 @@ import truncate from "@nadabot/utils/truncate";
 const UserDropbox = () => {
   const { accountId, profileInfo, isAdmin } = useUser();
   const { signOut } = useWeb3Auth();
-  const { showSpinner } = useSpinner();
+  const { showSpinner, hideSpinner } = useSpinner();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState(false);
   const { maxWidth430 } = useBreakPoints();
@@ -59,11 +59,14 @@ const UserDropbox = () => {
     }
   };
 
-  const logoutHandle = () => {
+  const logoutHandle = useCallback(() => {
     showSpinner(1);
     handleClose();
     signOut();
-  };
+    setTimeout(() => {
+      hideSpinner();
+    }, 800);
+  }, [showSpinner, handleClose, signOut, hideSpinner]);
 
   return (
     <>

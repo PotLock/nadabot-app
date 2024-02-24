@@ -11,6 +11,7 @@ interface Actions {
   notificationWasDisplayed: () => void;
   setPendingVerification: (value: boolean) => void;
   registerLoginTime: () => void;
+  reset: () => void;
 }
 
 const initialState: State = {
@@ -30,6 +31,9 @@ export const useNotificationController = create<State & Actions>()(
 
       registerLoginTime: () =>
         set({ loginTime: get().loginTime ? get().loginTime : Date.now() }),
+
+      // reset
+      reset: () => set(initialState),
     }),
     { name: "notificationControllerStore" },
   ),
