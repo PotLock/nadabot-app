@@ -7,6 +7,7 @@ import { useNotificationController } from "@nadabot/hooks/store/useNotificationC
 import { useProviders } from "@nadabot/hooks/store/useProviders";
 import { useStamps } from "@nadabot/hooks/store/useStamps";
 import { useUser } from "@nadabot/hooks/store/useUser";
+import { PROVIDER_STATUS_CHECKER_KEY } from "@nadabot/hooks/useProviderStatusChecker";
 import useWindowTabFocus from "@nadabot/hooks/useWindowTabFocus";
 import { walletApi } from "@nadabot/services/contracts";
 import { get_user_profile } from "@nadabot/services/contracts/social";
@@ -140,6 +141,7 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
   // Logout handler
   useEffect(() => {
     const signedOutHandler = () => {
+      localStorage.removeItem(PROVIDER_STATUS_CHECKER_KEY);
       setIsConnected(false);
       resetUser();
       resetAdmins();

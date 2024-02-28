@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { useUser } from "./store/useUser";
 import useFilteredProviders from "./useFilteredProviders";
 
-const PROVIDER_STATUS_CHECKER_KEY = "provider_status_checker";
+export const PROVIDER_STATUS_CHECKER_KEY = "provider_status_checker";
 
 /**
  * This hook should be used to detect when a provider in which the user "Got Checked" added the user as a human.
