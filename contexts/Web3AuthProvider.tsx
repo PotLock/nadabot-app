@@ -131,10 +131,10 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
     checkWallet();
 
     // On sign in wallet state
-    walletApi.walletSelector.on("signedIn", checkWallet);
+    walletApi?.walletSelector?.on("signedIn", checkWallet);
 
     return () => {
-      walletApi.walletSelector.off("signedIn", checkWallet);
+      walletApi?.walletSelector?.off("signedIn", checkWallet);
     };
   }, [checkWallet, initStore]);
 
@@ -151,7 +151,7 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
       resetNotifications();
     };
 
-    walletApi.walletSelector.on("signedOut", signedOutHandler);
+    walletApi.walletSelector?.on("signedOut", signedOutHandler);
 
     return () => {
       walletApi.walletSelector.off("signedOut", signedOutHandler);
