@@ -41,6 +41,7 @@ export default function Header({ providerInfo }: Props) {
   // Check if user has a stamp with this provider [verified]
   const { stamps } = useStamps();
   const [isVerified, setIsVerified] = useState(false);
+  const [verifiedUsers, setVerifiedUsers] = useState<string[]>();
 
   useEffect(() => {
     let hasStamp = false;
@@ -54,6 +55,18 @@ export default function Header({ providerInfo }: Props) {
     });
     setIsVerified(hasStamp);
   }, [stamps, providerInfo]);
+
+  // Users for Stamp
+  useEffect(() => {
+    if (providerInfo?.provider_id) {
+      (async () => {
+        const usersForStamp = await contract.get_users_for_stamp({
+          provider_id: providerInfo.provider_id,
+        });
+        setVerifiedUsers(usersForStamp);
+      })();
+    }
+  }, [providerInfo?.provider_id]);
 
   const imageURL = providerInfo?.icon_url
     ? providerInfo.icon_url.replace(
@@ -273,7 +286,7 @@ export default function Header({ providerInfo }: Props) {
           </Stack>
           <Stack alignItems="center" mr={maxWidth700 ? 0 : 2} width="142px">
             <Typography fontWeight={700} fontSize={36} textAlign="center">
-              {providerInfo?.stamp_count}
+              {verifiedUsers?.length}
             </Typography>
             <Typography fontSize={17} fontWeight={400} textAlign="center">
               People Verified
