@@ -14,13 +14,13 @@ const useVerifiedProviderSuccess = () => {
   const router = useRouter();
   const { openDialog } = useDialogs();
   const { showSnackbar } = useSnackbars();
-  const [verifiedProviderId, setVerifiedProvider] = useState("");
+  const [verifiedProviderId, setVerifiedProvider] = useState<number>();
   const provider = useGetProviderById(verifiedProviderId);
   const [done, setDone] = useState(false);
 
   useEffect(() => {
     if (router.query.verifiedProvider) {
-      setVerifiedProvider(router.query.verifiedProvider as string);
+      setVerifiedProvider(parseInt(router.query.verifiedProvider as string));
     }
   }, [router]);
 
@@ -28,7 +28,7 @@ const useVerifiedProviderSuccess = () => {
     if (provider && !done) {
       openDialog({
         dialog: DIALOGS.ViewProvider,
-        props: { providerId: provider.provider_id },
+        props: { providerId: provider.id },
       });
 
       showSnackbar({

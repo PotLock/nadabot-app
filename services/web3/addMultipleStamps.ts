@@ -10,14 +10,14 @@ import { ProviderExternalWithIsHuman } from "../contracts/sybil.nadabot/interfac
  * @param providers
  */
 const addMultipleStamps = (providers: ProviderExternalWithIsHuman[]) => {
-  const listOfTransactions: Transaction<{ provider_id: string }>[] = [];
+  const listOfTransactions: Transaction<{ provider_id: number }>[] = [];
 
   // Limits it to process 8 items per time
   for (const provider of providers.slice(0, 8)) {
     listOfTransactions.push(
       buildTransaction("add_stamp", {
         args: {
-          provider_id: provider.provider_id,
+          provider_id: provider.id,
         },
         gas: FULL_TGAS,
         deposit: TWO_HUNDREDTHS_NEAR,

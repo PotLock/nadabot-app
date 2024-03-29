@@ -12,7 +12,7 @@ import { useUser } from "./store/useUser";
 import useIsAdminPage from "./useIsAdminPage";
 
 type Props = {
-  skipProviderId?: string;
+  skipProviderId?: number;
   sortMethod?: (
     providers: ProviderExternalWithIsHuman[],
   ) => ProviderExternalWithIsHuman[];
@@ -41,6 +41,7 @@ const useFilteredProviders = ({ skipProviderId, sortMethod }: Props) => {
     ProviderExternalWithIsHuman[]
   >([]);
   const { providers, ready: providersReady } = useProviders();
+
   const [ready, isReady] = useState(false);
   const { stamps } = useStamps();
 
@@ -69,7 +70,7 @@ const useFilteredProviders = ({ skipProviderId, sortMethod }: Props) => {
               "font-weight: 600; background-color: #000000; color: #FFFFFF; padding: 4px 2px; margin-top: 2px;";
             const contentErrorStyle = "font-weight: normal;";
             console.error(
-              `Error checking if user is human. \n%cProvider Name:%c ${provider.name} \n%cContractID:%c ${provider.contract_id} \n%cMethod Name:%c ${provider.method_name}. \n%cError Body:%c ${error}`,
+              `Error checking if user is human. \n%cProvider Name:%c ${provider.provider_name} \n%cContractID:%c ${provider.contract_id} \n%cMethod Name:%c ${provider.method_name}. \n%cError Body:%c ${error}`,
               titleErrorStyle,
               contentErrorStyle,
               titleErrorStyle,
@@ -112,19 +113,13 @@ const useFilteredProviders = ({ skipProviderId, sortMethod }: Props) => {
         // Check if current user has a stamp for this provider, if so, skip it
         let hasStamp = false;
         stamps.forEach((stamp) => {
-          if (
-            !hasStamp &&
-            stamp.provider.provider_id === provider.provider_id
-          ) {
+          if (!hasStamp && stamp.provider.id === provider.id) {
             hasStamp = true;
           }
         });
 
         // NOTE: If it's /admin page, should show all providers
-        if (
-          provider.provider_id !== skipProviderId &&
-          (!hasStamp || isAdminPage)
-        ) {
+        if (provider.id !== skipProviderId && (!hasStamp || isAdminPage)) {
           // Active
           if (provider.status === ProviderStatus.Active) {
             tempActive.push(provider);

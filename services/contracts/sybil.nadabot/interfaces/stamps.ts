@@ -13,7 +13,7 @@ export interface GetStampsForAccountIdInput {
 }
 
 export type GetUsersForStampInput = {
-  provider_id: string;
+  provider_id: number;
   from_index?: number;
   limit?: number;
 };

@@ -113,7 +113,7 @@ export const admin_set_default_human_threshold = (
  * @param provider_id
  * @returns
  */
-export const add_stamp = (provider_id: string) =>
+export const add_stamp = (provider_id: number) =>
   contractApi.call<object, StampExternal | undefined>("add_stamp", {
     args: {
       provider_id,

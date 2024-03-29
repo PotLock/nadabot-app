@@ -30,7 +30,7 @@ export default function PendingVerificationSection() {
       <GridContainer centralize={activeIsHuman.length >= 3}>
         {activeIsHuman.map((provider) => (
           <ContractInfo
-            key={provider.provider_id}
+            key={provider.id}
             providerInfo={provider}
             verifyButtonSx={{
               background: colors.PRIMARY,

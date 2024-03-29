@@ -49,10 +49,10 @@ export default function RecentChecks() {
         {/* List - Max 3 items */}
         {stamps.slice(0, 3).map((stamp, index) => (
           <RecentCheckItem
-            key={stamp.provider.provider_id}
+            key={stamp.provider.id}
             totalItems={stamps.length}
             index={index}
-            contractName={stamp.provider.name}
+            contractName={stamp.provider.provider_name}
             contractId={stamp.provider.contract_id}
             method={stamp.provider.method_name}
             points={stamp.provider.default_weight}

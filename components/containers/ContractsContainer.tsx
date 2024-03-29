@@ -103,7 +103,7 @@ export default function ContractsContainer({
       >
         {filteredProviders.map((provider) => (
           <ContractInfo
-            key={provider.provider_id}
+            key={provider.id}
             providerInfo={provider}
             adminView={adminView}
           />
@@ -123,7 +123,7 @@ export default function ContractsContainer({
       >
         {filteredProviders.map((provider) => (
           <ContractInfo
-            key={provider.provider_id}
+            key={provider.id}
             providerInfo={provider}
             adminView={adminView}
           />

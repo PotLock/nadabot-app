@@ -45,15 +45,13 @@ export default function ConfirmVerificationDialog({
   useEffect(() => {
     if (props?.providerId && activeIsHuman) {
       const _provider = activeIsHuman.find(
-        (prov) => prov.provider_id === props.providerId,
+        (prov) => prov.id === props.providerId,
       );
       setProvider(_provider);
 
       // Build provider link
       if (_provider) {
-        setProviderLink(
-          `${window.location.origin}/?viewStamp=${_provider.provider_id}`,
-        );
+        setProviderLink(`${window.location.origin}/?viewStamp=${_provider.id}`);
       }
     }
   }, [props?.providerId, activeIsHuman]);
@@ -62,7 +60,7 @@ export default function ConfirmVerificationDialog({
     if (provider) {
       isLoading(true);
       try {
-        await add_stamp(provider.provider_id);
+        await add_stamp(provider.id);
       } catch (error) {
         console.error(error);
       }
@@ -73,7 +71,7 @@ export default function ConfirmVerificationDialog({
   const shareTwitter = () => {
     if (providerLink) {
       window.open(
-        `https://twitter.com/intent/tweet?url=${encodeURIComponent(providerLink)}&text=${encodeURIComponent(`I just got my "${provider?.name}" check using #NadaBot. Take a look here: `)}`,
+        `https://twitter.com/intent/tweet?url=${encodeURIComponent(providerLink)}&text=${encodeURIComponent(`I just got my "${provider?.provider_name}" check using #NadaBot. Take a look here: `)}`,
         "_blank",
       );
     }
@@ -82,7 +80,7 @@ export default function ConfirmVerificationDialog({
   const shareTelegram = () => {
     if (providerLink) {
       window.open(
-        `https://telegram.me/share/url?url=${encodeURIComponent(providerLink)}&text=${encodeURIComponent(`I just got my "${provider?.name}" check using NadaBot. Take a look! `)}`,
+        `https://telegram.me/share/url?url=${encodeURIComponent(providerLink)}&text=${encodeURIComponent(`I just got my "${provider?.provider_name}" check using NadaBot. Take a look! `)}`,
         "_blank",
       );
     }
@@ -110,8 +108,8 @@ export default function ConfirmVerificationDialog({
           color={colors.PRIMARY}
         >
           You have done{" "}
-          <span style={{ color: colors.BLUE }}>{provider?.name}</span> check.{" "}
-          <br /> Now add this check to Nada Bot contract.
+          <span style={{ color: colors.BLUE }}>{provider?.provider_name}</span>{" "}
+          check. <br /> Now add this check to Nada Bot contract.
         </DialogContentText>
 
         <Stack alignItems="center" mt={6}>

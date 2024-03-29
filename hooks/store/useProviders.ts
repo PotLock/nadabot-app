@@ -45,7 +45,7 @@ export const useProviders = create<State & Actions>()(
       // update provider
       updateProvider: (newProviderInfo: UpdateProviderInput) => {
         const updatedProviders = get().providers.map((provider) => {
-          if (provider.provider_id === newProviderInfo.provider_id) {
+          if (provider.id === newProviderInfo.provider_id) {
             provider = { ...provider, ...newProviderInfo };
           }
           return provider;

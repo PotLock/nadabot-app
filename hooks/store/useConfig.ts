@@ -34,6 +34,7 @@ export const useConfig = create<State & Actions>()(
       fetchConfig: async () => {
         set({ ready: false, config: get().config });
         const response = await contract.get_config();
+
         set({ ready: true, config: response });
 
         return response;

@@ -23,7 +23,7 @@ const useViewStampURLQuery = () => {
     if (router.query.viewStamp && !done) {
       openDialog({
         dialog: DIALOGS.ViewProvider,
-        props: { providerId: router.query.viewStamp as string },
+        props: { providerId: parseInt(router.query.viewStamp as string) },
       });
 
       setDone(true);

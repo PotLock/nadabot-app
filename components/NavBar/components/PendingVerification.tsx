@@ -28,12 +28,12 @@ function Item({
   const verifyHandler = useCallback(async () => {
     isLoading(true);
     try {
-      await add_stamp(providerInfo.provider_id);
+      await add_stamp(providerInfo.id);
     } catch (error) {
       console.error(error);
     }
     isLoading(false);
-  }, [providerInfo.provider_id]);
+  }, [providerInfo.id]);
 
   return (
     <Stack
@@ -57,7 +57,9 @@ function Item({
             lineHeight="normal"
             mr={maxWidth430 ? 0 : 2}
           >
-            {maxWidth1144 ? providerInfo.name : truncate(providerInfo.name, 15)}
+            {maxWidth1144
+              ? providerInfo.provider_name
+              : truncate(providerInfo.provider_name, 15)}
           </Typography>
           <Typography
             fontSize={10}
@@ -182,7 +184,7 @@ export default function PendingVerification({
         {/* List - Max 8 items */}
         {providers.slice(0, 8).map((provider, index) => (
           <Item
-            key={provider.provider_id}
+            key={provider.id}
             providerInfo={provider}
             showBottomBorder={providers.length - 1 === index}
             buttonWithWhiteBg={providers.length > 1}

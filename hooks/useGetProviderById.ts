@@ -4,13 +4,13 @@ import { ProviderExternalWithIsHuman } from "@nadabot/services/contracts/sybil.n
 
 import useFilteredProviders from "./useFilteredProviders";
 
-const useGetProviderById = (providerId?: string) => {
+const useGetProviderById = (providerId?: number) => {
   const { all } = useFilteredProviders({});
   const [provider, setProvider] = useState<ProviderExternalWithIsHuman>();
 
   useEffect(() => {
     if (providerId) {
-      setProvider(all.find((provider) => provider.provider_id === providerId));
+      setProvider(all.find((provider) => provider.id === providerId));
     }
   }, [providerId, all]);
 
