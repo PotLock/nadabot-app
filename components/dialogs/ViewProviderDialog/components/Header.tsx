@@ -55,15 +55,15 @@ export default function Header({ providerInfo }: Props) {
 
   // Users for Stamp
   useEffect(() => {
-    if (providerInfo?.provider_id) {
+    if (providerInfo?.id) {
       (async () => {
         const usersForStamp = await contract.get_users_for_stamp({
-          provider_id: providerInfo.provider_id,
+          provider_id: providerInfo.id,
         });
         setVerifiedUsers(usersForStamp);
       })();
     }
-  }, [providerInfo?.provider_id]);
+  }, [providerInfo?.id]);
 
   const imageURL = providerInfo?.icon_url
     ? providerInfo.icon_url.replace(
