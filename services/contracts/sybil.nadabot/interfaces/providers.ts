@@ -34,7 +34,7 @@ export interface Provider {
 
 export interface ProviderExternal {
   // Provider ID
-  provider_id: string;
+  id: number;
   // Contract ID of the external contract that is the source of this provider
   contract_id: string;
   // Method name of the external contract that is the source of this provider
@@ -42,7 +42,8 @@ export interface ProviderExternal {
   /// Account ID arg name
   account_id_arg_name: string;
   // Name of the provider, e.g. "I Am Human"
-  name: string;
+
+  provider_name: string;
   // Description of the provider
   description?: string;
   /// Status of the provider
@@ -73,9 +74,9 @@ export type ProviderExternalWithIsHuman = ProviderExternal & {
 
 export interface RegisterProviderInput {
   contract_id: string;
+  provider_name: string;
   method_name: string;
   account_id_arg_name?: string;
-  name: string;
   description?: string;
   gas?: number;
   tags?: string[];
@@ -84,7 +85,8 @@ export interface RegisterProviderInput {
 }
 
 export interface UpdateProviderInput {
-  provider_id: string;
+  provider_id: number;
+  provider_name?: string;
   name?: string;
   description?: string;
   gas?: number;
@@ -96,12 +98,12 @@ export interface UpdateProviderInput {
   admin_notes?: string; // owner/admin-only
 }
 export interface ActivateProviderInput {
-  provider_id: string;
+  provider_id: number;
   default_weight: number;
 }
 
 export interface DeactivateProviderInput {
-  provider_id: string;
+  provider_id: number;
 }
 
 export type FlagProviderInput = DeactivateProviderInput;

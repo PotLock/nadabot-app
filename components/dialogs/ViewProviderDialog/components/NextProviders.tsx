@@ -13,7 +13,7 @@ type Props = {
 
 export default function NextProviders({ providerInfo }: Props) {
   const { active, deactivated } = useFilteredProviders({
-    skipProviderId: providerInfo!.provider_id,
+    skipProviderId: providerInfo!.id,
   });
 
   const { maxWidth805 } = useBreakPoints();
@@ -39,7 +39,7 @@ export default function NextProviders({ providerInfo }: Props) {
       >
         {providers.slice(0, 3).map((provider) => (
           <ContractInfo
-            key={provider.provider_id}
+            key={provider.id}
             providerInfo={provider}
             adminView={isAdmin && isAdminPage}
           />

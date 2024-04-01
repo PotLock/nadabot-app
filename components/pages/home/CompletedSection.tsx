@@ -43,7 +43,7 @@ export default function CompletedSection() {
           <GridContainer centralize={stamps.length >= 3}>
             {stamps.map((stamp) => (
               <ContractInfo
-                key={stamp.provider.provider_id}
+                key={stamp.provider.id}
                 providerInfo={insertIsHumanToProvider(stamp.provider)}
                 isStamp
               />

@@ -18,7 +18,7 @@ export enum DIALOGS {
 export type DialogProps = {
   title?: string;
   description?: string;
-  providerId?: string;
+  providerId?: number;
 };
 
 type openDialogProps = {
@@ -54,7 +54,7 @@ const DialogsProvider: FC<Props> = ({ children }) => {
   // Dialog Props
   const [title, setTitle] = useState<string>();
   const [description, setDescription] = useState<string>();
-  const [providerId, setProviderId] = useState<string>();
+  const [providerId, setProviderId] = useState<number>();
 
   const openDialog = useCallback((props: openDialogProps) => {
     setOpenDialog({
@@ -66,7 +66,7 @@ const DialogsProvider: FC<Props> = ({ children }) => {
     // Props
     setTitle(props.props?.title || "");
     setDescription(props.props?.description || "");
-    setProviderId(props.props?.providerId || "");
+    setProviderId(props.props?.providerId || 0);
   }, []);
 
   const closeDialog = useCallback(() => {

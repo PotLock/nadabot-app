@@ -14,21 +14,23 @@ const useProviderStatusChecker = () => {
   const { activeIsHuman } = useFilteredProviders({});
 
   const saveProvider = useCallback(
-    (providerId: string) => {
+    (providerId: number) => {
       if (walletConnected) {
-        localStorage.setItem(PROVIDER_STATUS_CHECKER_KEY, providerId);
+        localStorage.setItem(PROVIDER_STATUS_CHECKER_KEY, `${providerId}`);
       }
     },
     [walletConnected],
   );
 
   const checkProvider = useCallback(() => {
-    const providerId = localStorage.getItem(PROVIDER_STATUS_CHECKER_KEY);
+    const providerId = parseInt(
+      localStorage.getItem(PROVIDER_STATUS_CHECKER_KEY) || "",
+    );
     let isHuman = false;
 
     if (providerId && activeIsHuman.length > 0) {
       const foundStamp = activeIsHuman.find(
-        (provider) => provider.provider_id === providerId,
+        (provider) => provider.id === providerId,
       );
 
       isHuman = (foundStamp && foundStamp.is_user_a_human) || false;
