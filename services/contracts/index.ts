@@ -12,6 +12,7 @@ import { setupNeth } from "@near-wallet-selector/neth";
 import { setupXDEFI } from "@near-wallet-selector/xdefi";
 import { setupNearMobileWallet } from "@near-wallet-selector/near-mobile-wallet";
 import { setupMintbaseWallet } from "@near-wallet-selector/mintbase-wallet";
+import { setupNightly } from "@near-wallet-selector/nightly";
 import naxios from "@wpdas/naxios";
 
 import { CONTRACT_ID, NETWORK } from "@nadabot/constants";
@@ -23,21 +24,19 @@ export const naxiosInstance = new naxios({
   walletSelectorModules: [
     setupBitgetWallet(),
     setupSender(),
+    setupMyNearWallet(),
     setupHereWallet(),
     setupMathWallet(),
     setupMeteorWallet(),
     setupWelldoneWallet(),
+    setupNightly(),
     setupLedger(),
     setupNearFi(),
     setupCoin98Wallet(),
     setupNeth(),
     setupXDEFI(),
     setupNearMobileWallet(),
-    setupMintbaseWallet({
-      walletUrl: "https://wallet.mintbase.xyz",
-      callbackUrl: "https://www.mywebsite.com",
-      deprecated: false,
-    }),
+    setupMintbaseWallet(),
   ],
 });
 
