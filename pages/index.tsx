@@ -22,13 +22,17 @@ export default function Home() {
 
   return (
     <>
-      <Container>
+      <Container
+        sx={{
+          paddingBottom: "3rem",
+        }}
+      >
         <ExploreSection />
         <PendingVerificationSection />
         <ChecksSection />
         {walletConnected && <CompletedSection />}
       </Container>
-      <InvitationHeroSection />
+      {/* <InvitationHeroSection /> */}
     </>
   );
 }

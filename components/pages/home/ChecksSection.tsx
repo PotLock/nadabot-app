@@ -49,7 +49,7 @@ export default function ChecksSection() {
             human.
           </Typography>
         </Stack>
-        {walletConnected && (
+        {/* {walletConnected && (
           <CustomButton
             sx={{ mt: maxWidth805 ? 1 : 0 }}
             bodySize="medium"
@@ -58,7 +58,7 @@ export default function ChecksSection() {
           >
             + Add Custom Check
           </CustomButton>
-        )}
+        )} */}
       </Stack>
 
       {/* Checks Container */}
