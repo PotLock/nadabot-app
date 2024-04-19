@@ -2,7 +2,7 @@ import { Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
-import CustomButton from "@nadabot/components/ui/CustomButton";
+// import CustomButton from "@nadabot/components/ui/CustomButton";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
@@ -23,9 +23,9 @@ export default function ChecksSection() {
     sortMethod: providerSorts.higherWeightFirst,
   });
 
-  const addCustomCheckHandler = useCallback(() => {
-    router.push(Routes.ADD_STAMP);
-  }, [router]);
+  // const addCustomCheckHandler = useCallback(() => {
+  //   router.push(Routes.ADD_STAMP);
+  // }, [router]);
 
   const providers =
     walletConnected && activeNoHuman.length > 0 ? activeNoHuman : active;
