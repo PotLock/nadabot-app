@@ -1,12 +1,15 @@
 import { Stack, Typography } from "@mui/material";
-import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+// import { useRouter } from "next/router";
+import {
+  // useCallback,
+  useState,
+} from "react";
 
-import CustomButton from "@nadabot/components/ui/CustomButton";
+// import CustomButton from "@nadabot/components/ui/CustomButton";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
-import { Routes } from "@nadabot/routes";
+// import { Routes } from "@nadabot/routes";
 import colors from "@nadabot/theme/colors";
 import providerSorts from "@nadabot/utils/providerSorts";
 
@@ -15,7 +18,7 @@ import { ShadowContainer } from "../../containers/ShadowContainer";
 import { AddFilterSearchInput } from "../../ui/AddFilterSearchInput";
 
 export default function ChecksSection() {
-  const router = useRouter();
+  // const router = useRouter();
   const { walletConnected } = useUser();
   const { maxWidth805 } = useBreakPoints();
   const [searchPattern, setSearchPattern] = useState("");
@@ -23,9 +26,9 @@ export default function ChecksSection() {
     sortMethod: providerSorts.higherWeightFirst,
   });
 
-  const addCustomCheckHandler = useCallback(() => {
-    router.push(Routes.ADD_STAMP);
-  }, [router]);
+  // const addCustomCheckHandler = useCallback(() => {
+  //   router.push(Routes.ADD_STAMP);
+  // }, [router]);
 
   const providers =
     walletConnected && activeNoHuman.length > 0 ? activeNoHuman : active;
@@ -49,7 +52,7 @@ export default function ChecksSection() {
             human.
           </Typography>
         </Stack>
-        {walletConnected && (
+        {/* {walletConnected && (
           <CustomButton
             sx={{ mt: maxWidth805 ? 1 : 0 }}
             bodySize="medium"
@@ -58,7 +61,7 @@ export default function ChecksSection() {
           >
             + Add Custom Check
           </CustomButton>
-        )}
+        )} */}
       </Stack>
 
       {/* Checks Container */}
