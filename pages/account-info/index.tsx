@@ -65,7 +65,7 @@ export default function AccountInfoPage() {
     () =>
       userStamps.map((stamp) => (
         <ContractInfo
-          key={stamp.provider.provider_id}
+          key={stamp.provider.id}
           providerInfo={insertIsHumanToProvider(stamp.provider)}
           isStamp
         />

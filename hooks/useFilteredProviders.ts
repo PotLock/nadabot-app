@@ -112,19 +112,13 @@ const useFilteredProviders = ({ skipProviderId, sortMethod }: Props) => {
         // Check if current user has a stamp for this provider, if so, skip it
         let hasStamp = false;
         stamps.forEach((stamp) => {
-          if (
-            !hasStamp &&
-            stamp.provider.provider_id === provider.provider_id
-          ) {
+          if (!hasStamp && stamp.provider.id === provider.id) {
             hasStamp = true;
           }
         });
 
         // NOTE: If it's /admin page, should show all providers
-        if (
-          provider.provider_id !== skipProviderId &&
-          (!hasStamp || isAdminPage)
-        ) {
+        if (provider.id !== skipProviderId && (!hasStamp || isAdminPage)) {
           // Active
           if (provider.status === ProviderStatus.Active) {
             tempActive.push(provider);

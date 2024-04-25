@@ -28,7 +28,7 @@ const useProviderStatusChecker = () => {
 
     if (providerId && activeIsHuman.length > 0) {
       const foundStamp = activeIsHuman.find(
-        (provider) => provider.provider_id === providerId,
+        (provider) => provider.id === providerId,
       );
 
       isHuman = (foundStamp && foundStamp.is_user_a_human) || false;

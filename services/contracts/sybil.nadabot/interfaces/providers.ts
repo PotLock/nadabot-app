@@ -34,7 +34,7 @@ export interface Provider {
 
 export interface ProviderExternal {
   // Provider ID
-  provider_id: string;
+  id: string;
   // Contract ID of the external contract that is the source of this provider
   contract_id: string;
   // Method name of the external contract that is the source of this provider

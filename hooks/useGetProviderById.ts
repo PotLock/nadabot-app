@@ -10,7 +10,7 @@ const useGetProviderById = (providerId?: string) => {
 
   useEffect(() => {
     if (providerId) {
-      setProvider(all.find((provider) => provider.provider_id === providerId));
+      setProvider(all.find((provider) => provider.id === providerId));
     }
   }, [providerId, all]);
 

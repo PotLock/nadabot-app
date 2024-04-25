@@ -45,15 +45,13 @@ export default function ConfirmVerificationDialog({
   useEffect(() => {
     if (props?.providerId && activeIsHuman) {
       const _provider = activeIsHuman.find(
-        (prov) => prov.provider_id === props.providerId,
+        (prov) => prov.id === props.providerId,
       );
       setProvider(_provider);
 
       // Build provider link
       if (_provider) {
-        setProviderLink(
-          `${window.location.origin}/?viewStamp=${_provider.provider_id}`,
-        );
+        setProviderLink(`${window.location.origin}/?viewStamp=${_provider.id}`);
       }
     }
   }, [props?.providerId, activeIsHuman]);
@@ -62,7 +60,7 @@ export default function ConfirmVerificationDialog({
     if (provider) {
       isLoading(true);
       try {
-        await add_stamp(provider.provider_id);
+        await add_stamp(provider.id);
       } catch (error) {
         console.error(error);
       }

@@ -28,12 +28,12 @@ function Item({
   const verifyHandler = useCallback(async () => {
     isLoading(true);
     try {
-      await add_stamp(providerInfo.provider_id);
+      await add_stamp(providerInfo.id);
     } catch (error) {
       console.error(error);
     }
     isLoading(false);
-  }, [providerInfo.provider_id]);
+  }, [providerInfo.id]);
 
   return (
     <Stack
@@ -182,7 +182,7 @@ export default function PendingVerification({
         {/* List - Max 8 items */}
         {providers.slice(0, 8).map((provider, index) => (
           <Item
-            key={provider.provider_id}
+            key={provider.id}
             providerInfo={provider}
             showBottomBorder={providers.length - 1 === index}
             buttonWithWhiteBg={providers.length > 1}

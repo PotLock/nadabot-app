@@ -28,7 +28,7 @@ const useVerifiedProviderSuccess = () => {
     if (provider && !done) {
       openDialog({
         dialog: DIALOGS.ViewProvider,
-        props: { providerId: provider.provider_id },
+        props: { providerId: provider.id },
       });
 
       showSnackbar({

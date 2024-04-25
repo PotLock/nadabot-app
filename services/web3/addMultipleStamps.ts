@@ -17,7 +17,7 @@ const addMultipleStamps = (providers: ProviderExternalWithIsHuman[]) => {
     listOfTransactions.push(
       buildTransaction("add_stamp", {
         args: {
-          provider_id: provider.provider_id,
+          provider_id: provider.id,
         },
         gas: FULL_TGAS,
         deposit: TWO_HUNDREDTHS_NEAR,

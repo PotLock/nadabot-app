@@ -71,7 +71,7 @@ export default function ContractInfo({
     // Call add_stamp method
     if (providerInfo.is_user_a_human) {
       try {
-        await contract.add_stamp(providerInfo.provider_id);
+        await contract.add_stamp(providerInfo.id);
       } catch (error) {
         console.error(error);
       }
@@ -81,7 +81,7 @@ export default function ContractInfo({
     isPreview,
     showSpinner,
     hideSpinner,
-    providerInfo.provider_id,
+    providerInfo.id,
     providerInfo.is_user_a_human,
   ]);
 
@@ -93,16 +93,11 @@ export default function ContractInfo({
     }
 
     // Save provider to check if the user is now a human there
-    saveProvider(providerInfo.provider_id);
+    saveProvider(providerInfo.id);
 
     // Open up the external URL
     window.open(providerInfo.external_url, "_blank");
-  }, [
-    isPreview,
-    providerInfo.external_url,
-    providerInfo.provider_id,
-    saveProvider,
-  ]);
+  }, [isPreview, providerInfo.external_url, providerInfo.id, saveProvider]);
 
   const [points, setPoints] = useState(providerInfo.default_weight);
   const [previousPoints, setPreviousPoints] = useState(
@@ -132,7 +127,7 @@ export default function ContractInfo({
       (async () => {
         setUpdating(true);
         await contract.update_provider({
-          provider_id: providerInfo.provider_id,
+          provider_id: providerInfo.id,
           default_weight: debouncedPoints,
         });
         setUpdating(false);
@@ -140,7 +135,7 @@ export default function ContractInfo({
 
         // Update this provider withing store
         updateProvider({
-          provider_id: providerInfo.provider_id,
+          provider_id: providerInfo.id,
           default_weight: debouncedPoints,
         });
       })();
@@ -149,7 +144,7 @@ export default function ContractInfo({
     debouncedPoints,
     points,
     previousPoints,
-    providerInfo.provider_id,
+    providerInfo.id,
     isPreview,
     updateProvider,
   ]);
@@ -171,11 +166,11 @@ export default function ContractInfo({
     setUpdating(true);
     if (!isProviderActive) {
       await contract.admin_activate_provider({
-        provider_id: providerInfo.provider_id,
+        provider_id: providerInfo.id,
         default_weight: providerInfo.default_weight || 0,
       });
       updateProvider({
-        provider_id: providerInfo.provider_id,
+        provider_id: providerInfo.id,
         default_weight: providerInfo.default_weight || 0,
         status: ProviderStatus.Active,
       });
@@ -189,17 +184,17 @@ export default function ContractInfo({
       });
     } else {
       await contract.admin_deactivate_provider({
-        provider_id: providerInfo.provider_id,
+        provider_id: providerInfo.id,
       });
       updateProvider({
-        provider_id: providerInfo.provider_id,
+        provider_id: providerInfo.id,
         status: ProviderStatus.Deactivated,
       });
     }
     setUpdating(false);
   }, [
     providerInfo.default_weight,
-    providerInfo.provider_id,
+    providerInfo.id,
     updateProvider,
     router,
     showSnackbar,
@@ -223,7 +218,7 @@ export default function ContractInfo({
   const openViewProviderDialog = useCallback(() => {
     openDialog({
       dialog: DIALOGS.ViewProvider,
-      props: { providerId: providerInfo.provider_id },
+      props: { providerId: providerInfo.id },
     });
 
     // Set route for this provider view
@@ -231,8 +226,8 @@ export default function ContractInfo({
     const hasPreviousQuery = updatedQueryBody.length > 0;
     const updatedPath = `${router.pathname}${updatedQueryBody}${hasPreviousQuery ? "&" : "?"}`;
 
-    router.replace(`${updatedPath}viewStamp=${providerInfo.provider_id}`);
-  }, [openDialog, providerInfo.provider_id, router]);
+    router.replace(`${updatedPath}viewStamp=${providerInfo.id}`);
+  }, [openDialog, providerInfo.id, router]);
 
   return (
     <Stack

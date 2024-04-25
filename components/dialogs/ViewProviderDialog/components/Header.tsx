@@ -45,10 +45,7 @@ export default function Header({ providerInfo }: Props) {
   useEffect(() => {
     let hasStamp = false;
     stamps.forEach((stamp) => {
-      if (
-        !hasStamp &&
-        stamp.provider.provider_id === providerInfo?.provider_id
-      ) {
+      if (!hasStamp && stamp.provider.id === providerInfo?.id) {
         hasStamp = true;
       }
     });
@@ -71,11 +68,11 @@ export default function Header({ providerInfo }: Props) {
     setUpdating(true);
     if (!isProviderActive) {
       await contract.admin_activate_provider({
-        provider_id: providerInfo!.provider_id,
+        provider_id: providerInfo!.id,
         default_weight: providerInfo!.default_weight || 0,
       });
       updateProvider({
-        provider_id: providerInfo!.provider_id,
+        provider_id: providerInfo!.id,
         default_weight: providerInfo!.default_weight || 0,
         status: ProviderStatus.Active,
       });
@@ -89,10 +86,10 @@ export default function Header({ providerInfo }: Props) {
       });
     } else {
       await contract.admin_deactivate_provider({
-        provider_id: providerInfo!.provider_id,
+        provider_id: providerInfo!.id,
       });
       updateProvider({
-        provider_id: providerInfo!.provider_id,
+        provider_id: providerInfo!.id,
         status: ProviderStatus.Deactivated,
       });
     }
@@ -112,9 +109,9 @@ export default function Header({ providerInfo }: Props) {
   const verifyHandler = useCallback(async () => {
     showSpinner();
     // If so, then, call add_stamp method
-    if (providerInfo?.is_user_a_human && providerInfo?.provider_id) {
+    if (providerInfo?.is_user_a_human && providerInfo?.id) {
       try {
-        await contract.add_stamp(providerInfo.provider_id);
+        await contract.add_stamp(providerInfo.id);
       } catch (error) {
         console.error(error);
       }
@@ -122,7 +119,7 @@ export default function Header({ providerInfo }: Props) {
       hideSpinner();
     }
   }, [
-    providerInfo?.provider_id,
+    providerInfo?.id,
     providerInfo?.is_user_a_human,
     showSpinner,
     hideSpinner,
@@ -131,14 +128,14 @@ export default function Header({ providerInfo }: Props) {
   const { saveProvider } = useProviderStatusChecker();
 
   const getCheckHandler = useCallback(() => {
-    if (providerInfo?.external_url && providerInfo.provider_id) {
+    if (providerInfo?.external_url && providerInfo.id) {
       // Save provider to check if the user is now a human there
-      saveProvider(providerInfo.provider_id);
+      saveProvider(providerInfo.id);
 
       // Open up the external URL
       window.open(providerInfo?.external_url, "_blank");
     }
-  }, [providerInfo?.external_url, providerInfo?.provider_id, saveProvider]);
+  }, [providerInfo?.external_url, providerInfo?.id, saveProvider]);
 
   const openContractAddress = useCallback(() => {
     const explorerURL =

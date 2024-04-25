@@ -164,7 +164,7 @@ export default function AdminReviewChecksSection() {
           >
             {filteredProviders.map((provider) => (
               <ContractInfo
-                key={provider.provider_id}
+                key={provider.id}
                 providerInfo={provider}
                 adminView
               />

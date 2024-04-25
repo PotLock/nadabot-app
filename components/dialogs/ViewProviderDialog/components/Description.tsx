@@ -44,7 +44,7 @@ export default function Description({ providerInfo }: Props) {
       (async () => {
         setUpdating(true);
         await contract.update_provider({
-          provider_id: providerInfo.provider_id,
+          provider_id: providerInfo.id,
           default_weight: debouncedPoints,
         });
         setUpdating(false);
@@ -52,7 +52,7 @@ export default function Description({ providerInfo }: Props) {
 
         // Update this provider withing store
         updateProvider({
-          provider_id: providerInfo.provider_id,
+          provider_id: providerInfo.id,
           default_weight: debouncedPoints,
         });
       })();
@@ -62,15 +62,15 @@ export default function Description({ providerInfo }: Props) {
   // Users for Stamp
   const [verifiedUsers, setVerifiedUsers] = useState<string[]>();
   useEffect(() => {
-    if (providerInfo?.provider_id) {
+    if (providerInfo?.id) {
       (async () => {
         const usersForStamp = await contract.get_users_for_stamp({
-          provider_id: providerInfo.provider_id,
+          provider_id: providerInfo.id,
         });
         setVerifiedUsers(usersForStamp);
       })();
     }
-  }, [providerInfo?.provider_id]);
+  }, [providerInfo?.id]);
 
   return (
     <Stack

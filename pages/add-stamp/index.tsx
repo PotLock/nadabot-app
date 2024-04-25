@@ -375,7 +375,7 @@ export default function AddStampPage() {
                   stamp_count: 0,
                   account_id_arg_name: "account_id",
                   status: ProviderStatus.Active,
-                  provider_id: "",
+                  id: "",
                   icon_url: filesContent[0]?.content,
                   submitted_by: walletApi?.accounts[0]?.accountId,
                   name: formik.values.title,
