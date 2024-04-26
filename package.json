@@ -34,7 +34,7 @@
     "@near-wallet-selector/welldone-wallet": "^8.9.5",
     "@near-wallet-selector/xdefi": "^8.9.5",
     "@uidotdev/usehooks": "^2.4.1",
-    "@wpdas/naxios": "^2.0.1",
+    "@wpdas/naxios": "^2.1.0",
     "copy-to-clipboard": "^3.3.3",
     "formik": "^2.4.5",
     "fuse.js": "^7.0.0",
