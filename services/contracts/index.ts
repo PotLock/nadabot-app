@@ -19,6 +19,7 @@ import { CONTRACT_ID, NETWORK } from "@nadabot/constants";
 
 // Naxios (Contract/Wallet) Instance
 export const naxiosInstance = new naxios({
+  rpcNodeUrl: `https://${NETWORK.toLowerCase() === "mainnet" ? "near" : "near-testnet"}.lava.build`,
   contractId: CONTRACT_ID,
   network: NETWORK,
   walletSelectorModules: [
