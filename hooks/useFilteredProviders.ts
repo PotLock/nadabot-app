@@ -69,7 +69,7 @@ const useFilteredProviders = ({ skipProviderId, sortMethod }: Props) => {
               "font-weight: 600; background-color: #000000; color: #FFFFFF; padding: 4px 2px; margin-top: 2px;";
             const contentErrorStyle = "font-weight: normal;";
             console.error(
-              `Error checking if user is human. \n%cProvider Name:%c ${provider.name} \n%cContractID:%c ${provider.contract_id} \n%cMethod Name:%c ${provider.method_name}. \n%cError Body:%c ${error}`,
+              `Error checking if user is human. \n%cProvider Name:%c ${provider.provider_name} \n%cContractID:%c ${provider.contract_id} \n%cMethod Name:%c ${provider.method_name}. \n%cError Body:%c ${error}`,
               titleErrorStyle,
               contentErrorStyle,
               titleErrorStyle,

@@ -52,7 +52,7 @@ export default function RecentChecks() {
             key={stamp.provider.id}
             totalItems={stamps.length}
             index={index}
-            contractName={stamp.provider.name}
+            contractName={stamp.provider.provider_name}
             contractId={stamp.provider.contract_id}
             method={stamp.provider.method_name}
             points={stamp.provider.default_weight}

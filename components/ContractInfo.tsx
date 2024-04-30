@@ -286,7 +286,7 @@ export default function ContractInfo({
             className="ellipsis"
             color={colors.PRIMARY}
           >
-            {providerInfo.name || "Contract Title"}
+            {providerInfo.provider_name || "Contract Title"}
           </Typography>
         </ButtonContainer>
 

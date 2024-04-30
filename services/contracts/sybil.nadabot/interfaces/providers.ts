@@ -7,7 +7,7 @@ export enum ProviderStatus {
 export interface Provider {
   // NB: contract address/ID and method name are contained in the Provider's ID (see `ProviderId`) so do not need to be stored here
   /// Name of the provider, e.g. "I Am Human"
-  name: string;
+  provider_name: string;
   /// Description of the provider
   description?: string;
   /// Status of the provider
@@ -30,6 +30,8 @@ export interface Provider {
   submitted_at_ms?: number;
   /// Total number of times this provider has been used successfully
   stamp_count: number;
+  /// Milliseconds that stamps from this provider are valid for before they expire
+  stamp_validity_ms?: number;
 }
 
 export interface ProviderExternal {
@@ -42,7 +44,7 @@ export interface ProviderExternal {
   /// Account ID arg name
   account_id_arg_name: string;
   // Name of the provider, e.g. "I Am Human"
-  name: string;
+  provider_name: string;
   // Description of the provider
   description?: string;
   /// Status of the provider
@@ -65,6 +67,8 @@ export interface ProviderExternal {
   submitted_at_ms: number;
   // Total number of times this provider has been used successfully
   stamp_count: number;
+  /// Milliseconds that stamps from this provider are valid for before they expire
+  stamp_validity_ms?: number;
 }
 
 export type ProviderExternalWithIsHuman = ProviderExternal & {
@@ -75,7 +79,7 @@ export interface RegisterProviderInput {
   contract_id: string;
   method_name: string;
   account_id_arg_name?: string;
-  name: string;
+  provider_name: string;
   description?: string;
   gas?: number;
   tags?: string[];
@@ -85,7 +89,7 @@ export interface RegisterProviderInput {
 
 export interface UpdateProviderInput {
   provider_id: string;
-  name?: string;
+  provider_name?: string;
   description?: string;
   gas?: number;
   tags?: string[];

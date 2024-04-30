@@ -57,7 +57,9 @@ function Item({
             lineHeight="normal"
             mr={maxWidth430 ? 0 : 2}
           >
-            {maxWidth1144 ? providerInfo.name : truncate(providerInfo.name, 15)}
+            {maxWidth1144
+              ? providerInfo.provider_name
+              : truncate(providerInfo.provider_name, 15)}
           </Typography>
           <Typography
             fontSize={10}
