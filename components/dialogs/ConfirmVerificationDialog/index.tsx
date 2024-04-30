@@ -71,7 +71,7 @@ export default function ConfirmVerificationDialog({
   const shareTwitter = () => {
     if (providerLink) {
       window.open(
-        `https://twitter.com/intent/tweet?url=${encodeURIComponent(providerLink)}&text=${encodeURIComponent(`I just got my "${provider?.name}" check using #NadaBot. Take a look here: `)}`,
+        `https://twitter.com/intent/tweet?url=${encodeURIComponent(providerLink)}&text=${encodeURIComponent(`I just got my "${provider?.provider_name}" check using #NadaBot. Take a look here: `)}`,
         "_blank",
       );
     }
@@ -80,7 +80,7 @@ export default function ConfirmVerificationDialog({
   const shareTelegram = () => {
     if (providerLink) {
       window.open(
-        `https://telegram.me/share/url?url=${encodeURIComponent(providerLink)}&text=${encodeURIComponent(`I just got my "${provider?.name}" check using NadaBot. Take a look! `)}`,
+        `https://telegram.me/share/url?url=${encodeURIComponent(providerLink)}&text=${encodeURIComponent(`I just got my "${provider?.provider_name}" check using NadaBot. Take a look! `)}`,
         "_blank",
       );
     }
@@ -108,7 +108,7 @@ export default function ConfirmVerificationDialog({
           color={colors.PRIMARY}
         >
           You have done{" "}
-          <span style={{ color: colors.BLUE }}>{provider?.name}</span> check.{" "}
+          <span style={{ color: colors.BLUE }}>{provider?.provider_name}</span> check.{" "}
           <br /> Now add this check to Nada Bot contract.
         </DialogContentText>
 

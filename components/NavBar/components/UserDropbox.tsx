@@ -103,7 +103,7 @@ const UserDropbox = () => {
         <Stack direction="row" alignItems="center" ml={2} mb={2}>
           <CustomAvatar accountId={accountId} size={48} fontSize={16} />
           <Typography fontSize={14} fontWeight={500} lineHeight="20px" ml={2}>
-            {truncate(profileInfo?.name || accountId, 14)}
+            {truncate(profileInfo?.provider_name || accountId, 14)}
           </Typography>
         </Stack>
         {isAdmin && router.route !== Routes.ADMIN_HOME && (

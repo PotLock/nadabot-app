@@ -183,7 +183,7 @@ export default function Header({ providerInfo }: Props) {
             textAlign={maxWidth805 ? "center" : "left"}
             mb={maxWidth805 ? 2 : 0}
           >
-            {truncate(providerInfo?.name || "", 28)}
+            {truncate(providerInfo?.provider_name || "", 28)}
           </Typography>
           <Stack direction={maxWidth700 ? "column" : "row"}>
             <Stack
