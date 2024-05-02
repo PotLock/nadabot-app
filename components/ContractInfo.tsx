@@ -336,10 +336,8 @@ export default function ContractInfo({
           <Stack gap={2}>
             <Stack>
               <Stack direction="row" justifyContent="space-between">
-                <Stack direction="row">
-                  <Typography fontWeight={600} mr={1}>
-                    Edit Points
-                  </Typography>
+                <Stack direction="row" gap={0.5}>
+                  <Typography fontWeight={600}>Edit Points</Typography>
 
                   <InfoOutlinedIcon
                     sx={{ color: colors.NEUTRAL300, width: 16 }}

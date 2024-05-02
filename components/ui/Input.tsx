@@ -53,7 +53,7 @@ export default function Input({
 }: Props) {
   return (
     <Stack gap={1} sx={sx}>
-      <Stack direction="row" gap={1}>
+      <Stack direction="row" gap={0.5}>
         <Stack direction="row">
           {label && (
             <Typography
