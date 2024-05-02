@@ -5,9 +5,11 @@ import colors from "@nadabot/theme/colors";
 
 import CustomInput from "./CustomInput";
 
-type Props = {
+export type RegularInputProps = {
+  fontSize?: number | string;
   placeholder?: string;
   enableShadow?: boolean;
+  leftComponent?: JSX.Element;
   rightComponent?: JSX.Element;
   type?: HTMLInputTypeAttribute;
   sx?: SxProps<Theme>;
@@ -23,8 +25,10 @@ type Props = {
 };
 
 const RegularInput = ({
+  fontSize,
   placeholder,
   enableShadow,
+  leftComponent,
   rightComponent,
   type,
   sx,
@@ -37,17 +41,17 @@ const RegularInput = ({
   integersOnly,
   min,
   max,
-}: Props) => {
+}: RegularInputProps) => {
   return (
     <Box pb={enableShadow ? 1 : 0}>
       <Stack
         direction="row"
         alignItems="center"
         justifyContent="space-between"
+        gap={1}
         sx={{
           background: error ? colors.ERROR_RED_LIGHT : "transparent",
-          pl: 2,
-          pr: rightComponent ? 0 : 2,
+          px: 2,
           border: `1px solid ${error ? colors.ERROR_RED : colors.LIGHTGRAY}`,
           borderRadius: "6px",
           height: 48,
@@ -57,6 +61,8 @@ const RegularInput = ({
           ...sx,
         }}
       >
+        {leftComponent}
+
         <CustomInput
           min={min}
           max={max}
@@ -65,14 +71,15 @@ const RegularInput = ({
           type={type}
           onChange={onChange}
           sx={{
-            width: rightComponent ? "85%" : "100%",
+            fontSize,
+            width: "100%",
             color: error ? colors.ERROR_RED : colors.NEUTRAL700,
             background: error ? colors.ERROR_RED_LIGHT : "transparent",
           }}
           name={name}
           defaultValue={defaultValue}
           autoComplete={autoComplete ? "on" : "off"}
-          // Intergers only?
+          // Integers only?
           {...(integersOnly && type === "number"
             ? {
                 onKeyDown: (event) => {
@@ -80,6 +87,7 @@ const RegularInput = ({
                     event.preventDefault();
                   }
                 },
+
                 onPaste: (event) => {
                   const pasteData = event.clipboardData.getData("text");
                   if (pasteData) {
@@ -89,6 +97,7 @@ const RegularInput = ({
               }
             : {})}
         />
+
         {rightComponent}
       </Stack>
     </Box>

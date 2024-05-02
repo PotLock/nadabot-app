@@ -1,3 +1,4 @@
+import AutoDeleteOutlinedIcon from "@mui/icons-material/AutoDeleteOutlined";
 import CheckIcon from "@mui/icons-material/Check";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {
@@ -34,6 +35,7 @@ import ButtonContainer from "./containers/ButtonContainer";
 import CustomAvatar from "./ui/CustomAvatar";
 import CustomButton from "./ui/CustomButton";
 import CustomCircularProgress from "./ui/CustomCircularProgress";
+import Input from "./ui/Input";
 
 type Props = {
   hidePoints?: boolean;
@@ -331,40 +333,68 @@ export default function ContractInfo({
 
         {/* Edit Points */}
         {isAdmin && (
-          <Stack>
-            <Stack direction="row" justifyContent="space-between">
-              <Stack direction="row">
-                <Typography fontWeight={600} mr={1}>
-                  Edit Points
-                </Typography>
+          <Stack gap={2}>
+            <Stack>
+              <Stack direction="row" justifyContent="space-between">
+                <Stack direction="row">
+                  <Typography fontWeight={600} mr={1}>
+                    Edit Points
+                  </Typography>
+
+                  <InfoOutlinedIcon
+                    sx={{ color: colors.NEUTRAL300, width: 16 }}
+                  />
+                </Stack>
+
+                <Stack
+                  borderRadius="4px"
+                  border={`1px solid ${colors.NEUTRAL100}`}
+                >
+                  <Typography fontWeight={600} color={colors.NEUTRAL500} px={1}>
+                    {previousPoints} pts
+                  </Typography>
+                </Stack>
+              </Stack>
+
+              {updating ? (
+                <CustomCircularProgress sx={{ py: 1 }} size={30} />
+              ) : (
+                <Slider
+                  value={points}
+                  // NOTE: Check this with Lachlan
+                  max={100}
+                  min={1}
+                  aria-label="Default"
+                  valueLabelDisplay="auto"
+                  onChange={(_, newValue) =>
+                    changePointsHandler(newValue as number)
+                  }
+                />
+              )}
+            </Stack>
+
+            <Input
+              fontSize={20}
+              leftComponent={
+                <AutoDeleteOutlinedIcon
+                  sx={{ color: colors.NEUTRAL400, width: 22 }}
+                />
+              }
+              label="Edit Expiry"
+              labelDecoration={
                 <InfoOutlinedIcon
                   sx={{ color: colors.NEUTRAL300, width: 16 }}
                 />
-              </Stack>
-              <Stack
-                borderRadius="4px"
-                border={`1px solid ${colors.NEUTRAL100}`}
-              >
-                <Typography fontWeight={600} color={colors.NEUTRAL500} px={1}>
-                  {previousPoints} pts
+              }
+              type="number"
+              min={0}
+              placeholder="30"
+              rightComponent={
+                <Typography color={colors.NEUTRAL400} fontSize={20}>
+                  Days
                 </Typography>
-              </Stack>
-            </Stack>
-            {updating ? (
-              <CustomCircularProgress sx={{ py: 1 }} size={30} />
-            ) : (
-              <Slider
-                value={points}
-                // NOTE: Check this with Lachlan
-                max={100}
-                min={1}
-                aria-label="Default"
-                valueLabelDisplay="auto"
-                onChange={(_, newValue) =>
-                  changePointsHandler(newValue as number)
-                }
-              />
-            )}
+              }
+            />
           </Stack>
         )}
       </Stack>

@@ -84,6 +84,10 @@ export default function AdminReviewChecksSection() {
     router.push(Routes.ADD_STAMP);
   }, [router]);
 
+  console.log(
+    (filteredProviders ?? []).map(({ stamp_validity_ms }) => stamp_validity_ms),
+  );
+
   return (
     <Stack mt={6}>
       <Stack
@@ -123,7 +127,7 @@ export default function AdminReviewChecksSection() {
               mr: maxWidth1110 ? 0 : 3,
             }}
             placeholder="Search"
-            rightComponent={<SearchIconA sx={{ width: 16, mr: 2 }} />}
+            rightComponent={<SearchIconA sx={{ width: 16 }} />}
             onChange={(e) => setSearchPattern(e.target.value)}
           />
           <Stack

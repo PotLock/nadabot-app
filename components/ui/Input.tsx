@@ -1,31 +1,42 @@
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import { Stack, SxProps, Theme, Typography } from "@mui/material";
-import { ChangeEvent, HTMLInputTypeAttribute } from "react";
+import { Stack, Typography } from "@mui/material";
 
-import RegularInput from "@nadabot/components/ui/RegularInput";
+import RegularInput, {
+  RegularInputProps,
+} from "@nadabot/components/ui/RegularInput";
 import colors from "@nadabot/theme/colors";
 
-type Props = {
+type Props = Pick<
+  RegularInputProps,
+  | "autoComplete"
+  | "defaultValue"
+  | "fontSize"
+  | "disabled"
+  | "integersOnly"
+  | "min"
+  | "max"
+  | "name"
+  | "onChange"
+  | "leftComponent"
+  | "rightComponent"
+  | "sx"
+  | "type"
+> & {
   label?: string;
+  labelDecoration?: JSX.Element;
   placeholder: string;
   info?: string;
   optional?: boolean;
-  type?: HTMLInputTypeAttribute;
-  sx?: SxProps<Theme>;
-  disabled?: boolean;
   errorMessage?: string;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-  name?: string;
-  defaultValue?: string | number | readonly string[];
-  autoComplete?: boolean;
-  integersOnly?: boolean;
-  min?: string | number;
-  max?: string | number;
 };
 
 export default function Input({
+  fontSize,
   label,
+  labelDecoration,
   placeholder,
+  leftComponent,
+  rightComponent,
   info,
   optional,
   type,
@@ -41,30 +52,39 @@ export default function Input({
   max,
 }: Props) {
   return (
-    <Stack sx={sx}>
-      <Stack direction="row">
-        {label && (
-          <Typography
-            fontWeight={600}
-            fontSize={16}
-            sx={{ opacity: disabled ? 0.5 : 1 }}
-          >
-            {label}
-          </Typography>
-        )}
-        {optional && (
-          <Typography
-            fontWeight={600}
-            fontSize={16}
-            color={colors.NEUTRAL500}
-            ml={0.5}
-          >
-            (optional)
-          </Typography>
-        )}
+    <Stack gap={1} sx={sx}>
+      <Stack direction="row" gap={1}>
+        <Stack direction="row">
+          {label && (
+            <Typography
+              fontWeight={600}
+              fontSize={16}
+              sx={{ opacity: disabled ? 0.5 : 1 }}
+            >
+              {label}
+            </Typography>
+          )}
+
+          {optional && (
+            <Typography
+              fontWeight={600}
+              fontSize={16}
+              color={colors.NEUTRAL500}
+              ml={0.5}
+            >
+              (optional)
+            </Typography>
+          )}
+        </Stack>
+
+        {labelDecoration}
       </Stack>
+
       <RegularInput
+        fontSize={fontSize}
         placeholder={placeholder}
+        leftComponent={leftComponent}
+        rightComponent={rightComponent}
         type={type}
         disabled={disabled}
         error={!!errorMessage}
@@ -76,8 +96,9 @@ export default function Input({
         min={min}
         max={max}
       />
+
       {info && (
-        <Stack direction="row" alignItems="center" mt={1}>
+        <Stack direction="row" alignItems="center">
           <InfoOutlinedIcon
             sx={{
               color: errorMessage ? colors.ERROR_RED : colors.NEUTRAL300,
@@ -86,6 +107,7 @@ export default function Input({
               mt: "-2px",
             }}
           />
+
           <Typography
             color={errorMessage ? colors.ERROR_RED : colors.NEUTRAL300}
             fontWeight={500}
@@ -95,9 +117,10 @@ export default function Input({
           </Typography>
         </Stack>
       )}
+
       {/* Show error only if a Info is not provided */}
       {errorMessage && (
-        <Typography mt={1} fontSize={13} color={colors.ERROR_RED}>
+        <Typography fontSize={13} color={colors.ERROR_RED}>
           {errorMessage}
         </Typography>
       )}

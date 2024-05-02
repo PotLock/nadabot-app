@@ -42,7 +42,7 @@ export default function AccountInfoPage() {
       (async () => {
         // Profile info
         const profileInfo = await get_user_profile({ accountId });
-        setUsername(profileInfo?.provider_name || accountId);
+        setUsername(profileInfo?.name || accountId);
 
         // Is Human Check
         const response = await contract.get_human_score({

@@ -34,7 +34,7 @@ export function AddFilterSearchInput({ hideAddFilterButton, onChange }: Props) {
         <RegularInput
           onChange={(e) => onChange(e.target.value)}
           placeholder="Search"
-          rightComponent={<SearchIconA sx={{ width: 16, mr: 2 }} />}
+          rightComponent={<SearchIconA sx={{ width: 16 }} />}
         />
       </Stack>
 

@@ -31,7 +31,7 @@ export interface Provider {
   /// Total number of times this provider has been used successfully
   stamp_count: number;
   /// Milliseconds that stamps from this provider are valid for before they expire
-  stamp_validity_ms?: number;
+  stamp_validity_ms?: number | null;
 }
 
 export interface ProviderExternal {
@@ -68,7 +68,7 @@ export interface ProviderExternal {
   // Total number of times this provider has been used successfully
   stamp_count: number;
   /// Milliseconds that stamps from this provider are valid for before they expire
-  stamp_validity_ms?: number;
+  stamp_validity_ms?: number | null;
 }
 
 export type ProviderExternalWithIsHuman = ProviderExternal & {
@@ -80,6 +80,7 @@ export interface RegisterProviderInput {
   method_name: string;
   account_id_arg_name?: string;
   provider_name: string;
+  stamp_validity_ms?: number;
   description?: string;
   gas?: number;
   tags?: string[];
@@ -90,6 +91,7 @@ export interface RegisterProviderInput {
 export interface UpdateProviderInput {
   provider_id: string;
   provider_name?: string;
+  stamp_validity_ms?: number;
   description?: string;
   gas?: number;
   tags?: string[];
