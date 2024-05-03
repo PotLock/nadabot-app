@@ -54,7 +54,7 @@ export default function Input({
   return (
     <Stack gap={1} sx={sx}>
       <Stack direction="row" gap={0.5}>
-        <Stack direction="row">
+        <Stack direction="row" gap={0.5}>
           {label && (
             <Typography
               fontWeight={600}
@@ -70,7 +70,6 @@ export default function Input({
               fontWeight={600}
               fontSize={16}
               color={colors.NEUTRAL500}
-              ml={0.5}
             >
               (optional)
             </Typography>

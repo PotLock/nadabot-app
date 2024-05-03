@@ -13,7 +13,8 @@ import {
 } from "@mui/material";
 import { useDebounce } from "@uidotdev/usehooks";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { Temporal } from "temporal-polyfill";
 
 import { DIALOGS } from "@nadabot/contexts/DialogsProvider";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
@@ -63,6 +64,28 @@ export default function ContractInfo({
   const { maxWidth430 } = useBreakPoints();
   const { openDialog } = useDialogs();
   const { showSpinner, hideSpinner } = useSpinner();
+
+  const [expiryMs, setExpiryMs] = useState<null | number>(
+    providerInfo.stamp_validity_ms ?? null,
+  );
+
+  const expiryDays =
+    typeof expiryMs === "number"
+      ? Temporal.Duration.from({ milliseconds: expiryMs }).total("days")
+      : 0;
+
+  const onExpiryChange = useCallback(
+    ({ target: { value } }: ChangeEvent<HTMLInputElement>) =>
+      setExpiryMs(
+        typeof value === "string"
+          ? Temporal.Duration.from({ days: parseInt(value) }).total(
+              "milliseconds",
+            )
+          : null,
+      ),
+
+    [setExpiryMs],
+  );
 
   const verifyHandler = useCallback(async () => {
     if (isPreview) {
@@ -204,16 +227,6 @@ export default function ContractInfo({
     isProviderActive,
   ]);
 
-  // Active / De-Activate
-  const [activeLabel, setActiveLabel] = useState("Active");
-  const activeMouseOverHandler = useCallback(() => {
-    setActiveLabel("De-Activate");
-  }, []);
-
-  const activeMouseOutHandler = useCallback(() => {
-    setActiveLabel("Active");
-  }, []);
-
   /**
    * Open up the View Provider Dialog
    */
@@ -268,6 +281,7 @@ export default function ContractInfo({
               }}
             />
           </ButtonContainer>
+
           {!hidePoints && (
             <Stack alignItems="flex-end">
               <Typography fontWeight={600} fontSize={24}>
@@ -305,6 +319,7 @@ export default function ContractInfo({
             >
               {providerInfo.contract_id || "contract.name.near"}
             </Typography>
+
             <Chip
               label={
                 providerInfo.method_name
@@ -372,7 +387,6 @@ export default function ContractInfo({
             </Stack>
 
             <Input
-              fontSize={20}
               leftComponent={
                 <AutoDeleteOutlinedIcon
                   sx={{ color: colors.NEUTRAL400, width: 22 }}
@@ -385,14 +399,31 @@ export default function ContractInfo({
                 />
               }
               type="number"
+              integersOnly
               min={0}
+              fontSize={20}
               placeholder="30"
+              defaultValue={expiryDays}
               rightComponent={
                 <Typography color={colors.NEUTRAL400} fontSize={20}>
                   Days
                 </Typography>
               }
+              onChange={onExpiryChange}
             />
+
+            <CustomButton
+              color="beige"
+              bodySize="medium"
+              onClick={() =>
+                contract.update_provider({
+                  provider_id: providerInfo.id,
+                  stamp_validity_ms: expiryMs,
+                })
+              }
+            >
+              Save
+            </CustomButton>
           </Stack>
         )}
       </Stack>
@@ -414,6 +445,7 @@ export default function ContractInfo({
           <Typography fontWeight={700} fontSize={12} color={colors.NEUTRAL700}>
             SUBMITTED BY
           </Typography>
+
           <Stack direction="row" alignItems="center">
             <CustomAvatar
               accountId={providerInfo.submitted_by}
@@ -421,6 +453,7 @@ export default function ContractInfo({
               fontSize={12}
               sx={{ mr: 1 }}
             />
+
             <Typography
               fontWeight={500}
               color={colors.NEUTRAL400}
@@ -445,6 +478,7 @@ export default function ContractInfo({
                   mt: -0.3,
                 }}
               />
+
               <Typography color={colors.BLUE} fontSize={14} fontWeight={600}>
                 Verified
               </Typography>
@@ -461,14 +495,10 @@ export default function ContractInfo({
                         color="beige"
                         bodySize="medium"
                         onClick={switchActivation}
-                        onMouseOver={activeMouseOverHandler}
-                        onMouseOut={activeMouseOutHandler}
                         sx={{
                           mt: maxWidth430 ? 2 : 0,
                           px: 2,
-                          ...(activeLabel === "De-Activate" && isProviderActive
-                            ? { px: 1 }
-                            : {}),
+
                           ...(isProviderActive
                             ? {
                                 backgroundColor:
@@ -489,7 +519,7 @@ export default function ContractInfo({
                             : {}),
                         }}
                       >
-                        {isProviderActive ? activeLabel : "Activate"}
+                        {isProviderActive ? "Deactivate" : "Activate"}
                       </CustomButton>
                     </Stack>
                   ) : (

@@ -91,7 +91,7 @@ export interface RegisterProviderInput {
 export interface UpdateProviderInput {
   provider_id: string;
   provider_name?: string;
-  stamp_validity_ms?: number;
+  stamp_validity_ms?: number | null;
   description?: string;
   gas?: number;
   tags?: string[];
