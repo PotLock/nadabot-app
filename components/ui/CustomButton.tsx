@@ -1,4 +1,4 @@
-import { Button, SxProps, Theme } from "@mui/material";
+import { Button, ButtonProps } from "@mui/material";
 
 const fontSizes = {
   small: 14,
@@ -26,16 +26,14 @@ const variants = {
   red: "contained",
 };
 
-type Props = {
-  children: any;
+type Props = Pick<
+  ButtonProps,
+  "children" | "disabled" | "onMouseOut" | "onMouseOver" | "sx" | "type"
+> & {
   onClick?: () => void;
-  onMouseOver?: () => void;
-  onMouseOut?: () => void;
   fontSize?: "small" | "medium" | "large";
   bodySize?: "small" | "medium" | "large";
   color?: "white" | "blue" | "beige" | "red";
-  sx?: SxProps<Theme>;
-  disabled?: boolean;
 };
 
 export default function CustomButton(props: Props) {

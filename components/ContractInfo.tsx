@@ -1,20 +1,15 @@
-import AutoDeleteOutlinedIcon from "@mui/icons-material/AutoDeleteOutlined";
 import CheckIcon from "@mui/icons-material/Check";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {
   Box,
   Button,
   Chip,
-  Slider,
   Stack,
   SxProps,
   Theme,
   Typography,
 } from "@mui/material";
-import { useDebounce } from "@uidotdev/usehooks";
 import { useRouter } from "next/router";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { Temporal } from "temporal-polyfill";
+import { useCallback, useState } from "react";
 
 import { DIALOGS } from "@nadabot/contexts/DialogsProvider";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
@@ -33,10 +28,10 @@ import colors from "@nadabot/theme/colors";
 import removeViewStampFromURLQuery from "@nadabot/utils/removeViewStampFromURLQuery";
 
 import ButtonContainer from "./containers/ButtonContainer";
+import { ProviderSettings } from "./ProviderSettings";
 import CustomAvatar from "./ui/CustomAvatar";
 import CustomButton from "./ui/CustomButton";
 import CustomCircularProgress from "./ui/CustomCircularProgress";
-import Input from "./ui/Input";
 
 type Props = {
   hidePoints?: boolean;
@@ -64,43 +59,24 @@ export default function ContractInfo({
   const { maxWidth430 } = useBreakPoints();
   const { openDialog } = useDialogs();
   const { showSpinner, hideSpinner } = useSpinner();
+  const [hasPendingUpdate, setPendingUpdateStatus] = useState(false);
+  const { showSnackbar } = useSnackbars();
+  const router = useRouter();
 
-  const [expiryMs, setExpiryMs] = useState<null | number>(
-    providerInfo.stamp_validity_ms ?? null,
+  const [isProviderActive] = useState(
+    providerInfo.status === ProviderStatus.Active,
   );
 
-  const expiryDays =
-    typeof expiryMs === "number"
-      ? Temporal.Duration.from({ milliseconds: expiryMs }).total("days")
-      : 0;
-
-  const onExpiryChange = useCallback(
-    ({ target: { value } }: ChangeEvent<HTMLInputElement>) =>
-      setExpiryMs(
-        typeof value === "string"
-          ? Temporal.Duration.from({ days: parseInt(value) }).total(
-              "milliseconds",
-            )
-          : null,
-      ),
-
-    [setExpiryMs],
-  );
+  // const expiryDays = millisecondsToDays(providerInfo.stamp_validity_ms ?? null);
 
   const verifyHandler = useCallback(async () => {
-    if (isPreview) {
-      return;
-    }
+    if (!isPreview && providerInfo.is_user_a_human) {
+      showSpinner();
 
-    showSpinner();
-    // Call add_stamp method
-    if (providerInfo.is_user_a_human) {
-      try {
-        await contract.add_stamp(providerInfo.id);
-      } catch (error) {
-        console.error(error);
-      }
-      hideSpinner();
+      contract
+        .add_stamp(providerInfo.id)
+        .catch(console.error)
+        .finally(hideSpinner);
     }
   }, [
     isPreview,
@@ -113,25 +89,14 @@ export default function ContractInfo({
   const { saveProvider } = useProviderStatusChecker();
 
   const getCheckHandler = useCallback(() => {
-    if (isPreview) {
-      return;
+    if (!isPreview) {
+      // Save provider to check if the user is now a human there
+      saveProvider(providerInfo.id);
+
+      // Open up the external URL
+      window.open(providerInfo.external_url, "_blank");
     }
-
-    // Save provider to check if the user is now a human there
-    saveProvider(providerInfo.id);
-
-    // Open up the external URL
-    window.open(providerInfo.external_url, "_blank");
   }, [isPreview, providerInfo.external_url, providerInfo.id, saveProvider]);
-
-  const [points, setPoints] = useState(providerInfo.default_weight);
-  const [previousPoints, setPreviousPoints] = useState(
-    providerInfo.default_weight,
-  );
-  const debouncedPoints = useDebounce(points, 800);
-  const [updating, setUpdating] = useState(false);
-  const { showSnackbar } = useSnackbars();
-  const router = useRouter();
 
   const imageURL = providerInfo.icon_url
     ? providerInfo.icon_url.replace(
@@ -140,60 +105,20 @@ export default function ContractInfo({
       )
     : null;
 
-  // Check if it's needed to update the Provider points
-  useEffect(() => {
-    if (isPreview) {
-      setPreviousPoints(debouncedPoints);
-      return;
-    }
-
-    if (debouncedPoints !== previousPoints) {
-      // Update this Provider points
-      (async () => {
-        setUpdating(true);
-        await contract.update_provider({
-          provider_id: providerInfo.id,
-          default_weight: debouncedPoints,
-        });
-        setUpdating(false);
-        setPreviousPoints(debouncedPoints);
-
-        // Update this provider withing store
-        updateProvider({
-          provider_id: providerInfo.id,
-          default_weight: debouncedPoints,
-        });
-      })();
-    }
-  }, [
-    debouncedPoints,
-    points,
-    previousPoints,
-    providerInfo.id,
-    isPreview,
-    updateProvider,
-  ]);
-
-  const changePointsHandler = useCallback(async (newValue: number) => {
-    setPoints(newValue);
-  }, []);
-
-  const [isProviderActive] = useState(
-    providerInfo.status === ProviderStatus.Active,
-  );
-
   // Switch Activation
   const switchActivation = useCallback(async () => {
     if (isPreview) {
       return;
     }
 
-    setUpdating(true);
+    setPendingUpdateStatus(true);
+
     if (!isProviderActive) {
       await contract.admin_activate_provider({
         provider_id: providerInfo.id,
         default_weight: providerInfo.default_weight || 0,
       });
+
       updateProvider({
         provider_id: providerInfo.id,
         default_weight: providerInfo.default_weight || 0,
@@ -211,12 +136,14 @@ export default function ContractInfo({
       await contract.admin_deactivate_provider({
         provider_id: providerInfo.id,
       });
+
       updateProvider({
         provider_id: providerInfo.id,
         status: ProviderStatus.Deactivated,
       });
     }
-    setUpdating(false);
+
+    setPendingUpdateStatus(false);
   }, [
     providerInfo.default_weight,
     providerInfo.id,
@@ -285,7 +212,7 @@ export default function ContractInfo({
           {!hidePoints && (
             <Stack alignItems="flex-end">
               <Typography fontWeight={600} fontSize={24}>
-                {previousPoints}
+                {providerInfo.default_weight}
               </Typography>
               <Typography fontSize={17}>Points</Typography>
             </Stack>
@@ -341,90 +268,12 @@ export default function ContractInfo({
             mt={2}
             mb={2}
           >
-            {providerInfo.description ||
-              "Lorem ipsum dolor sit amet, consectet adipiscing elit, sed do eiusmod tempor ncididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
+            {providerInfo.description || "No description provided."}
           </Typography>
         </ButtonContainer>
 
-        {/* Edit Points */}
         {isAdmin && (
-          <Stack gap={2}>
-            <Stack>
-              <Stack direction="row" justifyContent="space-between">
-                <Stack direction="row" gap={0.5}>
-                  <Typography fontWeight={600}>Edit Points</Typography>
-
-                  <InfoOutlinedIcon
-                    sx={{ color: colors.NEUTRAL300, width: 16 }}
-                  />
-                </Stack>
-
-                <Stack
-                  borderRadius="4px"
-                  border={`1px solid ${colors.NEUTRAL100}`}
-                >
-                  <Typography fontWeight={600} color={colors.NEUTRAL500} px={1}>
-                    {previousPoints} pts
-                  </Typography>
-                </Stack>
-              </Stack>
-
-              {updating ? (
-                <CustomCircularProgress sx={{ py: 1 }} size={30} />
-              ) : (
-                <Slider
-                  value={points}
-                  // NOTE: Check this with Lachlan
-                  max={100}
-                  min={1}
-                  aria-label="Default"
-                  valueLabelDisplay="auto"
-                  onChange={(_, newValue) =>
-                    changePointsHandler(newValue as number)
-                  }
-                />
-              )}
-            </Stack>
-
-            <Input
-              leftComponent={
-                <AutoDeleteOutlinedIcon
-                  sx={{ color: colors.NEUTRAL400, width: 22 }}
-                />
-              }
-              label="Edit Expiry"
-              labelDecoration={
-                <InfoOutlinedIcon
-                  sx={{ color: colors.NEUTRAL300, width: 16 }}
-                />
-              }
-              type="number"
-              integersOnly
-              min={0}
-              fontSize={20}
-              placeholder="30"
-              defaultValue={expiryDays}
-              rightComponent={
-                <Typography color={colors.NEUTRAL400} fontSize={20}>
-                  Days
-                </Typography>
-              }
-              onChange={onExpiryChange}
-            />
-
-            <CustomButton
-              color="beige"
-              bodySize="medium"
-              onClick={() =>
-                contract.update_provider({
-                  provider_id: providerInfo.id,
-                  stamp_validity_ms: expiryMs,
-                })
-              }
-            >
-              Save
-            </CustomButton>
-          </Stack>
+          <ProviderSettings disabled={hasPendingUpdate} {...{ providerInfo }} />
         )}
       </Stack>
 
@@ -485,7 +334,7 @@ export default function ContractInfo({
             </Stack>
           ) : (
             <>
-              {updating ? (
+              {hasPendingUpdate ? (
                 <CustomCircularProgress sx={{ py: 1, pb: 1.7 }} size={30} />
               ) : (
                 <>
