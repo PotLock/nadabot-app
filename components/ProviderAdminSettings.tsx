@@ -130,6 +130,7 @@ export const ProviderAdminSettings = ({
                   fontSize={20}
                   placeholder="30"
                   defaultValue={values.stamp_validity_days}
+                  onChange={handleChange}
                   rightComponent={
                     <Typography color={colors.NEUTRAL400} fontSize={20}>
                       Days
