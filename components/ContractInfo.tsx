@@ -28,7 +28,7 @@ import colors from "@nadabot/theme/colors";
 import removeViewStampFromURLQuery from "@nadabot/utils/removeViewStampFromURLQuery";
 
 import ButtonContainer from "./containers/ButtonContainer";
-import { ProviderSettings } from "./ProviderSettings";
+import { ProviderAdminSettings } from "./ProviderAdminSettings";
 import CustomAvatar from "./ui/CustomAvatar";
 import CustomButton from "./ui/CustomButton";
 import CustomCircularProgress from "./ui/CustomCircularProgress";
@@ -273,7 +273,10 @@ export default function ContractInfo({
         </ButtonContainer>
 
         {isAdmin && (
-          <ProviderSettings disabled={hasPendingUpdate} {...{ providerInfo }} />
+          <ProviderAdminSettings
+            disabled={hasPendingUpdate}
+            {...{ providerInfo }}
+          />
         )}
       </Stack>
 

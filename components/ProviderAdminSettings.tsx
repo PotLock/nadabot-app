@@ -2,9 +2,9 @@ import AutoDeleteOutlinedIcon from "@mui/icons-material/AutoDeleteOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { Slider, Stack, Typography } from "@mui/material";
 import { Formik, FormikHelpers } from "formik";
-import { ChangeEvent, useCallback, useState } from "react";
 
 import CustomButton from "@nadabot/components/ui/CustomButton";
+import Input from "@nadabot/components/ui/Input";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
 import * as contract from "@nadabot/services/contracts/sybil.nadabot";
 import {
@@ -14,66 +14,61 @@ import {
 import colors from "@nadabot/theme/colors";
 import { daysToMilliseconds, millisecondsToDays } from "@nadabot/utils/time";
 
-import Input from "./ui/Input";
+interface ProviderAdminSettingsForm
+  extends Pick<UpdateProviderInput, "default_weight"> {
+  stamp_validity_days: number;
+}
 
-export type ProviderSettingsProps = {
+export type ProviderAdminSettingsProps = {
   disabled?: boolean;
   providerInfo: ProviderExternalWithIsHuman;
 };
 
-interface FormValues
-  extends Pick<UpdateProviderInput, "default_weight" | "stamp_validity_ms"> {}
-
-export const ProviderSettings = ({
+export const ProviderAdminSettings = ({
   disabled = false,
   providerInfo,
-}: ProviderSettingsProps) => {
-  const { default_weight, stamp_validity_ms } = providerInfo;
-  const initialValues: FormValues = { default_weight, stamp_validity_ms };
-
+}: ProviderAdminSettingsProps) => {
   const { updateProvider } = useProviders();
 
-  const [expiryMs, setExpiryMs] = useState<null | number>(
-    providerInfo.stamp_validity_ms ?? null,
-  );
+  const initialValues: ProviderAdminSettingsForm = {
+    default_weight: providerInfo.default_weight,
 
-  const expiryDays = millisecondsToDays(expiryMs);
-
-  const onExpiryChange = useCallback(
-    ({ target: { value } }: ChangeEvent<HTMLInputElement>) =>
-      setExpiryMs(daysToMilliseconds(parseInt(value))),
-
-    [setExpiryMs],
-  );
+    stamp_validity_days: millisecondsToDays(
+      providerInfo.stamp_validity_ms ?? 0,
+    ),
+  };
 
   const onSubmit = (
-    values: FormValues,
-    { setSubmitting }: FormikHelpers<FormValues>,
-  ) => {
-    console.table(values);
-
+    { default_weight, stamp_validity_days }: ProviderAdminSettingsForm,
+    { setSubmitting }: FormikHelpers<ProviderAdminSettingsForm>,
+  ) =>
     contract
-      .update_provider({ provider_id: providerInfo.id, ...values })
-      .then((provider) => {
-        updateProvider({ provider_id: provider.id, ...provider });
+      .update_provider({
+        provider_id: providerInfo.id,
+        default_weight,
+        stamp_validity_ms: daysToMilliseconds(stamp_validity_days),
+      })
+      .then(({ id: provider_id, ...updatedProviderInfo }) => {
+        updateProvider({ provider_id, ...updatedProviderInfo });
         setSubmitting(false);
       })
       .catch(console.error);
-  };
 
   return (
     <div>
       <Formik {...{ initialValues, onSubmit }}>
         {({
           values,
+          dirty,
           errors,
-          // touched,
           handleChange,
           handleBlur,
           handleSubmit,
           isSubmitting,
         }) => {
-          const isDisabled = disabled || isSubmitting;
+          const isLocked = disabled || isSubmitting;
+
+          console.log(values.stamp_validity_days);
 
           return (
             <form onSubmit={handleSubmit}>
@@ -111,14 +106,14 @@ export const ProviderSettings = ({
                     value={values.default_weight}
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    disabled={isDisabled}
+                    disabled={isLocked}
                   />
                 </Stack>
 
                 <Input
                   label="Expiration Period"
                   aria-label="Expiration period in days"
-                  name="stamp_validity_ms"
+                  name="stamp_validity_days"
                   labelDecoration={
                     <InfoOutlinedIcon
                       sx={{ color: colors.NEUTRAL300, width: 16 }}
@@ -134,22 +129,21 @@ export const ProviderSettings = ({
                   min={0}
                   fontSize={20}
                   placeholder="30"
-                  defaultValue={expiryDays}
-                  onChange={onExpiryChange}
+                  defaultValue={values.stamp_validity_days}
                   rightComponent={
                     <Typography color={colors.NEUTRAL400} fontSize={20}>
                       Days
                     </Typography>
                   }
-                  errorMessage={errors.stamp_validity_ms}
-                  disabled={isDisabled}
+                  errorMessage={errors.stamp_validity_days}
+                  disabled={isLocked}
                 />
 
                 <CustomButton
                   type="submit"
                   color="beige"
                   bodySize="medium"
-                  disabled={isDisabled}
+                  disabled={isLocked || !dirty}
                 >
                   Save
                 </CustomButton>
