@@ -1,4 +1,5 @@
 import CheckIcon from "@mui/icons-material/Check";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import {
   Box,
   Button,
@@ -9,8 +10,11 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
+import CustomAvatar from "@nadabot/components/ui/CustomAvatar";
+import CustomButton from "@nadabot/components/ui/CustomButton";
+import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import { DIALOGS } from "@nadabot/contexts/DialogsProvider";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
@@ -26,12 +30,10 @@ import {
 } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
 import colors from "@nadabot/theme/colors";
 import removeViewStampFromURLQuery from "@nadabot/utils/removeViewStampFromURLQuery";
+import { daysSinceTimestamp, millisecondsToDays } from "@nadabot/utils/time";
 
 import ButtonContainer from "./containers/ButtonContainer";
 import { ProviderAdminSettings } from "./ProviderAdminSettings";
-import CustomAvatar from "./ui/CustomAvatar";
-import CustomButton from "./ui/CustomButton";
-import CustomCircularProgress from "./ui/CustomCircularProgress";
 
 type Props = {
   hidePoints?: boolean;
@@ -59,7 +61,7 @@ export default function ContractInfo({
   const { maxWidth430 } = useBreakPoints();
   const { openDialog } = useDialogs();
   const { showSpinner, hideSpinner } = useSpinner();
-  const [hasPendingUpdate, setPendingUpdateStatus] = useState(false);
+  const [hasPendingUpdate, indicatePendingUpdate] = useState(false);
   const { showSnackbar } = useSnackbars();
   const router = useRouter();
 
@@ -67,7 +69,15 @@ export default function ContractInfo({
     providerInfo.status === ProviderStatus.Active,
   );
 
-  // const expiryDays = millisecondsToDays(providerInfo.stamp_validity_ms ?? null);
+  const expirationPeriodDays: number | null = useMemo(
+    () =>
+      typeof providerInfo.stamp_validity_ms === "number"
+        ? millisecondsToDays(providerInfo.stamp_validity_ms) -
+          daysSinceTimestamp(providerInfo.submitted_at_ms)
+        : null,
+
+    [providerInfo.stamp_validity_ms, providerInfo.submitted_at_ms],
+  );
 
   const verifyHandler = useCallback(async () => {
     if (!isPreview && providerInfo.is_user_a_human) {
@@ -111,7 +121,7 @@ export default function ContractInfo({
       return;
     }
 
-    setPendingUpdateStatus(true);
+    indicatePendingUpdate(true);
 
     if (!isProviderActive) {
       await contract.admin_activate_provider({
@@ -143,7 +153,7 @@ export default function ContractInfo({
       });
     }
 
-    setPendingUpdateStatus(false);
+    indicatePendingUpdate(false);
   }, [
     providerInfo.default_weight,
     providerInfo.id,
@@ -275,7 +285,7 @@ export default function ContractInfo({
         {isAdmin && (
           <ProviderAdminSettings
             disabled={hasPendingUpdate}
-            {...{ providerInfo }}
+            {...{ providerInfo, indicatePendingUpdate }}
           />
         )}
       </Stack>
@@ -321,19 +331,36 @@ export default function ContractInfo({
         {/* Footer Buttons */}
         <>
           {isStamp ? (
-            <Stack direction="row" alignItems="center">
-              <CheckIcon
-                sx={{
-                  fontSize: 19,
-                  color: colors.BLUE,
-                  mr: 1,
-                  mt: -0.3,
-                }}
-              />
+            <Stack direction="row" alignItems="center" gap={1}>
+              {expirationPeriodDays !== null ? (
+                <>
+                  <ErrorOutlineIcon
+                    sx={{ fontSize: 19, color: colors.NEUTRAL500, mt: -0.3 }}
+                  />
 
-              <Typography color={colors.BLUE} fontSize={14} fontWeight={600}>
-                Verified
-              </Typography>
+                  <Typography
+                    color={colors.NEUTRAL500}
+                    fontSize={14}
+                    fontWeight={600}
+                  >
+                    {`Expires in ${expirationPeriodDays} days`}
+                  </Typography>
+                </>
+              ) : (
+                <>
+                  <CheckIcon
+                    sx={{ fontSize: 19, color: colors.BLUE, mt: -0.3 }}
+                  />
+
+                  <Typography
+                    color={colors.BLUE}
+                    fontSize={14}
+                    fontWeight={600}
+                  >
+                    Verified
+                  </Typography>
+                </>
+              )}
             </Stack>
           ) : (
             <>

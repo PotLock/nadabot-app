@@ -35,8 +35,6 @@ export default function ChecksSection() {
 
   const hasProviders = providers.length > 0;
 
-  console.log(active.map(({ stamp_validity_ms }) => stamp_validity_ms));
-
   return (
     <Stack mt={6}>
       <Stack

@@ -22,11 +22,13 @@ interface ProviderAdminSettingsForm
 export type ProviderAdminSettingsProps = {
   disabled?: boolean;
   providerInfo: ProviderExternalWithIsHuman;
+  indicatePendingUpdate?: (hasPendingUpdate: boolean) => void;
 };
 
 export const ProviderAdminSettings = ({
   disabled = false,
   providerInfo,
+  indicatePendingUpdate,
 }: ProviderAdminSettingsProps) => {
   const { updateProvider } = useProviders();
 
@@ -40,8 +42,10 @@ export const ProviderAdminSettings = ({
 
   const onSubmit = (
     { default_weight, stamp_validity_days }: ProviderAdminSettingsForm,
-    { setSubmitting }: FormikHelpers<ProviderAdminSettingsForm>,
-  ) =>
+    { setSubmitting, resetForm }: FormikHelpers<ProviderAdminSettingsForm>,
+  ) => {
+    indicatePendingUpdate?.(true);
+
     contract
       .update_provider({
         provider_id: providerInfo.id,
@@ -50,9 +54,12 @@ export const ProviderAdminSettings = ({
       })
       .then(({ id: provider_id, ...updatedProviderInfo }) => {
         updateProvider({ provider_id, ...updatedProviderInfo });
+        resetForm(updatedProviderInfo);
         setSubmitting(false);
+        indicatePendingUpdate?.(false);
       })
       .catch(console.error);
+  };
 
   return (
     <div>
@@ -68,7 +75,8 @@ export const ProviderAdminSettings = ({
         }) => {
           const isLocked = disabled || isSubmitting;
 
-          console.log(values.stamp_validity_days);
+          if (JSON.stringify(initialValues) !== JSON.stringify(values))
+            console.table({ initialValues });
 
           return (
             <form onSubmit={handleSubmit}>

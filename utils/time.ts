@@ -45,3 +45,8 @@ export const daysToMilliseconds = (value: number | string | null): number => {
     throw error;
   }
 };
+
+export const daysSinceTimestamp = (unixTimestampMs: number) =>
+  Temporal.Now.instant().since(
+    Temporal.Instant.fromEpochMilliseconds(unixTimestampMs),
+  ).days;

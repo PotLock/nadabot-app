@@ -84,10 +84,6 @@ export default function AdminReviewChecksSection() {
     router.push(Routes.ADD_STAMP);
   }, [router]);
 
-  console.log(
-    (filteredProviders ?? []).map(({ stamp_validity_ms }) => stamp_validity_ms),
-  );
-
   return (
     <Stack mt={6}>
       <Stack
