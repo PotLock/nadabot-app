@@ -39,6 +39,7 @@ type Props = Pick<
 export default function CustomButton(props: Props) {
   return (
     <Button
+      type={props.type}
       disabled={props.disabled}
       variant={props.color ? (variants[props.color] as any) : "text"}
       color={props.color ? (colors[props.color] as any) : "primary"}
