@@ -10,8 +10,9 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 
+import ButtonContainer from "@nadabot/components/containers/ButtonContainer";
 import CustomAvatar from "@nadabot/components/ui/CustomAvatar";
 import CustomButton from "@nadabot/components/ui/CustomButton";
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
@@ -32,10 +33,9 @@ import colors from "@nadabot/theme/colors";
 import removeViewStampFromURLQuery from "@nadabot/utils/removeViewStampFromURLQuery";
 import { daysSinceTimestamp, millisecondsToDays } from "@nadabot/utils/time";
 
-import ButtonContainer from "./containers/ButtonContainer";
 import { ProviderAdminSettings } from "./ProviderAdminSettings";
 
-type Props = {
+export type ProviderCardProps = {
   hidePoints?: boolean;
   sx?: SxProps<Theme>;
   colorSystem?: "regular" | "admin";
@@ -46,7 +46,7 @@ type Props = {
   adminView?: boolean;
 };
 
-export default function ContractInfo({
+export const ProviderCard: React.FC<ProviderCardProps> = ({
   hidePoints,
   sx,
   providerInfo,
@@ -55,7 +55,7 @@ export default function ContractInfo({
   isStamp,
   verifyButtonSx,
   adminView,
-}: Props) {
+}) => {
   const [isAdmin] = useState(adminView || false);
   const { updateProvider } = useProviders();
   const { maxWidth430 } = useBreakPoints();
@@ -181,6 +181,37 @@ export default function ContractInfo({
     router.replace(`${updatedPath}viewStamp=${providerInfo.id}`);
   }, [openDialog, providerInfo.id, router]);
 
+  const authorCredentials = useMemo(
+    () => (
+      <Stack justifyContent="center">
+        <Typography fontWeight={700} fontSize={12} color={colors.NEUTRAL700}>
+          SUBMITTED BY
+        </Typography>
+
+        <Stack direction="row" alignItems="center">
+          <CustomAvatar
+            accountId={providerInfo.submitted_by}
+            size={20}
+            fontSize={12}
+            sx={{ mr: 1 }}
+          />
+
+          <Typography
+            fontWeight={500}
+            color={colors.NEUTRAL400}
+            fontSize={16}
+            className="ellipsis"
+            maxWidth={maxWidth430 ? "100%" : isAdmin ? "180px" : "160px"}
+          >
+            {providerInfo.submitted_by}
+          </Typography>
+        </Stack>
+      </Stack>
+    ),
+
+    [isAdmin, maxWidth430, providerInfo.submitted_by],
+  );
+
   return (
     <Stack
       minWidth={maxWidth430 ? "100%" : 352}
@@ -284,13 +315,13 @@ export default function ContractInfo({
 
         {isAdmin && (
           <ProviderAdminSettings
+            embedded
             disabled={hasPendingUpdate}
             {...{ providerInfo, indicatePendingUpdate }}
           />
         )}
       </Stack>
 
-      {/* Author - SUBMITTED BY - section */}
       <Stack
         direction={maxWidth430 ? "column" : "row"}
         justifyContent="space-between"
@@ -303,30 +334,7 @@ export default function ContractInfo({
           borderTop: "none",
         }}
       >
-        <Stack>
-          <Typography fontWeight={700} fontSize={12} color={colors.NEUTRAL700}>
-            SUBMITTED BY
-          </Typography>
-
-          <Stack direction="row" alignItems="center">
-            <CustomAvatar
-              accountId={providerInfo.submitted_by}
-              size={20}
-              fontSize={12}
-              sx={{ mr: 1 }}
-            />
-
-            <Typography
-              fontWeight={500}
-              color={colors.NEUTRAL400}
-              fontSize={16}
-              className="ellipsis"
-              maxWidth={maxWidth430 ? "100%" : isAdmin ? "180px" : "160px"}
-            >
-              {providerInfo.submitted_by}
-            </Typography>
-          </Stack>
-        </Stack>
+        {authorCredentials}
 
         {/* Footer Buttons */}
         <>
@@ -428,4 +436,4 @@ export default function ContractInfo({
       </Stack>
     </Stack>
   );
-}
+};

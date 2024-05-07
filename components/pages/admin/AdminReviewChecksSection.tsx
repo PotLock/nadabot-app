@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
 import GridContainer from "@nadabot/components/containers/GridContainer";
-import ContractInfo from "@nadabot/components/ContractInfo";
+import { ProviderCard } from "@nadabot/components/provider/ProviderCard";
 import CustomButton from "@nadabot/components/ui/CustomButton";
 import FilterButton from "@nadabot/components/ui/FilterButton";
 import RegularInput from "@nadabot/components/ui/RegularInput";
@@ -163,7 +163,7 @@ export default function AdminReviewChecksSection() {
             }}
           >
             {filteredProviders.map((provider) => (
-              <ContractInfo
+              <ProviderCard
                 key={provider.id}
                 providerInfo={provider}
                 adminView

@@ -13,7 +13,7 @@ import {
 import * as Yup from "yup";
 
 import ProtectedPage from "@nadabot/components/auth/ProtectedPage";
-import ContractInfo from "@nadabot/components/ContractInfo";
+import { ProviderCard } from "@nadabot/components/provider/ProviderCard";
 import CustomButton from "@nadabot/components/ui/CustomButton";
 import Input from "@nadabot/components/ui/Input";
 import UploadImage from "@nadabot/components/UploadImage";
@@ -362,7 +362,7 @@ export default function AddStampPage() {
             </Typography>
 
             <Box mt={4}>
-              <ContractInfo
+              <ProviderCard
                 isPreview
                 sx={{
                   minWidth: maxWidth430 ? "initial" : 392,

@@ -2,7 +2,7 @@ import { Stack, Typography } from "@mui/material";
 import { useCallback } from "react";
 
 import GridContainer from "@nadabot/components/containers/GridContainer";
-import ContractInfo from "@nadabot/components/ContractInfo";
+import { ProviderCard } from "@nadabot/components/provider/ProviderCard";
 import CustomButton from "@nadabot/components/ui/CustomButton";
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import { useUser } from "@nadabot/hooks/store/useUser";
@@ -29,7 +29,7 @@ export default function PendingVerificationSection() {
     () => (
       <GridContainer centralize={activeIsHuman.length >= 3}>
         {activeIsHuman.map((provider) => (
-          <ContractInfo
+          <ProviderCard
             key={provider.id}
             providerInfo={provider}
             verifyButtonSx={{

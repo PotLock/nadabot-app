@@ -1,7 +1,7 @@
 import { Stack, Typography } from "@mui/material";
 
 import GridContainer from "@nadabot/components/containers/GridContainer";
-import ContractInfo from "@nadabot/components/ContractInfo";
+import { ProviderCard } from "@nadabot/components/provider/ProviderCard";
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import { useStamps } from "@nadabot/hooks/store/useStamps";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
@@ -42,7 +42,7 @@ export default function CompletedSection() {
         {ready ? (
           <GridContainer centralize={stamps.length >= 3}>
             {stamps.map((stamp) => (
-              <ContractInfo
+              <ProviderCard
                 key={stamp.provider.id}
                 providerInfo={insertIsHumanToProvider(stamp.provider)}
                 isStamp
