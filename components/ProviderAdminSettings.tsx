@@ -52,9 +52,19 @@ export const ProviderAdminSettings = ({
         default_weight,
         stamp_validity_ms: daysToMilliseconds(stamp_validity_days),
       })
-      .then(({ id: provider_id, ...updatedProviderInfo }) => {
-        updateProvider({ provider_id, ...updatedProviderInfo });
-        resetForm(updatedProviderInfo);
+      .then(({ id: provider_id, ...updated }) => {
+        updateProvider({ provider_id, ...updated });
+
+        resetForm({
+          values: {
+            default_weight: updated.default_weight,
+
+            stamp_validity_days: millisecondsToDays(
+              updated.stamp_validity_ms ?? 0,
+            ),
+          },
+        });
+
         setSubmitting(false);
         indicatePendingUpdate?.(false);
       })
@@ -74,9 +84,6 @@ export const ProviderAdminSettings = ({
           isSubmitting,
         }) => {
           const isLocked = disabled || isSubmitting;
-
-          if (JSON.stringify(initialValues) !== JSON.stringify(values))
-            console.table({ initialValues });
 
           return (
             <form onSubmit={handleSubmit}>
