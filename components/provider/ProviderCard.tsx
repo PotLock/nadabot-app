@@ -1,21 +1,12 @@
 import CheckIcon from "@mui/icons-material/Check";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import {
-  Box,
-  Button,
-  Chip,
-  Stack,
-  SxProps,
-  Theme,
-  Typography,
-} from "@mui/material";
+import { Box, Chip, Stack, SxProps, Theme, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useCallback, useMemo, useState } from "react";
 
 import ButtonContainer from "@nadabot/components/containers/ButtonContainer";
 import CustomAvatar from "@nadabot/components/ui/CustomAvatar";
 import CustomButton from "@nadabot/components/ui/CustomButton";
-import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import { DIALOGS } from "@nadabot/contexts/DialogsProvider";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
@@ -317,11 +308,12 @@ export const ProviderCard: React.FC<ProviderCardProps> = ({
           <ProviderAdminSettings
             embedded
             disabled={hasPendingUpdate}
-            {...{ providerInfo, indicatePendingUpdate }}
+            {...{ providerInfo }}
           />
         )}
       </Stack>
 
+      {/* Footer */}
       <Stack
         direction={maxWidth430 ? "column" : "row"}
         justifyContent="space-between"
@@ -336,103 +328,86 @@ export const ProviderCard: React.FC<ProviderCardProps> = ({
       >
         {authorCredentials}
 
-        {/* Footer Buttons */}
-        <>
+        <Stack direction="row" alignItems="center" gap={1}>
           {isStamp ? (
-            <Stack direction="row" alignItems="center" gap={1}>
+            <>
               {expirationPeriodDays !== null ? (
-                <>
-                  <ErrorOutlineIcon
-                    sx={{ fontSize: 19, color: colors.NEUTRAL500, mt: -0.3 }}
-                  />
-
-                  <Typography
-                    color={colors.NEUTRAL500}
-                    fontSize={14}
-                    fontWeight={600}
-                  >
-                    {`Expires in ${expirationPeriodDays} days`}
-                  </Typography>
-                </>
+                <ErrorOutlineIcon
+                  sx={{ fontSize: 19, color: colors.NEUTRAL500, mt: -0.3 }}
+                />
               ) : (
-                <>
-                  <CheckIcon
-                    sx={{ fontSize: 19, color: colors.BLUE, mt: -0.3 }}
-                  />
-
-                  <Typography
-                    color={colors.BLUE}
-                    fontSize={14}
-                    fontWeight={600}
-                  >
-                    Verified
-                  </Typography>
-                </>
+                <CheckIcon
+                  sx={{ fontSize: 19, color: colors.BLUE, mt: -0.3 }}
+                />
               )}
-            </Stack>
+
+              <Typography
+                color={
+                  expirationPeriodDays !== null
+                    ? colors.NEUTRAL500
+                    : colors.BLUE
+                }
+                fontSize={14}
+                fontWeight={600}
+              >
+                {expirationPeriodDays !== null
+                  ? `Expires in ${expirationPeriodDays} days`
+                  : "Verified"}
+              </Typography>
+            </>
           ) : (
             <>
-              {hasPendingUpdate ? (
-                <CustomCircularProgress sx={{ py: 1, pb: 1.7 }} size={30} />
-              ) : (
-                <>
-                  {isAdmin ? (
-                    <Stack direction="row">
-                      <CustomButton
-                        color="beige"
-                        bodySize="medium"
-                        onClick={switchActivation}
-                        sx={{
-                          mt: maxWidth430 ? 2 : 0,
-                          px: 2,
+              {isAdmin ? (
+                <CustomButton
+                  color="beige"
+                  bodySize="medium"
+                  onClick={switchActivation}
+                  sx={{
+                    mt: maxWidth430 ? 2 : 0,
+                    px: 2,
 
-                          ...(isProviderActive
-                            ? {
-                                backgroundColor:
-                                  colorSystem === "regular"
-                                    ? colors.PEACH
-                                    : colors.PRIMARY,
-                                color:
-                                  colorSystem === "regular"
-                                    ? colors.PRIMARY
-                                    : colors.NEUTRAL50,
-                                ":hover": {
-                                  backgroundColor:
-                                    colorSystem === "regular"
-                                      ? colors.PEACH
-                                      : colors.NEUTRAL700,
-                                },
-                              }
-                            : {}),
-                        }}
-                      >
-                        {isProviderActive ? "Deactivate" : "Activate"}
-                      </CustomButton>
-                    </Stack>
-                  ) : (
-                    <Button
-                      variant="contained"
-                      color="warning"
-                      size="medium"
-                      disableRipple
-                      onClick={
-                        providerInfo.is_user_a_human
-                          ? verifyHandler
-                          : getCheckHandler
-                      }
-                      sx={{
-                        mt: maxWidth430 ? 2 : 0,
-                        ...verifyButtonSx,
-                      }}
-                    >
-                      {providerInfo.is_user_a_human ? "Verify" : "Get Check"}
-                    </Button>
-                  )}
-                </>
+                    ...(isProviderActive
+                      ? {
+                          backgroundColor:
+                            colorSystem === "regular"
+                              ? colors.PEACH
+                              : colors.PRIMARY,
+
+                          color:
+                            colorSystem === "regular"
+                              ? colors.PRIMARY
+                              : colors.NEUTRAL50,
+
+                          ":hover": {
+                            backgroundColor:
+                              colorSystem === "regular"
+                                ? colors.PEACH
+                                : colors.NEUTRAL700,
+                          },
+                        }
+                      : {}),
+                  }}
+                >
+                  {isProviderActive ? "Deactivate" : "Activate"}
+                </CustomButton>
+              ) : (
+                <CustomButton
+                  color="beige"
+                  bodySize="medium"
+                  onClick={
+                    providerInfo.is_user_a_human
+                      ? verifyHandler
+                      : getCheckHandler
+                  }
+                  sx={{ mt: maxWidth430 ? 2 : 0, ...verifyButtonSx }}
+                  progress={hasPendingUpdate}
+                >
+                  {providerInfo.is_user_a_human ? "Verify" : "Get Check"}
+                </CustomButton>
               )}
             </>
           )}
-        </>
+        </Stack>
       </Stack>
     </Stack>
   );

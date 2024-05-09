@@ -5,7 +5,6 @@ import { Slider, Stack, SxProps, Theme, Typography } from "@mui/material";
 import { useMemo } from "react";
 
 import CustomButton from "@nadabot/components/ui/CustomButton";
-import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import Input from "@nadabot/components/ui/Input";
 import colors from "@nadabot/theme/colors";
 
@@ -16,7 +15,7 @@ import {
 
 export type ProviderAdminSettingsProps = Pick<
   ProviderAdminSettingsFormParameters,
-  "disabled" | "providerInfo" | "indicatePendingUpdate"
+  "disabled" | "providerInfo"
 > & {
   embedded?: boolean;
   sx?: SxProps<Theme>;
@@ -26,7 +25,6 @@ export const ProviderAdminSettings = ({
   embedded = false,
   disabled = false,
   providerInfo,
-  indicatePendingUpdate,
   sx,
 }: ProviderAdminSettingsProps) => {
   const {
@@ -39,13 +37,9 @@ export const ProviderAdminSettings = ({
     handleSubmit,
     handleReset,
     values,
-  } = useAdminSettingsForm({
-    disabled,
-    providerInfo,
-    indicatePendingUpdate,
-  });
+  } = useAdminSettingsForm({ disabled, providerInfo });
 
-  const editingActions = useMemo(
+  const actions = useMemo(
     () => (
       <Stack
         direction="row"
@@ -59,21 +53,18 @@ export const ProviderAdminSettings = ({
           bodySize="medium"
           disabled={isDisabled}
         >
-          Cancel
+          Discard
         </CustomButton>
 
-        {isSubmitting ? (
-          <CustomCircularProgress sx={{ py: 1 }} size={30} />
-        ) : (
-          <CustomButton
-            type="submit"
-            color="beige"
-            bodySize="medium"
-            disabled={isDisabled}
-          >
-            Save
-          </CustomButton>
-        )}
+        <CustomButton
+          type="submit"
+          color="beige"
+          bodySize="medium"
+          disabled={isDisabled}
+          progress={isSubmitting}
+        >
+          Save
+        </CustomButton>
       </Stack>
     ),
 
@@ -164,11 +155,11 @@ export const ProviderAdminSettings = ({
             disabled={isLocked}
           />
 
-          {!embedded && editingActions}
+          {!embedded && actions}
         </Stack>
       </Stack>
 
-      {embedded && editingActions}
+      {embedded && actions}
     </Stack>
   );
 };

@@ -1,5 +1,7 @@
 import { Button, ButtonProps } from "@mui/material";
 
+import CustomCircularProgress from "./CustomCircularProgress";
+
 const fontSizes = {
   small: 14,
   medium: 26,
@@ -12,14 +14,18 @@ const bodySizes = {
   large: 68,
 };
 
-const colors = {
-  white: "primary",
-  blue: "primary",
-  beige: "warning",
-  red: "error",
-};
+const colors: Record<"white" | "blue" | "beige" | "red", ButtonProps["color"]> =
+  {
+    white: "primary",
+    blue: "primary",
+    beige: "warning",
+    red: "error",
+  };
 
-const variants = {
+const variants: Record<
+  "white" | "blue" | "beige" | "red",
+  ButtonProps["variant"]
+> = {
   white: "text",
   blue: "contained",
   beige: "contained",
@@ -30,29 +36,47 @@ type Props = Pick<
   ButtonProps,
   "children" | "disabled" | "onMouseOut" | "onMouseOver" | "sx" | "type"
 > & {
-  onClick?: () => void;
-  fontSize?: "small" | "medium" | "large";
   bodySize?: "small" | "medium" | "large";
   color?: "white" | "blue" | "beige" | "red";
+  fontSize?: "small" | "medium" | "large";
+  onClick?: () => void;
+  progress?: boolean;
 };
 
-export default function CustomButton(props: Props) {
+export default function CustomButton({
+  color = "white",
+  bodySize,
+  fontSize,
+  progress = false,
+  sx,
+  children,
+  ...props
+}: Props) {
   return (
     <Button
-      type={props.type}
-      disabled={props.disabled}
-      variant={props.color ? (variants[props.color] as any) : "text"}
-      color={props.color ? (colors[props.color] as any) : "primary"}
-      onClick={props.onClick}
-      onMouseOver={props.onMouseOver}
-      onMouseOut={props.onMouseOut}
+      disableRipple
+      variant={variants[color]}
+      color={colors[color]}
       sx={{
-        fontSize: fontSizes[props.fontSize || "small"],
-        height: bodySizes[props.bodySize || "small"],
-        ...(props.sx ? props.sx : {}),
+        fontSize: fontSizes[fontSize ?? "small"],
+        height: bodySizes[bodySize ?? "small"],
+        ...sx,
       }}
+      {...props}
     >
-      {props.children}
+      <span style={{ visibility: progress ? "hidden" : "visible" }}>
+        {children}
+      </span>
+
+      <CustomCircularProgress
+        size={26}
+        sx={{
+          width: "100%",
+          position: "absolute",
+          p: 0,
+          visibility: progress ? "visile" : "hidden",
+        }}
+      />
     </Button>
   );
 }

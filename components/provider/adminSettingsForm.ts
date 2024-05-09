@@ -16,13 +16,11 @@ interface ProviderAdminSettingsValues
 export type ProviderAdminSettingsFormParameters = {
   disabled?: boolean;
   providerInfo: ProviderExternal;
-  indicatePendingUpdate?: (isSubmitting: boolean) => void;
 };
 
 export const useAdminSettingsForm = ({
   disabled,
   providerInfo,
-  indicatePendingUpdate,
 }: ProviderAdminSettingsFormParameters) => {
   const { updateProvider } = useProviders();
 
@@ -43,8 +41,6 @@ export const useAdminSettingsForm = ({
           resetForm,
         }: FormikHelpers<ProviderAdminSettingsValues>,
       ) => {
-        indicatePendingUpdate?.(true);
-
         contract
           .update_provider({
             provider_id: providerInfo.id,
@@ -65,7 +61,6 @@ export const useAdminSettingsForm = ({
             });
 
             setSubmitting(false);
-            indicatePendingUpdate?.(false);
           })
           .catch(console.error);
       },

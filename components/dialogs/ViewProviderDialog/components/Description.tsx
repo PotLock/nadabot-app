@@ -81,13 +81,11 @@ export default function Description({ providerInfo }: Props) {
         </Stack>
       </Stack>
 
+      {/* Right */}
       {isAdmin &&
         router.route === Routes.ADMIN_HOME &&
         providerInfo !== undefined && (
-          <ProviderAdminSettings
-            providerInfo={providerInfo}
-            sx={{ width: 352 }}
-          />
+          <ProviderAdminSettings sx={{ width: 352 }} {...{ providerInfo }} />
         )}
     </Stack>
   );
