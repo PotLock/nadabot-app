@@ -1,5 +1,5 @@
 import { Box, Stack, SxProps, Theme } from "@mui/material";
-import { ChangeEvent, HTMLInputTypeAttribute } from "react";
+import { ChangeEvent, HTMLInputTypeAttribute, useMemo } from "react";
 
 import colors from "@nadabot/theme/colors";
 
@@ -42,6 +42,11 @@ const RegularInput = ({
   min,
   max,
 }: RegularInputProps) => {
+  const background = useMemo(
+    () => (disabled ? colors.NEUTRAL100 : colors.WHITE),
+    [disabled],
+  );
+
   return (
     <Box pb={enableShadow ? 1 : 0}>
       <Stack
@@ -50,7 +55,7 @@ const RegularInput = ({
         justifyContent="space-between"
         gap={1}
         sx={{
-          background: error ? colors.ERROR_RED_LIGHT : "transparent",
+          background: error ? colors.ERROR_RED_LIGHT : background,
           px: 2,
           border: `1px solid ${error ? colors.ERROR_RED : colors.LIGHTGRAY}`,
           borderRadius: "6px",
