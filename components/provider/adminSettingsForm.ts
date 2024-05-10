@@ -1,4 +1,5 @@
 import { FormikHelpers, useFormik } from "formik";
+import { useCallback, useState } from "react";
 
 import { useProviders } from "@nadabot/hooks/store/useProviders";
 import * as contract from "@nadabot/services/contracts/sybil.nadabot";
@@ -22,7 +23,19 @@ export const useAdminSettingsForm = ({
   disabled,
   providerInfo,
 }: ProviderAdminSettingsFormParameters) => {
+  const isStampValiditySet = providerInfo.stamp_validity_ms !== null;
   const { updateProvider } = useProviders();
+
+  const [isExpiryEnabled, setIsExpiryEnabled] =
+    useState<boolean>(isStampValiditySet);
+
+  const onExpirySwitch: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean,
+  ) => void = useCallback(
+    (_, enabled) => setIsExpiryEnabled(enabled),
+    [setIsExpiryEnabled],
+  );
 
   const { dirty, isSubmitting, isValid, ...form } =
     useFormik<ProviderAdminSettingsValues>({
@@ -45,7 +58,10 @@ export const useAdminSettingsForm = ({
           .update_provider({
             provider_id: providerInfo.id,
             default_weight,
-            stamp_validity_ms: daysToMilliseconds(stamp_validity_days),
+
+            stamp_validity_ms: isExpiryEnabled
+              ? daysToMilliseconds(stamp_validity_days)
+              : null,
           })
           .then(({ id: provider_id, ...updated }) => {
             updateProvider({ provider_id, ...updated });
@@ -66,12 +82,16 @@ export const useAdminSettingsForm = ({
       },
     });
 
+  const hasChanges = dirty || isExpiryEnabled !== isStampValiditySet;
   const isLocked = disabled || isSubmitting;
 
   return {
     ...form,
+    hasChanges,
     isLocked,
-    isDisabled: isLocked || !dirty || !isValid,
+    isDisabled: isLocked || !hasChanges || !isValid,
+    isExpiryEnabled,
     isSubmitting,
+    onExpirySwitch,
   };
 };

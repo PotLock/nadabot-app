@@ -52,6 +52,7 @@ export const ProviderCard: React.FC<ProviderCardProps> = ({
   const { maxWidth430 } = useBreakPoints();
   const { openDialog } = useDialogs();
   const { showSpinner, hideSpinner } = useSpinner();
+  const [isFooterHidden, setIsFooterHidden] = useState(false);
   const [hasPendingUpdate, indicatePendingUpdate] = useState(false);
   const { showSnackbar } = useSnackbars();
   const router = useRouter();
@@ -205,21 +206,18 @@ export const ProviderCard: React.FC<ProviderCardProps> = ({
 
   return (
     <Stack
+      gap={2}
       minWidth={maxWidth430 ? "100%" : 352}
       maxWidth={maxWidth430 ? "100%" : 352}
       width="100%"
-      sx={{ background: isStamp ? colors.GRAY100 : "transparent", ...sx }}
+      sx={{
+        border: `1px solid ${colors.LIGHTGRAY}`,
+        borderRadius: 2,
+        background: isStamp ? colors.GRAY100 : "transparent",
+        ...sx,
+      }}
     >
-      <Stack
-        p={2}
-        sx={{
-          border: `1px solid ${colors.LIGHTGRAY}`,
-          borderRadius: 2,
-          borderBottomLeftRadius: 0,
-          borderBottomRightRadius: 0,
-        }}
-        minHeight={isAdmin ? "336px" : "280px"}
-      >
+      <Stack px={2} pt={2} minHeight={isAdmin ? 200 : 280}>
         <Stack direction="row" justifyContent="space-between">
           {/* Circle */}
           <ButtonContainer onClick={openViewProviderDialog}>
@@ -303,27 +301,26 @@ export const ProviderCard: React.FC<ProviderCardProps> = ({
             {providerInfo.description || "No description provided."}
           </Typography>
         </ButtonContainer>
-
-        {isAdmin && (
-          <ProviderAdminSettings
-            embedded
-            disabled={hasPendingUpdate}
-            {...{ providerInfo }}
-          />
-        )}
       </Stack>
+
+      {isAdmin && (
+        <ProviderAdminSettings
+          embedded
+          disabled={hasPendingUpdate}
+          indicateUnsavedChanges={setIsFooterHidden}
+          {...{ providerInfo }}
+        />
+      )}
 
       {/* Footer */}
       <Stack
+        display={isFooterHidden ? "none" : "flex"}
         direction={maxWidth430 ? "column" : "row"}
         justifyContent="space-between"
         p={2}
         sx={{
-          border: `1px solid ${colors.LIGHTGRAY}`,
-          borderRadius: 2,
-          borderTopLeftRadius: 0,
-          borderTopRightRadius: 0,
-          borderTop: "none",
+          borderTop: `1px solid ${colors.LIGHTGRAY}`,
+          // borderRadius: 2,
         }}
       >
         {authorCredentials}
@@ -362,6 +359,7 @@ export const ProviderCard: React.FC<ProviderCardProps> = ({
                   color="beige"
                   bodySize="medium"
                   onClick={switchActivation}
+                  progress={hasPendingUpdate}
                   sx={{
                     mt: maxWidth430 ? 2 : 0,
                     px: 2,
@@ -400,7 +398,6 @@ export const ProviderCard: React.FC<ProviderCardProps> = ({
                       : getCheckHandler
                   }
                   sx={{ mt: maxWidth430 ? 2 : 0, ...verifyButtonSx }}
-                  progress={hasPendingUpdate}
                 >
                   {providerInfo.is_user_a_human ? "Verify" : "Get Check"}
                 </CustomButton>

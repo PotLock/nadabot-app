@@ -1,11 +1,12 @@
 import AutoDeleteOutlinedIcon from "@mui/icons-material/AutoDeleteOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import { Slider, Stack, SxProps, Theme, Typography } from "@mui/material";
-import { useMemo } from "react";
+import { Stack, Switch, SxProps, Theme, Typography } from "@mui/material";
+import { useEffect, useMemo } from "react";
 
 import CustomButton from "@nadabot/components/ui/CustomButton";
 import Input from "@nadabot/components/ui/Input";
+import { Slider } from "@nadabot/components/ui/Slider";
 import colors from "@nadabot/theme/colors";
 
 import {
@@ -18,34 +19,46 @@ export type ProviderAdminSettingsProps = Pick<
   "disabled" | "providerInfo"
 > & {
   embedded?: boolean;
+  indicateUnsavedChanges?: (hasUnsavedChanges: boolean) => void;
   sx?: SxProps<Theme>;
 };
 
 export const ProviderAdminSettings = ({
   embedded = false,
   disabled = false,
+  indicateUnsavedChanges,
   providerInfo,
   sx,
 }: ProviderAdminSettingsProps) => {
   const {
     errors,
-    isDisabled,
-    isLocked,
-    isSubmitting,
     handleBlur,
     handleChange,
     handleSubmit,
     handleReset,
+    hasChanges,
+    isExpiryEnabled,
+    isDisabled,
+    isLocked,
+    isSubmitting,
+    onExpirySwitch,
     values,
   } = useAdminSettingsForm({ disabled, providerInfo });
+
+  useEffect(
+    () => void indicateUnsavedChanges?.(hasChanges),
+    [hasChanges, indicateUnsavedChanges],
+  );
 
   const actions = useMemo(
     () => (
       <Stack
+        display={embedded && isDisabled ? "none" : "flex"}
         direction="row"
         justifyContent="space-between"
         gap={2}
-        display={embedded && isDisabled ? "none" : "flex"}
+        p={2}
+        sx={{ borderTop: embedded ? `1px solid ${colors.LIGHTGRAY}` : "none" }}
       >
         <CustomButton
           type="reset"
@@ -78,88 +91,103 @@ export const ProviderAdminSettings = ({
       onSubmit={handleSubmit}
       onReset={handleReset}
     >
-      <Stack
-        p={2}
-        gap={2}
-        borderRadius={2}
-        border={`1px solid ${embedded ? colors.NEUTRAL100 : colors.NEUTRAL200}`}
-        minWidth={embedded ? "100%" : 352}
-        height="fit-content"
-        bgcolor={embedded ? "#F8F8F8" : "transparent"}
-        {...{ sx }}
-      >
-        <Stack direction="row" alignItems="center" gap={1}>
-          <SettingsOutlinedIcon fontSize="medium" />
+      <Stack px={embedded ? 2 : 0}>
+        <Stack
+          p={2}
+          gap={2}
+          borderRadius={2}
+          border={`1px solid ${embedded ? colors.NEUTRAL100 : colors.NEUTRAL200}`}
+          minWidth={embedded ? "100%" : 352}
+          height="fit-content"
+          bgcolor={embedded ? colors.GRAY100 : "transparent"}
+          {...{ sx }}
+        >
+          <Stack direction="row" alignItems="center" gap={1}>
+            <SettingsOutlinedIcon fontSize="medium" sx={{ pb: 0.25 }} />
 
-          <Typography fontSize={16} fontWeight={600}>
-            Admin Settings
-          </Typography>
-        </Stack>
+            <Typography fontSize={16} fontWeight={600}>
+              Admin Settings
+            </Typography>
+          </Stack>
 
-        <Stack gap={2}>
-          <Stack>
-            <Stack direction="row" justifyContent="space-between">
-              <Stack direction="row" gap={0.5}>
-                <Typography fontWeight={600}>Edit Points</Typography>
-
-                <InfoOutlinedIcon
-                  sx={{ color: colors.NEUTRAL300, width: 16 }}
-                />
-              </Stack>
-
-              <Stack borderRadius={1} border={`1px solid ${colors.NEUTRAL100}`}>
-                <Typography fontWeight={600} color={colors.NEUTRAL500} px={1}>
-                  {`${values.default_weight} pts`}
-                </Typography>
-              </Stack>
-            </Stack>
-
+          <Stack gap={2}>
             <Slider
-              aria-label="Stamp points"
+              label="Edit Points"
               name="default_weight"
+              labelDecoration={
+                <InfoOutlinedIcon
+                  sx={{ color: colors.NEUTRAL300, width: 16, height: 16 }}
+                />
+              }
               min={1}
               max={100}
-              valueLabelDisplay="auto"
               value={values.default_weight}
+              unitLabel="pts"
               onBlur={handleBlur}
               onChange={handleChange}
               disabled={isLocked}
             />
-          </Stack>
 
-          <Input
-            label="Expiration Period"
-            aria-label="Expiration period in days"
-            name="stamp_validity_days"
-            labelDecoration={
-              <InfoOutlinedIcon sx={{ color: colors.NEUTRAL300, width: 16 }} />
-            }
-            leftComponent={
-              <AutoDeleteOutlinedIcon
-                sx={{ color: colors.NEUTRAL400, width: 22 }}
-              />
-            }
-            type="number"
-            integersOnly
-            min={0}
-            fontSize={20}
-            placeholder="30"
-            defaultValue={values.stamp_validity_days}
-            onChange={handleChange}
-            rightComponent={
-              <Typography color={colors.NEUTRAL400} fontSize={20}>
-                Days
+            <Input
+              label="Expiration Period"
+              name="stamp_validity_days"
+              labelDecoration={
+                <Stack
+                  width="100%"
+                  height={20}
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="space-between"
+                  gap={1}
+                  marginRight={"-12px"}
+                >
+                  <InfoOutlinedIcon
+                    sx={{ color: colors.NEUTRAL300, width: 16, height: 16 }}
+                  />
+
+                  <Switch
+                    disableRipple
+                    checked={isExpiryEnabled}
+                    onChange={onExpirySwitch}
+                  />
+                </Stack>
+              }
+              leftComponent={
+                <AutoDeleteOutlinedIcon
+                  sx={{ color: colors.NEUTRAL400, width: 22, height: 22 }}
+                />
+              }
+              type="number"
+              integersOnly
+              min={0}
+              fontSize={20}
+              defaultValue={values.stamp_validity_days}
+              onChange={handleChange}
+              rightComponent={
+                <Typography color={colors.NEUTRAL400} fontSize={20}>
+                  Days
+                </Typography>
+              }
+              errorMessage={errors.stamp_validity_days}
+              disabled={isLocked || !isExpiryEnabled}
+            />
+
+            {embedded && (
+              <Typography
+                width="fit-content"
+                color={colors.NEUTRAL700}
+                fontWeight={400}
+                sx={{ textDecoration: "underline", cursor: "pointer" }}
+                onClick={() => {}}
+              >
+                View full settings
               </Typography>
-            }
-            errorMessage={errors.stamp_validity_days}
-            disabled={isLocked}
-          />
-
-          {!embedded && actions}
+            )}
+          </Stack>
         </Stack>
       </Stack>
 
-      {embedded && actions}
+      {actions}
     </Stack>
   );
 };
