@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
 import GridContainer from "@nadabot/components/containers/GridContainer";
-import { ProviderCard } from "@nadabot/components/provider/ProviderCard";
+import { StampCard } from "@nadabot/components/stamp/StampCard";
 import CustomAvatar from "@nadabot/components/ui/CustomAvatar";
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import Tag from "@nadabot/components/ui/Tag";
@@ -64,7 +64,7 @@ export default function AccountInfoPage() {
   const StampCards = useCallback(
     () =>
       userStamps.map((stamp) => (
-        <ProviderCard
+        <StampCard
           key={stamp.provider.id}
           providerInfo={insertIsHumanToProvider(stamp.provider)}
           isStamp

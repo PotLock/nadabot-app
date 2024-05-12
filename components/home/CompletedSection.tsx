@@ -1,14 +1,14 @@
 import { Stack, Typography } from "@mui/material";
 
 import GridContainer from "@nadabot/components/containers/GridContainer";
-import { ProviderCard } from "@nadabot/components/provider/ProviderCard";
+import { StampCard } from "@nadabot/components/stamp/StampCard";
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import { useStamps } from "@nadabot/hooks/store/useStamps";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import colors from "@nadabot/theme/colors";
 import insertIsHumanToProvider from "@nadabot/utils/insertIsHumanToProvider";
 
-import { ShadowContainer } from "../../containers/ShadowContainer";
+import { ShadowContainer } from "../containers/ShadowContainer";
 
 export default function CompletedSection() {
   const { maxWidth805 } = useBreakPoints();
@@ -42,7 +42,7 @@ export default function CompletedSection() {
         {ready ? (
           <GridContainer centralize={stamps.length >= 3}>
             {stamps.map((stamp) => (
-              <ProviderCard
+              <StampCard
                 key={stamp.provider.id}
                 providerInfo={insertIsHumanToProvider(stamp.provider)}
                 isStamp

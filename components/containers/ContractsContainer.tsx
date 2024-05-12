@@ -2,7 +2,7 @@ import { Stack, Typography } from "@mui/material";
 import Fuse from "fuse.js";
 import { useEffect, useState } from "react";
 
-import { ProviderCard } from "@nadabot/components/provider/ProviderCard";
+import { StampCard } from "@nadabot/components/stamp/StampCard";
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import { ProviderExternalWithIsHuman } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
@@ -102,7 +102,7 @@ export default function ContractsContainer({
         overflow="scroll"
       >
         {filteredProviders.map((provider) => (
-          <ProviderCard
+          <StampCard
             key={provider.id}
             providerInfo={provider}
             adminView={adminView}
@@ -122,7 +122,7 @@ export default function ContractsContainer({
         }}
       >
         {filteredProviders.map((provider) => (
-          <ProviderCard
+          <StampCard
             key={provider.id}
             providerInfo={provider}
             adminView={adminView}

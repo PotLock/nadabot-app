@@ -2,7 +2,7 @@ import { Stack, Typography } from "@mui/material";
 import { useCallback } from "react";
 
 import GridContainer from "@nadabot/components/containers/GridContainer";
-import { ProviderCard } from "@nadabot/components/provider/ProviderCard";
+import { StampCard } from "@nadabot/components/stamp/StampCard";
 import CustomButton from "@nadabot/components/ui/CustomButton";
 import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import { useUser } from "@nadabot/hooks/store/useUser";
@@ -13,7 +13,7 @@ import addMultipleStamps from "@nadabot/services/web3/addMultipleStamps";
 import colors from "@nadabot/theme/colors";
 import providerSorts from "@nadabot/utils/providerSorts";
 
-import { ShadowContainer } from "../../containers/ShadowContainer";
+import { ShadowContainer } from "../containers/ShadowContainer";
 
 export default function PendingVerificationSection() {
   const { walletConnected } = useUser();
@@ -29,7 +29,7 @@ export default function PendingVerificationSection() {
     () => (
       <GridContainer centralize={activeIsHuman.length >= 3}>
         {activeIsHuman.map((provider) => (
-          <ProviderCard
+          <StampCard
             key={provider.id}
             providerInfo={provider}
             verifyButtonSx={{

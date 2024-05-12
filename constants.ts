@@ -44,3 +44,4 @@ export const MAX_PROVIDER_DESCRIPTION_LENGTH = 256;
 export const MAX_PROVIDER_EXTERNAL_URL_LENGTH = 256;
 export const MAX_PROVIDER_ICON_URL_LENGTH = 256;
 export const MAX_GAS = 100; //100_000_000_000_000;
+export const DEFAULT_ACCOUNT_ID_ARG_NAME = "account_id";

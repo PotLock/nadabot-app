@@ -13,6 +13,7 @@ import {
   ActivateProviderInput,
   DeactivateProviderInput,
   FlagProviderInput,
+  ProviderById,
   ProviderExternal,
   RegisterProviderInput,
   UnflagProviderInput,
@@ -39,6 +40,16 @@ export const contractApi = naxiosInstance.contractApi({
  * Get Config
  */
 export const get_config = () => contractApi.view<{}, Config>("get_config");
+
+/**
+ * Get Provider by its id
+ */
+export const get_provider = (args: ProviderById) =>
+  contractApi.view<object, ProviderExternal | undefined>(
+    "get_providers",
+    { args },
+    { useCache: true },
+  );
 
 /**
  * Get Providers

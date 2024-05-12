@@ -24,9 +24,9 @@ import colors from "@nadabot/theme/colors";
 import removeViewStampFromURLQuery from "@nadabot/utils/removeViewStampFromURLQuery";
 import { daysSinceTimestamp, millisecondsToDays } from "@nadabot/utils/time";
 
-import { ProviderAdminSettings } from "./ProviderAdminSettings";
+import { StampAdminSettings } from "./StampAdminSettings";
 
-export type ProviderCardProps = {
+export type StampCardProps = {
   hidePoints?: boolean;
   sx?: SxProps<Theme>;
   colorSystem?: "regular" | "admin";
@@ -37,7 +37,7 @@ export type ProviderCardProps = {
   adminView?: boolean;
 };
 
-export const ProviderCard: React.FC<ProviderCardProps> = ({
+export const StampCard: React.FC<StampCardProps> = ({
   hidePoints,
   sx,
   providerInfo,
@@ -304,7 +304,7 @@ export const ProviderCard: React.FC<ProviderCardProps> = ({
       </Stack>
 
       {isAdmin && (
-        <ProviderAdminSettings
+        <StampAdminSettings
           embedded
           disabled={hasPendingUpdate}
           indicateUnsavedChanges={setIsFooterHidden}

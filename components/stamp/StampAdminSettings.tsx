@@ -2,6 +2,8 @@ import AutoDeleteOutlinedIcon from "@mui/icons-material/AutoDeleteOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { Stack, Switch, SxProps, Theme, Typography } from "@mui/material";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useMemo } from "react";
 
 import CustomButton from "@nadabot/components/ui/CustomButton";
@@ -10,26 +12,32 @@ import { Slider } from "@nadabot/components/ui/Slider";
 import colors from "@nadabot/theme/colors";
 
 import {
-  ProviderAdminSettingsFormParameters,
+  StampAdminSettingsFormParameters,
   useAdminSettingsForm,
 } from "./adminSettingsForm";
 
-export type ProviderAdminSettingsProps = Pick<
-  ProviderAdminSettingsFormParameters,
-  "disabled" | "providerInfo"
+export type StampAdminSettingsProps = Pick<
+  StampAdminSettingsFormParameters,
+  "disabled" | "providerInfo" | "onSubmit"
 > & {
   embedded?: boolean;
+  heading?: string;
   indicateUnsavedChanges?: (hasUnsavedChanges: boolean) => void;
   sx?: SxProps<Theme>;
 };
 
-export const ProviderAdminSettings = ({
+export const StampAdminSettings = ({
   embedded = false,
   disabled = false,
+  heading = "Admin Settings",
   indicateUnsavedChanges,
   providerInfo,
+  onSubmit,
   sx,
-}: ProviderAdminSettingsProps) => {
+}: StampAdminSettingsProps) => {
+  const router = useRouter();
+  const isStampPage = router.pathname.startsWith("/stamp/");
+
   const {
     errors,
     handleBlur,
@@ -43,7 +51,7 @@ export const ProviderAdminSettings = ({
     isSubmitting,
     onExpirySwitch,
     values,
-  } = useAdminSettingsForm({ disabled, providerInfo });
+  } = useAdminSettingsForm({ disabled, providerInfo, onSubmit });
 
   useEffect(
     () => void indicateUnsavedChanges?.(hasChanges),
@@ -106,7 +114,7 @@ export const ProviderAdminSettings = ({
             <SettingsOutlinedIcon fontSize="medium" sx={{ pb: 0.25 }} />
 
             <Typography fontSize={16} fontWeight={600}>
-              Admin Settings
+              {heading}
             </Typography>
           </Stack>
 
@@ -172,16 +180,19 @@ export const ProviderAdminSettings = ({
               disabled={isLocked || !isExpiryEnabled}
             />
 
-            {embedded && (
-              <Typography
-                width="fit-content"
+            {!isStampPage && embedded && (
+              <Link
+                href={{
+                  pathname: `/stamp/edit/${providerInfo.id}`,
+                }}
                 color={colors.NEUTRAL700}
-                fontWeight={400}
-                sx={{ textDecoration: "underline", cursor: "pointer" }}
-                onClick={() => {}}
+                style={{
+                  width: "fit-content",
+                  textDecoration: "underline",
+                }}
               >
                 View full settings
-              </Typography>
+              </Link>
             )}
           </Stack>
         </Stack>

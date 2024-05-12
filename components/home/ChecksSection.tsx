@@ -13,9 +13,9 @@ import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import colors from "@nadabot/theme/colors";
 import providerSorts from "@nadabot/utils/providerSorts";
 
-import ContractsContainer from "../../containers/ContractsContainer";
-import { ShadowContainer } from "../../containers/ShadowContainer";
-import { AddFilterSearchInput } from "../../ui/AddFilterSearchInput";
+import ContractsContainer from "../containers/ContractsContainer";
+import { ShadowContainer } from "../containers/ShadowContainer";
+import { AddFilterSearchInput } from "../ui/AddFilterSearchInput";
 
 export default function ChecksSection() {
   // const router = useRouter();

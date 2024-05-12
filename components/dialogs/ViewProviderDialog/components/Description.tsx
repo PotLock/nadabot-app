@@ -2,7 +2,7 @@ import { AvatarGroup, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { ProviderAdminSettings } from "@nadabot/components/provider/ProviderAdminSettings";
+import { StampAdminSettings } from "@nadabot/components/stamp/StampAdminSettings";
 import CustomAvatar from "@nadabot/components/ui/CustomAvatar";
 import Tag from "@nadabot/components/ui/Tag";
 import { useUser } from "@nadabot/hooks/store/useUser";
@@ -36,6 +36,7 @@ export default function Description({ providerInfo }: Props) {
       mt={6}
       direction={maxWidth962 ? "column" : "row"}
       justifyContent="space-between"
+      gap={2}
     >
       {/* Left */}
       <Stack>
@@ -85,7 +86,11 @@ export default function Description({ providerInfo }: Props) {
       {isAdmin &&
         router.route === Routes.ADMIN_HOME &&
         providerInfo !== undefined && (
-          <ProviderAdminSettings sx={{ width: 352 }} {...{ providerInfo }} />
+          <StampAdminSettings
+            embedded
+            sx={{ width: maxWidth962 ? "100%" : 352 }}
+            {...{ providerInfo }}
+          />
         )}
     </Stack>
   );

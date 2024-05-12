@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
 import GridContainer from "@nadabot/components/containers/GridContainer";
-import { ProviderCard } from "@nadabot/components/provider/ProviderCard";
+import { StampCard } from "@nadabot/components/stamp/StampCard";
 import CustomButton from "@nadabot/components/ui/CustomButton";
 import FilterButton from "@nadabot/components/ui/FilterButton";
 import RegularInput from "@nadabot/components/ui/RegularInput";
@@ -15,7 +15,7 @@ import { ProviderExternalWithIsHuman } from "@nadabot/services/contracts/sybil.n
 import colors from "@nadabot/theme/colors";
 import { SearchIconA } from "@nadabot/theme/icons";
 
-import { ShadowContainer } from "../../containers/ShadowContainer";
+import { ShadowContainer } from "../containers/ShadowContainer";
 
 type FilterType = "all" | "active" | "deactivated";
 
@@ -163,11 +163,7 @@ export default function AdminReviewChecksSection() {
             }}
           >
             {filteredProviders.map((provider) => (
-              <ProviderCard
-                key={provider.id}
-                providerInfo={provider}
-                adminView
-              />
+              <StampCard key={provider.id} providerInfo={provider} adminView />
             ))}
           </GridContainer>
         )}

@@ -71,6 +71,10 @@ export interface ProviderExternal {
   stamp_validity_ms?: number | null;
 }
 
+export interface ProviderById {
+  provider_id: string;
+}
+
 export type ProviderExternalWithIsHuman = ProviderExternal & {
   is_user_a_human: boolean;
 };
@@ -106,9 +110,6 @@ export interface ActivateProviderInput {
   default_weight: number;
 }
 
-export interface DeactivateProviderInput {
-  provider_id: string;
-}
-
+export type DeactivateProviderInput = ProviderById;
 export type FlagProviderInput = DeactivateProviderInput;
 export type UnflagProviderInput = DeactivateProviderInput;

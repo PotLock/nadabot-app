@@ -1,6 +1,6 @@
 import { Stack, Typography } from "@mui/material";
 
-import { ProviderCard } from "@nadabot/components/provider/ProviderCard";
+import { StampCard } from "@nadabot/components/stamp/StampCard";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
@@ -38,7 +38,7 @@ export default function NextProviders({ providerInfo }: Props) {
         flexWrap="wrap"
       >
         {providers.slice(0, 3).map((provider) => (
-          <ProviderCard
+          <StampCard
             key={provider.id}
             providerInfo={provider}
             adminView={isAdmin && isAdminPage}

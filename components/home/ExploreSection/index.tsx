@@ -6,7 +6,7 @@ import colors from "@nadabot/theme/colors";
 
 import MyHumanityScore from "./components/MyHumanityScore";
 import RecentChecks from "./components/RecentChecks";
-import RoundedSearchInput from "../../../ui/RoundedSearchInput";
+import RoundedSearchInput from "../../ui/RoundedSearchInput";
 
 export default function ExploreSection() {
   const { maxWidth1144 } = useBreakPoints();

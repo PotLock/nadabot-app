@@ -2,27 +2,35 @@ import { FormikHelpers, useFormik } from "formik";
 import { useCallback, useState } from "react";
 
 import { useProviders } from "@nadabot/hooks/store/useProviders";
-import * as contract from "@nadabot/services/contracts/sybil.nadabot";
+import * as sybilContract from "@nadabot/services/contracts/sybil.nadabot";
 import {
   ProviderExternal,
   UpdateProviderInput,
 } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
 import { daysToMilliseconds, millisecondsToDays } from "@nadabot/utils/time";
 
-interface ProviderAdminSettingsValues
-  extends Pick<UpdateProviderInput, "default_weight"> {
+export type StampAdminSettingsValues = Pick<
+  UpdateProviderInput,
+  "default_weight"
+> & {
   stamp_validity_days: number;
-}
+};
 
-export type ProviderAdminSettingsFormParameters = {
+export type StampAdminSettingsFormParameters = {
   disabled?: boolean;
   providerInfo: ProviderExternal;
+
+  onSubmit?: (
+    values: StampAdminSettingsValues,
+    actions?: FormikHelpers<StampAdminSettingsValues>,
+  ) => void;
 };
 
 export const useAdminSettingsForm = ({
   disabled,
   providerInfo,
-}: ProviderAdminSettingsFormParameters) => {
+  onSubmit: customSubmitHandler,
+}: StampAdminSettingsFormParameters) => {
   const isStampValiditySet = providerInfo.stamp_validity_ms !== null;
   const { updateProvider } = useProviders();
 
@@ -37,8 +45,43 @@ export const useAdminSettingsForm = ({
     [setIsExpiryEnabled],
   );
 
+  const submitHandler = useCallback(
+    (
+      { default_weight, stamp_validity_days }: StampAdminSettingsValues,
+      { setSubmitting, resetForm }: FormikHelpers<StampAdminSettingsValues>,
+    ) => {
+      sybilContract
+        .update_provider({
+          provider_id: providerInfo.id,
+          default_weight,
+
+          stamp_validity_ms: isExpiryEnabled
+            ? daysToMilliseconds(stamp_validity_days)
+            : null,
+        })
+        .then(({ id: provider_id, ...updated }) => {
+          updateProvider({ provider_id, ...updated });
+
+          resetForm({
+            values: {
+              default_weight: updated.default_weight,
+
+              stamp_validity_days: millisecondsToDays(
+                updated.stamp_validity_ms ?? 0,
+              ),
+            },
+          });
+
+          setSubmitting(false);
+        })
+        .catch(console.error);
+    },
+
+    [isExpiryEnabled, providerInfo.id, updateProvider],
+  );
+
   const { dirty, isSubmitting, isValid, ...form } =
-    useFormik<ProviderAdminSettingsValues>({
+    useFormik<StampAdminSettingsValues>({
       initialValues: {
         default_weight: providerInfo.default_weight,
 
@@ -47,39 +90,7 @@ export const useAdminSettingsForm = ({
         ),
       },
 
-      onSubmit: (
-        { default_weight, stamp_validity_days }: ProviderAdminSettingsValues,
-        {
-          setSubmitting,
-          resetForm,
-        }: FormikHelpers<ProviderAdminSettingsValues>,
-      ) => {
-        contract
-          .update_provider({
-            provider_id: providerInfo.id,
-            default_weight,
-
-            stamp_validity_ms: isExpiryEnabled
-              ? daysToMilliseconds(stamp_validity_days)
-              : null,
-          })
-          .then(({ id: provider_id, ...updated }) => {
-            updateProvider({ provider_id, ...updated });
-
-            resetForm({
-              values: {
-                default_weight: updated.default_weight,
-
-                stamp_validity_days: millisecondsToDays(
-                  updated.stamp_validity_ms ?? 0,
-                ),
-              },
-            });
-
-            setSubmitting(false);
-          })
-          .catch(console.error);
-      },
+      onSubmit: customSubmitHandler ?? submitHandler,
     });
 
   const hasChanges = dirty || isExpiryEnabled !== isStampValiditySet;
