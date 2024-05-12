@@ -1,6 +1,7 @@
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { Box, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
+import { useMemo } from "react";
 
 import { StampCard } from "@nadabot/components/stamp/StampCard";
 import CustomButton from "@nadabot/components/ui/CustomButton";
@@ -19,6 +20,7 @@ import { StampAdminSettings } from "./StampAdminSettings";
 export type StampEditorProps = StampSettingsFormParameters & {};
 
 export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
+  const isNew = typeof id !== "string";
   const { isAdmin } = useUser();
   const router = useRouter();
 
@@ -31,8 +33,23 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
     handleSubmit,
     isSubmitting,
     onImagePickerClick,
+    setValues,
     values,
   } = useSettingsForm({ id });
+
+  const providerInfo = useMemo(
+    () => ({
+      id: id ?? "",
+      status: ProviderStatus.Pending,
+      submitted_at_ms: 0,
+      submitted_by: walletApi?.accounts[0]?.accountId,
+      default_weight: 20,
+      stamp_count: 0,
+      ...values,
+    }),
+
+    [id, values],
+  );
 
   const preview = (
     <StampCard
@@ -43,26 +60,16 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
       }}
       hidePoints
       providerInfo={{
-        default_weight: 20,
-        submitted_at_ms: 0,
-        stamp_count: 0,
-        account_id_arg_name: "account_id",
+        ...providerInfo,
+        account_id_arg_name: DEFAULT_ACCOUNT_ID_ARG_NAME,
         status: ProviderStatus.Active,
-        id: "",
-        icon_url: values.imageURL,
-        submitted_by: walletApi?.accounts[0]?.accountId,
-        provider_name: values.title,
-        description: values.description,
-        contract_id: values.contractName,
-        method_name: values.method,
-        external_url: values.externalLink,
         is_user_a_human: false,
       }}
     />
   );
 
   return (
-    <Stack component="form" onSubmit={handleSubmit}>
+    <Stack gap={2} component="form" onSubmit={handleSubmit}>
       {/* Stamp Inputs and Preview */}
       <Stack
         mb={1}
@@ -79,16 +86,16 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
         >
           <UploadImage
             onClick={onImagePickerClick}
-            previewFileContent={values.imageURL}
-            errorMessage={errors.imageURL}
+            previewFileContent={values.icon_url}
+            errorMessage={errors.icon_url}
           />
 
           <Input
-            name="title"
+            name="provider_name"
             disabled={isSubmitting}
             label="Title"
             placeholder="Enter a title"
-            errorMessage={errors.title}
+            errorMessage={errors.provider_name}
             onChange={handleChange}
             sx={{ mt: 2 }}
           />
@@ -104,34 +111,34 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
           />
 
           <Input
-            name="contractName"
+            name="contract_id"
             disabled={isSubmitting}
             label="Contract ID (Address)"
             placeholder="Enter the contract address"
-            errorMessage={errors.contractName}
+            errorMessage={errors.contract_id}
             onChange={handleChange}
             sx={{ mt: 2 }}
             autoComplete
           />
 
           <Input
-            name="method"
+            name="method_name"
             disabled={isSubmitting}
-            label="Method"
-            placeholder="Enter a method"
+            label="Method name"
+            placeholder="Enter a method name"
             info="Method must take single input and return boolean"
-            errorMessage={errors.method}
+            errorMessage={errors.method_name}
             onChange={handleChange}
             sx={{ mt: 2 }}
             autoComplete
           />
 
           <Input
-            name="accountIdArgName"
+            name="account_id_arg_name"
             disabled={isSubmitting}
-            label="Account Id Arg Name"
+            label="Account id argument name"
             placeholder="account_id"
-            errorMessage={errors.accountIdArgName}
+            errorMessage={errors.account_id_arg_name}
             onChange={handleChange}
             defaultValue={DEFAULT_ACCOUNT_ID_ARG_NAME}
             sx={{ mt: 2 }}
@@ -139,11 +146,11 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
           />
 
           <Input
-            name="externalLink"
+            name="external_url"
             disabled={isSubmitting}
             label="External link"
             placeholder="Enter an external link"
-            errorMessage={errors.externalLink}
+            errorMessage={errors.external_url}
             onChange={handleChange}
             sx={{ mt: 2 }}
           />
@@ -151,7 +158,7 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
           <Input
             name="gas"
             disabled={isSubmitting}
-            label="Minimum Required Gas Units, TGas"
+            label="Minimum required gas units, TGas"
             placeholder="Enter the minimum TGas units"
             type="number"
             errorMessage={errors.gas}
@@ -192,8 +199,9 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
       {isAdmin && (
         <StampAdminSettings
           heading="Points and Expiry"
-          providerInfo={values}
-          onSubmit={() => {}}
+          onChange={setValues}
+          {...{ providerInfo }}
+          providerInfo={providerInfo}
         />
       )}
 
@@ -207,20 +215,21 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
         <CustomButton
           type="button"
           bodySize="medium"
-          color="beige"
+          color="red"
+          variant="outlined"
           sx={{ width: maxWidth600 ? "40%" : "25%" }}
           onClick={router.back}
         >
-          Go Back
+          Cancel
         </CustomButton>
 
         <CustomButton
           type="submit"
           bodySize="medium"
-          color="blue"
+          color="black"
           sx={{ width: maxWidth600 ? "58%" : "73%" }}
         >
-          Final Submit
+          {`${isNew ? "Submit" : "Save settings"}`}
         </CustomButton>
       </Stack>
     </Stack>

@@ -2,6 +2,8 @@ import { Button, ButtonProps } from "@mui/material";
 
 import CustomCircularProgress from "./CustomCircularProgress";
 
+type CustomButtonColor = "white" | "blue" | "beige" | "red" | "black";
+
 const fontSizes = {
   small: 14,
   medium: 26,
@@ -14,30 +16,34 @@ const bodySizes = {
   large: 68,
 };
 
-const colors: Record<"white" | "blue" | "beige" | "red", ButtonProps["color"]> =
-  {
-    white: "primary",
-    blue: "primary",
-    beige: "warning",
-    red: "error",
-  };
+const colors: Record<CustomButtonColor, ButtonProps["color"]> = {
+  white: "primary",
+  blue: "primary",
+  beige: "warning",
+  red: "error",
+  black: "secondary",
+};
 
-const variants: Record<
-  "white" | "blue" | "beige" | "red",
-  ButtonProps["variant"]
-> = {
+const variants: Record<CustomButtonColor, ButtonProps["variant"]> = {
   white: "text",
   blue: "contained",
   beige: "contained",
   red: "contained",
+  black: "contained",
 };
 
-type Props = Pick<
+export type CustomButtonProps = Pick<
   ButtonProps,
-  "children" | "disabled" | "onMouseOut" | "onMouseOver" | "sx" | "type"
+  | "children"
+  | "disabled"
+  | "onMouseOut"
+  | "onMouseOver"
+  | "sx"
+  | "type"
+  | "variant"
 > & {
   bodySize?: "small" | "medium" | "large";
-  color?: "white" | "blue" | "beige" | "red";
+  color?: CustomButtonColor;
   fontSize?: "small" | "medium" | "large";
   onClick?: () => void;
   progress?: boolean;
@@ -49,13 +55,14 @@ export default function CustomButton({
   fontSize,
   progress = false,
   sx,
+  variant,
   children,
   ...props
-}: Props) {
+}: CustomButtonProps) {
   return (
     <Button
       disableRipple
-      variant={variants[color]}
+      variant={variant ?? variants[color]}
       color={colors[color]}
       sx={{
         fontSize: fontSizes[fontSize ?? "small"],

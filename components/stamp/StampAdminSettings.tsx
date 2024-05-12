@@ -18,7 +18,7 @@ import {
 
 export type StampAdminSettingsProps = Pick<
   StampAdminSettingsFormParameters,
-  "disabled" | "providerInfo" | "onSubmit"
+  "disabled" | "providerInfo" | "onChange"
 > & {
   embedded?: boolean;
   heading?: string;
@@ -32,7 +32,7 @@ export const StampAdminSettings = ({
   heading = "Admin Settings",
   indicateUnsavedChanges,
   providerInfo,
-  onSubmit,
+  onChange,
   sx,
 }: StampAdminSettingsProps) => {
   const router = useRouter();
@@ -48,10 +48,11 @@ export const StampAdminSettings = ({
     isExpiryEnabled,
     isDisabled,
     isLocked,
+    isSubform,
     isSubmitting,
     onExpirySwitch,
     values,
-  } = useAdminSettingsForm({ disabled, providerInfo, onSubmit });
+  } = useAdminSettingsForm({ disabled, providerInfo, onChange });
 
   useEffect(
     () => void indicateUnsavedChanges?.(hasChanges),
@@ -59,43 +60,48 @@ export const StampAdminSettings = ({
   );
 
   const actions = useMemo(
-    () => (
-      <Stack
-        display={embedded && isDisabled ? "none" : "flex"}
-        direction="row"
-        justifyContent="space-between"
-        gap={2}
-        p={2}
-        sx={{ borderTop: embedded ? `1px solid ${colors.LIGHTGRAY}` : "none" }}
-      >
-        <CustomButton
-          type="reset"
-          color="red"
-          bodySize="medium"
-          disabled={isDisabled}
+    () =>
+      isSubform ? null : (
+        <Stack
+          display={embedded && isDisabled ? "none" : "flex"}
+          direction="row"
+          justifyContent="space-between"
+          gap={2}
+          p={2}
+          sx={{
+            borderTop: embedded ? `1px solid ${colors.LIGHTGRAY}` : "none",
+          }}
         >
-          Discard
-        </CustomButton>
+          <CustomButton
+            type="reset"
+            color="red"
+            variant="outlined"
+            bodySize="medium"
+            disabled={isDisabled}
+          >
+            Discard
+          </CustomButton>
 
-        <CustomButton
-          type="submit"
-          color="beige"
-          bodySize="medium"
-          disabled={isDisabled}
-          progress={isSubmitting}
-        >
-          Save
-        </CustomButton>
-      </Stack>
-    ),
+          <CustomButton
+            type="submit"
+            color="black"
+            bodySize="medium"
+            disabled={isDisabled}
+            progress={isSubmitting}
+            sx={{ width: "100%" }}
+          >
+            Save
+          </CustomButton>
+        </Stack>
+      ),
 
-    [embedded, isDisabled, isSubmitting],
+    [embedded, isDisabled, isSubform, isSubmitting],
   );
 
   return (
     <Stack
       gap={2}
-      component="form"
+      component={isSubform ? "div" : "form"}
       onSubmit={handleSubmit}
       onReset={handleReset}
     >

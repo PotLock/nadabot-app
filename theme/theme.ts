@@ -8,7 +8,7 @@ export const theme = createTheme({
       main: colors.PRIMARY,
     },
     secondary: {
-      main: colors.SECONDARY,
+      main: colors.NEUTRAL950,
     },
     info: {
       main: colors.TRANSPARENT,
@@ -80,6 +80,34 @@ export const theme = createTheme({
         },
       },
       variants: [
+        {
+          props: { variant: "outlined", color: "error" },
+
+          style: {
+            marginBottom: 0,
+            border: `2px solid ${colors.ERROR_RED}`,
+            boxShadow: "none",
+
+            ":hover": {
+              marginTop: 0,
+              border: `2px solid ${colors.ERROR_RED}`,
+              backgroundColor: colors.ERROR_RED,
+              color: colors.WHITE,
+            },
+          },
+        },
+        {
+          props: { variant: "contained", color: "secondary" },
+
+          style: {
+            marginBottom: 0,
+            boxShadow: "none",
+
+            ":hover": {
+              marginTop: 0,
+            },
+          },
+        },
         {
           props: { variant: "contained", color: "primary", size: "small" },
           style: {

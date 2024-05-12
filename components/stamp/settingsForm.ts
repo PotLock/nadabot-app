@@ -6,7 +6,7 @@ import {
   FileSizeValidator,
   FileTypeValidator,
 } from "use-file-picker/validators";
-import { object, string } from "yup";
+import { InferType, number, object, string } from "yup";
 
 import {
   DEFAULT_ACCOUNT_ID_ARG_NAME,
@@ -24,11 +24,11 @@ import { ProviderExternal } from "@nadabot/services/contracts/sybil.nadabot/inte
 import * as pinataServices from "@nadabot/services/pinata";
 
 const formSchema = object().shape({
-  imageURL: string()
+  icon_url: string()
     .min(4, "You should attach an image")
     .required("Attach an image"),
 
-  title: string()
+  provider_name: string()
     .min(4, "Insert a valid title")
     .max(
       MAX_PROVIDER_NAME_LENGTH,
@@ -44,22 +44,33 @@ const formSchema = object().shape({
     )
     .required("Insert a valid description"),
 
-  contractName: string()
-    .min(4, "Insert a valid contract address name")
-    .required("Insert a valid contract name"),
+  contract_id: string()
+    .min(4, "Insert a valid contract account id")
+    .required("Insert a valid contract account id"),
 
-  method: string()
-    .min(3, "Insert a valid method")
-    .required("Insert a valid method"),
+  method_name: string()
+    .min(3, "Insert a valid method name")
+    .required("Insert a valid method name"),
 
-  externalLink: string()
+  external_url: string()
     .min(4, "Insert a valid external link")
     .max(
       MAX_PROVIDER_EXTERNAL_URL_LENGTH,
       `Link shouldn't exceed ${MAX_PROVIDER_EXTERNAL_URL_LENGTH} characters`,
     )
     .required("Insert a valid external link"),
+
+  // Admin Settings
+
+  default_weight: number()
+    .min(1, "Weight should be greater than 0")
+    .max(100, "Weight should be less than or equal to 100")
+    .optional(),
+
+  stamp_validity_ms: number().min(0).optional(),
 });
+
+export type StampSettingsFormValues = InferType<typeof formSchema>;
 
 export type StampSettingsFormParameters = {
   id?: ProviderExternal["id"];
@@ -95,25 +106,24 @@ export const useSettingsForm = ({ id }: StampSettingsFormParameters) => {
     validationSchema: formSchema,
 
     initialValues: {
-      imageURL: "",
-      title: "",
+      icon_url: "",
+      provider_name: "",
       description: "",
-      contractName: "",
-      method: "",
-      externalLink: "",
-
-      accountIdArgName: DEFAULT_ACCOUNT_ID_ARG_NAME,
+      contract_id: "",
+      method_name: "",
+      account_id_arg_name: DEFAULT_ACCOUNT_ID_ARG_NAME,
+      external_url: "",
       gas: 0,
     },
 
     onSubmit: async (
       {
-        title,
+        provider_name,
         description,
-        contractName,
-        method,
-        accountIdArgName,
-        externalLink,
+        contract_id,
+        method_name,
+        account_id_arg_name,
+        external_url,
         gas,
       },
 
@@ -122,15 +132,15 @@ export const useSettingsForm = ({ id }: StampSettingsFormParameters) => {
       showSpinner();
 
       const contract = await naxiosInstance.contractApi({
-        contractId: contractName,
+        contractId: contract_id,
       });
 
       // 1 - Check contract and method: The method must have a `account_id` parameter
       try {
-        const response = await contract.view(method, {
+        const response = await contract.view(method_name, {
           // e.g.: args: {account_id: "no.account.near"}
           args: {
-            [accountIdArgName || DEFAULT_ACCOUNT_ID_ARG_NAME]:
+            [account_id_arg_name || DEFAULT_ACCOUNT_ID_ARG_NAME]:
               "no.account.near",
           },
         });
@@ -148,10 +158,10 @@ export const useSettingsForm = ({ id }: StampSettingsFormParameters) => {
           return;
         }
       } catch (error) {
-        // 1.2 validate the `accountIdArgName` parameter or other kind of contract error
+        // 1.2 validate the `account_id_arg_name` parameter or other kind of contract error
         setFieldError(
           "method",
-          `The contract/method does not exist or does not have an "${accountIdArgName || DEFAULT_ACCOUNT_ID_ARG_NAME}" parameter.`,
+          `The contract/method does not exist or does not have an "${account_id_arg_name || DEFAULT_ACCOUNT_ID_ARG_NAME}" parameter.`,
         );
 
         hideSpinner();
@@ -167,7 +177,7 @@ export const useSettingsForm = ({ id }: StampSettingsFormParameters) => {
       if (!iconImageCID) {
         // Validate image upload
         setFieldError(
-          "imageURL",
+          "icon_url",
           "There was an issue while trying to upload the image!",
         );
 
@@ -184,14 +194,17 @@ export const useSettingsForm = ({ id }: StampSettingsFormParameters) => {
       // 3 - Register Stamp/Check
       sybilContract
         .register_provider({
-          contract_id: contractName,
-          method_name: method,
-          account_id_arg_name: accountIdArgName || DEFAULT_ACCOUNT_ID_ARG_NAME,
-          provider_name: title,
+          contract_id,
+          method_name,
+
+          account_id_arg_name:
+            account_id_arg_name || DEFAULT_ACCOUNT_ID_ARG_NAME,
+
+          provider_name,
           description,
           gas: providerGas,
           icon_url: pinataServices.buildFileURL(iconImageCID),
-          external_url: externalLink,
+          external_url,
         })
         .then(() => {
           hideSpinner();
@@ -228,7 +241,7 @@ export const useSettingsForm = ({ id }: StampSettingsFormParameters) => {
 
   useEffect(() => {
     if (typeof imagePickerValue === "string") {
-      setFieldValue("imageURL", imagePickerValue);
+      setFieldValue("icon_url", imagePickerValue);
     }
   }, [filesContent, setFieldValue, imagePickerValue]);
 
