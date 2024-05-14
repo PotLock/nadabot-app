@@ -18,11 +18,12 @@ import {
 
 export type StampAdminSettingsProps = Pick<
   StampAdminSettingsFormParameters,
-  "disabled" | "providerInfo" | "onChange"
+  "disabled" | "providerInfo"
 > & {
   embedded?: boolean;
   heading?: string;
   indicateUnsavedChanges?: (hasUnsavedChanges: boolean) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   sx?: SxProps<Theme>;
 };
 
@@ -30,29 +31,35 @@ export const StampAdminSettings = ({
   embedded = false,
   disabled = false,
   heading = "Admin Settings",
+  onChange,
   indicateUnsavedChanges,
   providerInfo,
-  onChange,
   sx,
 }: StampAdminSettingsProps) => {
   const router = useRouter();
   const isStampPage = router.pathname.startsWith("/stamp/");
+  const isSubform = typeof onChange === "function";
 
   const {
     errors,
     handleBlur,
-    handleChange,
     handleSubmit,
     handleReset,
     hasChanges,
     isExpiryEnabled,
     isDisabled,
     isLocked,
-    isSubform,
     isSubmitting,
     onExpirySwitch,
     values,
-  } = useAdminSettingsForm({ disabled, providerInfo, onChange });
+    ...form
+  } = useAdminSettingsForm({
+    isSubform,
+    disabled,
+    providerInfo,
+  });
+
+  const handleChange = onChange ?? form.handleChange;
 
   useEffect(
     () => void indicateUnsavedChanges?.(hasChanges),
@@ -135,9 +142,10 @@ export const StampAdminSettings = ({
               }
               min={1}
               max={100}
-              value={values.default_weight}
+              value={values.default_weight ?? 0}
               unitLabel="pts"
               onBlur={handleBlur}
+              // @ts-expect-error-next-line
               onChange={handleChange}
               disabled={isLocked}
             />

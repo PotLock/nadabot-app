@@ -6,13 +6,13 @@ import { StampEditor } from "@nadabot/components/stamp/StampEditor";
 export default function StampEditPage() {
   const router = useRouter();
 
-  if (Array.isArray(router.query.id)) {
+  if (typeof router.query.id !== "string") {
     return router.back();
   }
 
   return (
     <StampPageLayout>
-      <StampEditor id={router.query.id} />
+      <StampEditor id={parseInt(router.query.id)} />
     </StampPageLayout>
   );
 }

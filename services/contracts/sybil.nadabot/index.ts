@@ -46,7 +46,7 @@ export const get_config = () => contractApi.view<{}, Config>("get_config");
  */
 export const get_provider = (args: ProviderById) =>
   contractApi.view<object, ProviderExternal | undefined>(
-    "get_providers",
+    "get_provider",
     { args },
     { useCache: true },
   );
@@ -124,7 +124,7 @@ export const admin_set_default_human_threshold = (
  * @param provider_id
  * @returns
  */
-export const add_stamp = (provider_id: string) =>
+export const add_stamp = (provider_id: number) =>
   contractApi.call<object, StampExternal | undefined>("add_stamp", {
     args: {
       provider_id,

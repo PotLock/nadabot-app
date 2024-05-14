@@ -10,7 +10,14 @@ import colors from "@nadabot/theme/colors";
 
 export type SliderProps = Pick<
   GenericSliderProps,
-  "disabled" | "min" | "max" | "name" | "onBlur" | "onChange" | "value"
+  | "defaultValue"
+  | "disabled"
+  | "min"
+  | "max"
+  | "name"
+  | "onBlur"
+  | "onChange"
+  | "value"
 > & {
   label: string;
   labelDecoration?: JSX.Element;
@@ -18,6 +25,7 @@ export type SliderProps = Pick<
 };
 
 export const Slider: React.FC<SliderProps> = ({
+  defaultValue,
   disabled = false,
   label,
   labelDecoration,
@@ -26,13 +34,13 @@ export const Slider: React.FC<SliderProps> = ({
   ...props
 }) => {
   const displayValue = useMemo(
-    () => `${value} ${unitLabel ?? ""}`.trim(),
-    [unitLabel, value],
+    () => `${defaultValue ?? value} ${unitLabel ?? ""}`.trim(),
+    [defaultValue, unitLabel, value],
   );
 
   const inputProps = useMemo(
-    () => ({ disabled, value, ...props }),
-    [disabled, props, value],
+    () => ({ defaultValue, disabled, value, ...props }),
+    [defaultValue, disabled, props, value],
   );
 
   return (

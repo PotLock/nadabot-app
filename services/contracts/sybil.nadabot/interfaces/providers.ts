@@ -32,17 +32,19 @@ export interface Provider {
   stamp_count: number;
   /// Milliseconds that stamps from this provider are valid for before they expire
   stamp_validity_ms?: number | null;
+  /// Custom args as readable JSON
+  custom_args?: string | null;
 }
 
 export interface ProviderExternal {
   // Provider ID
-  id: string;
+  id: number;
   // Contract ID of the external contract that is the source of this provider
   contract_id: string;
   // Method name of the external contract that is the source of this provider
   method_name: string;
   /// Account ID arg name
-  account_id_arg_name: string;
+  account_id_arg_name?: string;
   // Name of the provider, e.g. "I Am Human"
   provider_name: string;
   // Description of the provider
@@ -54,7 +56,7 @@ export interface ProviderExternal {
   // Default weight for this provider, e.g. 100
   default_weight: number;
   // Custom gas amount required
-  gas?: number;
+  gas?: number | null;
   // Optional tags
   tags?: string[];
   // Optional icon URL
@@ -69,10 +71,12 @@ export interface ProviderExternal {
   stamp_count: number;
   /// Milliseconds that stamps from this provider are valid for before they expire
   stamp_validity_ms?: number | null;
+  /// Custom args as readable JSON
+  custom_args?: string | null;
 }
 
 export interface ProviderById {
-  provider_id: string;
+  provider_id: number;
 }
 
 export type ProviderExternalWithIsHuman = ProviderExternal & {
@@ -90,23 +94,25 @@ export interface RegisterProviderInput {
   tags?: string[];
   icon_url?: string;
   external_url?: string;
+  custom_args?: string | null;
 }
 
-export interface UpdateProviderInput {
-  provider_id: string;
+export interface UpdateProviderInput extends ProviderById {
   provider_name?: string;
+  account_id_arg_name?: string;
   stamp_validity_ms?: number | null;
   description?: string;
-  gas?: number;
+  gas?: number | null;
   tags?: string[];
   icon_url?: string;
   external_url?: string;
+  custom_args?: string | null;
   default_weight?: number; // owner/admin-only
   status?: ProviderStatus; // owner/admin-only
   admin_notes?: string; // owner/admin-only
 }
-export interface ActivateProviderInput {
-  provider_id: string;
+
+export interface ActivateProviderInput extends ProviderById {
   default_weight: number;
 }
 

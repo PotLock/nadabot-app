@@ -5,6 +5,7 @@ import ErrorDialog from "@nadabot/components/dialogs/ErrorDialog";
 import NoConnectedDialog from "@nadabot/components/dialogs/NoConnectedDialog";
 import StampSentDialog from "@nadabot/components/dialogs/StampSentDialog";
 import ViewProviderDialog from "@nadabot/components/dialogs/ViewProviderDialog";
+import { ProviderExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
 
 export enum DIALOGS {
   None,
@@ -18,7 +19,7 @@ export enum DIALOGS {
 export type DialogProps = {
   title?: string;
   description?: string;
-  providerId?: string;
+  providerId?: ProviderExternal["id"];
 };
 
 type openDialogProps = {
@@ -54,7 +55,7 @@ const DialogsProvider: FC<Props> = ({ children }) => {
   // Dialog Props
   const [title, setTitle] = useState<string>();
   const [description, setDescription] = useState<string>();
-  const [providerId, setProviderId] = useState<string>();
+  const [providerId, setProviderId] = useState<ProviderExternal["id"]>();
 
   const openDialog = useCallback((props: openDialogProps) => {
     setOpenDialog({
@@ -66,7 +67,7 @@ const DialogsProvider: FC<Props> = ({ children }) => {
     // Props
     setTitle(props.props?.title || "");
     setDescription(props.props?.description || "");
-    setProviderId(props.props?.providerId || "");
+    setProviderId(props.props?.providerId ?? 0);
   }, []);
 
   const closeDialog = useCallback(() => {

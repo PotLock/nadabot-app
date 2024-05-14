@@ -6,15 +6,9 @@ import {
   FileSizeValidator,
   FileTypeValidator,
 } from "use-file-picker/validators";
-import { InferType, number, object, string } from "yup";
+import { InferType } from "yup";
 
-import {
-  DEFAULT_ACCOUNT_ID_ARG_NAME,
-  MAX_GAS,
-  MAX_PROVIDER_DESCRIPTION_LENGTH,
-  MAX_PROVIDER_EXTERNAL_URL_LENGTH,
-  MAX_PROVIDER_NAME_LENGTH,
-} from "@nadabot/constants";
+import { DEFAULT_ACCOUNT_ID_ARG_NAME, MAX_GAS } from "@nadabot/constants";
 import { DIALOGS } from "@nadabot/contexts/DialogsProvider";
 import useDialogs from "@nadabot/hooks/useDialogs";
 import useSpinner from "@nadabot/hooks/useSpinner";
@@ -23,61 +17,16 @@ import * as sybilContract from "@nadabot/services/contracts/sybil.nadabot";
 import { ProviderExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
 import * as pinataServices from "@nadabot/services/pinata";
 
-const formSchema = object().shape({
-  icon_url: string()
-    .min(4, "You should attach an image")
-    .required("Attach an image"),
+import { stampSchema } from "./stampSchema";
 
-  provider_name: string()
-    .min(4, "Insert a valid title")
-    .max(
-      MAX_PROVIDER_NAME_LENGTH,
-      `Title shouldn't exceed ${MAX_PROVIDER_NAME_LENGTH} characters`,
-    )
-    .required("Insert a valid title"),
-
-  description: string()
-    .min(4, "Insert a valid description")
-    .max(
-      MAX_PROVIDER_DESCRIPTION_LENGTH,
-      `Description shouldn't exceed ${MAX_PROVIDER_DESCRIPTION_LENGTH} characters`,
-    )
-    .required("Insert a valid description"),
-
-  contract_id: string()
-    .min(4, "Insert a valid contract account id")
-    .required("Insert a valid contract account id"),
-
-  method_name: string()
-    .min(3, "Insert a valid method name")
-    .required("Insert a valid method name"),
-
-  external_url: string()
-    .min(4, "Insert a valid external link")
-    .max(
-      MAX_PROVIDER_EXTERNAL_URL_LENGTH,
-      `Link shouldn't exceed ${MAX_PROVIDER_EXTERNAL_URL_LENGTH} characters`,
-    )
-    .required("Insert a valid external link"),
-
-  // Admin Settings
-
-  default_weight: number()
-    .min(1, "Weight should be greater than 0")
-    .max(100, "Weight should be less than or equal to 100")
-    .optional(),
-
-  stamp_validity_ms: number().min(0).optional(),
-});
-
-export type StampSettingsFormValues = InferType<typeof formSchema>;
+export type StampSettingsFormValues = InferType<typeof stampSchema>;
 
 export type StampSettingsFormParameters = {
   id?: ProviderExternal["id"];
 };
 
-export const useSettingsForm = ({ id }: StampSettingsFormParameters) => {
-  const isNew = typeof id !== "string";
+export const useStampForm = ({ id }: StampSettingsFormParameters) => {
+  const isNew = typeof id !== "number";
   const { showSpinner, hideSpinner } = useSpinner();
   const { openDialog } = useDialogs();
 
@@ -96,14 +45,15 @@ export const useSettingsForm = ({ id }: StampSettingsFormParameters) => {
   const imagePickerValue = filesContent.at(0)?.content;
 
   const {
+    dirty,
     handleChange: onValueChange,
     isSubmitting,
-    resetForm,
     setFieldValue,
+    setValues,
     ...form
-  } = useFormik({
+  } = useFormik<StampSettingsFormValues>({
     validateOnChange: false,
-    validationSchema: formSchema,
+    validationSchema: stampSchema,
 
     initialValues: {
       icon_url: "",
@@ -122,9 +72,10 @@ export const useSettingsForm = ({ id }: StampSettingsFormParameters) => {
         description,
         contract_id,
         method_name,
-        account_id_arg_name,
+        account_id_arg_name = DEFAULT_ACCOUNT_ID_ARG_NAME,
         external_url,
         gas,
+        custom_args,
       },
 
       { setFieldError },
@@ -140,8 +91,7 @@ export const useSettingsForm = ({ id }: StampSettingsFormParameters) => {
         const response = await contract.view(method_name, {
           // e.g.: args: {account_id: "no.account.near"}
           args: {
-            [account_id_arg_name || DEFAULT_ACCOUNT_ID_ARG_NAME]:
-              "no.account.near",
+            [account_id_arg_name]: "no.account.near",
           },
         });
 
@@ -161,7 +111,7 @@ export const useSettingsForm = ({ id }: StampSettingsFormParameters) => {
         // 1.2 validate the `account_id_arg_name` parameter or other kind of contract error
         setFieldError(
           "method",
-          `The contract/method does not exist or does not have an "${account_id_arg_name || DEFAULT_ACCOUNT_ID_ARG_NAME}" parameter.`,
+          `The contract/method does not exist or does not have an "${account_id_arg_name}" parameter.`,
         );
 
         hideSpinner();
@@ -174,6 +124,8 @@ export const useSettingsForm = ({ id }: StampSettingsFormParameters) => {
         filesContent[0].content,
       );
 
+      console.log("we're here");
+
       if (!iconImageCID) {
         // Validate image upload
         setFieldError(
@@ -185,27 +137,37 @@ export const useSettingsForm = ({ id }: StampSettingsFormParameters) => {
         return;
       }
 
-      const validatedGas = gas && gas > MAX_GAS ? MAX_GAS : gas;
+      const validatedGas = (gas && gas > MAX_GAS ? MAX_GAS : gas) ?? 0;
       // Convert to indivisible gas units
       // multiplying Tgas units by 10^12
       const providerGas =
         validatedGas > 0 ? validatedGas * 10 ** 12 : undefined;
 
+      const txResult = isNew
+        ? sybilContract.register_provider({
+            provider_name,
+            description,
+            account_id_arg_name,
+            method_name,
+            contract_id,
+            gas: providerGas,
+            icon_url: pinataServices.buildFileURL(iconImageCID),
+            external_url,
+            custom_args,
+          })
+        : sybilContract.update_provider({
+            provider_id: id,
+            provider_name,
+            description,
+            account_id_arg_name,
+            gas: providerGas,
+            icon_url: pinataServices.buildFileURL(iconImageCID),
+            external_url,
+            custom_args,
+          });
+
       // 3 - Register Stamp/Check
-      sybilContract
-        .register_provider({
-          contract_id,
-          method_name,
-
-          account_id_arg_name:
-            account_id_arg_name || DEFAULT_ACCOUNT_ID_ARG_NAME,
-
-          provider_name,
-          description,
-          gas: providerGas,
-          icon_url: pinataServices.buildFileURL(iconImageCID),
-          external_url,
-        })
+      txResult
         .then(() => {
           hideSpinner();
 
@@ -239,6 +201,11 @@ export const useSettingsForm = ({ id }: StampSettingsFormParameters) => {
     [form, onValueChange],
   );
 
+  useEffect(
+    () => Object.values(form.errors).forEach(console.error),
+    [form.errors],
+  );
+
   useEffect(() => {
     if (typeof imagePickerValue === "string") {
       setFieldValue("icon_url", imagePickerValue);
@@ -248,10 +215,16 @@ export const useSettingsForm = ({ id }: StampSettingsFormParameters) => {
   useEffect(() => {
     if (!isNew) {
       sybilContract.get_provider({ provider_id: id }).then((provider) => {
-        if (provider !== undefined) resetForm(provider);
+        if (provider !== undefined) setValues(provider);
       });
     }
-  }, [id, isNew, resetForm]);
+  }, [id, isNew, setValues]);
 
-  return { ...form, handleChange, isSubmitting, onImagePickerClick };
+  return {
+    ...form,
+    dirty,
+    handleChange,
+    isSubmitting,
+    onImagePickerClick,
+  };
 };

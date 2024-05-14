@@ -1,5 +1,5 @@
 import { FormikHelpers, useFormik } from "formik";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { useProviders } from "@nadabot/hooks/store/useProviders";
 import * as sybilContract from "@nadabot/services/contracts/sybil.nadabot";
@@ -17,96 +17,110 @@ export type StampAdminSettingsValues = Pick<
 };
 
 export type StampAdminSettingsFormParameters = {
+  isSubform?: boolean;
   disabled?: boolean;
   providerInfo: ProviderExternal;
-  onChange?: (values: StampAdminSettingsValues) => void;
 };
 
 export const useAdminSettingsForm = ({
+  isSubform = false,
   disabled,
   providerInfo,
-  onChange,
 }: StampAdminSettingsFormParameters) => {
-  const isSubform = typeof onChange === "function";
   const isStampValiditySet = providerInfo.stamp_validity_ms !== null;
   const { updateProvider } = useProviders();
 
   const [isExpiryEnabled, setIsExpiryEnabled] =
     useState<boolean>(isStampValiditySet);
 
-  const onExpirySwitch: (
-    event: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean,
-  ) => void = useCallback(
-    (_, enabled) => setIsExpiryEnabled(enabled),
-    [setIsExpiryEnabled],
+  const initialValues: StampAdminSettingsValues = useMemo(
+    () => ({
+      default_weight: providerInfo.default_weight,
+
+      stamp_validity_days: millisecondsToDays(
+        providerInfo.stamp_validity_ms ?? 0,
+      ),
+    }),
+
+    [providerInfo.default_weight, providerInfo.stamp_validity_ms],
   );
 
   const onSubmit = useCallback(
-    (
+    async (
       { default_weight, stamp_validity_days }: StampAdminSettingsValues,
       { setSubmitting, resetForm }: FormikHelpers<StampAdminSettingsValues>,
     ) => {
-      if (!isSubform) {
-        sybilContract
-          .update_provider({
-            provider_id: providerInfo.id,
-            default_weight,
+      await sybilContract
+        .update_provider({
+          provider_id: providerInfo.id,
+          default_weight,
 
-            stamp_validity_ms: isExpiryEnabled
-              ? daysToMilliseconds(stamp_validity_days)
-              : null,
-          })
-          .then(({ id: provider_id, ...updated }) => {
-            updateProvider({ provider_id, ...updated });
+          stamp_validity_ms: isExpiryEnabled
+            ? daysToMilliseconds(stamp_validity_days)
+            : null,
+        })
+        .then(({ id: provider_id, ...updated }) => {
+          updateProvider({ provider_id, ...updated });
 
-            resetForm({
-              values: {
-                default_weight: updated.default_weight,
+          resetForm({
+            values: {
+              default_weight: updated.default_weight,
 
-                stamp_validity_days: millisecondsToDays(
-                  updated.stamp_validity_ms ?? 0,
-                ),
-              },
-            });
+              stamp_validity_days: millisecondsToDays(
+                updated.stamp_validity_ms ?? 0,
+              ),
+            },
+          });
+        })
+        .catch(console.error);
 
-            setSubmitting(false);
-          })
-          .catch(console.error);
-      }
+      setSubmitting(false);
     },
 
-    [isExpiryEnabled, isSubform, providerInfo.id, updateProvider],
+    [isExpiryEnabled, providerInfo.id, updateProvider],
   );
 
-  const { dirty, isSubmitting, isValid, ...form } =
-    useFormik<StampAdminSettingsValues>({
-      initialValues: {
-        default_weight: providerInfo.default_weight,
+  const {
+    dirty,
+    handleChange,
+    isSubmitting,
+    isValid,
+    setValues,
+    values,
+    ...form
+  } = useFormik<StampAdminSettingsValues>({
+    initialValues,
+    onSubmit: isSubform ? () => void null : onSubmit,
+  });
 
-        stamp_validity_days: millisecondsToDays(
-          providerInfo.stamp_validity_ms ?? 0,
-        ),
-      },
+  useEffect(() => {
+    if (isSubform && JSON.stringify(values) !== JSON.stringify(initialValues)) {
+      setValues(initialValues);
+    }
+  }, [initialValues, isSubform, setValues, values]);
 
-      onSubmit,
-    });
+  const onExpirySwitch: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean,
+  ) => void = useCallback((_, enabled) => setIsExpiryEnabled(enabled), []);
 
   const hasChanges = dirty || isExpiryEnabled !== isStampValiditySet;
   const isLocked = disabled || isSubmitting;
 
-  useEffect(() => {
-    if (isSubform) onChange(form.values);
-  }, [form.values, isSubform, onChange]);
+  useEffect(
+    () => Object.values(form.errors).forEach(console.error),
+    [form.errors],
+  );
 
   return {
     ...form,
+    handleChange,
     hasChanges,
     isLocked,
     isDisabled: isLocked || !hasChanges || !isValid,
     isExpiryEnabled,
-    isSubform,
     isSubmitting,
     onExpirySwitch,
+    values,
   };
 };
