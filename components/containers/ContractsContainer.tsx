@@ -2,11 +2,11 @@ import { Stack, Typography } from "@mui/material";
 import Fuse from "fuse.js";
 import { useEffect, useState } from "react";
 
+import { ProviderExternalWithIsHuman } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import CustomCircularProgress from "@nadabot/common/ui/CustomCircularProgress";
+import providerSorts from "@nadabot/common/utils/providerSorts";
 import { StampCard } from "@nadabot/components/stamp/StampCard";
-import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
-import { ProviderExternalWithIsHuman } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
-import providerSorts from "@nadabot/utils/providerSorts";
 
 import GridContainer from "./GridContainer";
 

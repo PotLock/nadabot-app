@@ -4,10 +4,21 @@ import { Box, Chip, Stack, SxProps, Theme, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useCallback, useMemo, useState } from "react";
 
+import * as contract from "@nadabot/common/services/contracts/sybil.nadabot";
+import {
+  ProviderExternalWithIsHuman,
+  ProviderStatus,
+} from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import CustomAvatar from "@nadabot/common/ui/CustomAvatar";
+import CustomButton from "@nadabot/common/ui/CustomButton";
+import colors from "@nadabot/common/ui/theme/colors";
+import removeViewStampFromURLQuery from "@nadabot/common/utils/removeViewStampFromURLQuery";
+import {
+  daysSinceTimestamp,
+  millisecondsToDays,
+} from "@nadabot/common/utils/time";
 import ButtonContainer from "@nadabot/components/containers/ButtonContainer";
-import CustomAvatar from "@nadabot/components/ui/CustomAvatar";
-import CustomButton from "@nadabot/components/ui/CustomButton";
-import { DIALOGS } from "@nadabot/contexts/DialogsProvider";
+import { DIALOGS } from "@nadabot/components/dialogs/DialogsProvider";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useDialogs from "@nadabot/hooks/useDialogs";
@@ -15,14 +26,6 @@ import useProviderStatusChecker from "@nadabot/hooks/useProviderStatusChecker";
 import useSnackbars from "@nadabot/hooks/useSnackbars";
 import useSpinner from "@nadabot/hooks/useSpinner";
 import { Routes } from "@nadabot/routes";
-import * as contract from "@nadabot/services/contracts/sybil.nadabot";
-import {
-  ProviderExternalWithIsHuman,
-  ProviderStatus,
-} from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
-import colors from "@nadabot/theme/colors";
-import removeViewStampFromURLQuery from "@nadabot/utils/removeViewStampFromURLQuery";
-import { daysSinceTimestamp, millisecondsToDays } from "@nadabot/utils/time";
 
 import { StampAdminSettings } from "./StampAdminSettings";
 

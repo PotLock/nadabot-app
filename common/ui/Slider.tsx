@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 import { useMemo } from "react";
 
-import colors from "@nadabot/theme/colors";
+import colors from "@nadabot/common/ui/theme/colors";
 
 export type SliderProps = Pick<
   GenericSliderProps,

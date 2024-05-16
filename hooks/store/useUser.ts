@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import { NEARSocialUserProfile } from "@nadabot/services/contracts/social";
+import { NEARSocialUserProfile } from "@nadabot/common/services/contracts/social";
 
 import { updateState } from "./utils";
 

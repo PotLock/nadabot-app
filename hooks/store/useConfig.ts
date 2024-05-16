@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import * as contract from "@nadabot/services/contracts/sybil.nadabot";
-import { Config } from "@nadabot/services/contracts/sybil.nadabot/interfaces/lib";
+import * as contract from "@nadabot/common/services/contracts/sybil.nadabot";
+import { Config } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/lib";
 
 type State = {
   config: Config;

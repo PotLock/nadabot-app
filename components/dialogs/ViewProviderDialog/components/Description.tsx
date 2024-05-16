@@ -2,14 +2,14 @@ import { AvatarGroup, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+import * as contract from "@nadabot/common/services/contracts/sybil.nadabot";
+import { ProviderExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import CustomAvatar from "@nadabot/common/ui/CustomAvatar";
+import Tag from "@nadabot/common/ui/Tag";
 import { StampAdminSettings } from "@nadabot/components/stamp/StampAdminSettings";
-import CustomAvatar from "@nadabot/components/ui/CustomAvatar";
-import Tag from "@nadabot/components/ui/Tag";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import { Routes } from "@nadabot/routes";
-import * as contract from "@nadabot/services/contracts/sybil.nadabot";
-import { ProviderExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
 
 type Props = {
   providerInfo?: ProviderExternal;

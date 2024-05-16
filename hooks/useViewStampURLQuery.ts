@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { DIALOGS } from "@nadabot/contexts/DialogsProvider";
+import { DIALOGS } from "@nadabot/components/dialogs/DialogsProvider";
 
 import useDialogs from "./useDialogs";
 
@@ -20,10 +20,10 @@ const useViewStampURLQuery = () => {
   }, [currentDialog, done]);
 
   useEffect(() => {
-    if (router.query.viewStamp && !done) {
+    if (typeof router.query.viewStamp === "string" && !done) {
       openDialog({
         dialog: DIALOGS.ViewProvider,
-        props: { providerId: router.query.viewStamp as string },
+        props: { providerId: parseInt(router.query.viewStamp) },
       });
 
       setDone(true);

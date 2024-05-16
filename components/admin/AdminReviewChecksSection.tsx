@@ -3,17 +3,17 @@ import Fuse from "fuse.js";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
+import { ProviderExternalWithIsHuman } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import CustomButton from "@nadabot/common/ui/CustomButton";
+import FilterButton from "@nadabot/common/ui/FilterButton";
+import RegularInput from "@nadabot/common/ui/RegularInput";
+import colors from "@nadabot/common/ui/theme/colors";
+import { SearchIconA } from "@nadabot/common/ui/theme/icons";
 import GridContainer from "@nadabot/components/containers/GridContainer";
 import { StampCard } from "@nadabot/components/stamp/StampCard";
-import CustomButton from "@nadabot/components/ui/CustomButton";
-import FilterButton from "@nadabot/components/ui/FilterButton";
-import RegularInput from "@nadabot/components/ui/RegularInput";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import { Routes } from "@nadabot/routes";
-import { ProviderExternalWithIsHuman } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
-import colors from "@nadabot/theme/colors";
-import { SearchIconA } from "@nadabot/theme/icons";
 
 import { ShadowContainer } from "../containers/ShadowContainer";
 

@@ -1,7 +1,8 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { DIALOGS } from "@nadabot/contexts/DialogsProvider";
+import { ProviderExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import { DIALOGS } from "@nadabot/components/dialogs/DialogsProvider";
 
 import useDialogs from "./useDialogs";
 import useGetProviderById from "./useGetProviderById";
@@ -14,13 +15,16 @@ const useVerifiedProviderSuccess = () => {
   const router = useRouter();
   const { openDialog } = useDialogs();
   const { showSnackbar } = useSnackbars();
-  const [verifiedProviderId, setVerifiedProvider] = useState("");
+
+  const [verifiedProviderId, setVerifiedProvider] =
+    useState<ProviderExternal["id"]>(0);
+
   const provider = useGetProviderById(verifiedProviderId);
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    if (router.query.verifiedProvider) {
-      setVerifiedProvider(router.query.verifiedProvider as string);
+    if (typeof router.query.verifiedProvider === "string") {
+      setVerifiedProvider(parseInt(router.query.verifiedProvider));
     }
   }, [router]);
 
@@ -33,7 +37,7 @@ const useVerifiedProviderSuccess = () => {
 
       showSnackbar({
         bgColor: "blue",
-        description: `Stamp Verification Complete ${provider.default_weight} Points Recieved`,
+        description: `Stamp Verification Complete ${provider.default_weight} Points Received`,
       });
 
       setDone(true);

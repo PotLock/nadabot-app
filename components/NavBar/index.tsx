@@ -3,17 +3,17 @@ import { useRouter } from "next/router";
 import { useCallback } from "react";
 
 import NadabotLogo from "@nadabot/assets/icons/nadabot-logo";
+import { walletApi } from "@nadabot/common/services/contracts";
+import colors from "@nadabot/common/ui/theme/colors";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useIsAdminPage from "@nadabot/hooks/useIsAdminPage";
 import { Routes } from "@nadabot/routes";
-import { walletApi } from "@nadabot/services/contracts";
-import colors from "@nadabot/theme/colors";
 
 import NotificationDropbox from "./components/NotificationDropbox";
 import UserDropbox from "./components/UserDropbox";
+import Tag from "../../common/ui/Tag";
 import ButtonContainer from "../containers/ButtonContainer";
-import Tag from "../ui/Tag";
 
 const NavBar = () => {
   const router = useRouter();

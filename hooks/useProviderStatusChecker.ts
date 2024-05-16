@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import { ProviderExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
+import { ProviderExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 
 import { useUser } from "./store/useUser";
 import useFilteredProviders from "./useFilteredProviders";

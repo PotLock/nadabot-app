@@ -1,6 +1,6 @@
 import { styled } from "@mui/system";
 
-import colors from "@nadabot/theme/colors";
+import colors from "@nadabot/common/ui/theme/colors";
 
 const CustomInput = styled("input")({
   fontFamily: "Mona-Sans",

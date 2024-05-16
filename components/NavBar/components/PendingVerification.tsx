@@ -1,15 +1,15 @@
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import { useCallback, useState } from "react";
 
-import CustomButton from "@nadabot/components/ui/CustomButton";
+import { add_stamp } from "@nadabot/common/services/contracts/sybil.nadabot";
+import { ProviderExternalWithIsHuman } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import addMultipleStamps from "@nadabot/common/services/web3/addMultipleStamps";
+import CustomButton from "@nadabot/common/ui/CustomButton";
+import colors from "@nadabot/common/ui/theme/colors";
+import { BellIcon } from "@nadabot/common/ui/theme/icons";
+import truncate from "@nadabot/common/utils/truncate";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useSpinner from "@nadabot/hooks/useSpinner";
-import { add_stamp } from "@nadabot/services/contracts/sybil.nadabot";
-import { ProviderExternalWithIsHuman } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
-import addMultipleStamps from "@nadabot/services/web3/addMultipleStamps";
-import colors from "@nadabot/theme/colors";
-import { BellIcon } from "@nadabot/theme/icons";
-import truncate from "@nadabot/utils/truncate";
 
 type ItemProps = {
   providerInfo: ProviderExternalWithIsHuman;

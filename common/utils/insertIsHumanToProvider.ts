@@ -1,7 +1,7 @@
 import {
   ProviderExternal,
   ProviderExternalWithIsHuman,
-} from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
+} from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 
 /**
  * Inserts { is_user_a_human: boolean } to regular provider (ProviderExternal)

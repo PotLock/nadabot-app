@@ -1,11 +1,12 @@
 import { FC, createContext, useCallback, useState } from "react";
 
-import ConfirmVerificationDialog from "@nadabot/components/dialogs/ConfirmVerificationDialog";
-import ErrorDialog from "@nadabot/components/dialogs/ErrorDialog";
-import NoConnectedDialog from "@nadabot/components/dialogs/NoConnectedDialog";
-import StampSentDialog from "@nadabot/components/dialogs/StampSentDialog";
-import ViewProviderDialog from "@nadabot/components/dialogs/ViewProviderDialog";
-import { ProviderExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
+import { ProviderExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+
+import ConfirmVerificationDialog from "./ConfirmVerificationDialog";
+import ErrorDialog from "./ErrorDialog";
+import NoConnectedDialog from "./NoConnectedDialog";
+import StampSentDialog from "./StampSentDialog";
+import ViewProviderDialog from "./ViewProviderDialog";
 
 export enum DIALOGS {
   None,

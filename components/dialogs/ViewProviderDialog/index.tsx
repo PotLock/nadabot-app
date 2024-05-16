@@ -3,17 +3,17 @@ import { Stack } from "@mui/material";
 import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
 
+import CustomCircularProgress from "@nadabot/common/ui/CustomCircularProgress";
+import colors from "@nadabot/common/ui/theme/colors";
+import getDocumentResolution from "@nadabot/common/utils/getDocumentResolution";
+import removeViewStampFromURLQuery from "@nadabot/common/utils/removeViewStampFromURLQuery";
 import ButtonContainer from "@nadabot/components/containers/ButtonContainer";
-import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
-import { DialogProps } from "@nadabot/contexts/DialogsProvider";
 import useGetProviderById from "@nadabot/hooks/useGetProviderById";
-import colors from "@nadabot/theme/colors";
-import getDocumentResolution from "@nadabot/utils/getDocumentResolution";
-import removeViewStampFromURLQuery from "@nadabot/utils/removeViewStampFromURLQuery";
 
 import Description from "./components/Description";
 import Header from "./components/Header";
 import NextProviders from "./components/NextProviders";
+import { type DialogProps } from "../DialogsProvider";
 
 type Props = {
   open: boolean;

@@ -3,10 +3,17 @@ import { Box, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
-import CustomAvatar from "@nadabot/components/ui/CustomAvatar";
-import CustomButton from "@nadabot/components/ui/CustomButton";
-import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
-import Tag from "@nadabot/components/ui/Tag";
+import * as contract from "@nadabot/common/services/contracts/sybil.nadabot";
+import {
+  ProviderExternalWithIsHuman,
+  ProviderStatus,
+} from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import CustomAvatar from "@nadabot/common/ui/CustomAvatar";
+import CustomButton from "@nadabot/common/ui/CustomButton";
+import CustomCircularProgress from "@nadabot/common/ui/CustomCircularProgress";
+import Tag from "@nadabot/common/ui/Tag";
+import colors from "@nadabot/common/ui/theme/colors";
+import truncate from "@nadabot/common/utils/truncate";
 import { NETWORK } from "@nadabot/constants";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
 import { useStamps } from "@nadabot/hooks/store/useStamps";
@@ -16,13 +23,6 @@ import useProviderStatusChecker from "@nadabot/hooks/useProviderStatusChecker";
 import useSnackbars from "@nadabot/hooks/useSnackbars";
 import useSpinner from "@nadabot/hooks/useSpinner";
 import { Routes } from "@nadabot/routes";
-import * as contract from "@nadabot/services/contracts/sybil.nadabot";
-import {
-  ProviderExternalWithIsHuman,
-  ProviderStatus,
-} from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
-import colors from "@nadabot/theme/colors";
-import truncate from "@nadabot/utils/truncate";
 
 type Props = {
   providerInfo?: ProviderExternalWithIsHuman;

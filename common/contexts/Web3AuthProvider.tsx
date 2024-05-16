@@ -1,6 +1,8 @@
 import { FC, createContext, useCallback, useEffect, useState } from "react";
 
-import FullScreenSpinner from "@nadabot/components/ui/FullScreenSpinner";
+import { walletApi } from "@nadabot/common/services/contracts";
+import { get_user_profile } from "@nadabot/common/services/contracts/social";
+import FullScreenSpinner from "@nadabot/common/ui/FullScreenSpinner";
 import { useAdmins } from "@nadabot/hooks/store/useAdmins";
 import { useConfig } from "@nadabot/hooks/store/useConfig";
 import { useNotificationController } from "@nadabot/hooks/store/useNotificationController";
@@ -9,8 +11,6 @@ import { useStamps } from "@nadabot/hooks/store/useStamps";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import { PROVIDER_STATUS_CHECKER_KEY } from "@nadabot/hooks/useProviderStatusChecker";
 import useWindowTabFocus from "@nadabot/hooks/useWindowTabFocus";
-import { walletApi } from "@nadabot/services/contracts";
-import { get_user_profile } from "@nadabot/services/contracts/social";
 
 type Web3AuthProps = {
   accountId: string;

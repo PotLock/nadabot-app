@@ -1,8 +1,8 @@
 import { Box, Button, Stack } from "@mui/material";
 import React from "react";
 
+import { FilterIcon, SearchIconA } from "@nadabot/common/ui/theme/icons";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import { FilterIcon, SearchIconA } from "@nadabot/theme/icons";
 
 import RegularInput from "./RegularInput";
 

@@ -2,19 +2,19 @@ import { Container, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
+import { get_user_profile } from "@nadabot/common/services/contracts/social";
+import * as contract from "@nadabot/common/services/contracts/sybil.nadabot";
+import { HumanScoreResponse } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/is-human";
+import { StampExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/stamps";
+import CustomAvatar from "@nadabot/common/ui/CustomAvatar";
+import CustomCircularProgress from "@nadabot/common/ui/CustomCircularProgress";
+import Tag from "@nadabot/common/ui/Tag";
+import colors from "@nadabot/common/ui/theme/colors";
+import insertIsHumanToProvider from "@nadabot/common/utils/insertIsHumanToProvider";
 import GridContainer from "@nadabot/components/containers/GridContainer";
 import { StampCard } from "@nadabot/components/stamp/StampCard";
-import CustomAvatar from "@nadabot/components/ui/CustomAvatar";
-import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
-import Tag from "@nadabot/components/ui/Tag";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useViewStampURLQuery from "@nadabot/hooks/useViewStampURLQuery";
-import { get_user_profile } from "@nadabot/services/contracts/social";
-import * as contract from "@nadabot/services/contracts/sybil.nadabot";
-import { HumanScoreResponse } from "@nadabot/services/contracts/sybil.nadabot/interfaces/is-human";
-import { StampExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/stamps";
-import colors from "@nadabot/theme/colors";
-import insertIsHumanToProvider from "@nadabot/utils/insertIsHumanToProvider";
 
 export default function AccountInfoPage() {
   // Show ViewProviderDialog if the URL has `viewStamp` query

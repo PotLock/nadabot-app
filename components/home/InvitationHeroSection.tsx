@@ -4,12 +4,12 @@ import { useRouter } from "next/router";
 import { useCallback } from "react";
 
 import redLines from "@nadabot/assets/svgs/red-lines.svg";
-import { DIALOGS } from "@nadabot/contexts/DialogsProvider";
+import colors from "@nadabot/common/ui/theme/colors";
+import { DIALOGS } from "@nadabot/components/dialogs/DialogsProvider";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useDialogs from "@nadabot/hooks/useDialogs";
 import useWeb3Auth from "@nadabot/hooks/useWeb3Auth";
 import { Routes } from "@nadabot/routes";
-import colors from "@nadabot/theme/colors";
 
 const textToTypographySlices = (props: {
   text: string;

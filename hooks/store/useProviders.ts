@@ -1,11 +1,11 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import * as contract from "@nadabot/services/contracts/sybil.nadabot";
+import * as contract from "@nadabot/common/services/contracts/sybil.nadabot";
 import {
   ProviderExternal,
   UpdateProviderInput,
-} from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
+} from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 
 type State = {
   providers: ProviderExternal[];

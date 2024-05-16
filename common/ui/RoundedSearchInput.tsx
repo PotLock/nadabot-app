@@ -2,20 +2,20 @@ import { Box, Stack, SxProps, Theme, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
+import * as contract from "@nadabot/common/services/contracts/sybil.nadabot";
+import { HumanScoreResponse } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/is-human";
+import colors from "@nadabot/common/ui/theme/colors";
+import { SearchIconA, SearchIconB } from "@nadabot/common/ui/theme/icons";
 import { NETWORK } from "@nadabot/constants";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useSpinner from "@nadabot/hooks/useSpinner";
 import { Routes } from "@nadabot/routes";
-import * as contract from "@nadabot/services/contracts/sybil.nadabot";
-import { HumanScoreResponse } from "@nadabot/services/contracts/sybil.nadabot/interfaces/is-human";
-import colors from "@nadabot/theme/colors";
-import { SearchIconA, SearchIconB } from "@nadabot/theme/icons";
 
 import CustomAvatar from "./CustomAvatar";
 import CustomInput from "./CustomInput";
 import RoundedSearchButton from "./RoundedSearchButton";
 import Tag from "./Tag";
-import ButtonContainer from "../containers/ButtonContainer";
+import ButtonContainer from "../../components/containers/ButtonContainer";
 
 const Item = (props: {
   accountId: string;

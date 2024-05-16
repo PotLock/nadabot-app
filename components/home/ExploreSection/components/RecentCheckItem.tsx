@@ -1,8 +1,8 @@
 import { Stack, Typography } from "@mui/material";
 
+import colors from "@nadabot/common/ui/theme/colors";
+import truncate from "@nadabot/common/utils/truncate";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import colors from "@nadabot/theme/colors";
-import truncate from "@nadabot/utils/truncate";
 
 type Props = {
   // used the determine the layout

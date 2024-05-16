@@ -7,9 +7,9 @@ import {
 } from "@mui/material";
 import { useCallback } from "react";
 
-import { walletApi } from "@nadabot/services/contracts";
+import { walletApi } from "@nadabot/common/services/contracts";
 
-import CustomButton from "../ui/CustomButton";
+import CustomButton from "../../common/ui/CustomButton";
 
 type Props = {
   open: boolean;

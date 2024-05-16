@@ -3,16 +3,16 @@ import { Box, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 
+import { walletApi } from "@nadabot/common/services/contracts";
+import { ProviderStatus } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import CustomButton from "@nadabot/common/ui/CustomButton";
+import Input from "@nadabot/common/ui/Input";
+import colors from "@nadabot/common/ui/theme/colors";
 import { StampCard } from "@nadabot/components/stamp/StampCard";
-import CustomButton from "@nadabot/components/ui/CustomButton";
-import Input from "@nadabot/components/ui/Input";
 import UploadImage from "@nadabot/components/UploadImage";
 import { DEFAULT_ACCOUNT_ID_ARG_NAME, MAX_GAS } from "@nadabot/constants";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import { walletApi } from "@nadabot/services/contracts";
-import { ProviderStatus } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
-import colors from "@nadabot/theme/colors";
 
 import { StampAdminSettings } from "./StampAdminSettings";
 import { StampSettingsFormParameters, useStampForm } from "./stampForm";
@@ -66,8 +66,9 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
       >
         {/* Inputs */}
         <Stack
-          width={maxWidth962 ? "100%" : maxWidth1200 ? "50%" : "60%"}
           p={4}
+          gap={2}
+          width={maxWidth962 ? "100%" : maxWidth1200 ? "50%" : "60%"}
         >
           <UploadImage
             onClick={onImagePickerClick}
@@ -77,92 +78,96 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
 
           <Input
             name="provider_name"
-            disabled={isSubmitting}
             label="Title"
             placeholder="Enter a title"
-            errorMessage={errors.provider_name}
             defaultValue={values.provider_name}
+            errorMessage={errors.provider_name}
+            disabled={isSubmitting}
             onChange={handleChange}
-            sx={{ mt: 2 }}
           />
 
           <Input
             name="description"
-            disabled={isSubmitting}
             label="Description"
             placeholder="Describe what this check is"
-            errorMessage={errors.description}
             defaultValue={values.description}
+            errorMessage={errors.description}
+            disabled={isSubmitting}
             onChange={handleChange}
-            sx={{ mt: 2 }}
           />
 
           {isNew && (
             <Input
               name="contract_id"
-              disabled={isSubmitting}
               label="Contract ID (Address)"
               placeholder="Enter the contract address"
-              errorMessage={errors.contract_id}
               defaultValue={values.contract_id}
-              onChange={handleChange}
-              sx={{ mt: 2 }}
+              errorMessage={errors.contract_id}
               autoComplete
+              disabled={isSubmitting}
+              onChange={handleChange}
             />
           )}
 
           {isNew && (
             <Input
               name="method_name"
-              disabled={isSubmitting}
               label="Method name"
               placeholder="Enter a method name"
               info="Method must take single input and return boolean"
-              errorMessage={errors.method_name}
               defaultValue={values.method_name}
-              onChange={handleChange}
-              sx={{ mt: 2 }}
+              errorMessage={errors.method_name}
               autoComplete
+              disabled={isSubmitting}
+              onChange={handleChange}
             />
           )}
 
           <Input
             name="account_id_arg_name"
-            disabled={isSubmitting}
             label="Account id argument name"
             placeholder="account_id"
-            errorMessage={errors.account_id_arg_name}
             defaultValue={values.account_id_arg_name}
-            onChange={handleChange}
-            sx={{ mt: 2 }}
+            errorMessage={errors.account_id_arg_name}
             autoComplete
+            disabled={isSubmitting}
+            onChange={handleChange}
+          />
+
+          {/* Custom Args */}
+          <Input
+            name="custom_args"
+            label="Custom arguments"
+            placeholder={`{"types":["new","old"]}`}
+            defaultValue={values.custom_args}
+            errorMessage={errors.custom_args}
+            disabled={isSubmitting}
+            onChange={handleChange}
           />
 
           <Input
             name="external_url"
-            disabled={isSubmitting}
             label="External link"
             placeholder="Enter an external link"
-            errorMessage={errors.external_url}
             defaultValue={values.external_url}
+            errorMessage={errors.external_url}
+            disabled={isSubmitting}
             onChange={handleChange}
-            sx={{ mt: 2 }}
           />
 
           <Input
             name="gas"
-            disabled={isSubmitting}
             label="Minimum required gas units, TGas"
             placeholder="Enter the minimum TGas units"
             type="number"
-            errorMessage={errors.gas}
-            defaultValue={values.gas ?? undefined}
-            onChange={handleChange}
             min={0}
             max={MAX_GAS}
+            defaultValue={values.gas ?? undefined}
+            errorMessage={errors.gas}
             integersOnly
             optional
-            sx={{ mt: 2 }}
+            disabled={isSubmitting}
+            onChange={handleChange}
           />
         </Stack>
 

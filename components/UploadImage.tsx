@@ -3,11 +3,11 @@ import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
 
 import cameraUploadSvg from "@nadabot/assets/svgs/camera-upload.svg";
+import colors from "@nadabot/common/ui/theme/colors";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import colors from "@nadabot/theme/colors";
 
 import ButtonContainer from "./containers/ButtonContainer";
-import Tag from "./ui/Tag";
+import Tag from "../common/ui/Tag";
 
 type Props = {
   onClick?: () => void;

@@ -1,13 +1,16 @@
 import { FormikHelpers, useFormik } from "formik";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { useProviders } from "@nadabot/hooks/store/useProviders";
-import * as sybilContract from "@nadabot/services/contracts/sybil.nadabot";
+import * as sybilContract from "@nadabot/common/services/contracts/sybil.nadabot";
 import {
   ProviderExternal,
   UpdateProviderInput,
-} from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
-import { daysToMilliseconds, millisecondsToDays } from "@nadabot/utils/time";
+} from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import {
+  daysToMilliseconds,
+  millisecondsToDays,
+} from "@nadabot/common/utils/time";
+import { useProviders } from "@nadabot/hooks/store/useProviders";
 
 export type StampAdminSettingsValues = Pick<
   UpdateProviderInput,

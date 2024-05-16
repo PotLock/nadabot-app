@@ -10,7 +10,7 @@ import { useCallback } from "react";
 
 import { Routes } from "@nadabot/routes";
 
-import CustomButton from "../ui/CustomButton";
+import CustomButton from "../../common/ui/CustomButton";
 
 type Props = {
   open: boolean;

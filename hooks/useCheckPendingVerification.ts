@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
 
-import { DIALOGS } from "@nadabot/contexts/DialogsProvider";
+import { DIALOGS } from "@nadabot/components/dialogs/DialogsProvider";
 
 import useDialogs from "./useDialogs";
 import useProviderStatusChecker from "./useProviderStatusChecker";

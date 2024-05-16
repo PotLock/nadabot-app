@@ -4,16 +4,16 @@ import { Menu, MenuItem, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
+import CustomAvatar from "@nadabot/common/ui/CustomAvatar";
+import colors from "@nadabot/common/ui/theme/colors";
+import truncate from "@nadabot/common/utils/truncate";
 import ButtonContainer from "@nadabot/components/containers/ButtonContainer";
-import CustomAvatar from "@nadabot/components/ui/CustomAvatar";
 import { NETWORK } from "@nadabot/constants";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useSpinner from "@nadabot/hooks/useSpinner";
 import useWeb3Auth from "@nadabot/hooks/useWeb3Auth";
 import { Routes } from "@nadabot/routes";
-import colors from "@nadabot/theme/colors";
-import truncate from "@nadabot/utils/truncate";
 
 const UserDropbox = () => {
   const { accountId, profileInfo, isAdmin } = useUser();

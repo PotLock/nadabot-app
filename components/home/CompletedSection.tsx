@@ -1,12 +1,12 @@
 import { Stack, Typography } from "@mui/material";
 
+import CustomCircularProgress from "@nadabot/common/ui/CustomCircularProgress";
+import colors from "@nadabot/common/ui/theme/colors";
+import insertIsHumanToProvider from "@nadabot/common/utils/insertIsHumanToProvider";
 import GridContainer from "@nadabot/components/containers/GridContainer";
 import { StampCard } from "@nadabot/components/stamp/StampCard";
-import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
 import { useStamps } from "@nadabot/hooks/store/useStamps";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import colors from "@nadabot/theme/colors";
-import insertIsHumanToProvider from "@nadabot/utils/insertIsHumanToProvider";
 
 import { ShadowContainer } from "../containers/ShadowContainer";
 

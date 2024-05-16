@@ -7,9 +7,9 @@ import {
 } from "@mui/material";
 import { useCallback } from "react";
 
-import { DialogProps } from "@nadabot/contexts/DialogsProvider";
+import { DialogProps } from "@nadabot/components/dialogs/DialogsProvider";
 
-import CustomButton from "../ui/CustomButton";
+import CustomButton from "../../common/ui/CustomButton";
 
 type Props = {
   open: boolean;

@@ -8,14 +8,14 @@ import {
 } from "use-file-picker/validators";
 import { InferType } from "yup";
 
+import { naxiosInstance } from "@nadabot/common/services/contracts";
+import * as sybilContract from "@nadabot/common/services/contracts/sybil.nadabot";
+import { ProviderExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import * as pinataServices from "@nadabot/common/services/pinata";
+import { DIALOGS } from "@nadabot/components/dialogs/DialogsProvider";
 import { DEFAULT_ACCOUNT_ID_ARG_NAME, MAX_GAS } from "@nadabot/constants";
-import { DIALOGS } from "@nadabot/contexts/DialogsProvider";
 import useDialogs from "@nadabot/hooks/useDialogs";
 import useSpinner from "@nadabot/hooks/useSpinner";
-import { naxiosInstance } from "@nadabot/services/contracts";
-import * as sybilContract from "@nadabot/services/contracts/sybil.nadabot";
-import { ProviderExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
-import * as pinataServices from "@nadabot/services/pinata";
 
 import { stampSchema } from "./stampSchema";
 
@@ -82,7 +82,7 @@ export const useStampForm = ({ id }: StampSettingsFormParameters) => {
     ) => {
       showSpinner();
 
-      const contract = await naxiosInstance.contractApi({
+      const contract = naxiosInstance.contractApi({
         contractId: contract_id,
       });
 
@@ -118,13 +118,12 @@ export const useStampForm = ({ id }: StampSettingsFormParameters) => {
         return;
       }
 
+      // TODO: Upload the image only if `imagePickerValue` !== undefined
+      console.log(imagePickerValue);
+
       // 2 - Upload the image
       // Upload image and get its CID
-      const iconImageCID = await pinataServices.uploadFile(
-        filesContent[0].content,
-      );
-
-      console.log("we're here");
+      const iconImageCID = await pinataServices.uploadFile(imagePickerValue);
 
       if (!iconImageCID) {
         // Validate image upload

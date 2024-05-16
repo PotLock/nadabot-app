@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 
 import {
+  ProviderExternal,
   ProviderExternalWithIsHuman,
   ProviderStatus,
-} from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
-import { isHumanCheck } from "@nadabot/services/web3/isHumanCheck";
+} from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import { isHumanCheck } from "@nadabot/common/services/web3/isHumanCheck";
+import { DEFAULT_ACCOUNT_ID_ARG_NAME } from "@nadabot/constants";
 
 import { useProviders } from "./store/useProviders";
 import { useStamps } from "./store/useStamps";
@@ -12,7 +14,7 @@ import { useUser } from "./store/useUser";
 import useIsAdminPage from "./useIsAdminPage";
 
 type Props = {
-  skipProviderId?: string;
+  skipProviderId?: ProviderExternal["id"];
   sortMethod?: (
     providers: ProviderExternalWithIsHuman[],
   ) => ProviderExternalWithIsHuman[];
@@ -59,7 +61,7 @@ const useFilteredProviders = ({ skipProviderId, sortMethod }: Props) => {
             const isHuman = await isHumanCheck(
               provider.contract_id,
               provider.method_name,
-              provider.account_id_arg_name,
+              provider.account_id_arg_name ?? DEFAULT_ACCOUNT_ID_ARG_NAME,
               accountId,
             );
 
