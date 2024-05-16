@@ -2,14 +2,13 @@ import { Box, Stack, SxProps, Theme, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
+import { NETWORK, Routes } from "@nadabot/common/constants";
 import * as contract from "@nadabot/common/services/contracts/sybil.nadabot";
 import { HumanScoreResponse } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/is-human";
 import colors from "@nadabot/common/ui/theme/colors";
 import { SearchIconA, SearchIconB } from "@nadabot/common/ui/theme/icons";
-import { NETWORK } from "@nadabot/constants";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useSpinner from "@nadabot/hooks/useSpinner";
-import { Routes } from "@nadabot/routes";
 
 import ButtonContainer from "./ButtonContainer";
 import CustomAvatar from "./CustomAvatar";

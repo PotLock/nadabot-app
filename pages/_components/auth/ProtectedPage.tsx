@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
+import { Routes } from "@nadabot/common/constants";
 import { useUser } from "@nadabot/hooks/store/useUser";
-import { Routes } from "@nadabot/routes";
 
 type Props = {
   children: JSX.Element[] | JSX.Element;

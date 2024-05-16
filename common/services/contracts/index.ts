@@ -15,7 +15,7 @@ import { setupWelldoneWallet } from "@near-wallet-selector/welldone-wallet";
 import { setupXDEFI } from "@near-wallet-selector/xdefi";
 import naxios from "@wpdas/naxios";
 
-import { CONTRACT_ID, NETWORK } from "@nadabot/constants";
+import { CONTRACT_ID, NETWORK } from "@nadabot/common/constants";
 
 // Naxios (Contract/Wallet) Instance
 export const naxiosInstance = new naxios({

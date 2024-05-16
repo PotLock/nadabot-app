@@ -45,3 +45,13 @@ export const MAX_PROVIDER_EXTERNAL_URL_LENGTH = 256;
 export const MAX_PROVIDER_ICON_URL_LENGTH = 256;
 export const MAX_GAS = 100; //100_000_000_000_000;
 export const DEFAULT_ACCOUNT_ID_ARG_NAME = "account_id";
+
+export const Routes = {
+  HOME: "/",
+  HOME_WITH_FILTERED_CHECKS: (
+    filterType: "newly-created" | "active" | "deactivated" | "flagged",
+  ) => `/?filterType=${filterType}`,
+  ADD_STAMP: "/stamp/create",
+  ACCOUNT_INFO: (accountId: string) => `/account-info?accountId=${accountId}`,
+  ADMIN_HOME: "/admin",
+};

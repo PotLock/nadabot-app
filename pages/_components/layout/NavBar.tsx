@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useCallback } from "react";
 
 import NadabotLogo from "@nadabot/common/assets/icons/nadabot-logo";
+import { Routes } from "@nadabot/common/constants";
 import { walletApi } from "@nadabot/common/services/contracts";
 import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
 import Tag from "@nadabot/common/ui/components/Tag";
@@ -10,7 +11,6 @@ import colors from "@nadabot/common/ui/theme/colors";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useIsAdminPage from "@nadabot/hooks/useIsAdminPage";
-import { Routes } from "@nadabot/routes";
 
 import NotificationDropbox from "./NotificationDropbox";
 import UserDropbox from "./UserDropbox";

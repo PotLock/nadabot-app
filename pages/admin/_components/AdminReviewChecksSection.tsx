@@ -3,6 +3,7 @@ import Fuse from "fuse.js";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
+import { Routes } from "@nadabot/common/constants";
 import { ProviderExternalWithIsHuman } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import FilterButton from "@nadabot/common/ui/components/FilterButton";
@@ -14,7 +15,6 @@ import { SearchIconA } from "@nadabot/common/ui/theme/icons";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import { StampCard } from "@nadabot/pages/_components/stamp/StampCard";
-import { Routes } from "@nadabot/routes";
 
 type FilterType = "all" | "active" | "deactivated";
 

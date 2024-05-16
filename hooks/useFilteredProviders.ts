@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 
+import { DEFAULT_ACCOUNT_ID_ARG_NAME } from "@nadabot/common/constants";
 import {
   ProviderExternal,
   ProviderExternalWithIsHuman,
   ProviderStatus,
 } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 import { isHumanCheck } from "@nadabot/common/services/web3/isHumanCheck";
-import { DEFAULT_ACCOUNT_ID_ARG_NAME } from "@nadabot/constants";
 
 import { useProviders } from "./store/useProviders";
 import { useStamps } from "./store/useStamps";

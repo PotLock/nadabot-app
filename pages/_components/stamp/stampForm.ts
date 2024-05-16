@@ -8,11 +8,14 @@ import {
 } from "use-file-picker/validators";
 import { InferType } from "yup";
 
+import {
+  DEFAULT_ACCOUNT_ID_ARG_NAME,
+  MAX_GAS,
+} from "@nadabot/common/constants";
 import { naxiosInstance } from "@nadabot/common/services/contracts";
 import * as sybilContract from "@nadabot/common/services/contracts/sybil.nadabot";
 import { ProviderExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 import * as pinataServices from "@nadabot/common/services/pinata";
-import { DEFAULT_ACCOUNT_ID_ARG_NAME, MAX_GAS } from "@nadabot/constants";
 import useDialogs from "@nadabot/hooks/useDialogs";
 import useSpinner from "@nadabot/hooks/useSpinner";
 import { DIALOGS } from "@nadabot/pages/_components/dialogs";

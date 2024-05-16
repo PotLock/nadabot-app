@@ -1,6 +1,6 @@
 import { Transaction, buildTransaction } from "@wpdas/naxios";
 
-import { FULL_TGAS, TWO_HUNDREDTHS_NEAR } from "@nadabot/constants";
+import { FULL_TGAS, TWO_HUNDREDTHS_NEAR } from "@nadabot/common/constants";
 
 import { contractApi } from "../contracts/sybil.nadabot";
 import {

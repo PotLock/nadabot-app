@@ -4,6 +4,7 @@ import { Box, Chip, Stack, SxProps, Theme, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useCallback, useMemo, useState } from "react";
 
+import { Routes } from "@nadabot/common/constants";
 import * as contract from "@nadabot/common/services/contracts/sybil.nadabot";
 import {
   ProviderExternalWithIsHuman,
@@ -25,7 +26,6 @@ import useProviderStatusChecker from "@nadabot/hooks/useProviderStatusChecker";
 import useSnackbars from "@nadabot/hooks/useSnackbars";
 import useSpinner from "@nadabot/hooks/useSpinner";
 import { DIALOGS } from "@nadabot/pages/_components/dialogs";
-import { Routes } from "@nadabot/routes";
 
 import { StampAdminSettings } from "./StampAdminSettings";
 

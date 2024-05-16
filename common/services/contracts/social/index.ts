@@ -1,6 +1,6 @@
 import { StorageCache } from "@wpdas/naxios";
 
-import { SOCIAL_DB_CONTRACT_ID } from "@nadabot/constants";
+import { SOCIAL_DB_CONTRACT_ID } from "@nadabot/common/constants";
 
 import { naxiosInstance } from "..";
 

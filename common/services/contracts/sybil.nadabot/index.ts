@@ -5,7 +5,7 @@ import {
   FULL_TGAS,
   ONE_HUNDREDTH_NEAR,
   TWO_HUNDREDTHS_NEAR,
-} from "@nadabot/constants";
+} from "@nadabot/common/constants";
 
 import { GetHumanScoreInput, HumanScoreResponse } from "./interfaces/is-human";
 import { Config } from "./interfaces/lib";

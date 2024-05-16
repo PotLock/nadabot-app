@@ -4,7 +4,7 @@ import {
   MAX_PROVIDER_DESCRIPTION_LENGTH,
   MAX_PROVIDER_EXTERNAL_URL_LENGTH,
   MAX_PROVIDER_NAME_LENGTH,
-} from "@nadabot/constants";
+} from "@nadabot/common/constants";
 
 export const stampSchema = object().shape({
   icon_url: string().optional(),
