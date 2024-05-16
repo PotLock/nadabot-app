@@ -3,7 +3,7 @@ import React, { useCallback } from "react";
 
 import colors from "@nadabot/common/ui/theme/colors";
 
-import ButtonContainer from "../../components/containers/ButtonContainer";
+import ButtonContainer from "./ButtonContainer";
 
 const bgColors = {
   red: "#FCCFCF",

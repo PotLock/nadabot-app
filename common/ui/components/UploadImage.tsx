@@ -6,8 +6,8 @@ import cameraUploadSvg from "@nadabot/assets/svgs/camera-upload.svg";
 import colors from "@nadabot/common/ui/theme/colors";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 
-import ButtonContainer from "./containers/ButtonContainer";
-import Tag from "../common/ui/Tag";
+import ButtonContainer from "./ButtonContainer";
+import Tag from "./Tag";
 
 type Props = {
   onClick?: () => void;

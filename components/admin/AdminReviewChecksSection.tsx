@@ -4,18 +4,18 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
 import { ProviderExternalWithIsHuman } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
-import CustomButton from "@nadabot/common/ui/CustomButton";
-import FilterButton from "@nadabot/common/ui/FilterButton";
-import RegularInput from "@nadabot/common/ui/RegularInput";
+import CustomButton from "@nadabot/common/ui/components/CustomButton";
+import FilterButton from "@nadabot/common/ui/components/FilterButton";
+import GridContainer from "@nadabot/common/ui/components/GridContainer";
+import RegularInput from "@nadabot/common/ui/components/RegularInput";
 import colors from "@nadabot/common/ui/theme/colors";
 import { SearchIconA } from "@nadabot/common/ui/theme/icons";
-import GridContainer from "@nadabot/components/containers/GridContainer";
 import { StampCard } from "@nadabot/components/stamp/StampCard";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import { Routes } from "@nadabot/routes";
 
-import { ShadowContainer } from "../containers/ShadowContainer";
+import { ShadowContainer } from "../../common/ui/components/ShadowContainer";
 
 type FilterType = "all" | "active" | "deactivated";
 

@@ -16,14 +16,14 @@ import { useCallback, useEffect, useState } from "react";
 import NadabotLogo from "@nadabot/assets/icons/nadabot-logo";
 import { add_stamp } from "@nadabot/common/services/contracts/sybil.nadabot";
 import { ProviderExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
 import colors from "@nadabot/common/ui/theme/colors";
 import { CopyIcon } from "@nadabot/common/ui/theme/icons";
-import ButtonContainer from "@nadabot/components/containers/ButtonContainer";
 import { DialogProps } from "@nadabot/components/dialogs/DialogsProvider";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import useSnackbars from "@nadabot/hooks/useSnackbars";
 
-import CustomButton from "../../../common/ui/CustomButton";
+import CustomButton from "../../../common/ui/components/CustomButton";
 
 type Props = {
   open: boolean;

@@ -3,11 +3,11 @@ import { Stack, Typography } from "@mui/material";
 import { useCallback, useState } from "react";
 
 import * as contract from "@nadabot/common/services/contracts/sybil.nadabot";
-import CustomButton from "@nadabot/common/ui/CustomButton";
-import Input from "@nadabot/common/ui/Input";
+import CustomButton from "@nadabot/common/ui/components/CustomButton";
+import Input from "@nadabot/common/ui/components/Input";
+import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
 import colors from "@nadabot/common/ui/theme/colors";
 import { ListDashboardIcon } from "@nadabot/common/ui/theme/icons";
-import { ShadowContainer } from "@nadabot/components/containers/ShadowContainer";
 import { useConfig } from "@nadabot/hooks/store/useConfig";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useSpinner from "@nadabot/hooks/useSpinner";

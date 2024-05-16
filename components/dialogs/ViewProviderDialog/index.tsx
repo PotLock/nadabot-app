@@ -3,11 +3,11 @@ import { Stack } from "@mui/material";
 import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
 
-import CustomCircularProgress from "@nadabot/common/ui/CustomCircularProgress";
+import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
+import CustomCircularProgress from "@nadabot/common/ui/components/CustomCircularProgress";
 import colors from "@nadabot/common/ui/theme/colors";
 import getDocumentResolution from "@nadabot/common/utils/getDocumentResolution";
 import removeViewStampFromURLQuery from "@nadabot/common/utils/removeViewStampFromURLQuery";
-import ButtonContainer from "@nadabot/components/containers/ButtonContainer";
 import useGetProviderById from "@nadabot/hooks/useGetProviderById";
 
 import Description from "./components/Description";

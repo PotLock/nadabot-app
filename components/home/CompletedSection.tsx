@@ -1,14 +1,14 @@
 import { Stack, Typography } from "@mui/material";
 
-import CustomCircularProgress from "@nadabot/common/ui/CustomCircularProgress";
+import CustomCircularProgress from "@nadabot/common/ui/components/CustomCircularProgress";
+import GridContainer from "@nadabot/common/ui/components/GridContainer";
 import colors from "@nadabot/common/ui/theme/colors";
 import insertIsHumanToProvider from "@nadabot/common/utils/insertIsHumanToProvider";
-import GridContainer from "@nadabot/components/containers/GridContainer";
 import { StampCard } from "@nadabot/components/stamp/StampCard";
 import { useStamps } from "@nadabot/hooks/store/useStamps";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 
-import { ShadowContainer } from "../containers/ShadowContainer";
+import { ShadowContainer } from "../../common/ui/components/ShadowContainer";
 
 export default function CompletedSection() {
   const { maxWidth805 } = useBreakPoints();

@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 
 import * as contract from "@nadabot/common/services/contracts/sybil.nadabot";
 import { ProviderExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
-import CustomAvatar from "@nadabot/common/ui/CustomAvatar";
-import Tag from "@nadabot/common/ui/Tag";
+import CustomAvatar from "@nadabot/common/ui/components/CustomAvatar";
+import Tag from "@nadabot/common/ui/components/Tag";
 import { StampAdminSettings } from "@nadabot/components/stamp/StampAdminSettings";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";

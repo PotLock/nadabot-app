@@ -5,7 +5,8 @@ import {
   useState,
 } from "react";
 
-// import CustomButton from "@nadabot/components/ui/CustomButton";
+// import CustomButton from "@nadabot/common/ui/components/CustomButton";
+import { AddFilterSearchInput } from "@nadabot/common/ui/components/AddFilterSearchInput";
 import colors from "@nadabot/common/ui/theme/colors";
 import providerSorts from "@nadabot/common/utils/providerSorts";
 import { useUser } from "@nadabot/hooks/store/useUser";
@@ -13,9 +14,8 @@ import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 // import { Routes } from "@nadabot/routes";
 
-import { AddFilterSearchInput } from "../../common/ui/AddFilterSearchInput";
-import ContractsContainer from "../containers/ContractsContainer";
-import { ShadowContainer } from "../containers/ShadowContainer";
+import { ShadowContainer } from "../../common/ui/components/ShadowContainer";
+import ContractsContainer from "../stamp/ContractsContainer";
 
 export default function ChecksSection() {
   // const router = useRouter();

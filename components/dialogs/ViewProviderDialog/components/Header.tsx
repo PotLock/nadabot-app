@@ -8,10 +8,10 @@ import {
   ProviderExternalWithIsHuman,
   ProviderStatus,
 } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
-import CustomAvatar from "@nadabot/common/ui/CustomAvatar";
-import CustomButton from "@nadabot/common/ui/CustomButton";
-import CustomCircularProgress from "@nadabot/common/ui/CustomCircularProgress";
-import Tag from "@nadabot/common/ui/Tag";
+import CustomAvatar from "@nadabot/common/ui/components/CustomAvatar";
+import CustomButton from "@nadabot/common/ui/components/CustomButton";
+import CustomCircularProgress from "@nadabot/common/ui/components/CustomCircularProgress";
+import Tag from "@nadabot/common/ui/components/Tag";
 import colors from "@nadabot/common/ui/theme/colors";
 import truncate from "@nadabot/common/utils/truncate";
 import { NETWORK } from "@nadabot/constants";

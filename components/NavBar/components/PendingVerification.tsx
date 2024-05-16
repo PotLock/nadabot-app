@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { add_stamp } from "@nadabot/common/services/contracts/sybil.nadabot";
 import { ProviderExternalWithIsHuman } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 import addMultipleStamps from "@nadabot/common/services/web3/addMultipleStamps";
-import CustomButton from "@nadabot/common/ui/CustomButton";
+import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import colors from "@nadabot/common/ui/theme/colors";
 import { BellIcon } from "@nadabot/common/ui/theme/icons";
 import truncate from "@nadabot/common/utils/truncate";

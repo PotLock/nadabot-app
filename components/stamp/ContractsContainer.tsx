@@ -3,12 +3,11 @@ import Fuse from "fuse.js";
 import { useEffect, useState } from "react";
 
 import { ProviderExternalWithIsHuman } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
-import CustomCircularProgress from "@nadabot/common/ui/CustomCircularProgress";
+import CustomCircularProgress from "@nadabot/common/ui/components/CustomCircularProgress";
+import GridContainer from "@nadabot/common/ui/components/GridContainer";
 import providerSorts from "@nadabot/common/utils/providerSorts";
 import { StampCard } from "@nadabot/components/stamp/StampCard";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
-
-import GridContainer from "./GridContainer";
 
 type Props = {
   inline?: boolean;

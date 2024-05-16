@@ -9,15 +9,15 @@ import {
   ProviderExternalWithIsHuman,
   ProviderStatus,
 } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
-import CustomAvatar from "@nadabot/common/ui/CustomAvatar";
-import CustomButton from "@nadabot/common/ui/CustomButton";
+import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
+import CustomAvatar from "@nadabot/common/ui/components/CustomAvatar";
+import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import colors from "@nadabot/common/ui/theme/colors";
 import removeViewStampFromURLQuery from "@nadabot/common/utils/removeViewStampFromURLQuery";
 import {
   daysSinceTimestamp,
   millisecondsToDays,
 } from "@nadabot/common/utils/time";
-import ButtonContainer from "@nadabot/components/containers/ButtonContainer";
 import { DIALOGS } from "@nadabot/components/dialogs/DialogsProvider";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";

@@ -3,7 +3,7 @@ import { Stack, Typography } from "@mui/material";
 
 import RegularInput, {
   RegularInputProps,
-} from "@nadabot/common/ui/RegularInput";
+} from "@nadabot/common/ui/components/RegularInput";
 import colors from "@nadabot/common/ui/theme/colors";
 
 type Props = Pick<

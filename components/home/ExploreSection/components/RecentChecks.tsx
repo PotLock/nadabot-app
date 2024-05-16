@@ -1,8 +1,8 @@
 import HistoryIcon from "@mui/icons-material/History";
 import { Stack, Typography } from "@mui/material";
 
+import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
 import colors from "@nadabot/common/ui/theme/colors";
-import { ShadowContainer } from "@nadabot/components/containers/ShadowContainer";
 import { useStamps } from "@nadabot/hooks/store/useStamps";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 

@@ -45,7 +45,12 @@ export const stampSchema = object().shape({
 
   gas: number().nullable().optional(),
 
-  custom_args: string().nullable().optional(), // TODO: Validate JSON with object root node!
+  custom_args: string()
+    .test(() => {
+      // TODO: Validate JSON with object root node!
+    })
+    .nullable()
+    .optional(),
 
   // Admin Settings
 

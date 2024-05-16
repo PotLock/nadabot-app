@@ -6,9 +6,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useMemo } from "react";
 
-import CustomButton from "@nadabot/common/ui/CustomButton";
-import Input from "@nadabot/common/ui/Input";
-import { Slider } from "@nadabot/common/ui/Slider";
+import CustomButton from "@nadabot/common/ui/components/CustomButton";
+import Input from "@nadabot/common/ui/components/Input";
+import { Slider } from "@nadabot/common/ui/components/Slider";
 import colors from "@nadabot/common/ui/theme/colors";
 
 import {

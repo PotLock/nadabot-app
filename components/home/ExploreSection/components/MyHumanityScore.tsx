@@ -3,9 +3,9 @@ import PersonIcon from "@mui/icons-material/Person";
 import { Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
-import Tag from "@nadabot/common/ui/Tag";
+import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
+import Tag from "@nadabot/common/ui/components/Tag";
 import colors from "@nadabot/common/ui/theme/colors";
-import { ShadowContainer } from "@nadabot/components/containers/ShadowContainer";
 import { useConfig } from "@nadabot/hooks/store/useConfig";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";

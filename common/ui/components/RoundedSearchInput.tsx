@@ -11,11 +11,11 @@ import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useSpinner from "@nadabot/hooks/useSpinner";
 import { Routes } from "@nadabot/routes";
 
+import ButtonContainer from "./ButtonContainer";
 import CustomAvatar from "./CustomAvatar";
 import CustomInput from "./CustomInput";
 import RoundedSearchButton from "./RoundedSearchButton";
 import Tag from "./Tag";
-import ButtonContainer from "../../components/containers/ButtonContainer";
 
 const Item = (props: {
   accountId: string;

@@ -2,8 +2,8 @@ import { Stack, Typography } from "@mui/material";
 
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 
-import ContractsContainer from "../containers/ContractsContainer";
-import { ShadowContainer } from "../containers/ShadowContainer";
+import { ShadowContainer } from "../../common/ui/components/ShadowContainer";
+import ContractsContainer from "../stamp/ContractsContainer";
 
 export default function AdminChecksSection() {
   const { maxWidth805 } = useBreakPoints();

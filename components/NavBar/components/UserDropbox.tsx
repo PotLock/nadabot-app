@@ -4,10 +4,10 @@ import { Menu, MenuItem, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
-import CustomAvatar from "@nadabot/common/ui/CustomAvatar";
+import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
+import CustomAvatar from "@nadabot/common/ui/components/CustomAvatar";
 import colors from "@nadabot/common/ui/theme/colors";
 import truncate from "@nadabot/common/utils/truncate";
-import ButtonContainer from "@nadabot/components/containers/ButtonContainer";
 import { NETWORK } from "@nadabot/constants";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";

@@ -5,11 +5,11 @@ import { useMemo } from "react";
 
 import { walletApi } from "@nadabot/common/services/contracts";
 import { ProviderStatus } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
-import CustomButton from "@nadabot/common/ui/CustomButton";
-import Input from "@nadabot/common/ui/Input";
+import CustomButton from "@nadabot/common/ui/components/CustomButton";
+import Input from "@nadabot/common/ui/components/Input";
+import UploadImage from "@nadabot/common/ui/components/UploadImage";
 import colors from "@nadabot/common/ui/theme/colors";
 import { StampCard } from "@nadabot/components/stamp/StampCard";
-import UploadImage from "@nadabot/components/UploadImage";
 import { DEFAULT_ACCOUNT_ID_ARG_NAME, MAX_GAS } from "@nadabot/constants";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";

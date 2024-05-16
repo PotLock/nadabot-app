@@ -4,6 +4,8 @@ import { useCallback } from "react";
 
 import NadabotLogo from "@nadabot/assets/icons/nadabot-logo";
 import { walletApi } from "@nadabot/common/services/contracts";
+import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
+import Tag from "@nadabot/common/ui/components/Tag";
 import colors from "@nadabot/common/ui/theme/colors";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
@@ -12,8 +14,6 @@ import { Routes } from "@nadabot/routes";
 
 import NotificationDropbox from "./components/NotificationDropbox";
 import UserDropbox from "./components/UserDropbox";
-import Tag from "../../common/ui/Tag";
-import ButtonContainer from "../containers/ButtonContainer";
 
 const NavBar = () => {
   const router = useRouter();

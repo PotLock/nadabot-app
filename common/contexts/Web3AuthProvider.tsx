@@ -2,7 +2,7 @@ import { FC, createContext, useCallback, useEffect, useState } from "react";
 
 import { walletApi } from "@nadabot/common/services/contracts";
 import { get_user_profile } from "@nadabot/common/services/contracts/social";
-import FullScreenSpinner from "@nadabot/common/ui/FullScreenSpinner";
+import FullScreenSpinner from "@nadabot/common/ui/components/FullScreenSpinner";
 import { useAdmins } from "@nadabot/hooks/store/useAdmins";
 import { useConfig } from "@nadabot/hooks/store/useConfig";
 import { useNotificationController } from "@nadabot/hooks/store/useNotificationController";

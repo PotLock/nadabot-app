@@ -2,18 +2,18 @@ import { Stack, Typography } from "@mui/material";
 import { useCallback } from "react";
 
 import addMultipleStamps from "@nadabot/common/services/web3/addMultipleStamps";
-import CustomButton from "@nadabot/common/ui/CustomButton";
-import CustomCircularProgress from "@nadabot/common/ui/CustomCircularProgress";
+import CustomButton from "@nadabot/common/ui/components/CustomButton";
+import CustomCircularProgress from "@nadabot/common/ui/components/CustomCircularProgress";
+import GridContainer from "@nadabot/common/ui/components/GridContainer";
 import colors from "@nadabot/common/ui/theme/colors";
 import providerSorts from "@nadabot/common/utils/providerSorts";
-import GridContainer from "@nadabot/components/containers/GridContainer";
 import { StampCard } from "@nadabot/components/stamp/StampCard";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import useSpinner from "@nadabot/hooks/useSpinner";
 
-import { ShadowContainer } from "../containers/ShadowContainer";
+import { ShadowContainer } from "../../common/ui/components/ShadowContainer";
 
 export default function PendingVerificationSection() {
   const { walletConnected } = useUser();
