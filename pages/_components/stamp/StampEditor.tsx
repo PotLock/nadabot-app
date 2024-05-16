@@ -139,7 +139,7 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
             name="custom_args"
             label="Custom arguments"
             placeholder={`{"types":["new","old"]}`}
-            defaultValue={values.custom_args}
+            defaultValue={values.custom_args ?? undefined}
             errorMessage={errors.custom_args}
             disabled={isSubmitting}
             onChange={handleChange}
