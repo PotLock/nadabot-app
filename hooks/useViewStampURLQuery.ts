@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { DIALOGS } from "@nadabot/components/dialogs/DialogsProvider";
+import { DIALOGS } from "@nadabot/pages/_components/dialogs";
 
 import useDialogs from "./useDialogs";
 

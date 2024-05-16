@@ -1,13 +1,14 @@
 import { Container } from "@mui/material";
 import { useRouter } from "next/router";
 
-import AdminChecksSection from "@nadabot/components/admin/AdminChecksSection";
-import AdminDashboardSection from "@nadabot/components/admin/AdminDashboardSection";
-import AdminReviewChecksSection from "@nadabot/components/admin/AdminReviewChecksSection";
-import ProtectedPage from "@nadabot/components/auth/ProtectedPage";
-import InvitationHeroSection from "@nadabot/components/home/InvitationHeroSection";
 import { useUser } from "@nadabot/hooks/store/useUser";
+import ProtectedPage from "@nadabot/pages/_components/auth/ProtectedPage";
+import InvitationHeroSection from "@nadabot/pages/_components/sections/InvitationHeroSection";
 import { Routes } from "@nadabot/routes";
+
+import AdminChecksSection from "./_components/AdminChecksSection";
+import AdminDashboardSection from "./_components/AdminDashboardSection";
+import AdminReviewChecksSection from "./_components/AdminReviewChecksSection";
 
 export default function AdminHome() {
   const { isAdmin } = useUser();

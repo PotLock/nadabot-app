@@ -2,7 +2,7 @@ import AttachFileOutlinedIcon from "@mui/icons-material/AttachFileOutlined";
 import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
 
-import cameraUploadSvg from "@nadabot/assets/svgs/camera-upload.svg";
+import cameraUploadSvg from "@nadabot/common/assets/svgs/camera-upload.svg";
 import colors from "@nadabot/common/ui/theme/colors";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 

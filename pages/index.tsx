@@ -1,14 +1,15 @@
 import { Container } from "@mui/material";
 
-import ChecksSection from "@nadabot/components/home/ChecksSection";
-import CompletedSection from "@nadabot/components/home/CompletedSection";
-import ExploreSection from "@nadabot/components/home/ExploreSection";
-import PendingVerificationSection from "@nadabot/components/home/PendingVerificationSection";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useCheckPendingVerification from "@nadabot/hooks/useCheckPendingVerification";
 import useVerifiedProviderSuccess from "@nadabot/hooks/useVerifiedProviderSuccess";
 import useViewStampURLQuery from "@nadabot/hooks/useViewStampURLQuery";
-// import InvitationHeroSection from "@nadabot/components/pages/home/InvitationHeroSection";
+
+import ChecksSection from "./_components/sections/ChecksSection";
+import CompletedSection from "./_components/sections/CompletedSection";
+// import InvitationHeroSection from "./_components/sections/InvitationHeroSection";
+import ExploreSection from "./_components/sections/ExploreSection";
+import PendingVerificationSection from "./_components/sections/PendingVerificationSection";
 
 export default function Home() {
   // Show ViewProviderDialog with Verified button + Snackbar notification if user comes back from a `add_stamp` tx

@@ -13,9 +13,10 @@ import SnackbarProvider from "@nadabot/common/contexts/SnackbarProvider";
 import { SpinnerProvider } from "@nadabot/common/contexts/SpinnerProvider";
 import Web3AuthProvider from "@nadabot/common/contexts/Web3AuthProvider";
 import { theme } from "@nadabot/common/ui/theme/theme";
-import DialogsProvider from "@nadabot/components/dialogs/DialogsProvider";
-import Footer from "@nadabot/components/Footer";
-import NavBar from "@nadabot/components/NavBar";
+
+import DialogsProvider from "./_components/dialogs";
+import Footer from "./_components/layout/Footer";
+import NavBar from "./_components/layout/NavBar";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

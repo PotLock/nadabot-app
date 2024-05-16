@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { ProviderExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
-import { DIALOGS } from "@nadabot/components/dialogs/DialogsProvider";
+import { DIALOGS } from "@nadabot/pages/_components/dialogs";
 
 import useDialogs from "./useDialogs";
 import useGetProviderById from "./useGetProviderById";

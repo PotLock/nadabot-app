@@ -12,9 +12,9 @@ import GridContainer from "@nadabot/common/ui/components/GridContainer";
 import Tag from "@nadabot/common/ui/components/Tag";
 import colors from "@nadabot/common/ui/theme/colors";
 import insertIsHumanToProvider from "@nadabot/common/utils/insertIsHumanToProvider";
-import { StampCard } from "@nadabot/components/stamp/StampCard";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useViewStampURLQuery from "@nadabot/hooks/useViewStampURLQuery";
+import { StampCard } from "@nadabot/pages/_components/stamp/StampCard";
 
 export default function AccountInfoPage() {
   // Show ViewProviderDialog if the URL has `viewStamp` query

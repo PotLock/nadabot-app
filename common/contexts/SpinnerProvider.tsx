@@ -2,7 +2,7 @@ import { Stack } from "@mui/material";
 import Image from "next/image";
 import { createContext, useCallback, useState } from "react";
 
-import nadabotIcon from "@nadabot/assets/images/nadabot-icon.png";
+import nadabotIcon from "@nadabot/common/assets/images/nadabot-icon.png";
 
 type SpinnerContextProps = {
   showSpinner: (bgOpacity?: number) => void;
