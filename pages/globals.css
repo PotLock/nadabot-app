@@ -33,8 +33,8 @@ input:focus {
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2; 
-  white-space: pre-wrap; 
+  -webkit-line-clamp: 2;
+  white-space: pre-wrap;
 }
 
 .stamp-contractid-multiline-ellipsis {
@@ -60,10 +60,11 @@ input:focus {
 
 /* removes input background color for autocomplete */
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
 input:-webkit-autofill:active{
     -webkit-box-shadow: 0 0 0 30px white inset !important;
+    box-shadow: 0 0 0 30px white inset !important;
 }
 
 
@@ -164,7 +165,7 @@ nextjs-portal {
   border-radius: 50%;
   transform: rotate(-180deg);
   position: absolute;
-  background: 
+  background:
     radial-gradient(closest-side, white 88%, transparent 89% 100%),
     conic-gradient(#DD3345 90%, #DBDBDB 0);
 }
