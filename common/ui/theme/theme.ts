@@ -4,25 +4,17 @@ import colors from "./colors";
 
 export const theme = createTheme({
   palette: {
-    primary: {
-      main: colors.PRIMARY,
-    },
-    secondary: {
-      main: colors.NEUTRAL950,
-    },
-    info: {
-      main: colors.TRANSPARENT,
-    },
-    error: {
-      main: colors.ERROR,
-    },
-    success: {
-      main: colors.SUCCESS,
-    },
+    primary: { main: colors.PRIMARY },
+    secondary: { main: colors.NEUTRAL950 },
+    info: { main: colors.TRANSPARENT },
+    error: { main: colors.ERROR },
+    success: { main: colors.SUCCESS },
   },
+
   typography: {
     fontFamily: ["Mona-Sans", "Roboto", "sans-serif"].join(","),
   },
+
   components: {
     MuiTypography: {
       styleOverrides: {
@@ -31,10 +23,12 @@ export const theme = createTheme({
         },
       },
     },
+
     MuiLink: {
       variants: [
         {
           props: { component: "button", variant: "body2" },
+
           style: {
             fontWeight: "600",
             fontSize: "14px",
@@ -48,6 +42,7 @@ export const theme = createTheme({
         },
       ],
     },
+
     MuiChip: {
       styleOverrides: {
         root: {
@@ -58,6 +53,7 @@ export const theme = createTheme({
         },
       },
     },
+
     MuiButton: {
       styleOverrides: {
         root: {
@@ -72,6 +68,7 @@ export const theme = createTheme({
           marginBottom: "3.7px",
           transition: "margin .1s, box-shadow .1s",
           boxShadow: `0px 2.7px 0px 0px ${colors.PRIMARY}`,
+
           ":hover": {
             boxShadow: "none",
             marginTop: "3.7px",
@@ -79,6 +76,7 @@ export const theme = createTheme({
           },
         },
       },
+
       variants: [
         {
           props: { variant: "outlined", color: "error" },
@@ -96,6 +94,7 @@ export const theme = createTheme({
             },
           },
         },
+
         {
           props: { variant: "contained", color: "secondary" },
 
@@ -108,17 +107,22 @@ export const theme = createTheme({
             },
           },
         },
+
         {
           props: { variant: "contained", color: "primary", size: "small" },
+
           style: {
             paddingTop: "12px",
             backgroundColor: colors.BUTTON_PRIMARY,
+
             ":hover": {
               backgroundColor: colors.BUTTON_PRIMARY,
             },
+
             ":active": {
               backgroundColor: colors.BUTTON_PRIMARY_ACTIVE,
             },
+
             ":disabled": {
               color: colors.WHITE,
               backgroundColor: colors.BUTTON_PRIMARY,
@@ -126,19 +130,24 @@ export const theme = createTheme({
             },
           },
         },
+
         {
           props: { variant: "contained", color: "primary", size: "medium" },
+
           style: {
             paddingTop: "12px",
             fontSize: "26px",
             fontWeight: 600,
             backgroundColor: colors.BUTTON_PRIMARY,
+
             ":hover": {
               backgroundColor: colors.BUTTON_PRIMARY,
             },
+
             ":active": {
               backgroundColor: colors.BUTTON_PRIMARY_ACTIVE,
             },
+
             ":disabled": {
               color: colors.WHITE,
               backgroundColor: colors.BUTTON_PRIMARY,
@@ -146,19 +155,36 @@ export const theme = createTheme({
             },
           },
         },
+
+        {
+          props: { variant: "contained", color: "info" },
+
+          style: {
+            backgroundColor: colors.PEACH,
+
+            ":hover": {
+              backgroundColor: colors.PEACH100,
+            },
+          },
+        },
+
         {
           props: { variant: "contained", color: "primary", size: "large" },
+
           style: {
             paddingTop: "12px",
             fontSize: "36px",
             fontWeight: 600,
             backgroundColor: colors.BUTTON_PRIMARY,
+
             ":hover": {
               backgroundColor: colors.BUTTON_PRIMARY,
             },
+
             ":active": {
               backgroundColor: colors.BUTTON_PRIMARY_ACTIVE,
             },
+
             ":disabled": {
               color: colors.WHITE,
               backgroundColor: colors.BUTTON_PRIMARY,
@@ -166,18 +192,23 @@ export const theme = createTheme({
             },
           },
         },
+
         {
           props: { variant: "contained", color: "secondary", size: "small" },
+
           style: {
             paddingTop: "12px",
             backgroundColor: colors.BUTTON_SECONDARY,
             color: colors.WHITE,
+
             ":hover": {
               backgroundColor: colors.BUTTON_SECONDARY,
             },
+
             ":active": {
               backgroundColor: colors.BUTTON_SECONDARY_ACTIVE,
             },
+
             ":disabled": {
               color: colors.WHITE,
               backgroundColor: colors.BUTTON_SECONDARY,
@@ -185,18 +216,23 @@ export const theme = createTheme({
             },
           },
         },
+
         {
           props: { variant: "contained", color: "warning" },
+
           style: {
             paddingTop: "12px",
             backgroundColor: colors.PEACH,
             color: colors.PRIMARY,
+
             ":hover": {
               backgroundColor: colors.PEACH,
             },
+
             ":active": {
               backgroundColor: colors.PEACH100,
             },
+
             ":disabled": {
               color: colors.PRIMARY,
               backgroundColor: colors.PEACH,
@@ -204,16 +240,20 @@ export const theme = createTheme({
             },
           },
         },
+
         {
           props: { size: "large" },
+
           style: {
             height: "68px",
             fontSize: "36px",
             fontWeight: 600,
           },
         },
+
         {
           props: { size: "medium" },
+
           style: {
             height: "48px",
             // "@media (max-width: 600px)": {
@@ -221,8 +261,10 @@ export const theme = createTheme({
             // },
           },
         },
+
         {
           props: { size: "small" },
+
           style: {
             height: "36px",
             // minHeight: "40px",
