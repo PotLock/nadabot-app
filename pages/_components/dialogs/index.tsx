@@ -1,9 +1,10 @@
 import { FC, createContext, useCallback, useState } from "react";
 
-import { ProviderExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import { ProviderId } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 
 import ConfirmVerificationDialog from "./ConfirmVerificationDialog";
 import ErrorDialog from "./ErrorDialog";
+import { GroupOverviewDialog } from "./GroupOverviewDialog";
 import NoConnectedDialog from "./NoConnectedDialog";
 import StampSentDialog from "./StampSentDialog";
 import { DialogProps } from "./types";
@@ -16,9 +17,10 @@ export enum DIALOGS {
   Error,
   ViewProvider,
   ConfirmVerification,
+  GroupOverview,
 }
 
-type openDialogProps = {
+type openDialogProps<> = {
   dialog: DIALOGS;
   props?: DialogProps;
   onClickOk?: () => void;
@@ -37,11 +39,11 @@ export const DialogsContext = createContext<DialogContextProps>({
   },
 });
 
-type Props = {
+type DialogsProviderProps = {
   children: JSX.Element;
 };
 
-const DialogsProvider: FC<Props> = ({ children }) => {
+const DialogsProvider: FC<DialogsProviderProps> = ({ children }) => {
   const [_openDialog, setOpenDialog] = useState({
     _onClickOk: () => {},
     _onClickCancel: () => {},
@@ -51,7 +53,7 @@ const DialogsProvider: FC<Props> = ({ children }) => {
   // Dialog Props
   const [title, setTitle] = useState<string>();
   const [description, setDescription] = useState<string>();
-  const [providerId, setProviderId] = useState<ProviderExternal["id"]>();
+  const [providerId, setProviderId] = useState<ProviderId>();
 
   const openDialog = useCallback((props: openDialogProps) => {
     setOpenDialog({
@@ -82,15 +84,18 @@ const DialogsProvider: FC<Props> = ({ children }) => {
         open={_openDialog.dialog === DIALOGS.NoConnected}
         onClose={closeDialog}
       />
+
       <StampSentDialog
         open={_openDialog.dialog === DIALOGS.StampSent}
         onClose={closeDialog}
       />
+
       <ErrorDialog
         open={_openDialog.dialog === DIALOGS.Error}
         onClose={closeDialog}
         props={{ title, description, providerId }}
       />
+
       <ConfirmVerificationDialog
         open={_openDialog.dialog === DIALOGS.ConfirmVerification}
         onClose={closeDialog}
@@ -105,6 +110,12 @@ const DialogsProvider: FC<Props> = ({ children }) => {
           props={{ title, description, providerId }}
         />
       )}
+
+      <GroupOverviewDialog
+        open={_openDialog.dialog === DIALOGS.GroupOverview}
+        onClose={closeDialog}
+      />
+
       {children}
     </DialogsContext.Provider>
   );

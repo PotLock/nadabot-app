@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import { ProviderExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import { ProviderId } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 
 import { useUser } from "./store/useUser";
 import useFilteredProviders from "./useFilteredProviders";
@@ -16,7 +16,7 @@ const useProviderStatusChecker = () => {
   const { activeIsHuman } = useFilteredProviders({});
 
   const saveProvider = useCallback(
-    (providerId: ProviderExternal["id"]) => {
+    (providerId: ProviderId) => {
       if (walletConnected) {
         localStorage.setItem(
           PROVIDER_STATUS_CHECKER_KEY,

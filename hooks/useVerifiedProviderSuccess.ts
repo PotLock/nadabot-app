@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { ProviderExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import { ProviderId } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 import { DIALOGS } from "@nadabot/pages/_components/dialogs";
 
 import useDialogs from "./useDialogs";
@@ -16,8 +16,7 @@ const useVerifiedProviderSuccess = () => {
   const { openDialog } = useDialogs();
   const { showSnackbar } = useSnackbars();
 
-  const [verifiedProviderId, setVerifiedProvider] =
-    useState<ProviderExternal["id"]>(0);
+  const [verifiedProviderId, setVerifiedProvider] = useState<ProviderId>(0);
 
   const provider = useGetProviderById(verifiedProviderId);
   const [done, setDone] = useState(false);

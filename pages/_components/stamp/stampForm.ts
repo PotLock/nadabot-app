@@ -14,7 +14,7 @@ import {
 } from "@nadabot/common/constants";
 import { naxiosInstance } from "@nadabot/common/services/contracts";
 import * as sybilContract from "@nadabot/common/services/contracts/sybil.nadabot";
-import { ProviderExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import { ProviderId } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 import * as pinataServices from "@nadabot/common/services/pinata";
 import useDialogs from "@nadabot/hooks/useDialogs";
 import useSpinner from "@nadabot/hooks/useSpinner";
@@ -25,7 +25,7 @@ import { stampSchema } from "./stampSchema";
 export type StampSettingsFormValues = InferType<typeof stampSchema>;
 
 export type StampSettingsFormParameters = {
-  id?: ProviderExternal["id"];
+  id?: ProviderId;
 };
 
 export const useStampForm = ({ id }: StampSettingsFormParameters) => {

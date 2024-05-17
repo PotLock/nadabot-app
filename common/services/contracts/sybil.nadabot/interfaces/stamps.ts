@@ -1,4 +1,4 @@
-import { ProviderExternal } from "./providers";
+import { ProviderExternal, ProviderId } from "./providers";
 
 export interface StampExternal {
   user_id: string;
@@ -13,7 +13,7 @@ export interface GetStampsForAccountIdInput {
 }
 
 export type GetUsersForStampInput = {
-  provider_id: ProviderExternal["id"];
+  provider_id: ProviderId;
   from_index?: number;
   limit?: number;
 };

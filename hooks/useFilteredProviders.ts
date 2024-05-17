@@ -2,8 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 
 import { DEFAULT_ACCOUNT_ID_ARG_NAME } from "@nadabot/common/constants";
 import {
-  ProviderExternal,
   ProviderExternalWithIsHuman,
+  ProviderId,
   ProviderStatus,
 } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 import { isHumanCheck } from "@nadabot/common/services/web3/isHumanCheck";
@@ -14,7 +14,7 @@ import { useUser } from "./store/useUser";
 import useIsAdminPage from "./useIsAdminPage";
 
 type Props = {
-  skipProviderId?: ProviderExternal["id"];
+  skipProviderId?: ProviderId;
   sortMethod?: (
     providers: ProviderExternalWithIsHuman[],
   ) => ProviderExternalWithIsHuman[];
@@ -22,7 +22,7 @@ type Props = {
 
 /**
  * Provide filtered providers adding if the user is a human inside this provider or not
- * [it also removes providers in with the user has completed the requiriment / is vefiried]
+ * [it also removes providers in with the user has completed the requirement / is verified]
  * @param props.skipProviderId Skip provider with this id
  * @param props.sortMethod Sort list method
  * @returns

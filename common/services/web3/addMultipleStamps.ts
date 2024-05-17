@@ -4,8 +4,8 @@ import { FULL_TGAS, TWO_HUNDREDTHS_NEAR } from "@nadabot/common/constants";
 
 import { contractApi } from "../contracts/sybil.nadabot";
 import {
-  ProviderExternal,
   ProviderExternalWithIsHuman,
+  ProviderId,
 } from "../contracts/sybil.nadabot/interfaces/providers";
 
 /**
@@ -14,7 +14,7 @@ import {
  */
 const addMultipleStamps = (providers: ProviderExternalWithIsHuman[]) => {
   const listOfTransactions: Transaction<{
-    provider_id: ProviderExternal["id"];
+    provider_id: ProviderId;
   }>[] = [];
 
   // Limits it to process 8 items per time
