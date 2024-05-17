@@ -1,5 +1,6 @@
 import { Stack } from "@mui/material";
 
+import { GroupId } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/groups";
 import {
   ContentRichModal,
   ContentRichModalProps,
@@ -8,11 +9,18 @@ import {
 export type GroupOverviewDialogProps = Pick<
   ContentRichModalProps,
   "open" | "onClose"
-> & {};
+> & {
+  id?: GroupId;
+};
 
-export const GroupOverviewDialog: React.FC<GroupOverviewDialogProps> = ({
+export const GroupDialog: React.FC<GroupOverviewDialogProps> = ({
+  id,
   ...props
 }) => {
+  const isNew = typeof id !== "number";
+
+  console.log("GroupDialog", { id, isNew });
+
   return (
     <ContentRichModal {...props}>
       <Stack gap={2}></Stack>

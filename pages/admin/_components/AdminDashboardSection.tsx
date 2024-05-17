@@ -12,15 +12,22 @@ import colors from "@nadabot/common/ui/theme/colors";
 import { ListDashboardIcon } from "@nadabot/common/ui/theme/icons";
 import { useConfig } from "@nadabot/hooks/store/useConfig";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import useDialogs from "@nadabot/hooks/useDialogs";
 import useSpinner from "@nadabot/hooks/useSpinner";
+import { DIALOGS } from "@nadabot/pages/_components/dialogs";
 
 export default function AdminDashboardSection() {
   const { maxWidth962, maxWidth700 } = useBreakPoints();
+  const { showSpinner, hideSpinner } = useSpinner();
+  const { openDialog } = useDialogs();
   const { config, updateHumanThreshold } = useConfig();
   const adjustedHumanThreshold = config.default_human_threshold;
-
   const [humanThreshold, setHumanThreshold] = useState(adjustedHumanThreshold);
-  const { showSpinner, hideSpinner } = useSpinner();
+
+  const onCreateGroupClick = useCallback(
+    () => openDialog({ dialog: DIALOGS.GroupDialog }),
+    [openDialog],
+  );
 
   const setThresholdHandler = useCallback(async () => {
     if (adjustedHumanThreshold !== humanThreshold) {
@@ -138,7 +145,7 @@ export default function AdminDashboardSection() {
               bodySize="medium"
               color="black"
               fontSize="small"
-              onClick={() => {}}
+              onClick={onCreateGroupClick}
               sx={{ pl: 2, pr: 3 }}
             >
               <AddIcon fontSize="small" />

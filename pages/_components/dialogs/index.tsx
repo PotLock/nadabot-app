@@ -4,7 +4,7 @@ import { ProviderId } from "@nadabot/common/services/contracts/sybil.nadabot/int
 
 import ConfirmVerificationDialog from "./ConfirmVerificationDialog";
 import ErrorDialog from "./ErrorDialog";
-import { GroupOverviewDialog } from "./GroupOverviewDialog";
+import { GroupDialog } from "./GroupDialog";
 import NoConnectedDialog from "./NoConnectedDialog";
 import StampSentDialog from "./StampSentDialog";
 import { DialogProps } from "./types";
@@ -17,10 +17,10 @@ export enum DIALOGS {
   Error,
   ViewProvider,
   ConfirmVerification,
-  GroupOverview,
+  GroupDialog,
 }
 
-type openDialogProps<> = {
+type openDialogProps = {
   dialog: DIALOGS;
   props?: DialogProps;
   onClickOk?: () => void;
@@ -111,8 +111,8 @@ const DialogsProvider: FC<DialogsProviderProps> = ({ children }) => {
         />
       )}
 
-      <GroupOverviewDialog
-        open={_openDialog.dialog === DIALOGS.GroupOverview}
+      <GroupDialog
+        open={_openDialog.dialog === DIALOGS.GroupDialog}
         onClose={closeDialog}
       />
 
