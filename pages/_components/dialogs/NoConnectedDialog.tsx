@@ -45,7 +45,7 @@ export default function NoConnectedDialog({ open, onClose }: Props) {
           onClick={onClose}
           fontSize="small"
           bodySize="medium"
-          color="beige"
+          color="peach"
         >
           Close
         </CustomButton>

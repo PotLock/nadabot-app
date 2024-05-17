@@ -287,7 +287,7 @@ export default function Header({ providerInfo }: Props) {
                 width={maxWidth700 ? "100%" : "64%"}
               >
                 <CustomButton
-                  color="beige"
+                  color="peach"
                   bodySize={maxWidth430 ? "medium" : "large"}
                   fontSize={maxWidth430 ? "small" : "medium"}
                   onClick={switchActivation}
@@ -335,7 +335,7 @@ export default function Header({ providerInfo }: Props) {
                   </Stack>
                 ) : (
                   <CustomButton
-                    color="beige"
+                    color="peach"
                     bodySize={maxWidth430 ? "medium" : "large"}
                     fontSize={maxWidth430 ? "small" : "medium"}
                     onClick={

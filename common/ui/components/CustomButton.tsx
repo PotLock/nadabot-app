@@ -1,8 +1,8 @@
-import { Button, ButtonProps } from "@mui/material";
+import { Button, ButtonProps, Stack } from "@mui/material";
 
 import CustomCircularProgress from "./CustomCircularProgress";
 
-type CustomButtonColor = "white" | "blue" | "beige" | "red" | "black";
+type CustomButtonColor = "blue" | "peach" | "red" | "black";
 
 const fontSizes = {
   small: 14,
@@ -17,17 +17,15 @@ const bodySizes = {
 };
 
 const colors: Record<CustomButtonColor, ButtonProps["color"]> = {
-  white: "primary",
   blue: "primary",
-  beige: "warning",
+  peach: "info",
   red: "error",
   black: "secondary",
 };
 
 const variants: Record<CustomButtonColor, ButtonProps["variant"]> = {
-  white: "text",
   blue: "contained",
-  beige: "contained",
+  peach: "contained",
   red: "contained",
   black: "contained",
 };
@@ -50,7 +48,7 @@ export type CustomButtonProps = Pick<
 };
 
 export default function CustomButton({
-  color = "white",
+  color = "peach",
   bodySize,
   fontSize,
   progress = false,
@@ -71,9 +69,17 @@ export default function CustomButton({
       }}
       {...props}
     >
-      <span style={{ visibility: progress ? "hidden" : "visible" }}>
+      <Stack
+        visibility={progress ? "hidden" : "visible"}
+        gap={1}
+        direction="row"
+        alignItems="center"
+        justifyContent="center"
+        flexWrap="nowrap"
+        whiteSpace="nowrap"
+      >
         {children}
-      </span>
+      </Stack>
 
       <CustomCircularProgress
         size={26}

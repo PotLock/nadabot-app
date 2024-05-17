@@ -58,16 +58,18 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: "6px",
-          padding: "8px 24px",
+          padding: "10px 12px",
+          minWidth: "fit-content",
           fontSize: "14px",
-          fontWeight: "600",
+          fontWeight: "500",
+          lineHeight: "20px",
           letterSpacing: "0.01em",
           textTransform: "none",
           border: `2px solid ${colors.PRIMARY}`,
           marginTop: "0px",
           marginBottom: "3.7px",
           transition: "margin .1s, box-shadow .1s",
-          boxShadow: `0px 2.7px 0px 0px ${colors.PRIMARY}`,
+          boxShadow: `0px 2px 0px 0px ${colors.PRIMARY}`,
 
           ":hover": {
             boxShadow: "none",

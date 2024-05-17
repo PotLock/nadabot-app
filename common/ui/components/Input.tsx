@@ -53,34 +53,38 @@ export default function Input({
 }: Props) {
   return (
     <Stack gap={1} sx={sx}>
-      <Stack direction="row" gap={0.5} alignItems="center">
-        <Stack direction="row" gap={0.5}>
-          {label && (
-            <Typography
-              color={colors.NEUTRAL950}
-              fontWeight={500}
-              fontSize={16}
-              noWrap
-              sx={{ opacity: disabled ? 0.5 : 1 }}
-            >
-              {label}
-            </Typography>
-          )}
+      {(label || labelDecoration) && (
+        <Stack direction="row" gap={0.5} alignItems="center">
+          <Stack direction="row" gap={0.5}>
+            {label && (
+              <>
+                <Typography
+                  color={colors.NEUTRAL950}
+                  fontWeight={500}
+                  fontSize={16}
+                  noWrap
+                  sx={{ opacity: disabled ? 0.5 : 1 }}
+                >
+                  {label}
+                </Typography>
 
-          {optional && (
-            <Typography
-              color={colors.NEUTRAL500}
-              fontWeight={500}
-              fontSize={16}
-              sx={{ opacity: disabled ? 0.5 : 1 }}
-            >
-              (optional)
-            </Typography>
-          )}
+                {optional && (
+                  <Typography
+                    color={colors.NEUTRAL500}
+                    fontWeight={500}
+                    fontSize={16}
+                    sx={{ opacity: disabled ? 0.5 : 1 }}
+                  >
+                    (optional)
+                  </Typography>
+                )}
+              </>
+            )}
+          </Stack>
+
+          {labelDecoration}
         </Stack>
-
-        {labelDecoration}
-      </Stack>
+      )}
 
       <RegularInput
         fontSize={fontSize}

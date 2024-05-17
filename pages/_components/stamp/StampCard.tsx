@@ -359,7 +359,7 @@ export const StampCard: React.FC<StampCardProps> = ({
             <>
               {isAdmin ? (
                 <CustomButton
-                  color="beige"
+                  color="peach"
                   bodySize="medium"
                   onClick={switchActivation}
                   progress={hasPendingUpdate}
@@ -393,7 +393,7 @@ export const StampCard: React.FC<StampCardProps> = ({
                 </CustomButton>
               ) : (
                 <CustomButton
-                  color="beige"
+                  color="peach"
                   bodySize="medium"
                   onClick={
                     providerInfo.is_user_a_human

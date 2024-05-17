@@ -173,7 +173,7 @@ export default function ConfirmVerificationDialog({
             onClick={verifyHandler}
             fontSize="medium"
             bodySize="large"
-            color="beige"
+            color="peach"
             sx={{
               width: "100%",
               backgroundColor: "#464646",
