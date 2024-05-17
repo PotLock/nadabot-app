@@ -1,3 +1,5 @@
+import AddIcon from "@mui/icons-material/Add";
+import GroupWorkOutlinedIcon from "@mui/icons-material/GroupWorkOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { Stack, Typography } from "@mui/material";
 import { useCallback, useState } from "react";
@@ -37,51 +39,114 @@ export default function AdminDashboardSection() {
   ]);
 
   return (
-    <Stack>
+    <Stack gap={1}>
       <Typography variant="h4" fontWeight={700}>
         Admin Dashboard
       </Typography>
-      <ShadowContainer sx={{ mt: 1 }}>
-        <Stack direction="row" alignItems="center">
-          <ListDashboardIcon />
-          <Typography fontWeight={700} fontSize={24} mx={1}>
-            Human Threshold
-          </Typography>
-          <InfoOutlinedIcon sx={{ color: colors.NEUTRAL300 }} />
-        </Stack>
 
-        <Typography color={colors.NEUTRAL400} fontSize={16}>
-          Set a human threshold for the users, Current Human threshold is set to{" "}
-          <b>{adjustedHumanThreshold} Points</b>
-        </Typography>
-
-        <Stack
-          direction={maxWidth700 ? "column" : "row"}
-          justifyContent="space-between"
-          alignItems="center"
-          mt={4}
+      <Stack gap={3} direction={maxWidth962 ? "column" : "row"}>
+        <ShadowContainer
+          sx={{
+            px: 4,
+            py: 3,
+            gap: 3,
+            justifyContent: "space-between",
+            height: "100%",
+          }}
+          width={maxWidth962 ? "100%" : "60%"}
         >
-          <Input
-            placeholder="Enter a numeric value for the human threshold"
-            type="number"
-            defaultValue={humanThreshold}
-            onChange={(event) =>
-              setHumanThreshold(parseInt(event.target.value))
-            }
-            sx={{ width: maxWidth700 ? "100%" : maxWidth962 ? "70%" : "80%" }}
-          />
-          <CustomButton
-            onClick={setThresholdHandler}
-            fontSize="small"
-            bodySize="medium"
-            color="beige"
-            disabled={adjustedHumanThreshold === humanThreshold}
-            sx={{ mt: maxWidth700 ? 2 : 0 }}
+          <Stack gap={1}>
+            <Stack gap={1.5} direction="row" alignItems="center">
+              <ListDashboardIcon />
+
+              <Typography fontWeight={700} fontSize={24}>
+                Human Threshold
+              </Typography>
+
+              <InfoOutlinedIcon sx={{ color: colors.NEUTRAL300 }} />
+            </Stack>
+
+            <Typography color={colors.NEUTRAL400} fontSize={16}>
+              Set a human threshold for the users. Current human threshold is
+              set to <b>{adjustedHumanThreshold} Points</b>
+            </Typography>
+          </Stack>
+
+          <Stack
+            direction={maxWidth700 ? "column" : "row"}
+            justifyContent="space-between"
+            alignItems="center"
+            gap={2}
           >
-            Set Threshold
-          </CustomButton>
-        </Stack>
-      </ShadowContainer>
+            <Input
+              placeholder="Enter a numeric value for the human threshold"
+              type="number"
+              defaultValue={humanThreshold}
+              onChange={(event) =>
+                setHumanThreshold(parseInt(event.target.value))
+              }
+              sx={{ width: maxWidth700 ? "100%" : maxWidth962 ? "70%" : "80%" }}
+            />
+
+            <CustomButton
+              bodySize="medium"
+              color="peach"
+              fontSize="small"
+              onClick={setThresholdHandler}
+              disabled={adjustedHumanThreshold === humanThreshold}
+              sx={{ px: 2 }}
+            >
+              Update Threshold
+            </CustomButton>
+          </Stack>
+        </ShadowContainer>
+
+        <ShadowContainer
+          sx={{
+            px: 4,
+            py: 3,
+            gap: 3,
+            justifyContent: "space-between",
+            width: "100%",
+            height: "100%",
+          }}
+          width={maxWidth962 ? "100%" : "40%"}
+        >
+          <Stack gap={1} width="100%">
+            <Stack gap={1.5} direction="row" alignItems="center">
+              <GroupWorkOutlinedIcon sx={{ fontWeight: 600 }} />
+
+              <Typography fontWeight={700} fontSize={24}>
+                Create Groups
+              </Typography>
+
+              <InfoOutlinedIcon sx={{ color: colors.NEUTRAL300 }} />
+            </Stack>
+
+            <Typography color={colors.NEUTRAL400} fontSize={16}>
+              Create a group of checks with a rule attached to it.
+            </Typography>
+          </Stack>
+
+          <Stack
+            direction={maxWidth700 ? "column" : "row"}
+            justifyContent="space-between"
+            alignItems="center"
+            gap={2}
+          >
+            <CustomButton
+              bodySize="medium"
+              color="black"
+              fontSize="small"
+              onClick={() => {}}
+              sx={{ pl: 2, pr: 3 }}
+            >
+              <AddIcon fontSize="small" />
+              <span>Create Group</span>
+            </CustomButton>
+          </Stack>
+        </ShadowContainer>
+      </Stack>
     </Stack>
   );
 }
