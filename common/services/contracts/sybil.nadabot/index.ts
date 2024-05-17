@@ -7,6 +7,11 @@ import {
   TWO_HUNDREDTHS_NEAR,
 } from "@nadabot/common/constants";
 
+import {
+  AddOrUpdateGroupInput,
+  GroupById,
+  GroupExternal,
+} from "./interfaces/groups";
 import { GetHumanScoreInput, HumanScoreResponse } from "./interfaces/is-human";
 import { Config } from "./interfaces/lib";
 import {
@@ -183,6 +188,22 @@ export const admin_flag_provider = (args: FlagProviderInput) =>
  * @returns
  */
 export const admin_unflag_provider = (args: UnflagProviderInput) =>
-  contractApi.call<typeof args, Provider>("admin_unflag_provider", {
-    args,
+  contractApi.call<typeof args, Provider>("admin_unflag_provider", { args });
+
+export const add_or_update_group = (args: AddOrUpdateGroupInput) =>
+  contractApi.call<typeof args, GroupExternal>("add_or_update_group", { args });
+
+export const delete_group = (args: GroupById) =>
+  contractApi.call<typeof args, void>("delete_group", { args });
+
+export const get_groups = () =>
+  contractApi.view<object, GroupExternal[]>("get_groups", undefined, {
+    useCache: true,
   });
+
+export const get_group = (args: GroupById) =>
+  contractApi.view<typeof args, GroupExternal | undefined>(
+    "get_group",
+    { args },
+    { useCache: true },
+  );

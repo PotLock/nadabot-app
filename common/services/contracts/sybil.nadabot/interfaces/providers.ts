@@ -1,3 +1,5 @@
+export type ProviderId = number;
+
 export enum ProviderStatus {
   Pending = "Pending",
   Active = "Active",
@@ -38,7 +40,7 @@ export interface Provider {
 
 export interface ProviderExternal {
   // Provider ID
-  id: number;
+  id: ProviderId;
   // Contract ID of the external contract that is the source of this provider
   contract_id: string;
   // Method name of the external contract that is the source of this provider
@@ -76,7 +78,7 @@ export interface ProviderExternal {
 }
 
 export interface ProviderById {
-  provider_id: number;
+  provider_id: ProviderId;
 }
 
 export type ProviderExternalWithIsHuman = ProviderExternal & {
