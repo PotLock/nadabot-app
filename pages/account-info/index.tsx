@@ -14,7 +14,7 @@ import colors from "@nadabot/common/ui/theme/colors";
 import insertIsHumanToProvider from "@nadabot/common/utils/insertIsHumanToProvider";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useViewStampURLQuery from "@nadabot/hooks/useViewStampURLQuery";
-import { StampCard } from "@nadabot/pages/_components/stamp/StampCard";
+import { StampCard } from "@nadabot/pages/_components/stamps/StampCard";
 
 export default function AccountInfoPage() {
   // Show ViewProviderDialog if the URL has `viewStamp` query

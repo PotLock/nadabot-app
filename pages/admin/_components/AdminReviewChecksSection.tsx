@@ -14,7 +14,7 @@ import colors from "@nadabot/common/ui/theme/colors";
 import { SearchIconA } from "@nadabot/common/ui/theme/icons";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
-import { StampCard } from "@nadabot/pages/_components/stamp/StampCard";
+import { StampCard } from "@nadabot/pages/_components/stamps/StampCard";
 
 type FilterType = "all" | "active" | "deactivated";
 

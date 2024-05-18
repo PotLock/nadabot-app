@@ -9,7 +9,7 @@ import CustomAvatar from "@nadabot/common/ui/components/CustomAvatar";
 import Tag from "@nadabot/common/ui/components/Tag";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import { StampAdminSettings } from "@nadabot/pages/_components/stamp/StampAdminSettings";
+import { StampAdminSettings } from "@nadabot/pages/_components/stamps/StampAdminSettings";
 
 type Props = {
   providerInfo?: ProviderExternal;

@@ -5,7 +5,7 @@ import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import useIsAdminPage from "@nadabot/hooks/useIsAdminPage";
-import { StampCard } from "@nadabot/pages/_components/stamp/StampCard";
+import { StampCard } from "@nadabot/pages/_components/stamps/StampCard";
 
 type Props = {
   providerInfo: ProviderExternal;

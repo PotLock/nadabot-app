@@ -15,7 +15,7 @@ import UploadImage from "@nadabot/common/ui/components/UploadImage";
 import colors from "@nadabot/common/ui/theme/colors";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import { StampCard } from "@nadabot/pages/_components/stamp/StampCard";
+import { StampCard } from "@nadabot/pages/_components/stamps/StampCard";
 
 import { StampAdminSettings } from "./StampAdminSettings";
 import { StampSettingsFormParameters, useStampForm } from "./stampForm";

@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-import { StampEditor } from "@nadabot/pages/_components/stamp/StampEditor";
+import { StampEditor } from "@nadabot/pages/_components/stamps/StampEditor";
 
 import StampPageLayout from "../layout";
 

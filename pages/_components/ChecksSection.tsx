@@ -15,7 +15,7 @@ import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 // import { Routes } from "@nadabot/common/constants";
 
-import StampsOverview from "./stamp/StampsOverview";
+import StampsOverview from "./stamps/StampsOverview";
 
 export default function ChecksSection() {
   // const router = useRouter();

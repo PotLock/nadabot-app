@@ -3,9 +3,9 @@ import { FC, createContext, useCallback, useState } from "react";
 import ConfirmVerificationDialog from "./ConfirmVerificationDialog";
 import ErrorDialog from "./ErrorDialog";
 import NoConnectedDialog from "./NoConnectedDialog";
-import { GroupDialog } from "../group/GroupDialog";
-import StampSentDialog from "../stamp/StampSentDialog";
-import ViewProviderDialog from "../stamp/ViewProviderDialog";
+import { GroupDialog } from "../groups/GroupDialog";
+import StampSentDialog from "../stamps/StampSentDialog";
+import ViewProviderDialog from "../stamps/ViewProviderDialog";
 import { DIALOGS, DialogProps } from "../types";
 
 type DialogParameters = {
