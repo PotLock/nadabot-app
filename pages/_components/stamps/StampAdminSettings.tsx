@@ -11,13 +11,10 @@ import Input from "@nadabot/common/ui/components/Input";
 import { Slider } from "@nadabot/common/ui/components/Slider";
 import colors from "@nadabot/common/ui/theme/colors";
 
-import {
-  StampAdminSettingsFormParameters,
-  useAdminSettingsForm,
-} from "./adminSettingsForm";
+import { StampAdminFormParameters, useStampAdminForm } from "./stampAdminForm";
 
 export type StampAdminSettingsProps = Pick<
-  StampAdminSettingsFormParameters,
+  StampAdminFormParameters,
   "disabled" | "providerInfo"
 > & {
   embedded?: boolean;
@@ -53,7 +50,7 @@ export const StampAdminSettings = ({
     onExpirySwitch,
     values,
     ...form
-  } = useAdminSettingsForm({
+  } = useStampAdminForm({
     isSubform,
     disabled,
     providerInfo,

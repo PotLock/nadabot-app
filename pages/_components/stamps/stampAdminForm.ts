@@ -19,17 +19,17 @@ export type StampAdminSettingsValues = Pick<
   stamp_validity_days: number;
 };
 
-export type StampAdminSettingsFormParameters = {
+export type StampAdminFormParameters = {
   isSubform?: boolean;
   disabled?: boolean;
   providerInfo: ProviderExternal;
 };
 
-export const useAdminSettingsForm = ({
+export const useStampAdminForm = ({
   isSubform = false,
   disabled,
   providerInfo,
-}: StampAdminSettingsFormParameters) => {
+}: StampAdminFormParameters) => {
   const isStampValiditySet = providerInfo.stamp_validity_ms !== null;
   const { updateProvider } = useProviders();
 
