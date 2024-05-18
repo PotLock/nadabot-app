@@ -1,39 +1,26 @@
 import { FC, createContext, useCallback, useState } from "react";
 
-import { ProviderId } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
-
 import ConfirmVerificationDialog from "./ConfirmVerificationDialog";
 import ErrorDialog from "./ErrorDialog";
-import { GroupDialog } from "./GroupDialog";
 import NoConnectedDialog from "./NoConnectedDialog";
-import StampSentDialog from "./StampSentDialog";
-import { DialogProps } from "./types";
-import ViewProviderDialog from "./ViewProviderDialog";
+import { GroupDialog } from "../group/GroupDialog";
+import StampSentDialog from "../stamp/StampSentDialog";
+import ViewProviderDialog from "../stamp/ViewProviderDialog";
+import { DIALOGS, DialogProps } from "../types";
 
-export enum DIALOGS {
-  None,
-  NoConnected,
-  StampSent,
-  Error,
-  ViewProvider,
-  ConfirmVerification,
-  GroupDialog,
-}
-
-type openDialogProps = {
+type DialogParameters = {
   dialog: DIALOGS;
   props?: DialogProps;
-  onClickOk?: () => void;
-  onClickCancel?: () => void;
+  onClickOk?: VoidFunction;
+  onClickCancel?: VoidFunction;
 };
 
-type DialogContextProps = {
-  openDialog: (props: openDialogProps) => void;
+export const DialogsContext = createContext<{
   currentDialog: DIALOGS;
-};
-
-export const DialogsContext = createContext<DialogContextProps>({
+  openDialog: (params: DialogParameters) => void;
+}>({
   currentDialog: DIALOGS.None,
+
   openDialog: () => {
     throw new Error("openDialog must be defined");
   },
@@ -51,22 +38,27 @@ const DialogsProvider: FC<DialogsProviderProps> = ({ children }) => {
   });
 
   // Dialog Props
-  const [title, setTitle] = useState<string>();
-  const [description, setDescription] = useState<string>();
-  const [providerId, setProviderId] = useState<ProviderId>();
+  const [title, setTitle] = useState<DialogProps["title"]>();
+  const [description, setDescription] = useState<DialogProps["description"]>();
+  const [providerId, setProviderId] = useState<DialogProps["providerId"]>();
+  const [groupId, setGroupId] = useState<DialogProps["groupId"]>();
 
-  const openDialog = useCallback((props: openDialogProps) => {
-    setOpenDialog({
-      _onClickOk: props.onClickOk ? props.onClickOk : () => {},
-      _onClickCancel: props.onClickCancel ? props.onClickCancel : () => {},
-      dialog: props.dialog,
-    });
+  const openDialog = useCallback(
+    ({ dialog, props, onClickOk, onClickCancel }: DialogParameters) => {
+      setOpenDialog({
+        _onClickOk: onClickOk ?? (() => {}),
+        _onClickCancel: onClickCancel ?? (() => {}),
+        dialog,
+      });
 
-    // Props
-    setTitle(props.props?.title || "");
-    setDescription(props.props?.description || "");
-    setProviderId(props.props?.providerId ?? 0);
-  }, []);
+      setTitle(props?.title ?? "");
+      setDescription(props?.description ?? "");
+      setProviderId(props?.providerId ?? 0);
+      setGroupId(props?.groupId ?? 0);
+    },
+
+    [],
+  );
 
   const closeDialog = useCallback(() => {
     setOpenDialog({
@@ -114,6 +106,7 @@ const DialogsProvider: FC<DialogsProviderProps> = ({ children }) => {
       <GroupDialog
         open={_openDialog.dialog === DIALOGS.GroupDialog}
         onClose={closeDialog}
+        {...{ groupId }}
       />
 
       {children}

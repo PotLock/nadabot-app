@@ -8,8 +8,7 @@ import {
 import { useCallback } from "react";
 
 import { walletApi } from "@nadabot/common/services/contracts";
-
-import CustomButton from "../../../common/ui/components/CustomButton";
+import CustomButton from "@nadabot/common/ui/components/CustomButton";
 
 type Props = {
   open: boolean;

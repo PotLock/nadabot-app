@@ -14,7 +14,8 @@ import { useConfig } from "@nadabot/hooks/store/useConfig";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useDialogs from "@nadabot/hooks/useDialogs";
 import useSpinner from "@nadabot/hooks/useSpinner";
-import { DIALOGS } from "@nadabot/pages/_components/dialogs";
+
+import { DIALOGS } from "../../_components/types";
 
 export default function AdminDashboardSection() {
   const { maxWidth962, maxWidth700 } = useBreakPoints();

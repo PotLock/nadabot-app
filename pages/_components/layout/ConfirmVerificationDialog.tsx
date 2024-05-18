@@ -23,7 +23,7 @@ import { CopyIcon } from "@nadabot/common/ui/theme/icons";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import useSnackbars from "@nadabot/hooks/useSnackbars";
 
-import { DialogProps } from "./types";
+import { DialogProps } from "../types";
 
 type Props = {
   open: boolean;

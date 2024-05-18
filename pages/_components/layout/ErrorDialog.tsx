@@ -9,7 +9,7 @@ import { useCallback } from "react";
 
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
 
-import { DialogProps } from "./types";
+import { DialogProps } from "../types";
 
 type Props = {
   open: boolean;

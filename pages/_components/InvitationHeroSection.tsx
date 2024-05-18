@@ -9,7 +9,8 @@ import colors from "@nadabot/common/ui/theme/colors";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useDialogs from "@nadabot/hooks/useDialogs";
 import useWeb3Auth from "@nadabot/hooks/useWeb3Auth";
-import { DIALOGS } from "@nadabot/pages/_components/dialogs";
+
+import { DIALOGS } from "./types";
 
 const textToTypographySlices = (props: {
   text: string;

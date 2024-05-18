@@ -7,7 +7,8 @@ import colors from "@nadabot/common/ui/theme/colors";
 import useDialogs from "@nadabot/hooks/useDialogs";
 import useTransactionDetection from "@nadabot/hooks/useTransactionDetection";
 import ProtectedPage from "@nadabot/pages/_components/auth/ProtectedPage";
-import { DIALOGS } from "@nadabot/pages/_components/dialogs";
+
+import { DIALOGS } from "../_components/types";
 
 export default function StampPageLayout({
   children,

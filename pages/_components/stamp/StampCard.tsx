@@ -25,7 +25,7 @@ import useDialogs from "@nadabot/hooks/useDialogs";
 import useProviderStatusChecker from "@nadabot/hooks/useProviderStatusChecker";
 import useSnackbars from "@nadabot/hooks/useSnackbars";
 import useSpinner from "@nadabot/hooks/useSpinner";
-import { DIALOGS } from "@nadabot/pages/_components/dialogs";
+import { DIALOGS } from "@nadabot/pages/_components/types";
 
 import { StampAdminSettings } from "./StampAdminSettings";
 

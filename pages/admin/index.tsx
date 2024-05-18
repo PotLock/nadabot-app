@@ -4,11 +4,11 @@ import { useRouter } from "next/router";
 import { Routes } from "@nadabot/common/constants";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import ProtectedPage from "@nadabot/pages/_components/auth/ProtectedPage";
-import InvitationHeroSection from "@nadabot/pages/_components/sections/InvitationHeroSection";
 
 import AdminChecksSection from "./_components/AdminChecksSection";
 import AdminDashboardSection from "./_components/AdminDashboardSection";
 import AdminReviewChecksSection from "./_components/AdminReviewChecksSection";
+import InvitationHeroSection from "../_components/InvitationHeroSection";
 
 export default function AdminHome() {
   const { isAdmin } = useUser();

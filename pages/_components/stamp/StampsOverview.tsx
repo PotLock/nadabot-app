@@ -7,7 +7,8 @@ import CustomCircularProgress from "@nadabot/common/ui/components/CustomCircular
 import GridContainer from "@nadabot/common/ui/components/GridContainer";
 import providerSorts from "@nadabot/common/utils/providerSorts";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
-import { StampCard } from "@nadabot/pages/_components/stamp/StampCard";
+
+import { StampCard } from "./StampCard";
 
 type Props = {
   inline?: boolean;
@@ -22,7 +23,7 @@ const fuseOptions = {
   keys: ["name", "contract_id", "submitted_by", "default_weight"],
 };
 
-export default function ContractsContainer({
+export default function StampsOverview({
   inline,
   searchPattern,
   showLoadingState,

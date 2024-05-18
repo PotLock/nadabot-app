@@ -13,7 +13,7 @@ import useGetProviderById from "@nadabot/hooks/useGetProviderById";
 import Description from "./Description";
 import Header from "./Header";
 import NextProviders from "./NextProviders";
-import { DialogProps } from "../types";
+import { DialogProps } from "../../types";
 
 type Props = {
   open: boolean;

@@ -15,7 +15,7 @@ import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 // import { Routes } from "@nadabot/common/constants";
 
-import ContractsContainer from "../stamp/ContractsContainer";
+import StampsOverview from "./stamp/StampsOverview";
 
 export default function ChecksSection() {
   // const router = useRouter();
@@ -75,7 +75,7 @@ export default function ChecksSection() {
             />
           )}
         </>
-        <ContractsContainer
+        <StampsOverview
           searchPattern={searchPattern}
           showLoadingState
           providersList={providers}

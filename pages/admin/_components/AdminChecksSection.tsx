@@ -2,7 +2,7 @@ import { Stack, Typography } from "@mui/material";
 
 import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import ContractsContainer from "@nadabot/pages/_components/stamp/ContractsContainer";
+import StampsOverview from "@nadabot/pages/_components/stamp/StampsOverview";
 
 export default function AdminChecksSection() {
   const { maxWidth805 } = useBreakPoints();
@@ -23,7 +23,7 @@ export default function AdminChecksSection() {
 
       {/* Checks Container */}
       <ShadowContainer sx={{ mt: 2 }}>
-        <ContractsContainer inline adminView />
+        <StampsOverview inline adminView />
       </ShadowContainer>
     </Stack>
   );

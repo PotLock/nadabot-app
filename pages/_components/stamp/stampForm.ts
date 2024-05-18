@@ -18,9 +18,9 @@ import { ProviderId } from "@nadabot/common/services/contracts/sybil.nadabot/int
 import * as pinataServices from "@nadabot/common/services/pinata";
 import useDialogs from "@nadabot/hooks/useDialogs";
 import useSpinner from "@nadabot/hooks/useSpinner";
-import { DIALOGS } from "@nadabot/pages/_components/dialogs";
+import { DIALOGS } from "@nadabot/pages/_components/types";
 
-import { stampSchema } from "./stampSchema";
+import { stampSchema } from "./model";
 
 export type StampSettingsFormValues = InferType<typeof stampSchema>;
 
