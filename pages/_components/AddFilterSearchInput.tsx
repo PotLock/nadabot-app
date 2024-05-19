@@ -1,10 +1,9 @@
 import { Box, Button, Stack } from "@mui/material";
 import React from "react";
 
-import { FilterIcon, SearchIconA } from "@nadabot/common/ui/theme/icons";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-
-import RegularInput from "./RegularInput";
+import RegularInput from "@nadabot/common/ui/components/RegularInput";
+import { FilterIcon, SearchIconA } from "@nadabot/common/ui/icons";
+import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
 
 type Props = {
   hideAddFilterButton?: boolean;

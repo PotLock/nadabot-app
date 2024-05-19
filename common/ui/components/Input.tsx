@@ -1,10 +1,10 @@
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { Stack, Typography } from "@mui/material";
 
+import colors from "@nadabot/common/ui/colors";
 import RegularInput, {
   RegularInputProps,
 } from "@nadabot/common/ui/components/RegularInput";
-import colors from "@nadabot/common/ui/theme/colors";
 
 type Props = Pick<
   RegularInputProps,
@@ -38,7 +38,7 @@ export default function Input({
   leftComponent,
   rightComponent,
   info,
-  optional,
+  optional = false,
   type,
   sx,
   disabled,

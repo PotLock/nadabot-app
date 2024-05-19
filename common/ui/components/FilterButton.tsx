@@ -2,7 +2,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import { Typography } from "@mui/material";
 import { CSSProperties } from "react";
 
-import colors from "@nadabot/common/ui/theme/colors";
+import colors from "@nadabot/common/ui/colors";
 
 type Props = {
   label: string;

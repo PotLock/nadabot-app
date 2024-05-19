@@ -4,12 +4,12 @@ import { useCallback, useState } from "react";
 import { add_stamp } from "@nadabot/common/services/contracts/sybil.nadabot";
 import { ProviderExternalWithIsHuman } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 import addMultipleStamps from "@nadabot/common/services/web3/addMultipleStamps";
+import colors from "@nadabot/common/ui/colors";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
-import colors from "@nadabot/common/ui/theme/colors";
-import { BellIcon } from "@nadabot/common/ui/theme/icons";
+import { BellIcon } from "@nadabot/common/ui/icons";
+import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
+import useSpinner from "@nadabot/common/ui/lib/useSpinner";
 import truncate from "@nadabot/common/utils/truncate";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import useSpinner from "@nadabot/hooks/useSpinner";
 
 type ItemProps = {
   providerInfo: ProviderExternalWithIsHuman;

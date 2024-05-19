@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import getDocumentResolution from "@nadabot/common/utils/getDocumentResolution";
 
 import ButtonContainer from "./ButtonContainer";
-import colors from "../theme/colors";
+import colors from "../colors";
 
 export type ContentRichModalProps = {
   open: boolean;

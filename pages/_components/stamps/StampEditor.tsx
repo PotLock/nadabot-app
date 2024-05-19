@@ -9,12 +9,12 @@ import {
 } from "@nadabot/common/constants";
 import { walletApi } from "@nadabot/common/services/contracts";
 import { ProviderStatus } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import colors from "@nadabot/common/ui/colors";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import Input from "@nadabot/common/ui/components/Input";
 import UploadImage from "@nadabot/common/ui/components/UploadImage";
-import colors from "@nadabot/common/ui/theme/colors";
+import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
 import { useUser } from "@nadabot/hooks/store/useUser";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import { StampCard } from "@nadabot/pages/_components/stamps/StampCard";
 
 import { StampAdminSettings } from "./StampAdminSettings";

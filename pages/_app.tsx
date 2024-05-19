@@ -11,9 +11,9 @@ import { Suspense } from "react";
 
 import SnackbarProvider from "@nadabot/common/contexts/SnackbarProvider";
 import { SpinnerProvider } from "@nadabot/common/contexts/SpinnerProvider";
-import Web3AuthProvider from "@nadabot/common/contexts/Web3AuthProvider";
-import { theme } from "@nadabot/common/ui/theme/theme";
+import { theme } from "@nadabot/common/ui/theme";
 
+import Web3AuthProvider from "./_components/auth/Web3AuthProvider";
 import DialogsProvider from "./_components/layout/DialogsProvider";
 import Footer from "./_components/layout/Footer";
 import NavBar from "./_components/layout/NavBar";

@@ -6,13 +6,13 @@ import { get_user_profile } from "@nadabot/common/services/contracts/social";
 import * as contract from "@nadabot/common/services/contracts/sybil.nadabot";
 import { HumanScoreResponse } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/is-human";
 import { StampExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/stamps";
+import colors from "@nadabot/common/ui/colors";
 import CustomAvatar from "@nadabot/common/ui/components/CustomAvatar";
 import CustomCircularProgress from "@nadabot/common/ui/components/CustomCircularProgress";
 import GridContainer from "@nadabot/common/ui/components/GridContainer";
 import Tag from "@nadabot/common/ui/components/Tag";
-import colors from "@nadabot/common/ui/theme/colors";
+import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
 import insertIsHumanToProvider from "@nadabot/common/utils/insertIsHumanToProvider";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useViewStampURLQuery from "@nadabot/hooks/useViewStampURLQuery";
 import { StampCard } from "@nadabot/pages/_components/stamps/StampCard";
 

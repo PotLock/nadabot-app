@@ -5,15 +5,15 @@ import { Stack, Typography } from "@mui/material";
 import { useCallback, useState } from "react";
 
 import * as contract from "@nadabot/common/services/contracts/sybil.nadabot";
+import colors from "@nadabot/common/ui/colors";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import Input from "@nadabot/common/ui/components/Input";
 import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
-import colors from "@nadabot/common/ui/theme/colors";
-import { ListDashboardIcon } from "@nadabot/common/ui/theme/icons";
+import { ListDashboardIcon } from "@nadabot/common/ui/icons";
+import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
+import useSpinner from "@nadabot/common/ui/lib/useSpinner";
 import { useConfig } from "@nadabot/hooks/store/useConfig";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useDialogs from "@nadabot/hooks/useDialogs";
-import useSpinner from "@nadabot/hooks/useSpinner";
 
 import { DIALOGS } from "../../_components/types";
 

@@ -9,19 +9,19 @@ import {
   ProviderExternalWithIsHuman,
   ProviderStatus,
 } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import colors from "@nadabot/common/ui/colors";
 import CustomAvatar from "@nadabot/common/ui/components/CustomAvatar";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import CustomCircularProgress from "@nadabot/common/ui/components/CustomCircularProgress";
 import Tag from "@nadabot/common/ui/components/Tag";
-import colors from "@nadabot/common/ui/theme/colors";
+import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
+import useSnackbars from "@nadabot/common/ui/lib/useSnackbars";
+import useSpinner from "@nadabot/common/ui/lib/useSpinner";
 import truncate from "@nadabot/common/utils/truncate";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
 import { useStamps } from "@nadabot/hooks/store/useStamps";
 import { useUser } from "@nadabot/hooks/store/useUser";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useProviderStatusChecker from "@nadabot/hooks/useProviderStatusChecker";
-import useSnackbars from "@nadabot/hooks/useSnackbars";
-import useSpinner from "@nadabot/hooks/useSpinner";
 
 type Props = {
   providerInfo?: ProviderExternalWithIsHuman;

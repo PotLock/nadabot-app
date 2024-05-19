@@ -5,14 +5,14 @@ import { useCallback, useEffect, useState } from "react";
 
 import { Routes } from "@nadabot/common/constants";
 import { ProviderExternalWithIsHuman } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import colors from "@nadabot/common/ui/colors";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import FilterButton from "@nadabot/common/ui/components/FilterButton";
 import GridContainer from "@nadabot/common/ui/components/GridContainer";
 import RegularInput from "@nadabot/common/ui/components/RegularInput";
 import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
-import colors from "@nadabot/common/ui/theme/colors";
-import { SearchIconA } from "@nadabot/common/ui/theme/icons";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import { SearchIconA } from "@nadabot/common/ui/icons";
+import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import { StampCard } from "@nadabot/pages/_components/stamps/StampCard";
 

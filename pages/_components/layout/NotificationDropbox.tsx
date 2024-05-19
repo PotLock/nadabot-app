@@ -2,10 +2,10 @@ import { Menu, Stack } from "@mui/material";
 import { createRef, useEffect, useState } from "react";
 
 import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
-import { BellIcon, BellNotificationIcon } from "@nadabot/common/ui/theme/icons";
+import { BellIcon, BellNotificationIcon } from "@nadabot/common/ui/icons";
+import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
 import providerSorts from "@nadabot/common/utils/providerSorts";
 import { useNotificationController } from "@nadabot/hooks/store/useNotificationController";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 
 import PendingVerification from "./PendingVerification";

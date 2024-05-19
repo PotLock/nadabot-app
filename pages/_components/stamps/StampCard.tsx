@@ -10,21 +10,21 @@ import {
   ProviderExternalWithIsHuman,
   ProviderStatus,
 } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import colors from "@nadabot/common/ui/colors";
 import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
 import CustomAvatar from "@nadabot/common/ui/components/CustomAvatar";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
-import colors from "@nadabot/common/ui/theme/colors";
+import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
+import useSnackbars from "@nadabot/common/ui/lib/useSnackbars";
+import useSpinner from "@nadabot/common/ui/lib/useSpinner";
 import removeViewStampFromURLQuery from "@nadabot/common/utils/removeViewStampFromURLQuery";
 import {
   daysSinceTimestamp,
   millisecondsToDays,
 } from "@nadabot/common/utils/time";
 import { useProviders } from "@nadabot/hooks/store/useProviders";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useDialogs from "@nadabot/hooks/useDialogs";
 import useProviderStatusChecker from "@nadabot/hooks/useProviderStatusChecker";
-import useSnackbars from "@nadabot/hooks/useSnackbars";
-import useSpinner from "@nadabot/hooks/useSpinner";
 import { DIALOGS } from "@nadabot/pages/_components/types";
 
 import { StampAdminSettings } from "./StampAdminSettings";

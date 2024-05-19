@@ -6,12 +6,12 @@ import {
   GroupExternal,
   GroupId,
 } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/groups";
+import colors from "@nadabot/common/ui/colors";
 import {
   ContentRichModal,
   ContentRichModalProps,
 } from "@nadabot/common/ui/components/ContentRichModal";
-import colors from "@nadabot/common/ui/theme/colors";
-import useSpinner from "@nadabot/hooks/useSpinner";
+import useSpinner from "@nadabot/common/ui/lib/useSpinner";
 
 import { GroupInfo } from "./GroupInfo";
 import { groupDefaults } from "./model";

@@ -1,7 +1,7 @@
 import { Box, Stack, SxProps, Theme } from "@mui/material";
 import { ChangeEvent, HTMLInputTypeAttribute, useMemo } from "react";
 
-import colors from "@nadabot/common/ui/theme/colors";
+import colors from "@nadabot/common/ui/colors";
 
 import CustomInput from "./CustomInput";
 

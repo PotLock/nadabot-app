@@ -16,12 +16,12 @@ import { useCallback, useEffect, useState } from "react";
 import NadabotLogo from "@nadabot/common/assets/icons/nadabot-logo";
 import { add_stamp } from "@nadabot/common/services/contracts/sybil.nadabot";
 import { ProviderExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import colors from "@nadabot/common/ui/colors";
 import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
-import colors from "@nadabot/common/ui/theme/colors";
-import { CopyIcon } from "@nadabot/common/ui/theme/icons";
+import { CopyIcon } from "@nadabot/common/ui/icons";
+import useSnackbars from "@nadabot/common/ui/lib/useSnackbars";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
-import useSnackbars from "@nadabot/hooks/useSnackbars";
 
 import { DialogProps } from "../types";
 

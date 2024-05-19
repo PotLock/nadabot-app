@@ -1,11 +1,11 @@
 import { Stack, Typography } from "@mui/material";
 
 import { ProviderExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
 import { useUser } from "@nadabot/hooks/store/useUser";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
-import useIsAdminPage from "@nadabot/hooks/useIsAdminPage";
 import { StampCard } from "@nadabot/pages/_components/stamps/StampCard";
+import useIsAdminPage from "@nadabot/pages/_lib/useIsAdminPage";
 
 type Props = {
   providerInfo: ProviderExternal;

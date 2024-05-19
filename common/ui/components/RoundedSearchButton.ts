@@ -1,6 +1,6 @@
 import { styled } from "@mui/system";
 
-import colors from "@nadabot/common/ui/theme/colors";
+import colors from "@nadabot/common/ui/colors";
 
 const RoundedSearchButton = styled("button")({
   cursor: "pointer",

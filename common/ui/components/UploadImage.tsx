@@ -3,8 +3,8 @@ import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
 
 import cameraUploadSvg from "@nadabot/common/assets/svgs/camera-upload.svg";
-import colors from "@nadabot/common/ui/theme/colors";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import colors from "@nadabot/common/ui/colors";
+import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
 
 import ButtonContainer from "./ButtonContainer";
 import Tag from "./Tag";

@@ -1,7 +1,7 @@
 import { Stack, SxProps, Theme, Typography } from "@mui/material";
 import React, { useCallback } from "react";
 
-import colors from "@nadabot/common/ui/theme/colors";
+import colors from "@nadabot/common/ui/colors";
 
 import ButtonContainer from "./ButtonContainer";
 

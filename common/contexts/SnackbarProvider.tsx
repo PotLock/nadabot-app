@@ -1,8 +1,8 @@
 import { Stack, Typography } from "@mui/material";
 import { FC, createContext, useCallback, useState } from "react";
 
+import colors from "@nadabot/common/ui/colors";
 import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
-import colors from "@nadabot/common/ui/theme/colors";
 
 type OpenSnackbarProps = {
   description: string;

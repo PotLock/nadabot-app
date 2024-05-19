@@ -1,6 +1,6 @@
 import { Box, SxProps, Theme } from "@mui/material";
 
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
 
 type Props = {
   children: React.ReactNode;

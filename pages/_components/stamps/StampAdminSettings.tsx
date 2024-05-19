@@ -6,10 +6,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useMemo } from "react";
 
+import colors from "@nadabot/common/ui/colors";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import Input from "@nadabot/common/ui/components/Input";
 import { Slider } from "@nadabot/common/ui/components/Slider";
-import colors from "@nadabot/common/ui/theme/colors";
 
 import { StampAdminFormParameters, useStampAdminForm } from "./stampAdminForm";
 

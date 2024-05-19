@@ -1,10 +1,10 @@
 import { useCallback, useEffect } from "react";
 
+import useWindowTabFocus from "@nadabot/common/ui/lib/useWindowTabFocus";
 import { DIALOGS } from "@nadabot/pages/_components/types";
 
 import useDialogs from "./useDialogs";
 import useProviderStatusChecker from "./useProviderStatusChecker";
-import useWindowTabFocus from "./useWindowTabFocus";
 
 /**
  * Detect when a provider in which the user "Got Checked" added the user as a human.

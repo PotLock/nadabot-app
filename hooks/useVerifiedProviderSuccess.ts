@@ -6,7 +6,7 @@ import { DIALOGS } from "@nadabot/pages/_components/types";
 
 import useDialogs from "./useDialogs";
 import useGetProviderById from "./useGetProviderById";
-import useSnackbars from "./useSnackbars";
+import useSnackbars from "../common/ui/lib/useSnackbars";
 
 /**
  * Check if there was an verified provider success, if so, show StampDialog with Verified button + Snackbar notification

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 
-import colors from "@nadabot/common/ui/theme/colors";
+import colors from "@nadabot/common/ui/colors";
 import useDialogs from "@nadabot/hooks/useDialogs";
 import useTransactionDetection from "@nadabot/hooks/useTransactionDetection";
 import ProtectedPage from "@nadabot/pages/_components/auth/ProtectedPage";

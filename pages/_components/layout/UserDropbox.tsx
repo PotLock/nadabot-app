@@ -5,14 +5,15 @@ import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
 import { NETWORK, Routes } from "@nadabot/common/constants";
+import colors from "@nadabot/common/ui/colors";
 import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
 import CustomAvatar from "@nadabot/common/ui/components/CustomAvatar";
-import colors from "@nadabot/common/ui/theme/colors";
+import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
+import useSpinner from "@nadabot/common/ui/lib/useSpinner";
 import truncate from "@nadabot/common/utils/truncate";
 import { useUser } from "@nadabot/hooks/store/useUser";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import useSpinner from "@nadabot/hooks/useSpinner";
-import useWeb3Auth from "@nadabot/hooks/useWeb3Auth";
+
+import useWeb3Auth from "../../_lib/useWeb3Auth";
 
 const UserDropbox = () => {
   const { accountId, profileInfo, isAdmin } = useUser();

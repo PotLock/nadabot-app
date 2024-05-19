@@ -11,7 +11,7 @@ import { isHumanCheck } from "@nadabot/common/services/web3/isHumanCheck";
 import { useProviders } from "./store/useProviders";
 import { useStamps } from "./store/useStamps";
 import { useUser } from "./store/useUser";
-import useIsAdminPage from "./useIsAdminPage";
+import useIsAdminPage from "../pages/_lib/useIsAdminPage";
 
 type Props = {
   skipProviderId?: ProviderId;

@@ -15,8 +15,8 @@ import { naxiosInstance } from "@nadabot/common/services/contracts";
 import * as sybilContract from "@nadabot/common/services/contracts/sybil.nadabot";
 import { ProviderId } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 import * as pinataServices from "@nadabot/common/services/pinata";
+import useSpinner from "@nadabot/common/ui/lib/useSpinner";
 import useDialogs from "@nadabot/hooks/useDialogs";
-import useSpinner from "@nadabot/hooks/useSpinner";
 import { DIALOGS } from "@nadabot/pages/_components/types";
 
 import { StampSchema, stampSchema } from "./model";

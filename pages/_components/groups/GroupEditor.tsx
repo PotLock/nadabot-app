@@ -1,11 +1,12 @@
-import { Stack, Typography } from "@mui/material";
+import { Select, Stack, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import { useMemo } from "react";
 
 import { GroupExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/groups";
+import colors from "@nadabot/common/ui/colors";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import Input from "@nadabot/common/ui/components/Input";
-import colors from "@nadabot/common/ui/theme/colors";
+import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
 
 import { GroupSchema, groupDefaults, groupSchema } from "./model";
 
@@ -14,6 +15,7 @@ export type GroupEditorProps = {
 };
 
 export const GroupEditor: React.FC<GroupEditorProps> = ({ data }) => {
+  const { maxWidth805 } = useBreakPoints();
   const isNew = data.id === 0;
 
   const [ruleType, ruleThreshold] = useMemo(() => {
@@ -53,8 +55,11 @@ export const GroupEditor: React.FC<GroupEditorProps> = ({ data }) => {
 
   const isDisabled = !isValid || !dirty;
 
+  const isRulePrimitive =
+    values.rule_type === "Highest" || values.rule_type === "Lowest";
+
   return (
-    <Stack gap={2} component="form" onSubmit={handleSubmit}>
+    <Stack gap={4} component="form" onSubmit={handleSubmit}>
       <Stack gap={2} direction="row" justifyContent="space-between">
         <Stack>
           <Typography fontSize={40} fontWeight={700} lineHeight="48px">
@@ -73,24 +78,39 @@ export const GroupEditor: React.FC<GroupEditorProps> = ({ data }) => {
         </Stack>
       </Stack>
 
-      <Stack direction="row">
+      <Stack
+        gap={maxWidth805 ? 4 : 2}
+        direction={maxWidth805 ? "column" : "row"}
+      >
         <Input
-          label="Group Name"
+          label="Group name"
           name="group_name"
+          type="text"
           defaultValue={values.group_name}
           onChange={handleChange}
+          sx={{ width: "100%" }}
+        />
+
+        <Select
+          label="Rule type"
+          name="rule_type"
+          variant="outlined"
+          sx={{ width: maxWidth805 ? "100%" : "45%" }}
         />
       </Stack>
 
-      <Input
-        label="Threshold Points"
-        name="rule_threshold"
-        type="number"
-        integersOnly
-        min={1}
-        defaultValue={values.rule_threshold ?? undefined}
-        onChange={handleChange}
-      />
+      {!isRulePrimitive && (
+        <Input
+          label="Threshold points"
+          name="rule_threshold"
+          type="number"
+          integersOnly
+          min={1}
+          defaultValue={values.rule_threshold ?? undefined}
+          optional={values.rule_type === "Sum"}
+          onChange={handleChange}
+        />
+      )}
     </Stack>
   );
 };

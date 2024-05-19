@@ -1,7 +1,7 @@
 import { Stack, Typography } from "@mui/material";
 
 import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
+import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
 import StampsOverview from "@nadabot/pages/_components/stamps/StampsOverview";
 
 export default function AdminChecksSection() {

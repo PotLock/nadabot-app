@@ -5,12 +5,12 @@ import { useCallback } from "react";
 import NadabotLogo from "@nadabot/common/assets/icons/nadabot-logo";
 import { Routes } from "@nadabot/common/constants";
 import { walletApi } from "@nadabot/common/services/contracts";
+import colors from "@nadabot/common/ui/colors";
 import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
 import Tag from "@nadabot/common/ui/components/Tag";
-import colors from "@nadabot/common/ui/theme/colors";
+import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
 import { useUser } from "@nadabot/hooks/store/useUser";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import useIsAdminPage from "@nadabot/hooks/useIsAdminPage";
+import useIsAdminPage from "@nadabot/pages/_lib/useIsAdminPage";
 
 import NotificationDropbox from "./NotificationDropbox";
 import UserDropbox from "./UserDropbox";

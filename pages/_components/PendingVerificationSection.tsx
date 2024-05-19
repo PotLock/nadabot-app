@@ -2,16 +2,16 @@ import { Stack, Typography } from "@mui/material";
 import { useCallback } from "react";
 
 import addMultipleStamps from "@nadabot/common/services/web3/addMultipleStamps";
+import colors from "@nadabot/common/ui/colors";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import CustomCircularProgress from "@nadabot/common/ui/components/CustomCircularProgress";
 import GridContainer from "@nadabot/common/ui/components/GridContainer";
 import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
-import colors from "@nadabot/common/ui/theme/colors";
+import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
+import useSpinner from "@nadabot/common/ui/lib/useSpinner";
 import providerSorts from "@nadabot/common/utils/providerSorts";
 import { useUser } from "@nadabot/hooks/store/useUser";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
-import useSpinner from "@nadabot/hooks/useSpinner";
 import { StampCard } from "@nadabot/pages/_components/stamps/StampCard";
 
 export default function PendingVerificationSection() {

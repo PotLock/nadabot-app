@@ -7,8 +7,8 @@ import * as contract from "@nadabot/common/services/contracts/sybil.nadabot";
 import { ProviderExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 import CustomAvatar from "@nadabot/common/ui/components/CustomAvatar";
 import Tag from "@nadabot/common/ui/components/Tag";
+import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
 import { useUser } from "@nadabot/hooks/store/useUser";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import { StampAdminSettings } from "@nadabot/pages/_components/stamps/StampAdminSettings";
 
 type Props = {
