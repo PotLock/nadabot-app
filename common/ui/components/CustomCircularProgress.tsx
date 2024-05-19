@@ -1,6 +1,6 @@
 import { CircularProgress, Stack, SxProps, Theme } from "@mui/material";
 
-import colors from "@nadabot/common/ui/colors";
+import colors from "../colors";
 
 type Props = {
   sx?: SxProps<Theme>;
