@@ -18,9 +18,9 @@ import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 import { StampCard } from "@nadabot/features/stamps/StampCard";
 
 import { StampAdminSettings } from "./StampAdminSettings";
-import { StampSettingsFormParameters, useStampForm } from "./stampForm";
+import { StampFormParameters, useStampForm } from "./stampForm";
 
-export type StampEditorProps = StampSettingsFormParameters & {};
+export type StampEditorProps = StampFormParameters & {};
 
 export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
   const isNew = typeof id !== "number";

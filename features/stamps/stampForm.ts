@@ -20,11 +20,11 @@ import useSpinner from "@nadabot/common/ui/utils/useSpinner";
 
 import { StampSchema, stampSchema } from "./model";
 
-export type StampSettingsFormParameters = {
+export type StampFormParameters = {
   id?: ProviderId;
 };
 
-export const useStampForm = ({ id }: StampSettingsFormParameters) => {
+export const useStampForm = ({ id }: StampFormParameters) => {
   const isNew = typeof id !== "number";
   const { showSpinner, hideSpinner } = useSpinner();
   const { openDialog } = useDialogs();
