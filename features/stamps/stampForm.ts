@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useFilePicker } from "use-file-picker";
 import {
   FileAmountLimitValidator,
@@ -28,6 +28,7 @@ export const useStampForm = ({ id }: StampSettingsFormParameters) => {
   const isNew = typeof id !== "number";
   const { showSpinner, hideSpinner } = useSpinner();
   const { openDialog } = useDialogs();
+  const [iconFileCID, setIconFileCID] = useState<string | null>(null);
 
   const { openFilePicker: onImagePickerClick, filesContent } = useFilePicker({
     readAs: "DataURL",
@@ -67,6 +68,7 @@ export const useStampForm = ({ id }: StampSettingsFormParameters) => {
 
     onSubmit: async (
       {
+        icon_url,
         provider_name,
         description,
         contract_id,
@@ -117,22 +119,21 @@ export const useStampForm = ({ id }: StampSettingsFormParameters) => {
         return;
       }
 
+      // 2 - Upload image and get its CID
       // TODO: Upload the image only if `imagePickerValue` !== undefined
-      console.log(imagePickerValue);
 
-      // 2 - Upload the image
-      // Upload image and get its CID
-      const iconImageCID = await pinataServices.uploadFile(imagePickerValue);
+      if (typeof imagePickerValue === "string") {
+        const fileCID = await pinataServices.uploadFile(imagePickerValue);
 
-      if (!iconImageCID) {
-        // Validate image upload
-        setFieldError(
-          "icon_url",
-          "There was an issue while trying to upload the image!",
-        );
+        if (fileCID === undefined) {
+          setFieldError(
+            "icon_url",
+            "There was an issue while trying to upload the image!",
+          );
 
-        hideSpinner();
-        return;
+          hideSpinner();
+          return;
+        } else setIconFileCID(fileCID);
       }
 
       const validatedGas = (gas && gas > MAX_GAS ? MAX_GAS : gas) ?? 0;
@@ -141,6 +142,12 @@ export const useStampForm = ({ id }: StampSettingsFormParameters) => {
       const providerGas =
         validatedGas > 0 ? validatedGas * 10 ** 12 : undefined;
 
+      const iconUrl =
+        typeof iconFileCID === "string"
+          ? pinataServices.buildFileURL(iconFileCID)
+          : icon_url;
+
+      // 3 - Register / Update provider
       const txResult = isNew
         ? sybilContract.register_provider({
             provider_name,
@@ -149,7 +156,7 @@ export const useStampForm = ({ id }: StampSettingsFormParameters) => {
             method_name,
             contract_id,
             gas: providerGas,
-            icon_url: pinataServices.buildFileURL(iconImageCID),
+            icon_url: iconUrl,
             external_url,
             custom_args,
           })
@@ -159,16 +166,14 @@ export const useStampForm = ({ id }: StampSettingsFormParameters) => {
             description,
             account_id_arg_name,
             gas: providerGas,
-            icon_url: pinataServices.buildFileURL(iconImageCID),
+            icon_url: iconUrl,
             external_url,
             custom_args,
           });
 
-      // 3 - Register Stamp/Check
       txResult
         .then(() => {
           hideSpinner();
-
           // 4 - Show DONE Dialog -> this is going to take user to HOME page
           openDialog({ dialog: DIALOGS.StampSent });
         })
@@ -180,11 +185,7 @@ export const useStampForm = ({ id }: StampSettingsFormParameters) => {
 
           openDialog({
             dialog: DIALOGS.Error,
-
-            props: {
-              title: "Error",
-              description: errorMsg,
-            },
+            props: { title: "Error", description: errorMsg },
           });
         });
     },
