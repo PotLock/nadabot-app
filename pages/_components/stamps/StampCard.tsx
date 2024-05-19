@@ -162,7 +162,7 @@ export const StampCard: React.FC<StampCardProps> = ({
   /**
    * Open up the View Provider Dialog
    */
-  const openViewProviderDialog = useCallback(() => {
+  const openStampDialog = useCallback(() => {
     openDialog({
       dialog: DIALOGS.ViewProvider,
       props: { providerId: providerInfo.id },
@@ -223,7 +223,7 @@ export const StampCard: React.FC<StampCardProps> = ({
       <Stack px={2} pt={2} minHeight={isAdmin ? 200 : 280}>
         <Stack direction="row" justifyContent="space-between">
           {/* Circle */}
-          <ButtonContainer onClick={openViewProviderDialog}>
+          <ButtonContainer onClick={openStampDialog}>
             <Box
               bgcolor={"rgba(0, 0,0,.2)"}
               width={80}
@@ -253,7 +253,7 @@ export const StampCard: React.FC<StampCardProps> = ({
         </Stack>
 
         {/* Contract Name */}
-        <ButtonContainer onClick={openViewProviderDialog}>
+        <ButtonContainer onClick={openStampDialog}>
           <Typography
             textAlign="left"
             fontWeight={600}
@@ -267,7 +267,7 @@ export const StampCard: React.FC<StampCardProps> = ({
         </ButtonContainer>
 
         {/* Contract's accountId and Method */}
-        <ButtonContainer onClick={openViewProviderDialog}>
+        <ButtonContainer onClick={openStampDialog}>
           <Stack direction="row" alignItems="center">
             <Typography
               textAlign="left"
@@ -292,7 +292,7 @@ export const StampCard: React.FC<StampCardProps> = ({
         </ButtonContainer>
 
         {/* Description */}
-        <ButtonContainer onClick={openViewProviderDialog}>
+        <ButtonContainer onClick={openStampDialog}>
           <Typography
             color={colors.PRIMARY}
             textAlign="left"

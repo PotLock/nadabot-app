@@ -13,16 +13,17 @@ import {
 import colors from "@nadabot/common/ui/theme/colors";
 import useSpinner from "@nadabot/hooks/useSpinner";
 
-import { GroupOverview } from "./GroupOverview";
+import { GroupInfo } from "./GroupInfo";
+import { groupDefaults } from "./model";
 
-export type GroupOverviewDialogProps = Pick<
+export type GroupInfoDialogProps = Pick<
   ContentRichModalProps,
   "open" | "onClose"
 > & {
   groupId?: GroupId;
 };
 
-export const GroupDialog: React.FC<GroupOverviewDialogProps> = ({
+export const GroupDialog: React.FC<GroupInfoDialogProps> = ({
   groupId,
   ...props
 }) => {
@@ -37,7 +38,12 @@ export const GroupDialog: React.FC<GroupOverviewDialogProps> = ({
     setLoading(true);
 
     if (isNew) {
-      setData();
+      setData({
+        id: 0,
+        name: "",
+        providers: [],
+        rule: groupDefaults.rule_type,
+      });
     } else {
       get_group({ group_id: groupId })
         .then((response) => {
@@ -53,8 +59,10 @@ export const GroupDialog: React.FC<GroupOverviewDialogProps> = ({
 
   useEffect(() => {
     if (error !== null) console.error(error);
-    if (loading) showSpinner();
-    else hideSpinner();
+
+    if (loading) {
+      showSpinner();
+    } else hideSpinner();
   }, [error, hideSpinner, loading, showSpinner]);
 
   return loading ? null : (
@@ -65,7 +73,7 @@ export const GroupDialog: React.FC<GroupOverviewDialogProps> = ({
         </Stack>
       )}
 
-      {data !== null && <GroupOverview {...{ data }} />}
+      {data !== null && <GroupInfo {...{ data }} />}
     </ContentRichModal>
   );
 };

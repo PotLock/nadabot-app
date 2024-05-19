@@ -35,6 +35,7 @@ export const ContentRichModal: React.FC<ContentRichModalProps> = ({
       px={4}
     >
       <Stack
+        gap={1}
         mt={4}
         borderRadius="24px"
         p={4}

@@ -9,7 +9,7 @@ import useGetProviderById from "./useGetProviderById";
 import useSnackbars from "./useSnackbars";
 
 /**
- * Check if there was an verified provider success, if so, show ViewProviderDialog with Verified button + Snackbar notification
+ * Check if there was an verified provider success, if so, show StampDialog with Verified button + Snackbar notification
  */
 const useVerifiedProviderSuccess = () => {
   const router = useRouter();

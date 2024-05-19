@@ -4,8 +4,8 @@ import ConfirmVerificationDialog from "./ConfirmVerificationDialog";
 import ErrorDialog from "./ErrorDialog";
 import NoConnectedDialog from "./NoConnectedDialog";
 import { GroupDialog } from "../groups/GroupDialog";
+import StampDialog from "../stamps/StampDialog";
 import StampSentDialog from "../stamps/StampSentDialog";
-import ViewProviderDialog from "../stamps/ViewProviderDialog";
 import { DIALOGS, DialogProps } from "../types";
 
 type DialogParameters = {
@@ -54,7 +54,7 @@ const DialogsProvider: FC<DialogsProviderProps> = ({ children }) => {
       setTitle(props?.title ?? "");
       setDescription(props?.description ?? "");
       setProviderId(props?.providerId ?? 0);
-      setGroupId(props?.groupId ?? 0);
+      setGroupId(props?.groupId);
     },
 
     [],
@@ -96,7 +96,7 @@ const DialogsProvider: FC<DialogsProviderProps> = ({ children }) => {
 
       {/* This is needed because it's a custom modal, not one created using MUI */}
       {_openDialog.dialog === DIALOGS.ViewProvider && (
-        <ViewProviderDialog
+        <StampDialog
           open={_openDialog.dialog === DIALOGS.ViewProvider}
           onClose={closeDialog}
           props={{ title, description, providerId }}

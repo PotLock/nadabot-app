@@ -64,7 +64,7 @@ export default function CustomButton({
       color={colors[color]}
       sx={{
         fontSize: fontSizes[fontSize ?? "small"],
-        height: bodySizes[bodySize ?? "small"],
+        height: bodySizes[bodySize ?? "medium"],
         ...sx,
       }}
       {...props}

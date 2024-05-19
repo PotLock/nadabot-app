@@ -17,7 +17,7 @@ import useViewStampURLQuery from "@nadabot/hooks/useViewStampURLQuery";
 import { StampCard } from "@nadabot/pages/_components/stamps/StampCard";
 
 export default function AccountInfoPage() {
-  // Show ViewProviderDialog if the URL has `viewStamp` query
+  // Show StampDialog if the URL has `viewStamp` query
   useViewStampURLQuery();
 
   const { maxWidth805, maxWidth600 } = useBreakPoints();

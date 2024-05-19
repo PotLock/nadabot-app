@@ -6,7 +6,7 @@ import { DIALOGS } from "@nadabot/pages/_components/types";
 import useDialogs from "./useDialogs";
 
 /**
- * Open up the ViewProviderDialog with the required provider_id if "viewStamp=<provider_id>" query is set on URL
+ * Open up the StampDialog with the required provider_id if "viewStamp=<provider_id>" query is set on URL
  */
 const useViewStampURLQuery = () => {
   const router = useRouter();

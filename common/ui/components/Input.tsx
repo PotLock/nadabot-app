@@ -52,7 +52,7 @@ export default function Input({
   max,
 }: Props) {
   return (
-    <Stack gap={1} sx={sx}>
+    <Stack gap={0.5} sx={sx}>
       {(label || labelDecoration) && (
         <Stack direction="row" gap={0.5} alignItems="center">
           <Stack direction="row" gap={0.5}>
@@ -60,7 +60,7 @@ export default function Input({
               <>
                 <Typography
                   color={colors.NEUTRAL950}
-                  fontWeight={500}
+                  fontWeight={600}
                   fontSize={16}
                   noWrap
                   sx={{ opacity: disabled ? 0.5 : 1 }}

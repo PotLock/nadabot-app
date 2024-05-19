@@ -12,9 +12,9 @@ import ExploreSection from "./_components/ExploreSection";
 import PendingVerificationSection from "./_components/PendingVerificationSection";
 
 export default function Home() {
-  // Show ViewProviderDialog with Verified button + Snackbar notification if user comes back from a `add_stamp` tx
+  // Show StampDialog with Verified button + Snackbar notification if user comes back from a `add_stamp` tx
   useVerifiedProviderSuccess();
-  // Show ViewProviderDialog if the URL has `viewStamp` query
+  // Show StampDialog if the URL has `viewStamp` query
   useViewStampURLQuery();
   // Detect when a provider in which the user "Got Checked" added the user as a human.
   useCheckPendingVerification();

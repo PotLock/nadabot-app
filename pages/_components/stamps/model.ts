@@ -1,4 +1,4 @@
-import { number, object, string } from "yup";
+import { InferType, number, object, string } from "yup";
 
 import {
   MAX_PROVIDER_DESCRIPTION_LENGTH,
@@ -61,3 +61,5 @@ export const stampSchema = object().shape({
 
   stamp_validity_ms: number().min(0).nullable().optional(),
 });
+
+export type StampSchema = InferType<typeof stampSchema>;

@@ -6,7 +6,6 @@ import {
   FileSizeValidator,
   FileTypeValidator,
 } from "use-file-picker/validators";
-import { InferType } from "yup";
 
 import {
   DEFAULT_ACCOUNT_ID_ARG_NAME,
@@ -20,9 +19,7 @@ import useDialogs from "@nadabot/hooks/useDialogs";
 import useSpinner from "@nadabot/hooks/useSpinner";
 import { DIALOGS } from "@nadabot/pages/_components/types";
 
-import { stampSchema } from "./model";
-
-export type StampSettingsFormValues = InferType<typeof stampSchema>;
+import { StampSchema, stampSchema } from "./model";
 
 export type StampSettingsFormParameters = {
   id?: ProviderId;
@@ -54,7 +51,7 @@ export const useStampForm = ({ id }: StampSettingsFormParameters) => {
     setFieldValue,
     setValues,
     ...form
-  } = useFormik<StampSettingsFormValues>({
+  } = useFormik<StampSchema>({
     validateOnChange: false,
     validationSchema: stampSchema,
 

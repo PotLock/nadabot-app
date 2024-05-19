@@ -15,13 +15,17 @@ import Header from "./Header";
 import NextProviders from "./NextProviders";
 import { DialogProps } from "../../types";
 
-type Props = {
+export type StampDialogProps = {
   open: boolean;
   onClose: () => void;
   props?: DialogProps;
 };
 
-export default function ViewProviderDialog({ open, onClose, props }: Props) {
+export default function StampDialog({
+  open,
+  onClose,
+  props,
+}: StampDialogProps) {
   const providerInfo = useGetProviderById(props?.providerId);
   const router = useRouter();
 
