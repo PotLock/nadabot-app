@@ -141,7 +141,7 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
   // Logout handler
   useEffect(() => {
     const signedOutHandler = () => {
-      localStorage.removeItem(PROVIDER_STATUS_CHECKER_KEY);
+      localStorage?.removeItem(PROVIDER_STATUS_CHECKER_KEY);
       setIsConnected(false);
       resetUser();
       resetAdmins();
