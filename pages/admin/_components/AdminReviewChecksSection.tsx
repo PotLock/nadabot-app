@@ -12,9 +12,9 @@ import GridContainer from "@nadabot/common/ui/components/GridContainer";
 import RegularInput from "@nadabot/common/ui/components/RegularInput";
 import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
 import { SearchIconA } from "@nadabot/common/ui/icons";
-import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
+import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
+import { StampCard } from "@nadabot/features/stamps/StampCard";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
-import { StampCard } from "@nadabot/pages/_components/stamps/StampCard";
 
 type FilterType = "all" | "active" | "deactivated";
 

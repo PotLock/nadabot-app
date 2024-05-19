@@ -1,4 +1,4 @@
-import { StampEditor } from "@nadabot/pages/_components/stamps/StampEditor";
+import { StampEditor } from "@nadabot/features/stamps/StampEditor";
 
 import StampPageLayout from "./layout";
 

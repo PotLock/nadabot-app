@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import useSpinner from "@nadabot/common/ui/lib/useSpinner";
+import useSpinner from "@nadabot/common/ui/utils/useSpinner";
 
 type Props = {
   redirectTo?: string;

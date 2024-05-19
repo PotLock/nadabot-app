@@ -3,7 +3,7 @@ import React from "react";
 
 import RegularInput from "@nadabot/common/ui/components/RegularInput";
 import { FilterIcon, SearchIconA } from "@nadabot/common/ui/icons";
-import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
+import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 
 type Props = {
   hideAddFilterButton?: boolean;

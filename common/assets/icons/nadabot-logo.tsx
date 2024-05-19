@@ -1,7 +1,7 @@
 import { Stack } from "@mui/material";
 import Image from "next/image";
 
-import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
+import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 
 import nadabotIcon from "../images/nadabot-icon.png";
 

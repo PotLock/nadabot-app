@@ -1,9 +1,8 @@
 import { useCallback, useEffect } from "react";
 
-import useWindowTabFocus from "@nadabot/common/ui/lib/useWindowTabFocus";
-import { DIALOGS } from "@nadabot/pages/_components/types";
+import { DIALOGS, useDialogs } from "@nadabot/common/contexts/dialogs";
+import useWindowTabFocus from "@nadabot/common/ui/utils/useWindowTabFocus";
 
-import useDialogs from "./useDialogs";
 import useProviderStatusChecker from "./useProviderStatusChecker";
 
 /**

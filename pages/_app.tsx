@@ -12,11 +12,11 @@ import { Suspense } from "react";
 import SnackbarProvider from "@nadabot/common/contexts/SnackbarProvider";
 import { SpinnerProvider } from "@nadabot/common/contexts/SpinnerProvider";
 import { theme } from "@nadabot/common/ui/theme";
+import Web3AuthProvider from "@nadabot/features/auth/Web3AuthProvider";
 
-import Web3AuthProvider from "./_components/auth/Web3AuthProvider";
-import DialogsProvider from "./_components/layout/DialogsProvider";
-import Footer from "./_components/layout/Footer";
-import NavBar from "./_components/layout/NavBar";
+import DialogsProvider from "./_layout/DialogsProvider";
+import Footer from "./_layout/Footer";
+import NavBar from "./_layout/NavBar";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

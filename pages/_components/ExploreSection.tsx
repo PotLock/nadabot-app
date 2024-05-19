@@ -1,8 +1,8 @@
 import { Stack, Typography } from "@mui/material";
 
+import { useUser } from "@nadabot/common/store/useUser";
 import colors from "@nadabot/common/ui/colors";
-import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
-import { useUser } from "@nadabot/hooks/store/useUser";
+import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 
 import MyHumanityScore from "./MyHumanityScore";
 import RecentChecks from "./RecentChecks";

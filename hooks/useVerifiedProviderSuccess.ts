@@ -1,12 +1,11 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+import { DIALOGS, useDialogs } from "@nadabot/common/contexts/dialogs";
 import { ProviderId } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
-import { DIALOGS } from "@nadabot/pages/_components/types";
 
-import useDialogs from "./useDialogs";
 import useGetProviderById from "./useGetProviderById";
-import useSnackbars from "../common/ui/lib/useSnackbars";
+import useSnackbars from "../common/ui/utils/useSnackbars";
 
 /**
  * Check if there was an verified provider success, if so, show StampDialog with Verified button + Snackbar notification

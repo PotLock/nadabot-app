@@ -4,18 +4,16 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { Stack, Typography } from "@mui/material";
 import { useCallback, useState } from "react";
 
+import { DIALOGS, useDialogs } from "@nadabot/common/contexts/dialogs";
 import * as contract from "@nadabot/common/services/contracts/sybil.nadabot";
+import { useConfig } from "@nadabot/common/store/useConfig";
 import colors from "@nadabot/common/ui/colors";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import Input from "@nadabot/common/ui/components/Input";
 import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
 import { ListDashboardIcon } from "@nadabot/common/ui/icons";
-import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
-import useSpinner from "@nadabot/common/ui/lib/useSpinner";
-import { useConfig } from "@nadabot/hooks/store/useConfig";
-import useDialogs from "@nadabot/hooks/useDialogs";
-
-import { DIALOGS } from "../../_components/types";
+import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
+import useSpinner from "@nadabot/common/ui/utils/useSpinner";
 
 export default function AdminDashboardSection() {
   const { maxWidth962, maxWidth700 } = useBreakPoints();

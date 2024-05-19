@@ -1,17 +1,16 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { DEFAULT_ACCOUNT_ID_ARG_NAME } from "@nadabot/common/constants";
+import useIsAdminPage from "@nadabot/common/lib/useIsAdminPage";
 import {
   ProviderExternalWithIsHuman,
   ProviderId,
   ProviderStatus,
 } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 import { isHumanCheck } from "@nadabot/common/services/web3/isHumanCheck";
-
-import { useProviders } from "./store/useProviders";
-import { useStamps } from "./store/useStamps";
-import { useUser } from "./store/useUser";
-import useIsAdminPage from "../pages/_lib/useIsAdminPage";
+import { useProviders } from "@nadabot/common/store/useProviders";
+import { useStamps } from "@nadabot/common/store/useStamps";
+import { useUser } from "@nadabot/common/store/useUser";
 
 type Props = {
   skipProviderId?: ProviderId;

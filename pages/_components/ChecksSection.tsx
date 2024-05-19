@@ -6,16 +6,16 @@ import {
 } from "react";
 
 // import CustomButton from "@nadabot/common/ui/components/CustomButton";
+import providerSorts from "@nadabot/common/lib/providerSorts";
+import { useUser } from "@nadabot/common/store/useUser";
 import colors from "@nadabot/common/ui/colors";
 import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
-import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
-import providerSorts from "@nadabot/common/utils/providerSorts";
-import { useUser } from "@nadabot/hooks/store/useUser";
+import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 // import { Routes } from "@nadabot/common/constants";
 
 import { AddFilterSearchInput } from "./AddFilterSearchInput";
-import StampsOverview from "./stamps/StampsOverview";
+import StampsOverview from "../../features/stamps/StampsOverview";
 
 export default function ChecksSection() {
   // const router = useRouter();

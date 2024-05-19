@@ -2,7 +2,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Stack } from "@mui/material";
 import { useEffect } from "react";
 
-import getDocumentResolution from "@nadabot/common/utils/getDocumentResolution";
+import getDocumentResolution from "@nadabot/common/lib/getDocumentResolution";
 
 import ButtonContainer from "./ButtonContainer";
 import colors from "../colors";

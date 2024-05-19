@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 
-import { useUser } from "@nadabot/hooks/store/useUser";
+import { useUser } from "@nadabot/common/store/useUser";
 import useCheckPendingVerification from "@nadabot/hooks/useCheckPendingVerification";
 import useVerifiedProviderSuccess from "@nadabot/hooks/useVerifiedProviderSuccess";
 import useViewStampURLQuery from "@nadabot/hooks/useViewStampURLQuery";

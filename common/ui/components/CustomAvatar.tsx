@@ -1,9 +1,9 @@
 import { Avatar, SxProps, Theme } from "@mui/material";
 import { useEffect, useState } from "react";
 
+import getNearSocialProfileAvatarImage from "@nadabot/common/lib/getNearSocialProfileAvatarImage";
 import { get_user_profile } from "@nadabot/common/services/contracts/social";
 import colors from "@nadabot/common/ui/colors";
-import getNearSocialProfileAvatarImage from "@nadabot/common/utils/getNearSocialProfileAvatarImage";
 
 type Props = {
   accountId?: string;

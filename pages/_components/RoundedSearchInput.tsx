@@ -7,8 +7,8 @@ import * as contract from "@nadabot/common/services/contracts/sybil.nadabot";
 import { HumanScoreResponse } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/is-human";
 import colors from "@nadabot/common/ui/colors";
 import { SearchIconA, SearchIconB } from "@nadabot/common/ui/icons";
-import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
-import useSpinner from "@nadabot/common/ui/lib/useSpinner";
+import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
+import useSpinner from "@nadabot/common/ui/utils/useSpinner";
 
 import ButtonContainer from "../../common/ui/components/ButtonContainer";
 import CustomAvatar from "../../common/ui/components/CustomAvatar";

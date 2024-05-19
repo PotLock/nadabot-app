@@ -3,12 +3,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 
+import { DIALOGS, useDialogs } from "@nadabot/common/contexts/dialogs";
 import colors from "@nadabot/common/ui/colors";
-import useDialogs from "@nadabot/hooks/useDialogs";
+import ProtectedPage from "@nadabot/features/auth/ProtectedPage";
 import useTransactionDetection from "@nadabot/hooks/useTransactionDetection";
-import ProtectedPage from "@nadabot/pages/_components/auth/ProtectedPage";
-
-import { DIALOGS } from "../_components/types";
 
 export default function StampPageLayout({
   children,

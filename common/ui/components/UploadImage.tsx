@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import cameraUploadSvg from "@nadabot/common/assets/svgs/camera-upload.svg";
 import colors from "@nadabot/common/ui/colors";
-import useBreakPoints from "@nadabot/common/ui/lib/useBreakPoints";
+import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 
 import ButtonContainer from "./ButtonContainer";
 import Tag from "./Tag";
