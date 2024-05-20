@@ -1,3 +1,4 @@
+import ErrorRoundedIcon from "@mui/icons-material/ErrorRounded";
 import { Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
@@ -51,7 +52,7 @@ export const GroupEditor: React.FC<GroupEditorProps> = ({ data }) => {
           </Stack>
 
           <Stack>
-            <CustomButton type="submit" disabled={isDisabled}>
+            <CustomButton type="submit" color="blue" disabled={isDisabled}>
               Create Group
             </CustomButton>
           </Stack>
@@ -104,14 +105,29 @@ export const GroupEditor: React.FC<GroupEditorProps> = ({ data }) => {
       )}
 
       <Stack gap={0.5}>
-        <Typography
-          color={colors.NEUTRAL950}
-          fontWeight={600}
-          fontSize={16}
-          noWrap
-        >
-          Select checks
-        </Typography>
+        <Stack gap={2} direction="row">
+          <Typography
+            color={colors.NEUTRAL950}
+            fontWeight={600}
+            fontSize={16}
+            noWrap
+          >
+            Select checks
+          </Typography>
+
+          {(errors.providers?.length ?? 0) > 0 && (
+            <Stack gap={0.5} direction="row" alignItems="center">
+              <ErrorRoundedIcon
+                fontSize="small"
+                sx={{ color: colors.ERROR_RED }}
+              />
+
+              <Typography color={colors.ERROR_RED} fontSize={16}>
+                {errors.providers}
+              </Typography>
+            </Stack>
+          )}
+        </Stack>
 
         <ShadowContainer>
           {availableProviders.length > 0 && (
