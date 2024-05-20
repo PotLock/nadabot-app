@@ -17,6 +17,7 @@
     "Snackbars",
     "Unflag",
     "wpdas",
-    "zustand"
+    "zustand",
+    "uuidv4"
   ]
 }
