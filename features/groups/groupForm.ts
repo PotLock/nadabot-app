@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 import { GroupExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/groups";
 
@@ -47,6 +47,11 @@ export const useGroupForm = ({ data }: GroupFormParameters) => {
 
   const isRulePrimitive =
     values.rule_type === "Highest" || values.rule_type === "Lowest";
+
+  useEffect(
+    () => Object.values(form.errors).forEach(console.error),
+    [form.errors],
+  );
 
   return { ...form, isDisabled, isRulePrimitive, values };
 };

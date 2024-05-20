@@ -1,17 +1,29 @@
-import { Select, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
+import { useState } from "react";
 
+import providerSorts from "@nadabot/common/lib/providerSorts";
 import colors from "@nadabot/common/ui/colors";
+import { AddFilterSearchInput } from "@nadabot/common/ui/components/AddFilterSearchInput";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import Input from "@nadabot/common/ui/components/Input";
+import { Select } from "@nadabot/common/ui/components/Select";
+import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
+import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 
 import { GroupFormParameters, useGroupForm } from "./groupForm";
+import StampsOverview from "../stamps/StampsOverview";
 
 export type GroupEditorProps = GroupFormParameters & {};
 
 export const GroupEditor: React.FC<GroupEditorProps> = ({ data }) => {
-  const { maxWidth805 } = useBreakPoints();
   const isNew = data.id === 0;
+  const { maxWidth805 } = useBreakPoints();
+  const [providerSearchPattern, setProviderSearchPattern] = useState("");
+
+  const { all: availableProviders } = useFilteredProviders({
+    sortMethod: providerSorts.higherWeightFirst,
+  });
 
   const { handleChange, handleSubmit, isDisabled, isRulePrimitive, values } =
     useGroupForm({ data });
@@ -61,8 +73,10 @@ export const GroupEditor: React.FC<GroupEditorProps> = ({ data }) => {
         <Select
           label="Rule type"
           name="rule_type"
-          variant="outlined"
-          sx={{ width: maxWidth805 ? "100%" : "45%" }}
+          options={[{ title: "Test", value: "test" }]}
+          defaultValue={values.rule_type}
+          onChange={handleChange}
+          width={maxWidth805 ? "100%" : "45%"}
         />
       </Stack>
 
@@ -78,6 +92,32 @@ export const GroupEditor: React.FC<GroupEditorProps> = ({ data }) => {
           onChange={handleChange}
         />
       )}
+
+      <Stack gap={0.5}>
+        <Typography
+          color={colors.NEUTRAL950}
+          fontWeight={600}
+          fontSize={16}
+          noWrap
+        >
+          Select checks
+        </Typography>
+
+        <ShadowContainer>
+          {availableProviders.length > 0 && (
+            <AddFilterSearchInput
+              onChange={setProviderSearchPattern}
+              hideAddFilterButton
+            />
+          )}
+
+          <StampsOverview
+            providersList={availableProviders}
+            searchPattern={providerSearchPattern}
+            showLoadingState
+          />
+        </ShadowContainer>
+      </Stack>
     </Stack>
   );
 };
