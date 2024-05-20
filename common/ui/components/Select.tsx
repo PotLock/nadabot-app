@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from "uuid";
 import colors from "../colors";
 
 export type SelectProps<ValueType> = Omit<
-  GenericSelectProps,
+  GenericSelectProps<ValueType>,
   "color" | "variant" | "renderValue"
 > & {
   label: string;

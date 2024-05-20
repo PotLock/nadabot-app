@@ -27,6 +27,7 @@ export const GroupEditor: React.FC<GroupEditorProps> = ({ data }) => {
   });
 
   const {
+    errors,
     groupRuleTypeOptions,
     handleChange,
     handleSubmit,
@@ -73,6 +74,7 @@ export const GroupEditor: React.FC<GroupEditorProps> = ({ data }) => {
           name="group_name"
           type="text"
           defaultValue={values.group_name}
+          errorMessage={errors.group_name}
           onChange={handleChange}
           sx={{ width: "100%" }}
         />
@@ -81,7 +83,7 @@ export const GroupEditor: React.FC<GroupEditorProps> = ({ data }) => {
           label="Rule type"
           name="rule_type"
           options={groupRuleTypeOptions}
-          defaultValue={values.rule_type}
+          value={values.rule_type}
           onChange={handleChange}
           width={maxWidth805 ? "100%" : "45%"}
         />
@@ -96,6 +98,7 @@ export const GroupEditor: React.FC<GroupEditorProps> = ({ data }) => {
           min={1}
           defaultValue={values.rule_threshold ?? undefined}
           optional={values.rule_type === "Sum"}
+          errorMessage={errors.rule_threshold}
           onChange={handleChange}
         />
       )}
