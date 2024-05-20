@@ -56,11 +56,11 @@ const RegularInput = ({
         sx={{
           background: error ? colors.ERROR_RED_LIGHT : background,
           px: 2,
-          border: `1px solid ${error ? colors.ERROR_RED : colors.LIGHTGRAY}`,
-          borderRadius: "6px",
+          border: `2px solid ${error ? colors.ERROR_RED : colors.GRAY300}`,
+          borderRadius: 1.5,
           height: 48,
           boxShadow: enableShadow
-            ? `4px 4px 0px 0px ${colors.LIGHTGRAY}`
+            ? `4px 4px 0px 0px ${colors.GRAY300}`
             : "none",
           ...sx,
         }}

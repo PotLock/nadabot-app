@@ -51,7 +51,12 @@ export function Select<ValueType>({
         color="primary"
         variant="outlined"
         renderValue={valueRenderer}
-        sx={{ ...sx, height: 48 }}
+        sx={{
+          height: 48,
+          borderRadius: 1.5,
+          borderColor: colors.GRAY300,
+          ...sx,
+        }}
         {...props}
       >
         {options.map(({ title, ...option }) => (
