@@ -2,27 +2,34 @@ import { ProviderId } from "./providers";
 
 export type GroupId = number;
 
-type RuleTypePrimitive = "Highest" | "Lowest";
+export enum RulePrimitiveType {
+  Highest = "Highest",
+  Lowest = "Lowest",
+}
 
-enum RuleTypeGeneric {
+export enum RuleGenericType {
   Sum = "Sum",
   DiminishingReturns = "DiminishingReturns",
   IncreasingReturns = "IncreasingReturns",
 }
 
+export type RuleType =
+  | keyof typeof RulePrimitiveType
+  | keyof typeof RuleGenericType;
+
 export type Rule =
-  | RuleTypePrimitive
+  | keyof typeof RulePrimitiveType
   | {
       /** Sum all scores with optional max value */
-      [RuleTypeGeneric.Sum]: number | null | undefined;
+      [RuleGenericType.Sum]: number | null | undefined;
     }
   | {
       /** Sum with diminishing returns, factor in percentage (e.g., 10 for 10% reduction each) */
-      [RuleTypeGeneric.DiminishingReturns]: number;
+      [RuleGenericType.DiminishingReturns]: number;
     }
   | {
       /** Sum with increasing returns, factor in percentage (e.g., 10 for 10% increase each) */
-      [RuleTypeGeneric.IncreasingReturns]: number;
+      [RuleGenericType.IncreasingReturns]: number;
     };
 
 export type Group = {

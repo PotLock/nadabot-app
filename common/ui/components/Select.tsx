@@ -2,7 +2,6 @@ import {
   Select as GenericSelect,
   SelectProps as GenericSelectProps,
   MenuItem,
-  MenuItemProps,
   Stack,
   Typography,
 } from "@mui/material";
@@ -10,24 +9,23 @@ import { v4 as uuidv4 } from "uuid";
 
 import colors from "../colors";
 
-export type SelectProps = Omit<GenericSelectProps, "color" | "variant"> & {
+export type SelectProps<ValueType> = Omit<
+  GenericSelectProps,
+  "color" | "variant"
+> & {
   label: string;
-
-  options: {
-    title: string;
-    value: MenuItemProps["value"];
-    disabled?: boolean;
-  }[];
-
+  options: { title: string; value: ValueType; disabled?: boolean }[];
   width?: string | number;
 };
 
-export const Select: React.FC<SelectProps> = ({
+export function Select<ValueType>({
   label,
   options,
   width,
   ...props
-}) => {
+}: SelectProps<
+  ValueType extends string | number ? ValueType : string | number
+>) {
   return (
     <Stack gap={0.5} {...{ width }}>
       <Typography
@@ -48,4 +46,4 @@ export const Select: React.FC<SelectProps> = ({
       </GenericSelect>
     </Stack>
   );
-};
+}

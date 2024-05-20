@@ -12,6 +12,7 @@ import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 
 import { GroupFormParameters, useGroupForm } from "./groupForm";
+import { GroupSchema } from "./model";
 import StampsOverview from "../stamps/StampsOverview";
 
 export type GroupEditorProps = GroupFormParameters & {};
@@ -25,8 +26,14 @@ export const GroupEditor: React.FC<GroupEditorProps> = ({ data }) => {
     sortMethod: providerSorts.higherWeightFirst,
   });
 
-  const { handleChange, handleSubmit, isDisabled, isRulePrimitive, values } =
-    useGroupForm({ data });
+  const {
+    groupRuleTypeOptions,
+    handleChange,
+    handleSubmit,
+    isDisabled,
+    isRulePrimitive,
+    values,
+  } = useGroupForm({ data });
 
   return (
     <Stack gap={4} component="form" onSubmit={handleSubmit}>
@@ -70,10 +77,10 @@ export const GroupEditor: React.FC<GroupEditorProps> = ({ data }) => {
           sx={{ width: "100%" }}
         />
 
-        <Select
+        <Select<GroupSchema["rule_type"]>
           label="Rule type"
           name="rule_type"
-          options={[{ title: "Test", value: "test" }]}
+          options={groupRuleTypeOptions}
           defaultValue={values.rule_type}
           onChange={handleChange}
           width={maxWidth805 ? "100%" : "45%"}

@@ -1,5 +1,16 @@
 import { InferType, array, number, object, string } from "yup";
 
+import {
+  RuleGenericType,
+  RulePrimitiveType,
+  RuleType,
+} from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/groups";
+
+export const groupRuleTypes: RuleType[] = [
+  ...Object.values(RulePrimitiveType),
+  ...Object.values(RuleGenericType),
+];
+
 export const groupSchema = object().shape({
   group_name: string()
     .min(4, "Group name must be at least 4 characters long")
@@ -12,15 +23,9 @@ export const groupSchema = object().shape({
 
   rule_type: string()
     .required()
-    .oneOf([
-      "Highest",
-      "Lowest",
-      "Sum",
-      "DiminishingReturns",
-      "IncreasingReturns",
-    ])
+    .oneOf(groupRuleTypes)
     .required("Rule type is required")
-    .default("Highest"),
+    .default(RulePrimitiveType.Highest),
 
   rule_threshold: number().nullable().optional(),
 });
