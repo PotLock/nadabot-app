@@ -191,10 +191,16 @@ export const admin_unflag_provider = (args: UnflagProviderInput) =>
   contractApi.call<typeof args, Provider>("admin_unflag_provider", { args });
 
 export const add_or_update_group = (args: AddOrUpdateGroupInput) =>
-  contractApi.call<typeof args, GroupExternal>("add_or_update_group", { args });
+  contractApi.call<typeof args, GroupExternal>("add_or_update_group", {
+    args,
+    deposit: ONE_HUNDREDTH_NEAR,
+  });
 
 export const delete_group = (args: GroupById) =>
-  contractApi.call<typeof args, void>("delete_group", { args });
+  contractApi.call<typeof args, void>("delete_group", {
+    args,
+    deposit: ONE_HUNDREDTH_NEAR,
+  });
 
 export const get_groups = () =>
   contractApi.view<object, GroupExternal[]>("get_groups", undefined, {
