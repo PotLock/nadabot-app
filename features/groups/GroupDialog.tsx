@@ -16,14 +16,14 @@ import useSpinner from "@nadabot/common/ui/utils/useSpinner";
 import { GroupInfo } from "./GroupInfo";
 import { groupDefaults } from "./model";
 
-export type GroupInfoDialogProps = Pick<
+export type GroupDialogProps = Pick<
   ContentRichModalProps,
   "open" | "onClose"
 > & {
   groupId?: GroupId;
 };
 
-export const GroupDialog: React.FC<GroupInfoDialogProps> = ({
+export const GroupDialog: React.FC<GroupDialogProps> = ({
   groupId,
   ...props
 }) => {
@@ -42,7 +42,7 @@ export const GroupDialog: React.FC<GroupInfoDialogProps> = ({
         id: 0,
         name: "",
         providers: [],
-        rule: groupDefaults.rule_type,
+        rule: groupDefaults.ruleType,
       });
     } else {
       get_group({ group_id: groupId })

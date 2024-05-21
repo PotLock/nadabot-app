@@ -3,19 +3,24 @@ import Fuse from "fuse.js";
 import { useEffect, useState } from "react";
 
 import providerSorts from "@nadabot/common/lib/providerSorts";
-import { ProviderExternalWithIsHuman } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import {
+  ProviderExternalWithIsHuman,
+  ProviderId,
+} from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 import CustomCircularProgress from "@nadabot/common/ui/components/CustomCircularProgress";
 import GridContainer from "@nadabot/common/ui/components/GridContainer";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 
 import { StampCard } from "./StampCard";
 
-type Props = {
+export type StampsOverviewProps = {
   inline?: boolean;
   searchPattern?: string;
   showLoadingState?: boolean;
   providersList?: ProviderExternalWithIsHuman[];
   adminView?: boolean;
+  selectedStamps?: ProviderId[];
+  stampSelectHandler?: (providerId: ProviderId) => VoidFunction;
 };
 
 // Fields to use as search keyword filter
@@ -29,13 +34,16 @@ export default function StampsOverview({
   showLoadingState,
   providersList,
   adminView,
-}: Props) {
+  selectedStamps,
+  stampSelectHandler,
+}: StampsOverviewProps) {
   const [isAdmin] = useState(adminView || false);
 
   // Providers (activated ones only)
   const { active, deactivated, ready } = useFilteredProviders({
     sortMethod: providerSorts.higherWeightFirst,
   });
+
   // Give preference to providersList
   const providers = providersList
     ? providersList
@@ -115,17 +123,15 @@ export default function StampsOverview({
   // Use Grid View
   return (
     <Stack>
-      <GridContainer
-        centralize={filteredProviders.length >= 3}
-        sx={{
-          mt: 2,
-        }}
-      >
+      <GridContainer centralize={filteredProviders.length >= 3} sx={{ mt: 2 }}>
         {filteredProviders.map((provider) => (
           <StampCard
             key={provider.id}
             providerInfo={provider}
             adminView={adminView}
+            selectable={typeof stampSelectHandler === "function"}
+            onSelectClick={stampSelectHandler?.(provider.id)}
+            selected={selectedStamps?.includes(provider.id)}
           />
         ))}
       </GridContainer>

@@ -1,15 +1,9 @@
 import { InferType, array, number, object, string } from "yup";
 
-import {
-  RuleGenericType,
-  RulePrimitiveType,
-  RuleType,
-} from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/groups";
+import { RuleType } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/groups";
 
-export const groupRuleTypes: RuleType[] = [
-  ...Object.values(RulePrimitiveType),
-  ...Object.values(RuleGenericType),
-];
+import { GROUP_RULE_TYPES, GROUP_RULE_TYPE_DEFAULT } from "./constants";
+import { isRuleTypePrimitive } from "./lib";
 
 export const groupSchema = object().shape({
   group_name: string()
@@ -21,13 +15,17 @@ export const groupSchema = object().shape({
     .min(1, "Group must have at least one provider")
     .required(),
 
-  rule_type: string()
+  ruleType: string()
     .required()
-    .oneOf(groupRuleTypes)
+    .oneOf(GROUP_RULE_TYPES, "Invalid rule type")
     .required("Rule type is required")
-    .default(RulePrimitiveType.Highest),
+    .default(GROUP_RULE_TYPE_DEFAULT),
 
-  rule_threshold: number().nullable().optional(),
+  ruleThreshold: number().when("ruleType", ([ruleType], schema) =>
+    isRuleTypePrimitive(ruleType) || (ruleType as RuleType) === "Sum"
+      ? schema.nullable().optional()
+      : schema.required(),
+  ),
 });
 
 export type GroupSchema = InferType<typeof groupSchema>;

@@ -1,8 +1,9 @@
 import CheckIcon from "@mui/icons-material/Check";
+import CheckSharpIcon from "@mui/icons-material/CheckSharp";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { Box, Chip, Stack, SxProps, Theme, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import React, { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { Routes } from "@nadabot/common/constants";
 import { DIALOGS, useDialogs } from "@nadabot/common/contexts/dialogs";
@@ -37,6 +38,9 @@ export type StampCardProps = {
   isStamp?: boolean;
   verifyButtonSx?: SxProps<Theme>;
   adminView?: boolean;
+  selectable?: boolean;
+  onSelectClick?: VoidFunction;
+  selected?: boolean;
 };
 
 export const StampCard: React.FC<StampCardProps> = ({
@@ -48,7 +52,11 @@ export const StampCard: React.FC<StampCardProps> = ({
   isStamp,
   verifyButtonSx,
   adminView,
+  selectable = false,
+  onSelectClick,
+  selected = false,
 }) => {
+  const isSelectable = selectable && typeof onSelectClick === "function";
   const [isAdmin] = useState(adminView || false);
   const { updateProvider } = useProviders();
   const { maxWidth430 } = useBreakPoints();
@@ -206,6 +214,67 @@ export const StampCard: React.FC<StampCardProps> = ({
     [isAdmin, maxWidth430, providerInfo.submitted_by],
   );
 
+  const providerActions = useMemo(
+    () =>
+      isAdmin ? (
+        <CustomButton
+          color="peach"
+          bodySize="medium"
+          onClick={switchActivation}
+          progress={hasPendingUpdate}
+          sx={{
+            mt: maxWidth430 ? 2 : 0,
+            px: 2,
+
+            ...(isProviderActive
+              ? {
+                  backgroundColor:
+                    colorSystem === "regular" ? colors.PEACH : colors.PRIMARY,
+
+                  color:
+                    colorSystem === "regular"
+                      ? colors.PRIMARY
+                      : colors.NEUTRAL50,
+
+                  ":hover": {
+                    backgroundColor:
+                      colorSystem === "regular"
+                        ? colors.PEACH
+                        : colors.NEUTRAL700,
+                  },
+                }
+              : {}),
+          }}
+        >
+          {isProviderActive ? "Deactivate" : "Activate"}
+        </CustomButton>
+      ) : (
+        <CustomButton
+          color="peach"
+          bodySize="medium"
+          onClick={
+            providerInfo.is_user_a_human ? verifyHandler : getCheckHandler
+          }
+          sx={{ mt: maxWidth430 ? 2 : 0, ...verifyButtonSx }}
+        >
+          {providerInfo.is_user_a_human ? "Verify" : "Get Check"}
+        </CustomButton>
+      ),
+
+    [
+      colorSystem,
+      getCheckHandler,
+      hasPendingUpdate,
+      isAdmin,
+      isProviderActive,
+      maxWidth430,
+      providerInfo.is_user_a_human,
+      switchActivation,
+      verifyButtonSx,
+      verifyHandler,
+    ],
+  );
+
   return (
     <Stack
       gap={2}
@@ -356,53 +425,24 @@ export const StampCard: React.FC<StampCardProps> = ({
             </>
           ) : (
             <>
-              {isAdmin ? (
+              {isSelectable ? (
                 <CustomButton
-                  color="peach"
-                  bodySize="medium"
-                  onClick={switchActivation}
-                  progress={hasPendingUpdate}
+                  color="blue"
+                  onClick={onSelectClick}
                   sx={{
-                    mt: maxWidth430 ? 2 : 0,
-                    px: 2,
-
-                    ...(isProviderActive
-                      ? {
-                          backgroundColor:
-                            colorSystem === "regular"
-                              ? colors.PEACH
-                              : colors.PRIMARY,
-
-                          color:
-                            colorSystem === "regular"
-                              ? colors.PRIMARY
-                              : colors.NEUTRAL50,
-
-                          ":hover": {
-                            backgroundColor:
-                              colorSystem === "regular"
-                                ? colors.PEACH
-                                : colors.NEUTRAL700,
-                          },
-                        }
-                      : {}),
+                    borderRadius: "100%",
+                    p: 0,
+                    width: 40,
+                    height: 40,
+                    background: selected ? undefined : colors.WHITE,
                   }}
                 >
-                  {isProviderActive ? "Deactivate" : "Activate"}
+                  {selected && (
+                    <CheckSharpIcon sx={{ width: 18, height: 18 }} />
+                  )}
                 </CustomButton>
               ) : (
-                <CustomButton
-                  color="peach"
-                  bodySize="medium"
-                  onClick={
-                    providerInfo.is_user_a_human
-                      ? verifyHandler
-                      : getCheckHandler
-                  }
-                  sx={{ mt: maxWidth430 ? 2 : 0, ...verifyButtonSx }}
-                >
-                  {providerInfo.is_user_a_human ? "Verify" : "Get Check"}
-                </CustomButton>
+                providerActions
               )}
             </>
           )}

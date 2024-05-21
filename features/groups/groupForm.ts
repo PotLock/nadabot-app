@@ -1,75 +1,80 @@
 import { useFormik } from "formik";
-import { useEffect, useMemo } from "react";
+import { useCallback } from "react";
 
+import { useFormErrorLogger } from "@nadabot/common/lib/form";
+import * as sybilContract from "@nadabot/common/services/contracts/sybil.nadabot";
 import {
   GroupExternal,
+  Rule,
   RuleGenericType,
   RulePrimitiveType,
 } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/groups";
+import { ProviderId } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 
-import {
-  GroupSchema,
-  groupDefaults,
-  groupRuleTypes,
-  groupSchema,
-} from "./model";
+import { extractRuleParams, isRuleTypePrimitive } from "./lib";
+import { GroupSchema, groupSchema } from "./model";
 
 export type GroupFormParameters = {
   data: GroupExternal;
+  onGroupCreate?: VoidFunction;
 };
 
-export const useGroupForm = ({ data }: GroupFormParameters) => {
-  const [ruleType, ruleThreshold] = useMemo((): [
-    GroupSchema["rule_type"],
-    GroupSchema["rule_threshold"],
-  ] => {
-    const [unsafeRuleType, threshold] =
-      typeof data.rule === "string"
-        ? [data.rule]
-        : Object.entries(data.rule).at(0) ?? [groupDefaults.rule_type];
+export const useGroupForm = ({ data, onGroupCreate }: GroupFormParameters) => {
+  const { dirty, isSubmitting, isValid, setFieldValue, values, ...form } =
+    useFormik<GroupSchema>({
+      validationSchema: groupSchema,
 
-    const safeRuleType = groupRuleTypes.includes(
-      unsafeRuleType as (typeof groupRuleTypes)[number],
-    )
-      ? (unsafeRuleType as (typeof groupRuleTypes)[number])
-      : groupDefaults.rule_type;
+      initialValues: {
+        ...extractRuleParams(data.rule),
+        group_name: data.name,
+        providers: data.providers,
+      },
 
-    return [safeRuleType, threshold];
-  }, [data.rule]);
+      onSubmit: ({ ruleType, ruleThreshold, ...formValues }, actions) => {
+        console.table({ ruleType, ruleThreshold, ...formValues });
 
-  const { dirty, isValid, values, ...form } = useFormik<GroupSchema>({
-    validationSchema: groupSchema,
+        actions.setSubmitting(true);
 
-    initialValues: {
-      group_name: data.name,
-      rule_type: ruleType,
-      rule_threshold: ruleThreshold,
-      providers: data.providers,
-    },
+        sybilContract
+          .add_or_update_group({
+            ...formValues,
 
-    onSubmit: (formValues) => {
-      console.table(formValues);
-    },
-  });
+            rule: isRuleTypePrimitive(ruleType)
+              ? (ruleType as RulePrimitiveType)
+              : ({
+                  [ruleType as keyof typeof RuleGenericType]: ruleThreshold,
+                } as Rule),
+          })
+          .then(({ id, name, providers, rule }) => {
+            if (id === data.id) {
+              actions.setValues({
+                ...extractRuleParams(rule),
+                group_name: name,
+                providers,
+              });
+            } else onGroupCreate?.();
+          })
+          .catch(console.error)
+          .finally(() => actions.setSubmitting(false));
+      },
+    });
 
-  const groupRuleTypeOptions = [
-    { title: "Highest", value: RulePrimitiveType.Highest },
-    { title: "Lowest", value: RulePrimitiveType.Lowest },
-    { title: "Sum", value: RuleGenericType.Sum },
-    { title: "Booster", value: RuleGenericType.IncreasingReturns },
-    { title: "Subtractor", value: RuleGenericType.DiminishingReturns },
-  ];
+  const providerSelectHandler = useCallback(
+    (id: ProviderId) => () =>
+      setFieldValue(
+        "providers",
 
-  const isDisabled = !isValid || !dirty;
+        values.providers.includes(id)
+          ? values.providers.filter((targetId) => targetId !== id)
+          : [...values.providers, id],
+      ),
 
-  const isRulePrimitive =
-    values.rule_type === RulePrimitiveType.Highest ||
-    values.rule_type === RulePrimitiveType.Lowest;
-
-  useEffect(
-    () => Object.values(form.errors).forEach(console.error),
-    [form.errors],
+    [setFieldValue, values.providers],
   );
 
-  return { ...form, groupRuleTypeOptions, isDisabled, isRulePrimitive, values };
+  const isDisabled = !isValid || !dirty || isSubmitting;
+
+  useFormErrorLogger(form.errors);
+
+  return { ...form, isDisabled, isSubmitting, providerSelectHandler, values };
 };

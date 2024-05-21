@@ -12,6 +12,7 @@ import {
   MAX_GAS,
 } from "@nadabot/common/constants";
 import { DIALOGS, useDialogs } from "@nadabot/common/contexts/dialogs";
+import { useFormErrorLogger } from "@nadabot/common/lib/form";
 import { naxiosInstance } from "@nadabot/common/services/contracts";
 import * as sybilContract from "@nadabot/common/services/contracts/sybil.nadabot";
 import { ProviderId } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
@@ -200,10 +201,7 @@ export const useStampForm = ({ id }: StampFormParameters) => {
     [form, onValueChange],
   );
 
-  useEffect(
-    () => Object.values(form.errors).forEach(console.error),
-    [form.errors],
-  );
+  useFormErrorLogger(form.errors);
 
   useEffect(() => {
     if (typeof imagePickerValue === "string") {
