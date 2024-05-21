@@ -7,11 +7,11 @@ import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 import { StampCard } from "@nadabot/features/stamps/StampCard";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 
-type Props = {
+export type StampsNextUpProps = {
   providerInfo: ProviderExternal;
 };
 
-export default function NextProviders({ providerInfo }: Props) {
+export const StampsNextUp: React.FC<StampsNextUpProps> = ({ providerInfo }) => {
   const { active, deactivated } = useFilteredProviders({
     skipProviderId: providerInfo!.id,
   });
@@ -47,4 +47,4 @@ export default function NextProviders({ providerInfo }: Props) {
       </Stack>
     </Stack>
   );
-}
+};

@@ -16,9 +16,9 @@ import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 
 import { GROUP_RULE_TYPE_PARAMS } from "./constants";
-import { GroupFormParameters, useGroupForm } from "./groupForm";
+import { GroupFormParameters, useGroupForm } from "./forms";
 import { isRuleTypePrimitive } from "./lib";
-import { GroupSchema } from "./model";
+import { GroupSchema } from "./models";
 import StampsOverview from "../stamps/StampsOverview";
 
 export type GroupInfoProps = GroupFormParameters & {};
@@ -96,7 +96,12 @@ export const GroupInfo: React.FC<GroupInfoProps> = ({ data }) => {
               </CustomButton>
             )}
 
-            <CustomButton type="submit" color="blue" disabled={isDisabled}>
+            <CustomButton
+              type="submit"
+              color="blue"
+              progress={isSubmitting}
+              disabled={isDisabled}
+            >
               {isNew ? "Create Group" : "Save Changes"}
             </CustomButton>
           </Stack>

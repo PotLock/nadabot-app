@@ -1,7 +1,7 @@
 import CheckIcon from "@mui/icons-material/Check";
 import { Box, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { NETWORK, Routes } from "@nadabot/common/constants";
 import truncate from "@nadabot/common/lib/truncate";
@@ -23,11 +23,11 @@ import useSnackbars from "@nadabot/common/ui/utils/useSnackbars";
 import useSpinner from "@nadabot/common/ui/utils/useSpinner";
 import useProviderStatusChecker from "@nadabot/hooks/useProviderStatusChecker";
 
-type Props = {
+export type StampHeaderProps = {
   providerInfo?: ProviderExternalWithIsHuman;
 };
 
-export default function Header({ providerInfo }: Props) {
+export const StampHeader: React.FC<StampHeaderProps> = ({ providerInfo }) => {
   const [updating, setUpdating] = useState(false);
   const { isAdmin } = useUser();
   const { updateProvider } = useProviders();
@@ -359,4 +359,4 @@ export default function Header({ providerInfo }: Props) {
       </Stack>
     </Stack>
   );
-}
+};

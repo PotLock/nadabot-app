@@ -11,7 +11,7 @@ import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import Input from "@nadabot/common/ui/components/Input";
 import { Slider } from "@nadabot/common/ui/components/Slider";
 
-import { StampAdminFormParameters, useStampAdminForm } from "./stampAdminForm";
+import { StampAdminFormParameters, useStampAdminForm } from "./forms";
 
 export type StampAdminSettingsProps = Pick<
   StampAdminFormParameters,

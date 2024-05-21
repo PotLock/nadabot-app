@@ -9,15 +9,17 @@ import { useRouter } from "next/router";
 import { useCallback } from "react";
 
 import { Routes } from "@nadabot/common/constants";
+import CustomButton from "@nadabot/common/ui/components/CustomButton";
 
-import CustomButton from "../../common/ui/components/CustomButton";
-
-type Props = {
+export type StampSentDialogProps = {
   open: boolean;
   onClose: () => void;
 };
 
-export default function StampSentDialog({ open, onClose }: Props) {
+export const StampSentDialog: React.FC<StampSentDialogProps> = ({
+  open,
+  onClose,
+}) => {
   const router = useRouter();
 
   const okHandler = useCallback(() => {
@@ -44,4 +46,4 @@ export default function StampSentDialog({ open, onClose }: Props) {
       </DialogActions>
     </Dialog>
   );
-}
+};

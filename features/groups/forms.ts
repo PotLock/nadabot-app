@@ -1,7 +1,6 @@
 import { useFormik } from "formik";
 import { useCallback } from "react";
 
-import { useFormErrorLogger } from "@nadabot/common/lib/form";
 import * as sybilContract from "@nadabot/common/services/contracts/sybil.nadabot";
 import {
   GroupExternal,
@@ -10,9 +9,10 @@ import {
   RulePrimitiveType,
 } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/groups";
 import { ProviderId } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import { useFormErrorLogger } from "@nadabot/common/ui/utils/forms";
 
 import { extractRuleParams, isRuleTypePrimitive } from "./lib";
-import { GroupSchema, groupSchema } from "./model";
+import { GroupSchema, groupSchema } from "./models";
 
 export type GroupFormParameters = {
   data: GroupExternal;

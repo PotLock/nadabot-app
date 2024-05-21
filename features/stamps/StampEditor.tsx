@@ -17,8 +17,8 @@ import UploadImage from "@nadabot/common/ui/components/UploadImage";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 import { StampCard } from "@nadabot/features/stamps/StampCard";
 
+import { StampFormParameters, useStampForm } from "./forms";
 import { StampAdminSettings } from "./StampAdminSettings";
-import { StampFormParameters, useStampForm } from "./stampForm";
 
 export type StampEditorProps = StampFormParameters & {};
 

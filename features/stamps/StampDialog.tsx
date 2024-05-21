@@ -11,9 +11,9 @@ import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
 import CustomCircularProgress from "@nadabot/common/ui/components/CustomCircularProgress";
 import useGetProviderById from "@nadabot/hooks/useGetProviderById";
 
-import Description from "./Description";
-import Header from "./Header";
-import NextProviders from "./NextProviders";
+import { StampHeader } from "./StampHeader";
+import { StampInfo } from "./StampInfo";
+import { StampsNextUp } from "./StampsNextUp";
 
 export type StampDialogProps = {
   open: boolean;
@@ -21,11 +21,11 @@ export type StampDialogProps = {
   props?: DialogProps;
 };
 
-export default function StampDialog({
+export const StampDialog: React.FC<StampDialogProps> = ({
   open,
   onClose,
   props,
-}: StampDialogProps) {
+}) => {
   const providerInfo = useGetProviderById(props?.providerId);
   const router = useRouter();
 
@@ -76,12 +76,12 @@ export default function StampDialog({
           <CustomCircularProgress sx={{ py: 1, pb: 1.7 }} size={30} />
         ) : (
           <Stack sx={{ pt: 1 }}>
-            <Header providerInfo={providerInfo} />
-            <Description providerInfo={providerInfo} />
-            <NextProviders providerInfo={providerInfo} />
+            <StampHeader providerInfo={providerInfo} />
+            <StampInfo providerInfo={providerInfo} />
+            <StampsNextUp providerInfo={providerInfo} />
           </Stack>
         )}
       </Stack>
     </Stack>
   );
-}
+};

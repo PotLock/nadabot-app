@@ -11,11 +11,11 @@ import Tag from "@nadabot/common/ui/components/Tag";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 import { StampAdminSettings } from "@nadabot/features/stamps/StampAdminSettings";
 
-type Props = {
+export type StampInfoProps = {
   providerInfo?: ProviderExternal;
 };
 
-export default function Description({ providerInfo }: Props) {
+export const StampInfo: React.FC<StampInfoProps> = ({ providerInfo }) => {
   const { isAdmin } = useUser();
   const router = useRouter();
   const { maxWidth962, maxWidth430 } = useBreakPoints();
@@ -94,4 +94,4 @@ export default function Description({ providerInfo }: Props) {
         )}
     </Stack>
   );
-}
+};
