@@ -85,13 +85,9 @@ export const GroupInfo: React.FC<GroupInfoProps> = ({ data }) => {
             )}
           </Stack>
 
-          <Stack gap={1}>
+          <Stack gap={1} direction="row">
             {!isNew && (
-              <CustomButton
-                type="reset"
-                onClick={onCancelClick}
-                disabled={isDisabled}
-              >
+              <CustomButton type="reset" onClick={onCancelClick}>
                 Cancel
               </CustomButton>
             )}
@@ -109,7 +105,7 @@ export const GroupInfo: React.FC<GroupInfoProps> = ({ data }) => {
       ) : (
         <>
           {isViewedByAdmin && (
-            <Stack gap={1}>
+            <Stack gap={1} direction="row">
               <CustomButton color="red" onClick={onDeleteClick}>
                 Delete
               </CustomButton>

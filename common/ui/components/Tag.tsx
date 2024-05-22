@@ -1,5 +1,5 @@
 import { Stack, SxProps, Theme, Typography } from "@mui/material";
-import React, { useCallback } from "react";
+import { useMemo } from "react";
 
 import ButtonContainer from "./ButtonContainer";
 import colors from "../colors";
@@ -16,36 +16,48 @@ const textColors = {
   normal: colors.GRAY,
 };
 
-type Props = {
+export type TagProps = {
+  color?: string;
+  bgColor?: string;
+  fontWeight?: number;
   label: string;
   leftContent?: JSX.Element;
   asButton?: boolean;
   onClick?: () => void;
   size?: "small" | "normal";
   removeBg?: boolean;
+  removeBorder?: boolean;
   sx?: SxProps<Theme>;
   labelSx?: SxProps<Theme>;
   type?: "normal" | "red" | "blue";
 };
 
 export default function Tag({
+  color,
+  bgColor,
+  fontWeight,
   label,
   leftContent,
   asButton,
   onClick,
   size = "normal",
   removeBg,
+  removeBorder = false,
   sx,
   labelSx,
   type = "normal",
-}: Props) {
-  const getBody = useCallback(
+}: TagProps) {
+  const body = useMemo(
     () => (
       <Stack
-        bgcolor={removeBg ? "transparent" : bgColors[type]}
+        bgcolor={bgColor ?? (removeBg ? "transparent" : bgColors[type])}
         px={2}
         py={0.5}
-        border={type === "normal" ? `1px solid ${colors.GRAY300}` : "none"}
+        border={
+          !removeBorder && type === "normal"
+            ? `1px solid ${colors.GRAY300}`
+            : "none"
+        }
         borderRadius={type === "normal" ? "6px" : "32px"}
         direction="row"
         alignItems="center"
@@ -55,9 +67,10 @@ export default function Tag({
         sx={{ ...sx }}
       >
         {leftContent && <Stack mr={1}>{leftContent}</Stack>}
+
         <Typography
-          fontWeight={type === "normal" ? 400 : 600}
-          color={textColors[type]}
+          fontWeight={fontWeight ?? (type === "normal" ? 400 : 600)}
+          color={color ?? textColors[type]}
           fontSize={size === "small" ? 14 : 14}
           py={size === "small" ? 0 : 0.4}
           sx={{ ...labelSx }}
@@ -66,12 +79,25 @@ export default function Tag({
         </Typography>
       </Stack>
     ),
-    [label, leftContent, size, removeBg, sx, type, labelSx],
+
+    [
+      bgColor,
+      removeBg,
+      type,
+      removeBorder,
+      sx,
+      leftContent,
+      fontWeight,
+      color,
+      size,
+      labelSx,
+      label,
+    ],
   );
 
-  if (asButton) {
-    return <ButtonContainer onClick={onClick}>{getBody()}</ButtonContainer>;
-  }
-
-  return getBody();
+  return asButton ? (
+    <ButtonContainer onClick={onClick}>{body}</ButtonContainer>
+  ) : (
+    body
+  );
 }

@@ -60,6 +60,10 @@ const Footer = () => {
                 </li>
               </>
             )}
+
+            <li>
+              <Link href="/rules">See All Rules</Link>
+            </li>
           </ul>
 
           <Divider

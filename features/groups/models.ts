@@ -1,8 +1,15 @@
 import { InferType, array, number, object, string } from "yup";
 
-import { RuleType } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/groups";
+import {
+  RuleGenericType,
+  RuleType,
+} from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/groups";
 
-import { GROUP_RULE_TYPES, GROUP_RULE_TYPE_DEFAULT } from "./constants";
+import {
+  GROUP_RULE_TYPES,
+  GROUP_RULE_TYPE_DEFAULT,
+  GROUP_RULE_TYPE_PARAMS,
+} from "./constants";
 import { isRuleTypePrimitive } from "./lib";
 
 export const groupSchema = object().shape({
@@ -24,7 +31,11 @@ export const groupSchema = object().shape({
   ruleThreshold: number().when("ruleType", ([ruleType], schema) =>
     isRuleTypePrimitive(ruleType) || (ruleType as RuleType) === "Sum"
       ? schema.nullable().optional()
-      : schema.required(),
+      : schema.required(
+          `${GROUP_RULE_TYPE_PARAMS[RuleGenericType.IncreasingReturns].title} and
+           ${GROUP_RULE_TYPE_PARAMS[RuleGenericType.DiminishingReturns].title}
+           rules require threshold`,
+        ),
   ),
 });
 
