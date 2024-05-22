@@ -1,6 +1,6 @@
 # nadabot-app
 
-Nada.bot application https://nada.bot
+Nada.bot application <https://nada.bot>
 
 ## Getting Started
 
