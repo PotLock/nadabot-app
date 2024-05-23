@@ -12,11 +12,13 @@ import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import Input from "@nadabot/common/ui/components/Input";
 import { Select } from "@nadabot/common/ui/components/Select";
 import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
+import Tag from "@nadabot/common/ui/components/Tag";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 
 import { GROUP_RULE_TYPE_PARAMS } from "./constants";
 import { GroupFormParameters, useGroupForm } from "./forms";
+import { GroupPreview } from "./GroupPreview";
 import { isRuleTypePrimitive } from "./lib";
 import { GroupSchema } from "./models";
 import StampsOverview from "../stamps/StampsOverview";
@@ -67,8 +69,11 @@ export const GroupInfo: React.FC<GroupInfoProps> = ({ data }) => {
     exitEditMode();
   }, [exitEditMode, resetForm]);
 
-  const { title, thresholdToDescription } =
-    GROUP_RULE_TYPE_PARAMS[values.ruleType];
+  const {
+    title: ruleTypeTag,
+    thresholdToDescription,
+    color: ruleTypeColor,
+  } = GROUP_RULE_TYPE_PARAMS[values.ruleType];
 
   const includedProviders = useMemo(
     () =>
@@ -80,7 +85,11 @@ export const GroupInfo: React.FC<GroupInfoProps> = ({ data }) => {
   );
 
   return (
-    <Stack gap={4} component="form" onSubmit={handleSubmit}>
+    <Stack
+      gap={4}
+      component={isNew || isEditModeEnabled ? "form" : "div"}
+      onSubmit={handleSubmit}
+    >
       {isNew || isEditModeEnabled ? (
         <Stack gap={2} direction="row" justifyContent="space-between">
           <Stack>
@@ -113,29 +122,58 @@ export const GroupInfo: React.FC<GroupInfoProps> = ({ data }) => {
           </Stack>
         </Stack>
       ) : (
-        <Stack gap={2} direction="row" justifyContent="space-between">
-          <Stack>
-            <Typography fontSize={40} fontWeight={700} lineHeight="48px">
-              {values.group_name}
+        <>
+          <Stack gap={2} direction="row" justifyContent="space-between">
+            <Stack gap={3} direction="row">
+              <GroupPreview providerIds={values.providers} size="medium" />
+
+              <Stack gap={2}>
+                <Typography fontSize={32} fontWeight={700} lineHeight="24px">
+                  {values.group_name}
+                </Typography>
+
+                <Stack alignItems="start">
+                  <Typography
+                    fontSize={12}
+                    fontWeight={700}
+                    color={colors.NEUTRAL700}
+                  >
+                    {"Rule Type".toUpperCase()}
+                  </Typography>
+
+                  <Tag
+                    color="#fff"
+                    bgColor={ruleTypeColor}
+                    fontWeight={600}
+                    label={ruleTypeTag.toUpperCase()}
+                  />
+                </Stack>
+              </Stack>
+            </Stack>
+
+            {isViewedByAdmin && (
+              <Stack gap={1} direction="row">
+                <CustomButton type="button" color="red" onClick={onDeleteClick}>
+                  Delete
+                </CustomButton>
+
+                <CustomButton type="button" onClick={enterEditMode}>
+                  Edit
+                </CustomButton>
+              </Stack>
+            )}
+          </Stack>
+
+          <Stack gap={1}>
+            <Typography fontSize={20} fontWeight={600}>
+              About this rule type
             </Typography>
 
-            <Typography fontSize={16} fontWeight={400} color={colors.SECONDARY}>
+            <Typography fontSize={16} fontWeight={400}>
               {thresholdToDescription(values.ruleThreshold ?? 0)}
             </Typography>
           </Stack>
-
-          {isViewedByAdmin && (
-            <Stack gap={1} direction="row">
-              <CustomButton type="button" color="red" onClick={onDeleteClick}>
-                Delete
-              </CustomButton>
-
-              <CustomButton type="button" onClick={enterEditMode}>
-                Edit
-              </CustomButton>
-            </Stack>
-          )}
-        </Stack>
+        </>
       )}
 
       {(isNew || isEditModeEnabled) && (

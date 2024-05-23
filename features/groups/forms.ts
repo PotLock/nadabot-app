@@ -37,12 +37,13 @@ export const useGroupForm = ({
       onSubmit: ({ ruleType, ruleThreshold, ...formValues }, actions) => {
         actions.setSubmitting(true);
 
-        const ruleInput = mergeRuleParams({ ruleType, ruleThreshold });
+        const rule = mergeRuleParams({ ruleType, ruleThreshold });
 
         const txResult = isNew
-          ? sybilContract.create_group({ ...formValues, rule: ruleInput })
+          ? sybilContract.create_group({ ...formValues, rule })
           : sybilContract.update_group({
               group_id: data.id,
+              rule,
 
               group_name:
                 formValues.group_name !== data.name
@@ -52,12 +53,6 @@ export const useGroupForm = ({
               providers:
                 formValues.providers !== data.providers
                   ? formValues.providers
-                  : undefined,
-
-              rule:
-                ruleInput !== data.rule ||
-                JSON.stringify(data.rule) !== JSON.stringify(ruleInput)
-                  ? ruleInput
                   : undefined,
             });
 

@@ -2,8 +2,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Stack } from "@mui/material";
 import { useEffect } from "react";
 
-import getDocumentResolution from "@nadabot/common/lib/getDocumentResolution";
-
 import ButtonContainer from "./ButtonContainer";
 import colors from "../colors";
 
@@ -18,8 +16,6 @@ export const ContentRichModal: React.FC<ContentRichModalProps> = ({
   onClose,
   children,
 }) => {
-  const { height: documentHeight } = getDocumentResolution();
-
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [open]);
@@ -27,16 +23,15 @@ export const ContentRichModal: React.FC<ContentRichModalProps> = ({
   return !open ? null : (
     <Stack
       width="100vw"
-      height={documentHeight}
+      height="100%"
       bgcolor="rgba(0, 0, 0, 0.50)"
       zIndex={999}
       position="absolute"
       alignItems="center"
-      px={4}
+      p={4}
     >
       <Stack
         gap={1}
-        mt={4}
         borderRadius="24px"
         p={4}
         pt={0}
