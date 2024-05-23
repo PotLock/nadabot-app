@@ -39,8 +39,6 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
     values,
   } = useStampForm({ id });
 
-  console.log(values);
-
   const providerInfo = useMemo(
     () => ({
       id: id ?? 0,
@@ -115,7 +113,7 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
           {isNew && (
             <Input
               name="method_name"
-              label="Method name"
+              label="Method Name"
               placeholder="Enter a method name"
               info="Method must take single input and return boolean"
               defaultValue={values.method_name}
@@ -128,7 +126,7 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
 
           <Input
             name="account_id_arg_name"
-            label="Account id argument name"
+            label="Account ID Argument Name"
             placeholder="account_id"
             defaultValue={values.account_id_arg_name}
             errorMessage={errors.account_id_arg_name}
@@ -140,7 +138,7 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
           {/* Custom Args */}
           <Input
             name="custom_args"
-            label="Custom arguments"
+            label="Custom Arguments"
             placeholder={`{"types":["new","old"]}`}
             defaultValue={values.custom_args ?? undefined}
             errorMessage={errors.custom_args}
@@ -150,7 +148,7 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
 
           <Input
             name="external_url"
-            label="External link"
+            label="External Link"
             placeholder="Enter an external link"
             defaultValue={values.external_url}
             errorMessage={errors.external_url}
@@ -160,7 +158,7 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
 
           <Input
             name="gas"
-            label="Minimum required gas units, TGas"
+            label="Minimum required Gas Units, TGas"
             placeholder="Enter the minimum TGas units"
             type="number"
             min={0}
@@ -209,7 +207,7 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
       </Stack>
 
       {isAdmin && (
-        <StampAdminSettings onChange={handleChange} {...{ providerInfo }} />
+        <StampAdminSettings onChange={handleChange} data={providerInfo} />
       )}
 
       <Stack

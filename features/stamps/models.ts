@@ -5,6 +5,7 @@ import {
   MAX_PROVIDER_EXTERNAL_URL_LENGTH,
   MAX_PROVIDER_NAME_LENGTH,
 } from "@nadabot/common/constants";
+import { ProviderExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 
 export const stampSchema = object().shape({
   icon_url: string().optional(),
@@ -46,10 +47,27 @@ export const stampSchema = object().shape({
   gas: number().nullable().optional(),
 
   custom_args: string()
-    .test(() => {
-      // TODO: Validate JSON with object root node!
-    })
     .nullable()
+    .transform((input: ProviderExternal["custom_args"]) =>
+      typeof input === "string" && input.length === 0 ? undefined : input,
+    )
+    .test({
+      message: "Invalid JSON. Custom arguments must be an object.",
+
+      test: (input) => {
+        if (typeof input === "string") {
+          try {
+            const parsedInput = JSON.parse(input);
+
+            return (
+              typeof parsedInput === "object" && !Array.isArray(parsedInput)
+            );
+          } catch {
+            return false;
+          }
+        } else return true;
+      },
+    })
     .optional(),
 
   // Admin Settings
@@ -60,6 +78,8 @@ export const stampSchema = object().shape({
     .optional(),
 
   stamp_validity_ms: number().min(0).nullable().optional(),
+
+  admin_notes: string().nullable().optional(),
 });
 
 export type StampSchema = InferType<typeof stampSchema>;

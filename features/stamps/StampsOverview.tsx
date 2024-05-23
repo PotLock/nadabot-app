@@ -122,8 +122,6 @@ export default function StampsOverview({
     );
   }
 
-  console.log(filteredProviders);
-
   // Use Grid View
   return (
     <Stack>

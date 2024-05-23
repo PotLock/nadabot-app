@@ -379,7 +379,7 @@ export const StampCard: React.FC<StampCardProps> = ({
           embedded
           disabled={hasPendingUpdate}
           indicateUnsavedChanges={setIsFooterHidden}
-          {...{ providerInfo }}
+          data={providerInfo}
         />
       )}
 

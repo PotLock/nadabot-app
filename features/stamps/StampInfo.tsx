@@ -87,9 +87,9 @@ export const StampInfo: React.FC<StampInfoProps> = ({ providerInfo }) => {
         router.route === Routes.ADMIN_HOME &&
         providerInfo !== undefined && (
           <StampAdminSettings
+            data={providerInfo}
             embedded
             sx={{ width: maxWidth962 ? "100%" : 352 }}
-            {...{ providerInfo }}
           />
         )}
     </Stack>

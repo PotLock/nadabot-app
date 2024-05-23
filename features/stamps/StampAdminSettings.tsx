@@ -15,7 +15,7 @@ import { StampAdminFormParameters, useStampAdminForm } from "./forms";
 
 export type StampAdminSettingsProps = Pick<
   StampAdminFormParameters,
-  "disabled" | "providerInfo"
+  "disabled" | "data"
 > & {
   embedded?: boolean;
   heading?: string;
@@ -30,7 +30,7 @@ export const StampAdminSettings = ({
   heading = "Admin Settings",
   onChange,
   indicateUnsavedChanges,
-  providerInfo,
+  data,
   sx,
 }: StampAdminSettingsProps) => {
   const router = useRouter();
@@ -50,11 +50,7 @@ export const StampAdminSettings = ({
     onExpirySwitch,
     values,
     ...form
-  } = useStampAdminForm({
-    isSubform,
-    disabled,
-    providerInfo,
-  });
+  } = useStampAdminForm({ data, isSubform, disabled });
 
   const handleChange = onChange ?? form.handleChange;
 
@@ -191,16 +187,18 @@ export const StampAdminSettings = ({
               disabled={isLocked || !isExpiryEnabled}
             />
 
+            {!embedded && (
+              <Input
+                label="Admin Comments"
+                placeholder="Leave a comment as an admin..."
+              />
+            )}
+
             {!isStampPage && embedded && (
               <Link
-                href={{
-                  pathname: `/stamp/edit/${providerInfo.id}`,
-                }}
+                href={{ pathname: `/stamp/edit/${data.id}` }}
                 color={colors.NEUTRAL700}
-                style={{
-                  width: "fit-content",
-                  textDecoration: "underline",
-                }}
+                style={{ width: "fit-content", textDecoration: "underline" }}
               >
                 View full settings
               </Link>

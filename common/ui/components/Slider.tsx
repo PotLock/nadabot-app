@@ -44,13 +44,14 @@ export const Slider: React.FC<SliderProps> = ({
   );
 
   return (
-    <Stack gap={1}>
+    <Stack gap={1} pb={0.5}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Stack direction="row" alignItems="center" gap={0.5}>
           <Typography
             color={colors.NEUTRAL950}
             fontSize={16}
-            fontWeight={500}
+            fontWeight={600}
+            noWrap
             sx={{ opacity: disabled ? 0.5 : 1 }}
           >
             {label}

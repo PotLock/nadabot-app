@@ -59,8 +59,9 @@ export const useStampForm = ({ id }: StampFormParameters) => {
     dirty,
     handleChange: onValueChange,
     isSubmitting,
+    resetForm,
     setFieldValue,
-    setValues,
+    values,
     ...form
   } = useFormik<StampSchema>({
     validateOnChange: false,
@@ -228,10 +229,12 @@ export const useStampForm = ({ id }: StampFormParameters) => {
   useEffect(() => {
     if (!isNew) {
       sybilContract.get_provider({ provider_id: id }).then((provider) => {
-        if (provider !== undefined) setValues(provider);
+        if (provider !== undefined) resetForm({ values: provider });
       });
     }
-  }, [id, isNew, setValues]);
+  }, [id, isNew, resetForm]);
+
+  console.log(values);
 
   return {
     ...form,
@@ -239,12 +242,13 @@ export const useStampForm = ({ id }: StampFormParameters) => {
     handleChange,
     isSubmitting,
     onImagePickerClick,
+    values,
   };
 };
 
 export type StampAdminSettingsValues = Pick<
   UpdateProviderInput,
-  "default_weight"
+  "default_weight" | "admin_notes"
 > & {
   stamp_validity_days: number;
 };
@@ -252,15 +256,15 @@ export type StampAdminSettingsValues = Pick<
 export type StampAdminFormParameters = {
   isSubform?: boolean;
   disabled?: boolean;
-  providerInfo: ProviderExternal;
+  data: ProviderExternal;
 };
 
 export const useStampAdminForm = ({
+  data,
   isSubform = false,
   disabled,
-  providerInfo,
 }: StampAdminFormParameters) => {
-  const isStampValiditySet = providerInfo.stamp_validity_ms !== null;
+  const isStampValiditySet = data.stamp_validity_ms !== null;
   const { openDialog } = useDialogs();
   const { updateProvider } = useProviders();
 
@@ -269,14 +273,12 @@ export const useStampAdminForm = ({
 
   const initialValues: StampAdminSettingsValues = useMemo(
     () => ({
-      default_weight: providerInfo.default_weight,
-
-      stamp_validity_days: millisecondsToDays(
-        providerInfo.stamp_validity_ms ?? 0,
-      ),
+      default_weight: data.default_weight,
+      //stamp_validity_days: millisecondsToDays(data.stamp_validity_ms ?? 0),
+      admin_notes: data.admin_notes,
     }),
 
-    [providerInfo.default_weight, providerInfo.stamp_validity_ms],
+    [data.admin_notes, data.default_weight, data.stamp_validity_ms],
   );
 
   const onSubmit = useCallback(
@@ -288,7 +290,7 @@ export const useStampAdminForm = ({
 
       sybilContract
         .update_provider({
-          provider_id: providerInfo.id,
+          provider_id: data.id,
           default_weight,
 
           stamp_validity_ms: isExpiryEnabled
@@ -323,7 +325,7 @@ export const useStampAdminForm = ({
         .finally(() => actions.setSubmitting(false));
     },
 
-    [isExpiryEnabled, openDialog, providerInfo.id, updateProvider],
+    [isExpiryEnabled, openDialog, data.id, updateProvider],
   );
 
   const {
@@ -331,7 +333,7 @@ export const useStampAdminForm = ({
     handleChange,
     isSubmitting,
     isValid,
-    setValues,
+    resetForm,
     values,
     ...form
   } = useFormik<StampAdminSettingsValues>({
@@ -341,9 +343,9 @@ export const useStampAdminForm = ({
 
   useEffect(() => {
     if (isSubform && JSON.stringify(values) !== JSON.stringify(initialValues)) {
-      setValues(initialValues);
+      resetForm({ values: initialValues });
     }
-  }, [initialValues, isSubform, setValues, values]);
+  }, [initialValues, isSubform, resetForm, values]);
 
   const onExpirySwitch: (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -354,6 +356,8 @@ export const useStampAdminForm = ({
   const isLocked = disabled || isSubmitting;
 
   useFormErrorLogger(form.errors);
+
+  console.log(isExpiryEnabled);
 
   return {
     ...form,
