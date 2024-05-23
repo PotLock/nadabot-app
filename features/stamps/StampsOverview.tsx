@@ -25,7 +25,13 @@ export type StampsOverviewProps = {
 
 // Fields to use as search keyword filter
 const fuseOptions = {
-  keys: ["name", "contract_id", "submitted_by", "default_weight"],
+  keys: [
+    "provider_name",
+    "description",
+    "contract_id",
+    "submitted_by",
+    "default_weight",
+  ],
 };
 
 export default function StampsOverview({
@@ -69,7 +75,7 @@ export default function StampsOverview({
         return;
       }
 
-      setFilteredProviders(providers);
+      // setFilteredProviders(providers);
     } else {
       setFilteredProviders(providers);
     }
@@ -115,6 +121,8 @@ export default function StampsOverview({
       </Stack>
     );
   }
+
+  console.log(filteredProviders);
 
   // Use Grid View
   return (

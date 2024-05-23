@@ -7,8 +7,8 @@ import providerSorts from "@nadabot/common/lib/providerSorts";
 import * as sybilContract from "@nadabot/common/services/contracts/sybil.nadabot";
 import { useUser } from "@nadabot/common/store/useUser";
 import colors from "@nadabot/common/ui/colors";
-import { AddFilterSearchInput } from "@nadabot/common/ui/components/AddFilterSearchInput";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
+import GridContainer from "@nadabot/common/ui/components/GridContainer";
 import Input from "@nadabot/common/ui/components/Input";
 import { Select } from "@nadabot/common/ui/components/Select";
 import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
@@ -21,18 +21,18 @@ import { GroupFormParameters, useGroupForm } from "./forms";
 import { GroupPreview } from "./GroupPreview";
 import { isRuleTypePrimitive } from "./lib";
 import { GroupSchema } from "./models";
-import StampsOverview from "../stamps/StampsOverview";
+import { StampCard } from "../stamps/StampCard";
 
 export type GroupInfoProps = GroupFormParameters & {};
 
 export const GroupInfo: React.FC<GroupInfoProps> = ({ data }) => {
   const isNew = data.id === 0;
+  const [isEditModeEnabled, setIsEditModeEnabled] = useState(false);
+  const isEditable = isNew || isEditModeEnabled;
   const { isAdmin: isViewedByAdmin } = useUser();
+
   const router = useRouter();
   const { maxWidth805 } = useBreakPoints();
-
-  const [providerSearchPattern, setProviderSearchPattern] = useState("");
-  const [isEditModeEnabled, setIsEditModeEnabled] = useState(false);
   const enterEditMode = useCallback(() => setIsEditModeEnabled(true), []);
   const exitEditMode = useCallback(() => setIsEditModeEnabled(false), []);
 
@@ -84,13 +84,17 @@ export const GroupInfo: React.FC<GroupInfoProps> = ({ data }) => {
     [availableProviders, values.providers],
   );
 
+  const displayedProviders = isEditable
+    ? availableProviders
+    : includedProviders;
+
   return (
     <Stack
       gap={4}
-      component={isNew || isEditModeEnabled ? "form" : "div"}
+      component={isEditable ? "form" : "div"}
       onSubmit={handleSubmit}
     >
-      {isNew || isEditModeEnabled ? (
+      {isEditable ? (
         <Stack gap={2} direction="row" justifyContent="space-between">
           <Stack>
             <Typography fontSize={40} fontWeight={700} lineHeight="48px">
@@ -176,7 +180,7 @@ export const GroupInfo: React.FC<GroupInfoProps> = ({ data }) => {
         </>
       )}
 
-      {(isNew || isEditModeEnabled) && (
+      {isEditable && (
         <>
           <Stack
             gap={maxWidth805 ? 4 : 2}
@@ -229,7 +233,7 @@ export const GroupInfo: React.FC<GroupInfoProps> = ({ data }) => {
             fontSize={16}
             noWrap
           >
-            {isNew || isEditModeEnabled
+            {isEditable
               ? "Select checks"
               : `Contains ${values.providers.length} checks`}
           </Typography>
@@ -248,28 +252,18 @@ export const GroupInfo: React.FC<GroupInfoProps> = ({ data }) => {
           )}
         </Stack>
 
-        <ShadowContainer>
-          {(isEditModeEnabled ? availableProviders : includedProviders).length >
-            0 && (
-            <AddFilterSearchInput
-              onChange={setProviderSearchPattern}
-              hideAddFilterButton
-            />
-          )}
-
-          <StampsOverview
-            providersList={
-              isEditModeEnabled ? availableProviders : includedProviders
-            }
-            searchPattern={providerSearchPattern}
-            showLoadingState
-            selectedStamps={values.providers}
-            stampSelectHandler={
-              isEditModeEnabled && !isSubmitting
-                ? providerSelectHandler
-                : undefined
-            }
-          />
+        <ShadowContainer sx={{ gap: 2 }}>
+          <GridContainer centralize={displayedProviders.length >= 3}>
+            {displayedProviders.map((provider) => (
+              <StampCard
+                key={provider.id}
+                providerInfo={provider}
+                selectable={isEditable && !isSubmitting}
+                onSelectClick={providerSelectHandler(provider.id)}
+                selected={values.providers.includes(provider.id)}
+              />
+            ))}
+          </GridContainer>
         </ShadowContainer>
       </Stack>
     </Stack>

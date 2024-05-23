@@ -29,6 +29,7 @@ export const ContentRichModal: React.FC<ContentRichModalProps> = ({
       position="absolute"
       alignItems="center"
       p={4}
+      overflow="scroll"
     >
       <Stack
         gap={1}

@@ -194,7 +194,7 @@ export const admin_unflag_provider = (args: UnflagProviderInput) =>
 export const create_group = (args: CreateGroup) =>
   contractApi.call<typeof args, GroupExternal>("create_group", {
     args,
-    deposit: ONE_HUNDREDTH_NEAR,
+    deposit: TWO_HUNDREDTHS_NEAR,
   });
 
 export const update_group = (args: UpdateGroup) =>

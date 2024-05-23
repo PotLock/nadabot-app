@@ -91,11 +91,13 @@ const DialogsProvider: React.FC<DialogsProviderProps> = ({ children }) => {
         />
       )}
 
-      <GroupDialog
-        open={_openDialog.dialog === DIALOGS.GroupDialog}
-        onClose={closeDialog}
-        {...{ groupId }}
-      />
+      {_openDialog.dialog === DIALOGS.GroupDialog && (
+        <GroupDialog
+          open={_openDialog.dialog === DIALOGS.GroupDialog}
+          onClose={closeDialog}
+          {...{ groupId }}
+        />
+      )}
 
       {children}
     </DialogsContext.Provider>
