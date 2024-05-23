@@ -15,7 +15,7 @@ export interface Provider {
   /// Status of the provider
   status: ProviderStatus;
   /// Admin notes, e.g. reason for flagging or marking inactive
-  admin_notes?: string;
+  admin_notes?: string | null;
   /// Default weight for this provider, e.g. 100
   default_weight: number;
   /// Custom gas amount required
@@ -54,7 +54,7 @@ export interface ProviderExternal {
   /// Status of the provider
   status: ProviderStatus;
   // Admin notes, e.g. reason for flagging or marking inactive
-  admin_notes?: string;
+  admin_notes?: string | null;
   // Default weight for this provider, e.g. 100
   default_weight: number;
   // Custom gas amount required
@@ -90,13 +90,14 @@ export interface RegisterProviderInput {
   method_name: string;
   account_id_arg_name?: string;
   provider_name: string;
-  stamp_validity_ms?: number;
+  stamp_validity_ms?: number | null;
   description?: string;
   gas?: number;
   tags?: string[];
   icon_url?: string;
   external_url?: string;
   custom_args?: string | null;
+  admin_notes?: string | null;
 }
 
 export interface UpdateProviderInput extends ProviderById {
@@ -111,7 +112,7 @@ export interface UpdateProviderInput extends ProviderById {
   custom_args?: string | null;
   default_weight?: number; // owner/admin-only
   status?: ProviderStatus; // owner/admin-only
-  admin_notes?: string; // owner/admin-only
+  admin_notes?: string | null; // owner/admin-only
 }
 
 export interface ActivateProviderInput extends ProviderById {

@@ -35,6 +35,7 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
     handleChange,
     handleSubmit,
     isSubmitting,
+    onExpiryOff,
     onImagePickerClick,
     values,
   } = useStampForm({ id });
@@ -207,7 +208,11 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
       </Stack>
 
       {isAdmin && (
-        <StampAdminSettings onChange={handleChange} data={providerInfo} />
+        <StampAdminSettings
+          onChange={handleChange}
+          data={providerInfo}
+          {...{ onExpiryOff }}
+        />
       )}
 
       <Stack

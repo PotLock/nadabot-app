@@ -81,14 +81,11 @@ export const useStampForm = ({ id }: StampFormParameters) => {
     onSubmit: async (
       {
         icon_url,
-        provider_name,
-        description,
         contract_id,
         method_name,
         account_id_arg_name = DEFAULT_ACCOUNT_ID_ARG_NAME,
-        external_url,
         gas,
-        custom_args,
+        ...formValues
       },
 
       actions,
@@ -162,25 +159,19 @@ export const useStampForm = ({ id }: StampFormParameters) => {
       // 3 - Register / Update provider
       const txResult = isNew
         ? sybilContract.register_provider({
-            provider_name,
-            description,
+            ...formValues,
             account_id_arg_name,
             method_name,
             contract_id,
             gas: providerGas,
             icon_url: iconUrl,
-            external_url,
-            custom_args,
           })
         : sybilContract.update_provider({
+            ...formValues,
             provider_id: id,
-            provider_name,
-            description,
             account_id_arg_name,
             gas: providerGas,
             icon_url: iconUrl,
-            external_url,
-            custom_args,
           });
 
       txResult
@@ -208,6 +199,11 @@ export const useStampForm = ({ id }: StampFormParameters) => {
         .finally(() => hideSpinner());
     },
   });
+
+  const onExpiryOff = useCallback(
+    () => setFieldValue("stamp_validity_ms", null),
+    [setFieldValue],
+  );
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -241,6 +237,7 @@ export const useStampForm = ({ id }: StampFormParameters) => {
     dirty,
     handleChange,
     isSubmitting,
+    onExpiryOff,
     onImagePickerClick,
     values,
   };
@@ -254,14 +251,16 @@ export type StampAdminSettingsValues = Pick<
 };
 
 export type StampAdminFormParameters = {
-  isSubform?: boolean;
-  disabled?: boolean;
   data: ProviderExternal;
+  isSubform?: boolean;
+  onExpiryOff?: VoidFunction;
+  disabled?: boolean;
 };
 
 export const useStampAdminForm = ({
   data,
   isSubform = false,
+  onExpiryOff,
   disabled,
 }: StampAdminFormParameters) => {
   const isStampValiditySet = data.stamp_validity_ms !== null;
@@ -283,7 +282,11 @@ export const useStampAdminForm = ({
 
   const onSubmit = useCallback(
     (
-      { default_weight, stamp_validity_days }: StampAdminSettingsValues,
+      {
+        default_weight,
+        stamp_validity_days,
+        admin_notes,
+      }: StampAdminSettingsValues,
       actions: FormikHelpers<StampAdminSettingsValues>,
     ) => {
       actions.setSubmitting(true);
@@ -292,6 +295,7 @@ export const useStampAdminForm = ({
         .update_provider({
           provider_id: data.id,
           default_weight,
+          admin_notes,
 
           stamp_validity_ms: isExpiryEnabled
             ? daysToMilliseconds(stamp_validity_days)
@@ -350,14 +354,19 @@ export const useStampAdminForm = ({
   const onExpirySwitch: (
     event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean,
-  ) => void = useCallback((_, enabled) => setIsExpiryEnabled(enabled), []);
+  ) => void = useCallback(
+    (_, enabled) => {
+      if (!enabled) onExpiryOff?.();
+      setIsExpiryEnabled(enabled);
+    },
+
+    [onExpiryOff],
+  );
 
   const hasChanges = dirty || isExpiryEnabled !== isStampValiditySet;
   const isLocked = disabled || isSubmitting;
 
   useFormErrorLogger(form.errors);
-
-  console.log(isExpiryEnabled);
 
   return {
     ...form,

@@ -15,7 +15,7 @@ import { StampAdminFormParameters, useStampAdminForm } from "./forms";
 
 export type StampAdminSettingsProps = Pick<
   StampAdminFormParameters,
-  "disabled" | "data"
+  "data" | "onExpiryOff" | "disabled"
 > & {
   embedded?: boolean;
   heading?: string;
@@ -29,6 +29,7 @@ export const StampAdminSettings = ({
   disabled = false,
   heading = "Admin Settings",
   onChange,
+  onExpiryOff,
   indicateUnsavedChanges,
   data,
   sx,
@@ -50,7 +51,7 @@ export const StampAdminSettings = ({
     onExpirySwitch,
     values,
     ...form
-  } = useStampAdminForm({ data, isSubform, disabled });
+  } = useStampAdminForm({ data, isSubform, onExpiryOff, disabled });
 
   const handleChange = onChange ?? form.handleChange;
 
