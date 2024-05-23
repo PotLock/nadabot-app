@@ -46,9 +46,12 @@ export interface GroupById {
   group_id: GroupId;
 }
 
-export type AddOrUpdateGroupInput = Pick<
-  GroupExternal,
-  "rule" | "providers"
-> & {
+export interface CreateGroup extends Pick<GroupExternal, "rule" | "providers"> {
   group_name: GroupExternal["name"];
-};
+}
+
+export interface UpdateGroup
+  extends GroupById,
+    Partial<Pick<GroupExternal, "rule" | "providers">> {
+  group_name?: GroupExternal["name"];
+}

@@ -6,15 +6,14 @@ import { NETWORK, Routes } from "@nadabot/common/constants";
 import * as contract from "@nadabot/common/services/contracts/sybil.nadabot";
 import { HumanScoreResponse } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/is-human";
 import colors from "@nadabot/common/ui/colors";
+import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
+import CustomAvatar from "@nadabot/common/ui/components/CustomAvatar";
+import CustomInput from "@nadabot/common/ui/components/CustomInput";
+import RoundedSearchButton from "@nadabot/common/ui/components/RoundedSearchButton";
+import Tag from "@nadabot/common/ui/components/Tag";
 import { SearchIconA, SearchIconB } from "@nadabot/common/ui/icons";
+import useSpinner from "@nadabot/common/ui/utils/globalSpinner";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
-import useSpinner from "@nadabot/common/ui/utils/useSpinner";
-
-import ButtonContainer from "../../common/ui/components/ButtonContainer";
-import CustomAvatar from "../../common/ui/components/CustomAvatar";
-import CustomInput from "../../common/ui/components/CustomInput";
-import RoundedSearchButton from "../../common/ui/components/RoundedSearchButton";
-import Tag from "../../common/ui/components/Tag";
 
 const Item = (props: {
   accountId: string;

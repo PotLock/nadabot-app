@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 
 import { DIALOGS, useDialogs } from "@nadabot/common/contexts/dialogs";
 import { ProviderId } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import useSnackbar from "@nadabot/common/ui/utils/snackbar";
 
 import useGetProviderById from "./useGetProviderById";
-import useSnackbars from "../common/ui/utils/useSnackbars";
 
 /**
  * Check if there was an verified provider success, if so, show StampDialog with Verified button + Snackbar notification
@@ -13,7 +13,7 @@ import useSnackbars from "../common/ui/utils/useSnackbars";
 const useVerifiedProviderSuccess = () => {
   const router = useRouter();
   const { openDialog } = useDialogs();
-  const { showSnackbar } = useSnackbars();
+  const { showSnackbar } = useSnackbar();
 
   const [verifiedProviderId, setVerifiedProvider] = useState<ProviderId>(0);
 

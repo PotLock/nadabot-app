@@ -11,7 +11,7 @@ import {
   ContentRichModal,
   ContentRichModalProps,
 } from "@nadabot/common/ui/components/ContentRichModal";
-import useSpinner from "@nadabot/common/ui/utils/useSpinner";
+import { Spinner } from "@nadabot/common/ui/components/Spinner";
 
 import { GroupInfo } from "./GroupInfo";
 import { groupDefaults } from "./models";
@@ -28,14 +28,13 @@ export const GroupDialog: React.FC<GroupDialogProps> = ({
   ...props
 }) => {
   const isNew = typeof groupId !== "number";
-  const { showSpinner, hideSpinner } = useSpinner();
 
   const [data, setData] = useState<GroupExternal | null>(null);
   const [error, setError] = useState<Error | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
+    setData(null);
 
     if (isNew) {
       setData({
@@ -59,21 +58,28 @@ export const GroupDialog: React.FC<GroupDialogProps> = ({
 
   useEffect(() => {
     if (error !== null) console.error(error);
+  }, [error]);
 
-    if (loading) {
-      showSpinner();
-    } else hideSpinner();
-  }, [error, hideSpinner, loading, showSpinner]);
-
-  return loading ? null : (
+  return (
     <ContentRichModal {...props}>
+      {loading && (
+        <Spinner
+          sx={{
+            width: "100%",
+            height: 320,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        />
+      )}
+
       {error !== null && (
         <Stack width="100%" alignItems="center" justifyContent="center">
           <Typography color={colors.ERROR}>{error.message}</Typography>
         </Stack>
       )}
 
-      {data !== null && <GroupInfo {...{ data }} />}
+      {data !== null && <GroupInfo onGroupUpdate={setData} {...{ data }} />}
     </ContentRichModal>
   );
 };

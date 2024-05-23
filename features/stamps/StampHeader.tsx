@@ -18,9 +18,9 @@ import CustomAvatar from "@nadabot/common/ui/components/CustomAvatar";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import CustomCircularProgress from "@nadabot/common/ui/components/CustomCircularProgress";
 import Tag from "@nadabot/common/ui/components/Tag";
+import useSpinner from "@nadabot/common/ui/utils/globalSpinner";
+import useSnackbar from "@nadabot/common/ui/utils/snackbar";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
-import useSnackbars from "@nadabot/common/ui/utils/useSnackbars";
-import useSpinner from "@nadabot/common/ui/utils/useSpinner";
 import useProviderStatusChecker from "@nadabot/hooks/useProviderStatusChecker";
 
 export type StampHeaderProps = {
@@ -33,7 +33,7 @@ export const StampHeader: React.FC<StampHeaderProps> = ({ providerInfo }) => {
   const { updateProvider } = useProviders();
   const { maxWidth1280, maxWidth805, maxWidth700, maxWidth430 } =
     useBreakPoints();
-  const { showSnackbar } = useSnackbars();
+  const { showSnackbar } = useSnackbar();
   const router = useRouter();
   const { showSpinner, hideSpinner } = useSpinner();
 

@@ -12,8 +12,8 @@ import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import Input from "@nadabot/common/ui/components/Input";
 import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
 import { ListDashboardIcon } from "@nadabot/common/ui/icons";
+import useSpinner from "@nadabot/common/ui/utils/globalSpinner";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
-import useSpinner from "@nadabot/common/ui/utils/useSpinner";
 
 export default function AdminDashboardSection() {
   const { maxWidth962, maxWidth700 } = useBreakPoints();

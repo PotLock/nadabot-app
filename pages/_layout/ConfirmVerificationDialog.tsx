@@ -21,7 +21,7 @@ import colors from "@nadabot/common/ui/colors";
 import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import { CopyIcon } from "@nadabot/common/ui/icons";
-import useSnackbars from "@nadabot/common/ui/utils/useSnackbars";
+import useSnackbar from "@nadabot/common/ui/utils/snackbar";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 
 type Props = {
@@ -39,7 +39,7 @@ export default function ConfirmVerificationDialog({
   const [provider, setProvider] = useState<ProviderExternal>();
   const [providerLink, setProviderLink] = useState<string>();
   const [loading, isLoading] = useState(false);
-  const { showSnackbar } = useSnackbars();
+  const { showSnackbar } = useSnackbar();
 
   useEffect(() => {
     if (props?.providerId && activeIsHuman) {

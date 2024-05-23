@@ -26,7 +26,7 @@ import {
 import * as pinataServices from "@nadabot/common/services/pinata";
 import { useProviders } from "@nadabot/common/store/useProviders";
 import { useFormErrorLogger } from "@nadabot/common/ui/utils/forms";
-import useSpinner from "@nadabot/common/ui/utils/useSpinner";
+import useSpinner from "@nadabot/common/ui/utils/globalSpinner";
 
 import { StampSchema, stampSchema } from "./models";
 
@@ -36,6 +36,7 @@ export type StampFormParameters = {
 
 export const useStampForm = ({ id }: StampFormParameters) => {
   const isNew = typeof id !== "number";
+  const { updateProvider } = useProviders();
   const { showSpinner, hideSpinner } = useSpinner();
   const { openDialog } = useDialogs();
   const [iconFileCID, setIconFileCID] = useState<string | null>(null);
@@ -89,7 +90,7 @@ export const useStampForm = ({ id }: StampFormParameters) => {
         custom_args,
       },
 
-      { setFieldError },
+      actions,
     ) => {
       showSpinner();
 
@@ -110,7 +111,7 @@ export const useStampForm = ({ id }: StampFormParameters) => {
         // NOTE: this returns an array of validated humans [should break]: registry-v2.i-am-human.testnet
         // NOTE: this returns an boolean [should work]:
         if (typeof response !== "boolean") {
-          setFieldError(
+          actions.setFieldError(
             "method",
             `The return is not a boolean, it is a${Array.isArray(response) ? "n array" : ` ${typeof response}`}!`,
           );
@@ -120,7 +121,7 @@ export const useStampForm = ({ id }: StampFormParameters) => {
         }
       } catch (error) {
         // 1.2 validate the `account_id_arg_name` parameter or other kind of contract error
-        setFieldError(
+        actions.setFieldError(
           "method",
           `The contract/method does not exist or does not have an "${account_id_arg_name}" parameter.`,
         );
@@ -136,7 +137,7 @@ export const useStampForm = ({ id }: StampFormParameters) => {
         const fileCID = await pinataServices.uploadFile(imagePickerValue);
 
         if (fileCID === undefined) {
-          setFieldError(
+          actions.setFieldError(
             "icon_url",
             "There was an issue while trying to upload the image!",
           );
@@ -182,22 +183,28 @@ export const useStampForm = ({ id }: StampFormParameters) => {
           });
 
       txResult
-        .then(() => {
-          hideSpinner();
-          // 4 - Show DONE Dialog -> this is going to take user to HOME page
-          openDialog({ dialog: DIALOGS.StampSent });
+        .then(({ id, ...resultData }) => {
+          if (isNew) {
+            // 4 - Show DONE Dialog -> this is going to take user to HOME page
+            openDialog({ dialog: DIALOGS.StampSent });
+          } else {
+            updateProvider({ provider_id: id, ...resultData });
+            actions.resetForm({ values: resultData });
+          }
         })
         .catch((error) => {
-          hideSpinner();
-
-          const errorObj = JSON.parse(error.message);
-          const errorMsg = errorObj.kind.ExecutionError as string;
-
           openDialog({
             dialog: DIALOGS.Error,
-            props: { title: "Error", description: errorMsg },
+
+            props: {
+              title: "Error",
+
+              description: JSON.parse(error.message).kind
+                .ExecutionError as string,
+            },
           });
-        });
+        })
+        .finally(() => hideSpinner());
     },
   });
 
@@ -254,6 +261,7 @@ export const useStampAdminForm = ({
   providerInfo,
 }: StampAdminFormParameters) => {
   const isStampValiditySet = providerInfo.stamp_validity_ms !== null;
+  const { openDialog } = useDialogs();
   const { updateProvider } = useProviders();
 
   const [isExpiryEnabled, setIsExpiryEnabled] =
@@ -272,11 +280,13 @@ export const useStampAdminForm = ({
   );
 
   const onSubmit = useCallback(
-    async (
+    (
       { default_weight, stamp_validity_days }: StampAdminSettingsValues,
-      { setSubmitting, resetForm }: FormikHelpers<StampAdminSettingsValues>,
+      actions: FormikHelpers<StampAdminSettingsValues>,
     ) => {
-      await sybilContract
+      actions.setSubmitting(true);
+
+      sybilContract
         .update_provider({
           provider_id: providerInfo.id,
           default_weight,
@@ -288,7 +298,7 @@ export const useStampAdminForm = ({
         .then(({ id: provider_id, ...updated }) => {
           updateProvider({ provider_id, ...updated });
 
-          resetForm({
+          actions.resetForm({
             values: {
               default_weight: updated.default_weight,
 
@@ -298,12 +308,22 @@ export const useStampAdminForm = ({
             },
           });
         })
-        .catch(console.error);
+        .catch((error) => {
+          openDialog({
+            dialog: DIALOGS.Error,
 
-      setSubmitting(false);
+            props: {
+              title: "Error",
+
+              description: JSON.parse(error.message).kind
+                .ExecutionError as string,
+            },
+          });
+        })
+        .finally(() => actions.setSubmitting(false));
     },
 
-    [isExpiryEnabled, providerInfo.id, updateProvider],
+    [isExpiryEnabled, openDialog, providerInfo.id, updateProvider],
   );
 
   const {
@@ -333,10 +353,7 @@ export const useStampAdminForm = ({
   const hasChanges = dirty || isExpiryEnabled !== isStampValiditySet;
   const isLocked = disabled || isSubmitting;
 
-  useEffect(
-    () => Object.values(form.errors).forEach(console.error),
-    [form.errors],
-  );
+  useFormErrorLogger(form.errors);
 
   return {
     ...form,

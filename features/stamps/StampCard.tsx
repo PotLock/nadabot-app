@@ -22,9 +22,9 @@ import colors from "@nadabot/common/ui/colors";
 import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
 import CustomAvatar from "@nadabot/common/ui/components/CustomAvatar";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
+import useSpinner from "@nadabot/common/ui/utils/globalSpinner";
+import useSnackbar from "@nadabot/common/ui/utils/snackbar";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
-import useSnackbars from "@nadabot/common/ui/utils/useSnackbars";
-import useSpinner from "@nadabot/common/ui/utils/useSpinner";
 import useProviderStatusChecker from "@nadabot/hooks/useProviderStatusChecker";
 
 import { StampAdminSettings } from "./StampAdminSettings";
@@ -64,7 +64,7 @@ export const StampCard: React.FC<StampCardProps> = ({
   const { showSpinner, hideSpinner } = useSpinner();
   const [isFooterHidden, setIsFooterHidden] = useState(false);
   const [hasPendingUpdate, indicatePendingUpdate] = useState(false);
-  const { showSnackbar } = useSnackbars();
+  const { showSnackbar } = useSnackbar();
   const router = useRouter();
 
   const [isProviderActive] = useState(

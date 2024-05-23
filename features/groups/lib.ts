@@ -1,5 +1,6 @@
 import {
   Rule,
+  RuleGenericType,
   RulePrimitiveType,
   RuleType,
 } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/groups";
@@ -10,12 +11,9 @@ export const isRuleTypePrimitive = (ruleType: RuleType) =>
   ruleType === RulePrimitiveType.Highest ||
   ruleType === RulePrimitiveType.Lowest;
 
-export const extractRuleParams = (
-  rule: Rule,
-): {
-  ruleType: RuleType;
-  ruleThreshold?: number;
-} => {
+type RuleParams = { ruleType: RuleType; ruleThreshold?: number };
+
+export const extractRuleParams = (rule: Rule): RuleParams => {
   const [likelyRuleType, threshold] =
     typeof rule === "string"
       ? [rule]
@@ -29,3 +27,11 @@ export const extractRuleParams = (
       : GROUP_RULE_TYPE_DEFAULT,
   };
 };
+
+export const mergeRuleParams = ({
+  ruleType,
+  ruleThreshold,
+}: RuleParams): Rule =>
+  isRuleTypePrimitive(ruleType)
+    ? (ruleType as RulePrimitiveType)
+    : ({ [ruleType as keyof typeof RuleGenericType]: ruleThreshold } as Rule);

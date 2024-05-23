@@ -9,8 +9,8 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import { Suspense } from "react";
 
-import SnackbarProvider from "@nadabot/common/contexts/SnackbarProvider";
-import { SpinnerProvider } from "@nadabot/common/contexts/SpinnerProvider";
+import { GlobalSpinnerOverlay } from "@nadabot/common/ui/components/GlobalSpinnerOverlay";
+import SnackbarProvider from "@nadabot/common/ui/components/SnackbarProvider";
 import { theme } from "@nadabot/common/ui/theme";
 import Web3AuthProvider from "@nadabot/features/auth/Web3AuthProvider";
 
@@ -29,7 +29,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Suspense fallback={<p>Loading...</p>}>
-          <SpinnerProvider>
+          <GlobalSpinnerOverlay>
             <Web3AuthProvider>
               <SnackbarProvider>
                 <DialogsProvider>
@@ -41,7 +41,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 </DialogsProvider>
               </SnackbarProvider>
             </Web3AuthProvider>
-          </SpinnerProvider>
+          </GlobalSpinnerOverlay>
         </Suspense>
       </ThemeProvider>
     </>

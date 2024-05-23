@@ -45,11 +45,7 @@ export default function StampsOverview({
   });
 
   // Give preference to providersList
-  const providers = providersList
-    ? providersList
-    : isAdmin
-      ? deactivated
-      : active;
+  const providers = providersList ?? isAdmin ? deactivated : active;
 
   // Fuse
   const [fuse, setFuse] = useState<Fuse<ProviderExternalWithIsHuman>>();

@@ -1,25 +1,29 @@
 import { useFormik } from "formik";
 import { useCallback } from "react";
 
+import { DIALOGS, useDialogs } from "@nadabot/common/contexts/dialogs";
 import * as sybilContract from "@nadabot/common/services/contracts/sybil.nadabot";
-import {
-  GroupExternal,
-  Rule,
-  RuleGenericType,
-  RulePrimitiveType,
-} from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/groups";
+import { GroupExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/groups";
 import { ProviderId } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 import { useFormErrorLogger } from "@nadabot/common/ui/utils/forms";
 
-import { extractRuleParams, isRuleTypePrimitive } from "./lib";
+import { extractRuleParams, mergeRuleParams } from "./lib";
 import { GroupSchema, groupSchema } from "./models";
 
 export type GroupFormParameters = {
   data: GroupExternal;
   onGroupCreate?: VoidFunction;
+  onGroupUpdate: (updatedData: GroupExternal) => void;
 };
 
-export const useGroupForm = ({ data, onGroupCreate }: GroupFormParameters) => {
+export const useGroupForm = ({
+  data,
+  onGroupCreate,
+  onGroupUpdate,
+}: GroupFormParameters) => {
+  const isNew = data.id === 0;
+  const { openDialog } = useDialogs();
+
   const { dirty, isSubmitting, isValid, setFieldValue, values, ...form } =
     useFormik<GroupSchema>({
       validationSchema: groupSchema,
@@ -31,30 +35,60 @@ export const useGroupForm = ({ data, onGroupCreate }: GroupFormParameters) => {
       },
 
       onSubmit: ({ ruleType, ruleThreshold, ...formValues }, actions) => {
-        console.table({ ruleType, ruleThreshold, ...formValues });
-
         actions.setSubmitting(true);
 
-        sybilContract
-          .add_or_update_group({
-            ...formValues,
+        const ruleInput = mergeRuleParams({ ruleType, ruleThreshold });
 
-            rule: isRuleTypePrimitive(ruleType)
-              ? (ruleType as RulePrimitiveType)
-              : ({
-                  [ruleType as keyof typeof RuleGenericType]: ruleThreshold,
-                } as Rule),
-          })
-          .then(({ id, name, providers, rule }) => {
-            if (id === data.id) {
-              actions.setValues({
-                ...extractRuleParams(rule),
-                group_name: name,
-                providers,
+        const txResult = isNew
+          ? sybilContract.create_group({ ...formValues, rule: ruleInput })
+          : sybilContract.update_group({
+              group_id: data.id,
+
+              group_name:
+                formValues.group_name !== data.name
+                  ? formValues.group_name
+                  : undefined,
+
+              providers:
+                formValues.providers !== data.providers
+                  ? formValues.providers
+                  : undefined,
+
+              rule:
+                ruleInput !== data.rule ||
+                JSON.stringify(data.rule) !== JSON.stringify(ruleInput)
+                  ? ruleInput
+                  : undefined,
+            });
+
+        txResult
+          .then(({ id, ...resultData }) => {
+            if (isNew) {
+              onGroupCreate?.();
+            } else {
+              onGroupUpdate({ id, ...resultData });
+
+              actions.resetForm({
+                values: {
+                  ...extractRuleParams(resultData.rule),
+                  group_name: resultData.name,
+                  providers: resultData.providers,
+                },
               });
-            } else onGroupCreate?.();
+            }
           })
-          .catch(console.error)
+          .catch((error) => {
+            openDialog({
+              dialog: DIALOGS.Error,
+
+              props: {
+                title: "Error",
+
+                description: JSON.parse(error.message).kind
+                  .ExecutionError as string,
+              },
+            });
+          })
           .finally(() => actions.setSubmitting(false));
       },
     });

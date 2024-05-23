@@ -8,9 +8,10 @@ import {
 } from "@nadabot/common/constants";
 
 import {
-  AddOrUpdateGroupInput,
+  CreateGroup,
   GroupById,
   GroupExternal,
+  UpdateGroup,
 } from "./interfaces/groups";
 import { GetHumanScoreInput, HumanScoreResponse } from "./interfaces/is-human";
 import { Config } from "./interfaces/lib";
@@ -190,8 +191,14 @@ export const admin_flag_provider = (args: FlagProviderInput) =>
 export const admin_unflag_provider = (args: UnflagProviderInput) =>
   contractApi.call<typeof args, Provider>("admin_unflag_provider", { args });
 
-export const add_or_update_group = (args: AddOrUpdateGroupInput) =>
-  contractApi.call<typeof args, GroupExternal>("add_or_update_group", {
+export const create_group = (args: CreateGroup) =>
+  contractApi.call<typeof args, GroupExternal>("create_group", {
+    args,
+    deposit: ONE_HUNDREDTH_NEAR,
+  });
+
+export const update_group = (args: UpdateGroup) =>
+  contractApi.call<typeof args, GroupExternal>("update_group", {
     args,
     deposit: ONE_HUNDREDTH_NEAR,
   });

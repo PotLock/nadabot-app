@@ -8,8 +8,8 @@ import addMultipleStamps from "@nadabot/common/services/web3/addMultipleStamps";
 import colors from "@nadabot/common/ui/colors";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import { BellIcon } from "@nadabot/common/ui/icons";
+import useSpinner from "@nadabot/common/ui/utils/globalSpinner";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
-import useSpinner from "@nadabot/common/ui/utils/useSpinner";
 
 type ItemProps = {
   providerInfo: ProviderExternalWithIsHuman;

@@ -1,31 +1,16 @@
 import { Stack, Typography } from "@mui/material";
-import { FC, createContext, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 
 import colors from "@nadabot/common/ui/colors";
 import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
 
-type OpenSnackbarProps = {
-  description: string;
-  actionText?: string;
-  bgColor?: "blue" | "red";
-  onClickActionText?: () => void;
-};
-
-type SnackbarContextProps = {
-  showSnackbar: (props: OpenSnackbarProps) => void;
-};
-
-export const SnackbarContext = createContext<SnackbarContextProps>({
-  showSnackbar: () => {
-    throw new Error("showSnackbar must be defined");
-  },
-});
+import { OpenSnackbarProps, SnackbarContext } from "../utils/snackbar";
 
 type Props = {
   children: JSX.Element;
 };
 
-const SnackbarProvider: FC<Props> = ({ children }) => {
+const SnackbarProvider: React.FC<Props> = ({ children }) => {
   const [open, setOpen] = useState(false);
 
   const [props, setProps] = useState<OpenSnackbarProps>({

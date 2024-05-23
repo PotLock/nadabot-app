@@ -10,8 +10,8 @@ import { useUser } from "@nadabot/common/store/useUser";
 import colors from "@nadabot/common/ui/colors";
 import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
 import CustomAvatar from "@nadabot/common/ui/components/CustomAvatar";
+import useSpinner from "@nadabot/common/ui/utils/globalSpinner";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
-import useSpinner from "@nadabot/common/ui/utils/useSpinner";
 import useWeb3Auth from "@nadabot/features/auth/useWeb3Auth";
 
 const UserDropbox = () => {

@@ -59,14 +59,14 @@ export function Select<ValueType>({
         }}
         {...props}
       >
-        {options.map(({ title, ...option }) => (
+        {options.map(({ title, disabled, value }) => (
           <MenuItem
             key={uuidv4()}
-            {...option}
             sx={{ gap: 2, alignItems: "start" }}
             disableRipple
+            {...{ disabled, value }}
           >
-            {(props.defaultValue ?? props.value) === option.value ? (
+            {(props.defaultValue ?? props.value) === value ? (
               <CheckIcon fontSize="small" />
             ) : (
               <span style={{ width: 20, height: 20 }} />
