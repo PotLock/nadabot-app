@@ -7,6 +7,7 @@ import {
   DEFAULT_ACCOUNT_ID_ARG_NAME,
   MAX_GAS,
 } from "@nadabot/common/constants";
+import { daysToMilliseconds } from "@nadabot/common/lib/time";
 import { walletApi } from "@nadabot/common/services/contracts";
 import { ProviderStatus } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 import { useUser } from "@nadabot/common/store/useUser";
@@ -37,10 +38,13 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
     isSubmitting,
     onExpiryOff,
     onImagePickerClick,
+    imagePickerValue,
     values,
-  } = useStampForm({ id });
+  } = useStampForm({ id, onUpdateSuccess: router.back });
 
-  const providerInfo = useMemo(
+  const { stampValidityDays } = values;
+
+  const providerPreviewData = useMemo(
     () => ({
       id: id ?? 0,
       status: ProviderStatus.Active,
@@ -50,10 +54,17 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
       stamp_count: 0,
       account_id_arg_name: DEFAULT_ACCOUNT_ID_ARG_NAME,
       is_user_a_human: false,
+
+      stamp_validity_ms:
+        typeof stampValidityDays === "number"
+          ? daysToMilliseconds(stampValidityDays)
+          : stampValidityDays,
+
       ...values,
+      icon_url: imagePickerValue ?? values.icon_url,
     }),
 
-    [id, values],
+    [id, imagePickerValue, stampValidityDays, values],
   );
 
   return (
@@ -196,12 +207,12 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
           <Box mt={4}>
             <StampCard
               isPreview
+              providerInfo={providerPreviewData}
+              hidePoints
               sx={{
                 minWidth: maxWidth430 ? "initial" : 392,
                 backgroundColor: colors.WHITE,
               }}
-              hidePoints
-              {...{ providerInfo }}
             />
           </Box>
         </Stack>
@@ -210,7 +221,7 @@ export const StampEditor: React.FC<StampEditorProps> = ({ id }) => {
       {isAdmin && (
         <StampAdminSettings
           onChange={handleChange}
-          data={providerInfo}
+          data={providerPreviewData}
           {...{ onExpiryOff }}
         />
       )}

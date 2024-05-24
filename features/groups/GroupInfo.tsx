@@ -60,8 +60,8 @@ export const GroupInfo: React.FC<GroupInfoProps> = ({ data }) => {
     values,
   } = useGroupForm({
     data,
-    onGroupCreate: router.reload,
-    onGroupUpdate: exitEditMode,
+    onCreateSuccess: router.reload,
+    onUpdateSuccess: exitEditMode,
   });
 
   const onCancelClick = useCallback(() => {

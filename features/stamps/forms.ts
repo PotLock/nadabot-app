@@ -32,9 +32,10 @@ import { StampSchema, stampSchema } from "./models";
 
 export type StampFormParameters = {
   id?: ProviderId;
+  onUpdateSuccess?: VoidFunction;
 };
 
-export const useStampForm = ({ id }: StampFormParameters) => {
+export const useStampForm = ({ id, onUpdateSuccess }: StampFormParameters) => {
   const isNew = typeof id !== "number";
   const { updateProvider } = useProviders();
   const { showSpinner, hideSpinner } = useSpinner();
@@ -154,19 +155,12 @@ export const useStampForm = ({ id }: StampFormParameters) => {
       }
 
       // 2 - Upload image and get its CID
-      // TODO: Upload the image only if `imagePickerValue` !== undefined
-
       if (typeof imagePickerValue === "string") {
         const fileCID = await pinataServices.uploadFile(imagePickerValue);
 
         if (fileCID === undefined) {
-          actions.setFieldError(
-            "icon_url",
-            "There was an issue while trying to upload the image!",
-          );
-
-          hideSpinner();
-          return;
+          actions.setFieldError("icon_url", "Unable to upload the image!");
+          return void hideSpinner();
         } else setIconFileCID(fileCID);
       }
 
@@ -213,7 +207,7 @@ export const useStampForm = ({ id }: StampFormParameters) => {
             openDialog({ dialog: DIALOGS.StampSent });
           } else {
             updateProvider({ provider_id: id, ...resultData });
-            refreshInitialValues({ id, ...resultData });
+            onUpdateSuccess?.();
           }
         })
         .catch((error) => {
@@ -246,12 +240,6 @@ export const useStampForm = ({ id }: StampFormParameters) => {
     [form, onValueChange],
   );
 
-  useEffect(() => {
-    if (typeof imagePickerValue === "string") {
-      setFieldValue("icon_url", imagePickerValue);
-    }
-  }, [filesContent, setFieldValue, imagePickerValue]);
-
   useFormErrorLogger(form.errors);
 
   console.log(values);
@@ -263,6 +251,7 @@ export const useStampForm = ({ id }: StampFormParameters) => {
     isSubmitting,
     onExpiryOff,
     onImagePickerClick: openFilePicker,
+    imagePickerValue,
     values,
   };
 };

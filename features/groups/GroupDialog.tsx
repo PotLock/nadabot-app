@@ -79,7 +79,7 @@ export const GroupDialog: React.FC<GroupDialogProps> = ({
         </Stack>
       )}
 
-      {data !== null && <GroupInfo onGroupUpdate={setData} {...{ data }} />}
+      {data !== null && <GroupInfo onUpdateSuccess={setData} {...{ data }} />}
     </ContentRichModal>
   );
 };

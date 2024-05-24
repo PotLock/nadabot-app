@@ -12,14 +12,14 @@ import { GroupSchema, groupSchema } from "./models";
 
 export type GroupFormParameters = {
   data: GroupExternal;
-  onGroupCreate?: VoidFunction;
-  onGroupUpdate: (updatedData: GroupExternal) => void;
+  onCreateSuccess?: VoidFunction;
+  onUpdateSuccess: (updatedData: GroupExternal) => void;
 };
 
 export const useGroupForm = ({
   data,
-  onGroupCreate,
-  onGroupUpdate,
+  onCreateSuccess,
+  onUpdateSuccess,
 }: GroupFormParameters) => {
   const isNew = data.id === 0;
   const { openDialog } = useDialogs();
@@ -59,9 +59,9 @@ export const useGroupForm = ({
         txResult
           .then(({ id, ...resultData }) => {
             if (isNew) {
-              onGroupCreate?.();
+              onCreateSuccess?.();
             } else {
-              onGroupUpdate({ id, ...resultData });
+              onUpdateSuccess({ id, ...resultData });
 
               actions.resetForm({
                 values: {
