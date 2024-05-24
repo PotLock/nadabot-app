@@ -41,7 +41,41 @@ export const useStampForm = ({ id }: StampFormParameters) => {
   const { openDialog } = useDialogs();
   const [iconFileCID, setIconFileCID] = useState<string | null>(null);
 
-  const { openFilePicker: onImagePickerClick, filesContent } = useFilePicker({
+  const [initialValues, setInitialValues] = useState<StampSchema>({
+    icon_url: "",
+    provider_name: "",
+    description: "",
+    contract_id: "",
+    method_name: "",
+    account_id_arg_name: DEFAULT_ACCOUNT_ID_ARG_NAME,
+    external_url: "",
+    gas: 0,
+  });
+
+  const refreshInitialValues = (data?: ProviderExternal) => {
+    if (data !== undefined) {
+      const { stamp_validity_ms, ...provider } = data;
+
+      setInitialValues({
+        ...provider,
+
+        stampValidityDays:
+          typeof stamp_validity_ms === "number"
+            ? millisecondsToDays(stamp_validity_ms ?? 0)
+            : stamp_validity_ms,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (!isNew) {
+      sybilContract
+        .get_provider({ provider_id: id })
+        .then(refreshInitialValues);
+    }
+  }, [id, isNew]);
+
+  const { openFilePicker, filesContent } = useFilePicker({
     readAs: "DataURL",
     accept: "image/*",
     multiple: false,
@@ -59,24 +93,14 @@ export const useStampForm = ({ id }: StampFormParameters) => {
     dirty,
     handleChange: onValueChange,
     isSubmitting,
-    resetForm,
     setFieldValue,
     values,
     ...form
   } = useFormik<StampSchema>({
-    validateOnChange: false,
+    initialValues,
+    enableReinitialize: true,
     validationSchema: stampSchema,
-
-    initialValues: {
-      icon_url: "",
-      provider_name: "",
-      description: "",
-      contract_id: "",
-      method_name: "",
-      account_id_arg_name: DEFAULT_ACCOUNT_ID_ARG_NAME,
-      external_url: "",
-      gas: 0,
-    },
+    validateOnChange: false,
 
     onSubmit: async (
       {
@@ -85,6 +109,7 @@ export const useStampForm = ({ id }: StampFormParameters) => {
         method_name,
         account_id_arg_name = DEFAULT_ACCOUNT_ID_ARG_NAME,
         gas,
+        stampValidityDays,
         ...formValues
       },
 
@@ -156,6 +181,11 @@ export const useStampForm = ({ id }: StampFormParameters) => {
           ? pinataServices.buildFileURL(iconFileCID)
           : icon_url;
 
+      const stamp_validity_ms =
+        typeof stampValidityDays === "number"
+          ? daysToMilliseconds(stampValidityDays)
+          : stampValidityDays;
+
       // 3 - Register / Update provider
       const txResult = isNew
         ? sybilContract.register_provider({
@@ -165,6 +195,7 @@ export const useStampForm = ({ id }: StampFormParameters) => {
             contract_id,
             gas: providerGas,
             icon_url: iconUrl,
+            stamp_validity_ms,
           })
         : sybilContract.update_provider({
             ...formValues,
@@ -172,6 +203,7 @@ export const useStampForm = ({ id }: StampFormParameters) => {
             account_id_arg_name,
             gas: providerGas,
             icon_url: iconUrl,
+            stamp_validity_ms,
           });
 
       txResult
@@ -181,7 +213,7 @@ export const useStampForm = ({ id }: StampFormParameters) => {
             openDialog({ dialog: DIALOGS.StampSent });
           } else {
             updateProvider({ provider_id: id, ...resultData });
-            actions.resetForm({ values: resultData });
+            refreshInitialValues({ id, ...resultData });
           }
         })
         .catch((error) => {
@@ -201,7 +233,7 @@ export const useStampForm = ({ id }: StampFormParameters) => {
   });
 
   const onExpiryOff = useCallback(
-    () => setFieldValue("stamp_validity_ms", null),
+    () => setFieldValue("stampValidityDays", null),
     [setFieldValue],
   );
 
@@ -214,21 +246,13 @@ export const useStampForm = ({ id }: StampFormParameters) => {
     [form, onValueChange],
   );
 
-  useFormErrorLogger(form.errors);
-
   useEffect(() => {
     if (typeof imagePickerValue === "string") {
       setFieldValue("icon_url", imagePickerValue);
     }
   }, [filesContent, setFieldValue, imagePickerValue]);
 
-  useEffect(() => {
-    if (!isNew) {
-      sybilContract.get_provider({ provider_id: id }).then((provider) => {
-        if (provider !== undefined) resetForm({ values: provider });
-      });
-    }
-  }, [id, isNew, resetForm]);
+  useFormErrorLogger(form.errors);
 
   console.log(values);
 
@@ -238,7 +262,7 @@ export const useStampForm = ({ id }: StampFormParameters) => {
     handleChange,
     isSubmitting,
     onExpiryOff,
-    onImagePickerClick,
+    onImagePickerClick: openFilePicker,
     values,
   };
 };
@@ -247,7 +271,7 @@ export type StampAdminSettingsValues = Pick<
   UpdateProviderInput,
   "default_weight" | "admin_notes"
 > & {
-  stamp_validity_days: number;
+  stampValidityDays: number;
 };
 
 export type StampAdminFormParameters = {
@@ -273,7 +297,7 @@ export const useStampAdminForm = ({
   const initialValues: StampAdminSettingsValues = useMemo(
     () => ({
       default_weight: data.default_weight,
-      //stamp_validity_days: millisecondsToDays(data.stamp_validity_ms ?? 0),
+      stampValidityDays: millisecondsToDays(data.stamp_validity_ms ?? 0),
       admin_notes: data.admin_notes,
     }),
 
@@ -284,7 +308,7 @@ export const useStampAdminForm = ({
     (
       {
         default_weight,
-        stamp_validity_days,
+        stampValidityDays,
         admin_notes,
       }: StampAdminSettingsValues,
       actions: FormikHelpers<StampAdminSettingsValues>,
@@ -298,7 +322,7 @@ export const useStampAdminForm = ({
           admin_notes,
 
           stamp_validity_ms: isExpiryEnabled
-            ? daysToMilliseconds(stamp_validity_days)
+            ? daysToMilliseconds(stampValidityDays)
             : null,
         })
         .then(({ id: provider_id, ...updated }) => {
@@ -308,7 +332,7 @@ export const useStampAdminForm = ({
             values: {
               default_weight: updated.default_weight,
 
-              stamp_validity_days: millisecondsToDays(
+              stampValidityDays: millisecondsToDays(
                 updated.stamp_validity_ms ?? 0,
               ),
             },
@@ -337,30 +361,28 @@ export const useStampAdminForm = ({
     handleChange,
     isSubmitting,
     isValid,
-    resetForm,
+    setFieldValue,
     values,
     ...form
   } = useFormik<StampAdminSettingsValues>({
     initialValues,
+    enableReinitialize: isSubform,
     onSubmit: isSubform ? () => void null : onSubmit,
   });
-
-  useEffect(() => {
-    if (isSubform && JSON.stringify(values) !== JSON.stringify(initialValues)) {
-      resetForm({ values: initialValues });
-    }
-  }, [initialValues, isSubform, resetForm, values]);
 
   const onExpirySwitch: (
     event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean,
   ) => void = useCallback(
     (_, enabled) => {
-      if (!enabled) onExpiryOff?.();
+      if (enabled) {
+        setFieldValue("stampValidityDays", 0);
+      } else onExpiryOff?.();
+
       setIsExpiryEnabled(enabled);
     },
 
-    [onExpiryOff],
+    [onExpiryOff, setFieldValue],
   );
 
   const hasChanges = dirty || isExpiryEnabled !== isStampValiditySet;

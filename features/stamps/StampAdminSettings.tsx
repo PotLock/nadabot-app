@@ -146,7 +146,7 @@ export const StampAdminSettings = ({
 
             <Input
               label="Expiration Period"
-              name="stamp_validity_days"
+              name="stampValidityDays"
               labelDecoration={
                 <Stack
                   width="100%"
@@ -177,21 +177,25 @@ export const StampAdminSettings = ({
               integersOnly
               min={0}
               fontSize={20}
-              defaultValue={values.stamp_validity_days}
+              defaultValue={values.stampValidityDays}
               onChange={handleChange}
               rightComponent={
                 <Typography color={colors.NEUTRAL400} fontSize={20}>
                   Days
                 </Typography>
               }
-              errorMessage={errors.stamp_validity_days}
+              errorMessage={errors.stampValidityDays}
               disabled={isLocked || !isExpiryEnabled}
             />
 
             {!embedded && (
               <Input
                 label="Admin Comments"
+                name="admin_notes"
                 placeholder="Leave a comment as an admin..."
+                defaultValue={values.admin_notes ?? undefined}
+                onChange={handleChange}
+                disabled={isLocked}
               />
             )}
 

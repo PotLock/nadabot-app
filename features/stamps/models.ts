@@ -77,7 +77,7 @@ export const stampSchema = object().shape({
     .max(100, "Weight should be less than or equal to 100")
     .optional(),
 
-  stamp_validity_ms: number().min(0).nullable().optional(),
+  stampValidityDays: number().min(0).nullable().optional(),
 
   admin_notes: string().nullable().optional(),
 });
