@@ -55,10 +55,11 @@ export const useStampForm = ({ id, onUpdateSuccess }: StampFormParameters) => {
 
   const refreshInitialValues = (data?: ProviderExternal) => {
     if (data !== undefined) {
-      const { stamp_validity_ms, ...provider } = data;
+      const { stamp_validity_ms, custom_args, ...provider } = data;
 
       setInitialValues({
         ...provider,
+        custom_args: typeof custom_args === "string" ? custom_args : undefined,
 
         stampValidityDays:
           typeof stamp_validity_ms === "number"
@@ -242,8 +243,6 @@ export const useStampForm = ({ id, onUpdateSuccess }: StampFormParameters) => {
 
   useFormErrorLogger(form.errors);
 
-  console.log(values);
-
   return {
     ...form,
     dirty,
@@ -260,7 +259,7 @@ export type StampAdminSettingsValues = Pick<
   UpdateProviderInput,
   "default_weight" | "admin_notes"
 > & {
-  stampValidityDays: number;
+  stampValidityDays?: number | null;
 };
 
 export type StampAdminFormParameters = {
@@ -286,7 +285,12 @@ export const useStampAdminForm = ({
   const initialValues: StampAdminSettingsValues = useMemo(
     () => ({
       default_weight: data.default_weight,
-      stampValidityDays: millisecondsToDays(data.stamp_validity_ms ?? 0),
+
+      stampValidityDays:
+        typeof data.stamp_validity_ms === "number"
+          ? millisecondsToDays(data.stamp_validity_ms)
+          : data.stamp_validity_ms,
+
       admin_notes: data.admin_notes,
     }),
 
@@ -304,15 +308,24 @@ export const useStampAdminForm = ({
     ) => {
       actions.setSubmitting(true);
 
+      const stamp_validity_ms = isExpiryEnabled
+        ? daysToMilliseconds(stampValidityDays ?? 0)
+        : null;
+
       sybilContract
         .update_provider({
           provider_id: data.id,
-          default_weight,
-          admin_notes,
 
-          stamp_validity_ms: isExpiryEnabled
-            ? daysToMilliseconds(stampValidityDays)
-            : null,
+          default_weight:
+            default_weight === data.default_weight ? undefined : default_weight,
+
+          admin_notes:
+            admin_notes === data.admin_notes ? undefined : admin_notes,
+
+          stamp_validity_ms:
+            stamp_validity_ms === data.stamp_validity_ms
+              ? undefined
+              : stamp_validity_ms,
         })
         .then(({ id: provider_id, ...updated }) => {
           updateProvider({ provider_id, ...updated });
@@ -342,7 +355,15 @@ export const useStampAdminForm = ({
         .finally(() => actions.setSubmitting(false));
     },
 
-    [isExpiryEnabled, openDialog, data.id, updateProvider],
+    [
+      isExpiryEnabled,
+      data.id,
+      data.default_weight,
+      data.admin_notes,
+      data.stamp_validity_ms,
+      updateProvider,
+      openDialog,
+    ],
   );
 
   const {

@@ -177,7 +177,7 @@ export const StampAdminSettings = ({
               integersOnly
               min={0}
               fontSize={20}
-              defaultValue={values.stampValidityDays}
+              defaultValue={values.stampValidityDays ?? undefined}
               onChange={handleChange}
               rightComponent={
                 <Typography color={colors.NEUTRAL400} fontSize={20}>
