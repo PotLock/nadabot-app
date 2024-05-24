@@ -1,10 +1,11 @@
 import { Stack, StackProps, Typography } from "@mui/material";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
 import { DIALOGS, useDialogs } from "@nadabot/common/contexts/dialogs";
 import { GroupExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/groups";
 import colors from "@nadabot/common/ui/colors";
 import Tag from "@nadabot/common/ui/components/Tag";
+import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 
 import { GROUP_RULE_TYPE_PARAMS } from "./constants";
 import { GroupPreview } from "./GroupPreview";
@@ -21,9 +22,19 @@ export const GroupListItem: React.FC<GroupListItemProps> = ({
   sx,
 }) => {
   const { openDialog } = useDialogs();
-  const { ruleType } = extractRuleParams(rule);
-  const { title: ruleTypeTag, color: ruleTypeColor } =
-    GROUP_RULE_TYPE_PARAMS[ruleType];
+  const { maxWidth1200 } = useBreakPoints();
+  const { ruleType, ruleThreshold } = extractRuleParams(rule);
+
+  const {
+    title: ruleTypeTag,
+    thresholdToDescription,
+    color: ruleTypeColor,
+  } = GROUP_RULE_TYPE_PARAMS[ruleType];
+
+  const description = useMemo(
+    () => thresholdToDescription(ruleThreshold ?? 0),
+    [ruleThreshold, thresholdToDescription],
+  );
 
   const onClick = useCallback(
     () => openDialog({ dialog: DIALOGS.GroupDialog, props: { groupId: id } }),
@@ -32,10 +43,10 @@ export const GroupListItem: React.FC<GroupListItemProps> = ({
 
   return (
     <Stack
-      gap={2}
-      direction="row"
-      justifyContent="space-between"
+      gap={3}
+      direction={maxWidth1200 ? "column" : "row"}
       alignItems="center"
+      justifyContent="space-between"
       border={`1px solid ${colors.NEUTRAL200}`}
       borderRadius={1.5}
       boxShadow={`0px 2px 2px 0px ${colors.NEUTRAL200}`}
@@ -44,19 +55,54 @@ export const GroupListItem: React.FC<GroupListItemProps> = ({
       onClick={customClickHandler ?? onClick}
       sx={{ ...sx, cursor: "pointer" }}
     >
-      <GroupPreview {...{ providerIds }} />
+      <Stack
+        gap={2}
+        direction="row"
+        alignItems="center"
+        width={maxWidth1200 ? "100%" : "auto"}
+      >
+        <GroupPreview {...{ providerIds }} />
 
-      <Typography fontSize={20} fontWeight={600}>
-        {name}
-      </Typography>
+        <Stack
+          direction="row"
+          justifyContent={maxWidth1200 ? "start" : "center"}
+          width={300}
+        >
+          <Typography fontSize={20} fontWeight={600} noWrap title={name}>
+            {name}
+          </Typography>
+        </Stack>
+      </Stack>
 
-      <Stack direction="row" justifyContent="center" width={200}>
-        <Tag
-          color="#fff"
-          bgColor={ruleTypeColor}
-          fontWeight={600}
-          label={ruleTypeTag.toUpperCase()}
-        />
+      <Stack
+        gap={2}
+        direction="row"
+        alignItems="center"
+        width={maxWidth1200 ? "100%" : "auto"}
+      >
+        <Stack
+          direction="row"
+          justifyContent={maxWidth1200 ? "start" : "center"}
+          width={maxWidth1200 ? 158 : 140}
+        >
+          <Tag
+            color="#fff"
+            bgColor={ruleTypeColor}
+            fontWeight={600}
+            label={ruleTypeTag.toUpperCase()}
+          />
+        </Stack>
+
+        <Typography
+          fontSize={16}
+          fontWeight={400}
+          pl={maxWidth1200 ? 0 : 3}
+          width={maxWidth1200 ? "auto" : 340}
+          noWrap
+          title={description}
+        >
+          {description}
+        </Typography>
       </Stack>
     </Stack>
   );
