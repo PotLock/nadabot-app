@@ -22,18 +22,15 @@ export const StampsNextUp: React.FC<StampsNextUpProps> = ({ providerInfo }) => {
 
   const providers = isAdmin && isAdminPage ? deactivated : active;
 
-  if (providers.length === 0) {
-    return;
-  }
-
-  return (
+  return providers.length === 0 ? null : (
     <Stack mt={4}>
       <Typography fontSize={20} fontWeight={600} mb={2}>
         Next Up:
       </Typography>
+
       <Stack
         direction="row"
-        justifyContent={maxWidth805 ? "center" : "space-between"}
+        justifyContent={maxWidth805 ? "center" : "start"}
         gap={2}
         flexWrap="wrap"
       >

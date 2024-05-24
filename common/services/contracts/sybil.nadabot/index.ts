@@ -4,6 +4,7 @@ import { Provider } from "near-api-js/lib/providers";
 import {
   FULL_TGAS,
   ONE_HUNDREDTH_NEAR,
+  THREE_HUNDREDTHS_NEAR,
   TWO_HUNDREDTHS_NEAR,
 } from "@nadabot/common/constants";
 
@@ -194,13 +195,13 @@ export const admin_unflag_provider = (args: UnflagProviderInput) =>
 export const create_group = (args: CreateGroup) =>
   contractApi.call<typeof args, GroupExternal>("create_group", {
     args,
-    deposit: TWO_HUNDREDTHS_NEAR,
+    deposit: THREE_HUNDREDTHS_NEAR,
   });
 
 export const update_group = (args: UpdateGroup) =>
   contractApi.call<typeof args, GroupExternal>("update_group", {
     args,
-    deposit: ONE_HUNDREDTH_NEAR,
+    deposit: THREE_HUNDREDTHS_NEAR,
   });
 
 export const delete_group = (args: GroupById) =>

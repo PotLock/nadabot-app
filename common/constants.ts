@@ -22,6 +22,8 @@ export const ONE_TENTH_NEAR = utils.format.parseNearAmount("0.1")!;
 export const ONE_HUNDREDTH_NEAR = utils.format.parseNearAmount("0.01")!;
 // 0.02 NEAR
 export const TWO_HUNDREDTHS_NEAR = utils.format.parseNearAmount("0.02")!;
+// 0.03 NEAR
+export const THREE_HUNDREDTHS_NEAR = utils.format.parseNearAmount("0.03")!;
 // 300 Gas (full)
 export const FULL_TGAS = "300000000000000";
 // 30 Gas

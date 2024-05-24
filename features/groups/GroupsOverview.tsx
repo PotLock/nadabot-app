@@ -1,4 +1,3 @@
-import { Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 
 import * as sybilContract from "@nadabot/common/services/contracts/sybil.nadabot";
@@ -17,12 +16,10 @@ export const GroupsOverview: React.FC<GroupsOverviewProps> = () => {
   }, []);
 
   return (
-    <ShadowContainer sx={{ p: 4 }}>
-      <Stack gap={2}>
-        {availableGroups.map((group) => (
-          <GroupListItem data={group} key={group.id} />
-        ))}
-      </Stack>
+    <ShadowContainer sx={{ p: 4, gap: 2 }}>
+      {availableGroups.map((group) => (
+        <GroupListItem data={group} key={group.id} />
+      ))}
     </ShadowContainer>
   );
 };

@@ -1,50 +1,59 @@
 import { AvatarGroup, Stack, Typography } from "@mui/material";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { Routes } from "@nadabot/common/constants";
-import * as contract from "@nadabot/common/services/contracts/sybil.nadabot";
+import * as sybilContract from "@nadabot/common/services/contracts/sybil.nadabot";
+import { GroupExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/groups";
 import { ProviderExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
-import { useUser } from "@nadabot/common/store/useUser";
 import CustomAvatar from "@nadabot/common/ui/components/CustomAvatar";
+import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
 import Tag from "@nadabot/common/ui/components/Tag";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
-import { StampAdminSettings } from "@nadabot/features/stamps/StampAdminSettings";
+
+import { GroupListItem } from "../groups/GroupListItem";
 
 export type StampInfoProps = {
   providerInfo?: ProviderExternal;
 };
 
 export const StampInfo: React.FC<StampInfoProps> = ({ providerInfo }) => {
-  const { isAdmin } = useUser();
-  const router = useRouter();
-  const { maxWidth962, maxWidth430 } = useBreakPoints();
+  const { maxWidth430 } = useBreakPoints();
+  const [relatedGroups, setRelatedGroups] = useState<GroupExternal[]>([]);
 
   // Users for Stamp
   const [verifiedUsers, setVerifiedUsers] = useState<string[]>();
 
   useEffect(() => {
     if (providerInfo?.id) {
-      contract
-        .get_users_for_stamp({ provider_id: providerInfo.id })
-        .then(setVerifiedUsers);
+      Promise.all([
+        sybilContract
+          .get_users_for_stamp({ provider_id: providerInfo.id })
+          .then(setVerifiedUsers),
+
+        sybilContract.get_groups().then((allGroups) =>
+          setRelatedGroups(
+            allGroups.reduce(
+              (collectedGroups, group) => {
+                if (group.providers.includes(providerInfo.id)) {
+                  return [group, ...collectedGroups];
+                } else return collectedGroups;
+              },
+
+              [] as typeof relatedGroups,
+            ),
+          ),
+        ),
+      ]);
     }
   }, [providerInfo?.id]);
 
   return (
-    <Stack
-      mt={6}
-      direction={maxWidth962 ? "column" : "row"}
-      justifyContent="space-between"
-      gap={2}
-    >
-      {/* Left */}
-      <Stack>
+    <Stack mt={6} gap={3} direction="column">
+      <Stack gap={2}>
         <Typography fontSize={20} fontWeight={600}>
           Contract Description
         </Typography>
 
-        <Typography textOverflow="ellipsis" mt={2}>
+        <Typography textOverflow="ellipsis">
           {providerInfo?.description}
         </Typography>
 
@@ -82,16 +91,19 @@ export const StampInfo: React.FC<StampInfoProps> = ({ providerInfo }) => {
         </Stack>
       </Stack>
 
-      {/* Right */}
-      {isAdmin &&
-        router.route === Routes.ADMIN_HOME &&
-        providerInfo !== undefined && (
-          <StampAdminSettings
-            data={providerInfo}
-            embedded
-            sx={{ width: maxWidth962 ? "100%" : 352 }}
-          />
-        )}
+      {relatedGroups.length > 0 && (
+        <Stack gap={2}>
+          <Typography fontSize={20} fontWeight={600}>
+            {`Included in ${relatedGroups.length} groups`}
+          </Typography>
+
+          <ShadowContainer sx={{ p: 2, gap: 2 }}>
+            {relatedGroups.map((group) => (
+              <GroupListItem data={group} key={group.id} />
+            ))}
+          </ShadowContainer>
+        </Stack>
+      )}
     </Stack>
   );
 };
