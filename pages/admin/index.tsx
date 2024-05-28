@@ -2,8 +2,8 @@ import { Container } from "@mui/material";
 import { useRouter } from "next/router";
 
 import { Routes } from "@nadabot/common/constants";
-import { useUser } from "@nadabot/common/store/useUser";
-import ProtectedPage from "@nadabot/features/auth/ProtectedPage";
+import ProtectedPage from "@nadabot/modules/auth/ProtectedPage";
+import { useUser } from "@nadabot/modules/core/store/useUser";
 
 import AdminChecksSection from "./_components/AdminChecksSection";
 import AdminDashboardSection from "./_components/AdminDashboardSection";

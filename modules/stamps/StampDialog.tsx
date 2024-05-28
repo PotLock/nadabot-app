@@ -9,7 +9,7 @@ import removeViewStampFromURLQuery from "@nadabot/common/lib/removeViewStampFrom
 import colors from "@nadabot/common/ui/colors";
 import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
 import CustomCircularProgress from "@nadabot/common/ui/components/CustomCircularProgress";
-import useGetProviderById from "@nadabot/hooks/useGetProviderById";
+import useGetProviderById from "@nadabot/modules/core/hooks/useGetProviderById";
 
 import { StampHeader } from "./StampHeader";
 import { StampInfo } from "./StampInfo";

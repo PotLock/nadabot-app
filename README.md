@@ -36,11 +36,13 @@ PINATA_JWT=<jwt-code>
 
 ## Project structure
 
-```markdown
+```sh
+
 [ / ]
 │
-├── [ common ] # <- Abstract implementation details, reusable assets, and primitives
-│   │          #    used in layouts and business logic across the codebase. AKA "shared" ( see link 1. )
+├── [ common ] <--- # Abstract implementation details, reusable assets, and primitives, used in layouts
+│   │               # and business logic across the codebase, and MUST NOT contain business logic themselves.
+│   │               # AKA "shared" ( see link 1. )
 │   │
 │   ├── constants.ts
 │   ├── assets
@@ -50,22 +52,32 @@ PINATA_JWT=<jwt-code>
 │   ├── store
 │   └── ui
 │
-├── [ features ] # <- Business logic units broken down into use case categories.
-│   │            #    Simply put, this is a collection of directories that contain code
-│   │            #    implementing specific groups of app's functionalities and are named after them.
+│
+│
+│
+│
+├── [ modules ] <--- # Business logic units broken down into categories.
+│   │                # Simply put, this is a collection of directories that contain code implementing specific
+│   │                # groups of app use cases and are named after functionalities they provide.
 │   │
 │   ├── auth
+│   │
+│   ├── [ core ] <--- # Follows the same structure as any other module, but contains business logic,
+│   │   │             # that is shared between all or some of the other modules
+│   │   │
+│   │   └── [ hooks ] <--- # Feature-specific React hooks
+│   │
 │   ├── groups
 │   └── stamps
 │
-├── [ hooks ] # <- Contains various React hooks that haven't been yet ( but expected to be in the future )
-│             #    relocated and spread across /common and /features according to the purposes they serve.
 │
-├── [ pages ] # <- Follows Nextjs Pages routing conventions ( see link 2. ),
-│             #    with additional Private Folders following Nextjs App routing conventions ( see link 3. ),
-│             #    that facilitate layout code-splitting and further migration to App Router ( see link 4. )
 │
-└── [ public ] # <- Static files handled by web server
+│
+│
+└── [ pages ] <--- # App's entry point. Follows Nextjs App routing specification ( see link 2. ),
+                   # with additional Private Folders following Nextjs App routing conventions ( see link 3. ),
+                   # that facilitate layout code-splitting and further migration to App Router ( see link 4. )
+
 ```
 
 ### Links

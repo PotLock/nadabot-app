@@ -2,10 +2,10 @@ import { Stack, Typography } from "@mui/material";
 
 import useIsAdminPage from "@nadabot/common/lib/useIsAdminPage";
 import { ProviderExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
-import { useUser } from "@nadabot/common/store/useUser";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
-import { StampCard } from "@nadabot/features/stamps/StampCard";
-import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
+import useFilteredProviders from "@nadabot/modules/core/hooks/useFilteredProviders";
+import { useUser } from "@nadabot/modules/core/store/useUser";
+import { StampCard } from "@nadabot/modules/stamps/StampCard";
 
 export type StampsNextUpProps = {
   providerInfo: ProviderExternal;

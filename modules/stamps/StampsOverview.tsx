@@ -9,7 +9,7 @@ import {
 } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 import CustomCircularProgress from "@nadabot/common/ui/components/CustomCircularProgress";
 import GridContainer from "@nadabot/common/ui/components/GridContainer";
-import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
+import useFilteredProviders from "@nadabot/modules/core/hooks/useFilteredProviders";
 
 import { StampCard } from "./StampCard";
 

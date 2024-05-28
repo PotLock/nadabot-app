@@ -6,13 +6,13 @@ import { useCallback, useState } from "react";
 
 import { NETWORK, Routes } from "@nadabot/common/constants";
 import truncate from "@nadabot/common/lib/truncate";
-import { useUser } from "@nadabot/common/store/useUser";
 import colors from "@nadabot/common/ui/colors";
 import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
 import CustomAvatar from "@nadabot/common/ui/components/CustomAvatar";
 import useSpinner from "@nadabot/common/ui/utils/globalSpinner";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
-import useWeb3Auth from "@nadabot/features/auth/useWeb3Auth";
+import useWeb3Auth from "@nadabot/modules/auth/useWeb3Auth";
+import { useUser } from "@nadabot/modules/core/store/useUser";
 
 const UserDropbox = () => {
   const { accountId, profileInfo, isAdmin } = useUser();

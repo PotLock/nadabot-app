@@ -6,7 +6,6 @@ import { useCallback, useState } from "react";
 
 import { DIALOGS, useDialogs } from "@nadabot/common/contexts/dialogs";
 import * as contract from "@nadabot/common/services/contracts/sybil.nadabot";
-import { useConfig } from "@nadabot/common/store/useConfig";
 import colors from "@nadabot/common/ui/colors";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import Input from "@nadabot/common/ui/components/Input";
@@ -14,6 +13,7 @@ import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
 import { ListDashboardIcon } from "@nadabot/common/ui/icons";
 import useSpinner from "@nadabot/common/ui/utils/globalSpinner";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
+import { useConfig } from "@nadabot/modules/core/store/useConfig";
 
 export default function AdminDashboardSection() {
   const { maxWidth962, maxWidth700 } = useBreakPoints();

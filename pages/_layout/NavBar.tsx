@@ -6,11 +6,11 @@ import NadabotLogo from "@nadabot/common/assets/icons/nadabot-logo";
 import { Routes } from "@nadabot/common/constants";
 import useIsAdminPage from "@nadabot/common/lib/useIsAdminPage";
 import { walletApi } from "@nadabot/common/services/contracts";
-import { useUser } from "@nadabot/common/store/useUser";
 import colors from "@nadabot/common/ui/colors";
 import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
 import Tag from "@nadabot/common/ui/components/Tag";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
+import { useUser } from "@nadabot/modules/core/store/useUser";
 
 import NotificationDropbox from "./NotificationDropbox";
 import UserDropbox from "./UserDropbox";

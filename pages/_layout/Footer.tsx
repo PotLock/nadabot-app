@@ -7,9 +7,9 @@ import Link from "next/link";
 
 import nearIconImage from "@nadabot/common/assets/images/near-icon.png";
 import robotImage from "@nadabot/common/assets/images/robot.png";
-import { useUser } from "@nadabot/common/store/useUser";
 import colors from "@nadabot/common/ui/colors";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
+import { useUser } from "@nadabot/modules/core/store/useUser";
 
 const Footer = () => {
   const { walletConnected } = useUser();

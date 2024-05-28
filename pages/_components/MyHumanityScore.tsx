@@ -3,12 +3,12 @@ import PersonIcon from "@mui/icons-material/Person";
 import { Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
-import { useConfig } from "@nadabot/common/store/useConfig";
-import { useUser } from "@nadabot/common/store/useUser";
 import colors from "@nadabot/common/ui/colors";
 import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
 import Tag from "@nadabot/common/ui/components/Tag";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
+import { useConfig } from "@nadabot/modules/core/store/useConfig";
+import { useUser } from "@nadabot/modules/core/store/useUser";
 
 const calcPercentage = (score: number, human_threshold: number) =>
   Math.min((score * 100) / human_threshold, 100);

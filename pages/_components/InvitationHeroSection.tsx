@@ -8,7 +8,7 @@ import { Routes } from "@nadabot/common/constants";
 import { DIALOGS, useDialogs } from "@nadabot/common/contexts/dialogs";
 import colors from "@nadabot/common/ui/colors";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
-import useWeb3Auth from "@nadabot/features/auth/useWeb3Auth";
+import useWeb3Auth from "@nadabot/modules/auth/useWeb3Auth";
 
 const textToTypographySlices = (props: {
   text: string;

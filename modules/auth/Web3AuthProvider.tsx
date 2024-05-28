@@ -2,15 +2,15 @@ import { FC, createContext, useCallback, useEffect, useState } from "react";
 
 import { walletApi } from "@nadabot/common/services/contracts";
 import { get_user_profile } from "@nadabot/common/services/contracts/social";
-import { useAdmins } from "@nadabot/common/store/useAdmins";
-import { useConfig } from "@nadabot/common/store/useConfig";
-import { useNotificationController } from "@nadabot/common/store/useNotificationController";
-import { useProviders } from "@nadabot/common/store/useProviders";
-import { useStamps } from "@nadabot/common/store/useStamps";
-import { useUser } from "@nadabot/common/store/useUser";
 import FullScreenSpinner from "@nadabot/common/ui/components/FullScreenSpinner";
 import useWindowTabFocus from "@nadabot/common/ui/utils/useWindowTabFocus";
-import { PROVIDER_STATUS_CHECKER_KEY } from "@nadabot/hooks/useProviderStatusChecker";
+import { PROVIDER_STATUS_CHECKER_KEY } from "@nadabot/modules/core/hooks/useProviderStatusChecker";
+import { useAdmins } from "@nadabot/modules/core/store/useAdmins";
+import { useConfig } from "@nadabot/modules/core/store/useConfig";
+import { useNotificationController } from "@nadabot/modules/core/store/useNotificationController";
+import { useProviders } from "@nadabot/modules/core/store/useProviders";
+import { useStamps } from "@nadabot/modules/core/store/useStamps";
+import { useUser } from "@nadabot/modules/core/store/useUser";
 
 type Web3AuthProps = {
   accountId: string;

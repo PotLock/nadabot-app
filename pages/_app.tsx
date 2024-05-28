@@ -12,7 +12,7 @@ import { Suspense } from "react";
 import { GlobalSpinnerOverlay } from "@nadabot/common/ui/components/GlobalSpinnerOverlay";
 import SnackbarProvider from "@nadabot/common/ui/components/SnackbarProvider";
 import { theme } from "@nadabot/common/ui/theme";
-import Web3AuthProvider from "@nadabot/features/auth/Web3AuthProvider";
+import Web3AuthProvider from "@nadabot/modules/auth/Web3AuthProvider";
 
 import DialogsProvider from "./_layout/DialogsProvider";
 import Footer from "./_layout/Footer";

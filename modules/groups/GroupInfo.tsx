@@ -5,7 +5,6 @@ import { useCallback, useMemo, useState } from "react";
 
 import providerSorts from "@nadabot/common/lib/providerSorts";
 import * as sybilContract from "@nadabot/common/services/contracts/sybil.nadabot";
-import { useUser } from "@nadabot/common/store/useUser";
 import colors from "@nadabot/common/ui/colors";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import GridContainer from "@nadabot/common/ui/components/GridContainer";
@@ -14,7 +13,8 @@ import { Select } from "@nadabot/common/ui/components/Select";
 import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
 import Tag from "@nadabot/common/ui/components/Tag";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
-import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
+import useFilteredProviders from "@nadabot/modules/core/hooks/useFilteredProviders";
+import { useUser } from "@nadabot/modules/core/store/useUser";
 
 import { GROUP_RULE_TYPE_PARAMS } from "./constants";
 import { GroupFormParameters, useGroupForm } from "./forms";

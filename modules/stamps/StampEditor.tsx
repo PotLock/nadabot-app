@@ -10,13 +10,13 @@ import {
 import { daysToMilliseconds } from "@nadabot/common/lib/time";
 import { walletApi } from "@nadabot/common/services/contracts";
 import { ProviderStatus } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
-import { useUser } from "@nadabot/common/store/useUser";
 import colors from "@nadabot/common/ui/colors";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import Input from "@nadabot/common/ui/components/Input";
 import UploadImage from "@nadabot/common/ui/components/UploadImage";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
-import { StampCard } from "@nadabot/features/stamps/StampCard";
+import { useUser } from "@nadabot/modules/core/store/useUser";
+import { StampCard } from "@nadabot/modules/stamps/StampCard";
 
 import { StampFormParameters, useStampForm } from "./forms";
 import { StampAdminSettings } from "./StampAdminSettings";

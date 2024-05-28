@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 
 import { ProviderId } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
+import { useUser } from "@nadabot/modules/core/store/useUser";
 
 import useFilteredProviders from "./useFilteredProviders";
-import { useUser } from "../common/store/useUser";
 
 export const PROVIDER_STATUS_CHECKER_KEY = "provider_status_checker";
 

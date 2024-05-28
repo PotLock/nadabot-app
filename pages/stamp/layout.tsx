@@ -5,8 +5,8 @@ import React, { useEffect } from "react";
 
 import { DIALOGS, useDialogs } from "@nadabot/common/contexts/dialogs";
 import colors from "@nadabot/common/ui/colors";
-import ProtectedPage from "@nadabot/features/auth/ProtectedPage";
-import useTransactionDetection from "@nadabot/hooks/useTransactionDetection";
+import ProtectedPage from "@nadabot/modules/auth/ProtectedPage";
+import useTransactionDetection from "@nadabot/modules/core/hooks/useTransactionDetection";
 
 export default function StampPageLayout({
   children,

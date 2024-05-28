@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 import { Routes } from "@nadabot/common/constants";
-import { useUser } from "@nadabot/common/store/useUser";
+import { useUser } from "@nadabot/modules/core/store/useUser";
 
 type Props = {
   children: JSX.Element[] | JSX.Element;

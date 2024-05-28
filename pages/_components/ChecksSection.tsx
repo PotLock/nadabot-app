@@ -7,13 +7,13 @@ import {
 
 // import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import providerSorts from "@nadabot/common/lib/providerSorts";
-import { useUser } from "@nadabot/common/store/useUser";
 import colors from "@nadabot/common/ui/colors";
 import { AddFilterSearchInput } from "@nadabot/common/ui/components/AddFilterSearchInput";
 import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
-import StampsOverview from "@nadabot/features/stamps/StampsOverview";
-import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
+import useFilteredProviders from "@nadabot/modules/core/hooks/useFilteredProviders";
+import { useUser } from "@nadabot/modules/core/store/useUser";
+import StampsOverview from "@nadabot/modules/stamps/StampsOverview";
 // import { Routes } from "@nadabot/common/constants";
 
 export default function ChecksSection() {

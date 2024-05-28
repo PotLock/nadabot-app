@@ -3,7 +3,6 @@ import { useCallback } from "react";
 
 import providerSorts from "@nadabot/common/lib/providerSorts";
 import addMultipleStamps from "@nadabot/common/services/web3/addMultipleStamps";
-import { useUser } from "@nadabot/common/store/useUser";
 import colors from "@nadabot/common/ui/colors";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import CustomCircularProgress from "@nadabot/common/ui/components/CustomCircularProgress";
@@ -11,8 +10,9 @@ import GridContainer from "@nadabot/common/ui/components/GridContainer";
 import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
 import useSpinner from "@nadabot/common/ui/utils/globalSpinner";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
-import { StampCard } from "@nadabot/features/stamps/StampCard";
-import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
+import useFilteredProviders from "@nadabot/modules/core/hooks/useFilteredProviders";
+import { useUser } from "@nadabot/modules/core/store/useUser";
+import { StampCard } from "@nadabot/modules/stamps/StampCard";
 
 export default function PendingVerificationSection() {
   const { walletConnected } = useUser();

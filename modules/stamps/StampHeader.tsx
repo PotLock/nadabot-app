@@ -10,9 +10,6 @@ import {
   ProviderExternalWithIsHuman,
   ProviderStatus,
 } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
-import { useProviders } from "@nadabot/common/store/useProviders";
-import { useStamps } from "@nadabot/common/store/useStamps";
-import { useUser } from "@nadabot/common/store/useUser";
 import colors from "@nadabot/common/ui/colors";
 import CustomAvatar from "@nadabot/common/ui/components/CustomAvatar";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
@@ -21,7 +18,10 @@ import Tag from "@nadabot/common/ui/components/Tag";
 import useSpinner from "@nadabot/common/ui/utils/globalSpinner";
 import useSnackbar from "@nadabot/common/ui/utils/snackbar";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
-import useProviderStatusChecker from "@nadabot/hooks/useProviderStatusChecker";
+import useProviderStatusChecker from "@nadabot/modules/core/hooks/useProviderStatusChecker";
+import { useProviders } from "@nadabot/modules/core/store/useProviders";
+import { useStamps } from "@nadabot/modules/core/store/useStamps";
+import { useUser } from "@nadabot/modules/core/store/useUser";
 
 export type StampHeaderProps = {
   providerInfo?: ProviderExternalWithIsHuman;

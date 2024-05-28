@@ -22,7 +22,7 @@ import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import { CopyIcon } from "@nadabot/common/ui/icons";
 import useSnackbar from "@nadabot/common/ui/utils/snackbar";
-import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
+import useFilteredProviders from "@nadabot/modules/core/hooks/useFilteredProviders";
 
 type Props = {
   open: boolean;

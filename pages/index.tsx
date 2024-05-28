@@ -1,9 +1,9 @@
 import { Container } from "@mui/material";
 
-import { useUser } from "@nadabot/common/store/useUser";
-import useCheckPendingVerification from "@nadabot/hooks/useCheckPendingVerification";
-import useVerifiedProviderSuccess from "@nadabot/hooks/useVerifiedProviderSuccess";
-import useViewStampURLQuery from "@nadabot/hooks/useViewStampURLQuery";
+import useCheckPendingVerification from "@nadabot/modules/core/hooks/useCheckPendingVerification";
+import useVerifiedProviderSuccess from "@nadabot/modules/core/hooks/useVerifiedProviderSuccess";
+import useViewStampURLQuery from "@nadabot/modules/core/hooks/useViewStampURLQuery";
+import { useUser } from "@nadabot/modules/core/store/useUser";
 
 import ChecksSection from "./_components/ChecksSection";
 import CompletedSection from "./_components/CompletedSection";

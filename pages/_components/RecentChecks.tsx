@@ -1,10 +1,10 @@
 import HistoryIcon from "@mui/icons-material/History";
 import { Stack, Typography } from "@mui/material";
 
-import { useStamps } from "@nadabot/common/store/useStamps";
 import colors from "@nadabot/common/ui/colors";
 import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
+import { useStamps } from "@nadabot/modules/core/store/useStamps";
 
 import RecentCheckItem from "./RecentCheckItem";
 

@@ -24,9 +24,9 @@ import {
   UpdateProviderInput,
 } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 import * as pinataServices from "@nadabot/common/services/pinata";
-import { useProviders } from "@nadabot/common/store/useProviders";
 import { useFormErrorLogger } from "@nadabot/common/ui/utils/forms";
 import useSpinner from "@nadabot/common/ui/utils/globalSpinner";
+import { useProviders } from "@nadabot/modules/core/store/useProviders";
 
 import { StampSchema, stampSchema } from "./models";
 

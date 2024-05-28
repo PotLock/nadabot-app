@@ -13,8 +13,8 @@ import CustomCircularProgress from "@nadabot/common/ui/components/CustomCircular
 import GridContainer from "@nadabot/common/ui/components/GridContainer";
 import Tag from "@nadabot/common/ui/components/Tag";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
-import { StampCard } from "@nadabot/features/stamps/StampCard";
-import useViewStampURLQuery from "@nadabot/hooks/useViewStampURLQuery";
+import useViewStampURLQuery from "@nadabot/modules/core/hooks/useViewStampURLQuery";
+import { StampCard } from "@nadabot/modules/stamps/StampCard";
 
 export default function AccountInfoPage() {
   // Show StampDialog if the URL has `viewStamp` query

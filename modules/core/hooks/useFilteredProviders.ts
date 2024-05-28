@@ -8,9 +8,9 @@ import {
   ProviderStatus,
 } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 import { isHumanCheck } from "@nadabot/common/services/web3/isHumanCheck";
-import { useProviders } from "@nadabot/common/store/useProviders";
-import { useStamps } from "@nadabot/common/store/useStamps";
-import { useUser } from "@nadabot/common/store/useUser";
+import { useProviders } from "@nadabot/modules/core/store/useProviders";
+import { useStamps } from "@nadabot/modules/core/store/useStamps";
+import { useUser } from "@nadabot/modules/core/store/useUser";
 
 type Props = {
   skipProviderId?: ProviderId;
