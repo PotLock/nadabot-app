@@ -1,6 +1,6 @@
 import { MemoryCache } from "@wpdas/naxios";
 
-import { naxiosInstance } from "../contracts";
+import { naxiosInstance } from "@nadabot/common/services/contracts";
 
 export const isHumanCheck = async (
   contractId: string,

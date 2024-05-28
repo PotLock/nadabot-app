@@ -1,12 +1,11 @@
 import { Transaction, buildTransaction } from "@wpdas/naxios";
 
 import { FULL_TGAS, TWO_HUNDREDTHS_NEAR } from "@nadabot/common/constants";
-
-import { contractApi } from "../contracts/sybil.nadabot";
+import { contractApi } from "@nadabot/common/services/contracts/sybil.nadabot";
 import {
   ProviderExternalWithIsHuman,
   ProviderId,
-} from "../contracts/sybil.nadabot/interfaces/providers";
+} from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 
 /**
  * Add many stamps at once

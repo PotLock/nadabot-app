@@ -7,7 +7,7 @@ import {
   ProviderId,
   ProviderStatus,
 } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
-import { isHumanCheck } from "@nadabot/common/services/web3/isHumanCheck";
+import { isHumanCheck } from "@nadabot/modules/core/services/isHumanCheck";
 import { useProviders } from "@nadabot/modules/core/store/useProviders";
 import { useStamps } from "@nadabot/modules/core/store/useStamps";
 import { useUser } from "@nadabot/modules/core/store/useUser";
