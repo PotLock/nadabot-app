@@ -8,11 +8,11 @@ export default function RulesPage() {
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2, pb: 2 }}>
       <Stack>
         <Typography fontSize={40} fontWeight={700} lineHeight="48px">
-          All rules
+          All Groups
         </Typography>
 
         <Typography fontSize={16} fontWeight={400} color={colors.SECONDARY}>
-          Check all the active rules
+          View all active groups & rules
         </Typography>
       </Stack>
 
