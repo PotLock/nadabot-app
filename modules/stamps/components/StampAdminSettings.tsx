@@ -201,7 +201,7 @@ export const StampAdminSettings = ({
 
             {!isStampPage && embedded && (
               <Link
-                href={{ pathname: `/stamp/edit/${data.id}` }}
+                href={{ pathname: `/stamp/${data.id}/edit` }}
                 color={colors.NEUTRAL700}
                 style={{ width: "fit-content", textDecoration: "underline" }}
               >
