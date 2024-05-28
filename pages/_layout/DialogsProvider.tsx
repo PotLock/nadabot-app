@@ -6,9 +6,9 @@ import {
   DialogProps,
   DialogsContext,
 } from "@nadabot/modules/core/contexts/dialogs";
-import { GroupDialog } from "@nadabot/modules/groups/GroupDialog";
-import { StampDialog } from "@nadabot/modules/stamps/StampDialog";
-import { StampSentDialog } from "@nadabot/modules/stamps/StampSentDialog";
+import { GroupDialog } from "@nadabot/modules/groups/components/GroupDialog";
+import { StampDialog } from "@nadabot/modules/stamps/components/StampDialog";
+import { StampSentDialog } from "@nadabot/modules/stamps/components/StampSentDialog";
 
 import ConfirmVerificationDialog from "./ConfirmVerificationDialog";
 import ErrorDialog from "./ErrorDialog";

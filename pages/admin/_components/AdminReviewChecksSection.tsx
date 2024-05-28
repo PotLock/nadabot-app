@@ -14,7 +14,7 @@ import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
 import { SearchIconA } from "@nadabot/common/ui/icons";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 import useFilteredProviders from "@nadabot/modules/core/hooks/useFilteredProviders";
-import { StampCard } from "@nadabot/modules/stamps/StampCard";
+import { StampCard } from "@nadabot/modules/stamps/components/StampCard";
 
 type FilterType = "all" | "active" | "deactivated";
 

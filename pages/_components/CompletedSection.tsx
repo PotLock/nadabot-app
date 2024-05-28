@@ -7,7 +7,7 @@ import GridContainer from "@nadabot/common/ui/components/GridContainer";
 import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 import { useStamps } from "@nadabot/modules/core/store/useStamps";
-import { StampCard } from "@nadabot/modules/stamps/StampCard";
+import { StampCard } from "@nadabot/modules/stamps/components/StampCard";
 
 export default function CompletedSection() {
   const { maxWidth805 } = useBreakPoints();

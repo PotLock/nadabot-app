@@ -13,7 +13,7 @@ import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 import useFilteredProviders from "@nadabot/modules/core/hooks/useFilteredProviders";
 import { useUser } from "@nadabot/modules/core/store/useUser";
-import StampsOverview from "@nadabot/modules/stamps/StampsOverview";
+import StampsOverview from "@nadabot/modules/stamps/components/StampsOverview";
 // import { Routes } from "@nadabot/common/constants";
 
 export default function ChecksSection() {

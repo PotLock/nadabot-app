@@ -2,7 +2,7 @@ import { Stack, Typography } from "@mui/material";
 
 import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
-import StampsOverview from "@nadabot/modules/stamps/StampsOverview";
+import StampsOverview from "@nadabot/modules/stamps/components/StampsOverview";
 
 export default function AdminChecksSection() {
   const { maxWidth805 } = useBreakPoints();

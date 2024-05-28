@@ -14,7 +14,7 @@ import GridContainer from "@nadabot/common/ui/components/GridContainer";
 import Tag from "@nadabot/common/ui/components/Tag";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 import useViewStampURLQuery from "@nadabot/modules/core/hooks/useViewStampURLQuery";
-import { StampCard } from "@nadabot/modules/stamps/StampCard";
+import { StampCard } from "@nadabot/modules/stamps/components/StampCard";
 
 export default function AccountInfoPage() {
   // Show StampDialog if the URL has `viewStamp` query

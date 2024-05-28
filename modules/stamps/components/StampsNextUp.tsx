@@ -5,7 +5,8 @@ import { ProviderExternal } from "@nadabot/common/services/contracts/sybil.nadab
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 import useFilteredProviders from "@nadabot/modules/core/hooks/useFilteredProviders";
 import { useUser } from "@nadabot/modules/core/store/useUser";
-import { StampCard } from "@nadabot/modules/stamps/StampCard";
+
+import { StampCard } from "./StampCard";
 
 export type StampsNextUpProps = {
   providerInfo: ProviderExternal;

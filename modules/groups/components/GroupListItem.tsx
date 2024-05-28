@@ -7,9 +7,9 @@ import Tag from "@nadabot/common/ui/components/Tag";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 import { DIALOGS, useDialogs } from "@nadabot/modules/core/contexts/dialogs";
 
-import { GROUP_RULE_TYPE_PARAMS } from "./constants";
 import { GroupPreview } from "./GroupPreview";
-import { extractRuleParams } from "./lib";
+import { GROUP_RULE_TYPE_PARAMS } from "../constants";
+import { extractRuleParams } from "../lib";
 
 export type GroupListItemProps = Pick<StackProps, "sx"> & {
   data: GroupExternal;

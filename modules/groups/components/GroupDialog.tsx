@@ -14,7 +14,7 @@ import {
 import { Spinner } from "@nadabot/common/ui/components/Spinner";
 
 import { GroupInfo } from "./GroupInfo";
-import { groupDefaults } from "./models";
+import { groupDefaults } from "../models";
 
 export type GroupDialogProps = Pick<
   ContentRichModalProps,

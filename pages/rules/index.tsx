@@ -1,7 +1,7 @@
 import { Container, Stack, Typography } from "@mui/material";
 
 import colors from "@nadabot/common/ui/colors";
-import { GroupsOverview } from "@nadabot/modules/groups/GroupsOverview";
+import { GroupsOverview } from "@nadabot/modules/groups/components/GroupsOverview";
 
 export default function RulesPage() {
   return (

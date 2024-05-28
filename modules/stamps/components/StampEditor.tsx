@@ -16,10 +16,10 @@ import Input from "@nadabot/common/ui/components/Input";
 import UploadImage from "@nadabot/common/ui/components/UploadImage";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 import { useUser } from "@nadabot/modules/core/store/useUser";
-import { StampCard } from "@nadabot/modules/stamps/StampCard";
 
-import { StampFormParameters, useStampForm } from "./forms";
 import { StampAdminSettings } from "./StampAdminSettings";
+import { StampCard } from "./StampCard";
+import { StampFormParameters, useStampForm } from "../forms";
 
 export type StampEditorProps = StampFormParameters & {};
 

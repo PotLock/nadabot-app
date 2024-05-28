@@ -8,8 +8,7 @@ import CustomAvatar from "@nadabot/common/ui/components/CustomAvatar";
 import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
 import Tag from "@nadabot/common/ui/components/Tag";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
-
-import { GroupListItem } from "../groups/GroupListItem";
+import { GroupListItem } from "@nadabot/modules/groups/components/GroupListItem";
 
 export type StampInfoProps = {
   providerInfo?: ProviderExternal;

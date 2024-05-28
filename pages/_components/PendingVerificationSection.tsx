@@ -12,7 +12,7 @@ import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 import useFilteredProviders from "@nadabot/modules/core/hooks/useFilteredProviders";
 import addMultipleStamps from "@nadabot/modules/core/services/addMultipleStamps";
 import { useUser } from "@nadabot/modules/core/store/useUser";
-import { StampCard } from "@nadabot/modules/stamps/StampCard";
+import { StampCard } from "@nadabot/modules/stamps/components/StampCard";
 
 export default function PendingVerificationSection() {
   const { walletConnected } = useUser();

@@ -16,12 +16,12 @@ import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 import useFilteredProviders from "@nadabot/modules/core/hooks/useFilteredProviders";
 import { useUser } from "@nadabot/modules/core/store/useUser";
 
-import { GROUP_RULE_TYPE_PARAMS } from "./constants";
-import { GroupFormParameters, useGroupForm } from "./forms";
 import { GroupPreview } from "./GroupPreview";
-import { isRuleTypePrimitive } from "./lib";
-import { GroupSchema } from "./models";
-import { StampCard } from "../stamps/StampCard";
+import { StampCard } from "../../stamps/components/StampCard";
+import { GROUP_RULE_TYPE_PARAMS } from "../constants";
+import { GroupFormParameters, useGroupForm } from "../forms";
+import { isRuleTypePrimitive } from "../lib";
+import { GroupSchema } from "../models";
 
 export type GroupInfoProps = GroupFormParameters & {};
 

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 
 import colors from "@nadabot/common/ui/colors";
-import ProtectedPage from "@nadabot/modules/auth/ProtectedPage";
+import ProtectedPage from "@nadabot/modules/auth/components/ProtectedPage";
 import { DIALOGS, useDialogs } from "@nadabot/modules/core/contexts/dialogs";
 import useTransactionDetection from "@nadabot/modules/core/hooks/useTransactionDetection";
 
