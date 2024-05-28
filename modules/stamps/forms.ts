@@ -11,7 +11,6 @@ import {
   DEFAULT_ACCOUNT_ID_ARG_NAME,
   MAX_GAS,
 } from "@nadabot/common/constants";
-import { DIALOGS, useDialogs } from "@nadabot/common/contexts/dialogs";
 import {
   daysToMilliseconds,
   millisecondsToDays,
@@ -26,6 +25,7 @@ import {
 import * as pinataServices from "@nadabot/common/services/pinata";
 import { useFormErrorLogger } from "@nadabot/common/ui/utils/forms";
 import useSpinner from "@nadabot/common/ui/utils/globalSpinner";
+import { DIALOGS, useDialogs } from "@nadabot/modules/core/contexts/dialogs";
 import { useProviders } from "@nadabot/modules/core/store/useProviders";
 
 import { StampSchema, stampSchema } from "./models";

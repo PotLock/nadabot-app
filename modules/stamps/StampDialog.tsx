@@ -3,12 +3,12 @@ import { Stack } from "@mui/material";
 import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
 
-import { DialogProps } from "@nadabot/common/contexts/dialogs";
 import getDocumentResolution from "@nadabot/common/lib/getDocumentResolution";
 import removeViewStampFromURLQuery from "@nadabot/common/lib/removeViewStampFromURLQuery";
 import colors from "@nadabot/common/ui/colors";
 import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
 import CustomCircularProgress from "@nadabot/common/ui/components/CustomCircularProgress";
+import { DialogProps } from "@nadabot/modules/core/contexts/dialogs";
 import useGetProviderById from "@nadabot/modules/core/hooks/useGetProviderById";
 
 import { StampHeader } from "./StampHeader";

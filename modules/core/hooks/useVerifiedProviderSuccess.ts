@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { DIALOGS, useDialogs } from "@nadabot/common/contexts/dialogs";
 import { ProviderId } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 import useSnackbar from "@nadabot/common/ui/utils/snackbar";
+import { DIALOGS, useDialogs } from "@nadabot/modules/core/contexts/dialogs";
 
 import useGetProviderById from "./useGetProviderById";
 

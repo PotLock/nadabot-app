@@ -14,7 +14,6 @@ import copy from "copy-to-clipboard";
 import { useCallback, useEffect, useState } from "react";
 
 import NadabotLogo from "@nadabot/common/assets/icons/nadabot-logo";
-import { DialogProps } from "@nadabot/common/contexts/dialogs";
 import { add_stamp } from "@nadabot/common/services/contracts/sybil.nadabot";
 import { ProviderExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 import colors from "@nadabot/common/ui/colors";
@@ -22,6 +21,7 @@ import ButtonContainer from "@nadabot/common/ui/components/ButtonContainer";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import { CopyIcon } from "@nadabot/common/ui/icons";
 import useSnackbar from "@nadabot/common/ui/utils/snackbar";
+import { DialogProps } from "@nadabot/modules/core/contexts/dialogs";
 import useFilteredProviders from "@nadabot/modules/core/hooks/useFilteredProviders";
 
 type Props = {

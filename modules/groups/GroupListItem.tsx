@@ -1,11 +1,11 @@
 import { Stack, StackProps, Typography } from "@mui/material";
 import { useCallback, useMemo } from "react";
 
-import { DIALOGS, useDialogs } from "@nadabot/common/contexts/dialogs";
 import { GroupExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/groups";
 import colors from "@nadabot/common/ui/colors";
 import Tag from "@nadabot/common/ui/components/Tag";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
+import { DIALOGS, useDialogs } from "@nadabot/modules/core/contexts/dialogs";
 
 import { GROUP_RULE_TYPE_PARAMS } from "./constants";
 import { GroupPreview } from "./GroupPreview";

@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { DIALOGS, useDialogs } from "@nadabot/common/contexts/dialogs";
+import { DIALOGS, useDialogs } from "@nadabot/modules/core/contexts/dialogs";
 
 /**
  * Open up the StampDialog with the required provider_id if "viewStamp=<provider_id>" query is set on URL

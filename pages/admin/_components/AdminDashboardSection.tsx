@@ -4,7 +4,6 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { Stack, Typography } from "@mui/material";
 import { useCallback, useState } from "react";
 
-import { DIALOGS, useDialogs } from "@nadabot/common/contexts/dialogs";
 import * as contract from "@nadabot/common/services/contracts/sybil.nadabot";
 import colors from "@nadabot/common/ui/colors";
 import CustomButton from "@nadabot/common/ui/components/CustomButton";
@@ -13,6 +12,7 @@ import { ShadowContainer } from "@nadabot/common/ui/components/ShadowContainer";
 import { ListDashboardIcon } from "@nadabot/common/ui/icons";
 import useSpinner from "@nadabot/common/ui/utils/globalSpinner";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
+import { DIALOGS, useDialogs } from "@nadabot/modules/core/contexts/dialogs";
 import { useConfig } from "@nadabot/modules/core/store/useConfig";
 
 export default function AdminDashboardSection() {

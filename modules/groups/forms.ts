@@ -1,11 +1,11 @@
 import { useFormik } from "formik";
 import { useCallback } from "react";
 
-import { DIALOGS, useDialogs } from "@nadabot/common/contexts/dialogs";
 import * as sybilContract from "@nadabot/common/services/contracts/sybil.nadabot";
 import { GroupExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/groups";
 import { ProviderId } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/providers";
 import { useFormErrorLogger } from "@nadabot/common/ui/utils/forms";
+import { DIALOGS, useDialogs } from "@nadabot/modules/core/contexts/dialogs";
 
 import { extractRuleParams, mergeRuleParams } from "./lib";
 import { GroupSchema, groupSchema } from "./models";

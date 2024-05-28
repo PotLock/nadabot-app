@@ -3,9 +3,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 
-import { DIALOGS, useDialogs } from "@nadabot/common/contexts/dialogs";
 import colors from "@nadabot/common/ui/colors";
 import ProtectedPage from "@nadabot/modules/auth/ProtectedPage";
+import { DIALOGS, useDialogs } from "@nadabot/modules/core/contexts/dialogs";
 import useTransactionDetection from "@nadabot/modules/core/hooks/useTransactionDetection";
 
 export default function StampPageLayout({

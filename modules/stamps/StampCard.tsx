@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import { useCallback, useMemo, useState } from "react";
 
 import { Routes } from "@nadabot/common/constants";
-import { DIALOGS, useDialogs } from "@nadabot/common/contexts/dialogs";
 import removeViewStampFromURLQuery from "@nadabot/common/lib/removeViewStampFromURLQuery";
 import {
   daysSinceTimestamp,
@@ -24,6 +23,7 @@ import CustomButton from "@nadabot/common/ui/components/CustomButton";
 import useSpinner from "@nadabot/common/ui/utils/globalSpinner";
 import useSnackbar from "@nadabot/common/ui/utils/snackbar";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
+import { DIALOGS, useDialogs } from "@nadabot/modules/core/contexts/dialogs";
 import useProviderStatusChecker from "@nadabot/modules/core/hooks/useProviderStatusChecker";
 import { useProviders } from "@nadabot/modules/core/store/useProviders";
 

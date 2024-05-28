@@ -5,7 +5,7 @@ import {
   DialogParameters,
   DialogProps,
   DialogsContext,
-} from "@nadabot/common/contexts/dialogs";
+} from "@nadabot/modules/core/contexts/dialogs";
 import { GroupDialog } from "@nadabot/modules/groups/GroupDialog";
 import { StampDialog } from "@nadabot/modules/stamps/StampDialog";
 import { StampSentDialog } from "@nadabot/modules/stamps/StampSentDialog";

@@ -5,10 +5,10 @@ import { useCallback } from "react";
 
 import redLines from "@nadabot/common/assets/svgs/red-lines.svg";
 import { Routes } from "@nadabot/common/constants";
-import { DIALOGS, useDialogs } from "@nadabot/common/contexts/dialogs";
 import colors from "@nadabot/common/ui/colors";
 import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
 import useWeb3Auth from "@nadabot/modules/auth/useWeb3Auth";
+import { DIALOGS, useDialogs } from "@nadabot/modules/core/contexts/dialogs";
 
 const textToTypographySlices = (props: {
   text: string;
