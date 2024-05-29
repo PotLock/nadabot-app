@@ -43,7 +43,7 @@ export const GROUP_RULE_TYPE_PARAMS: Record<
 
     thresholdToDescription: (threshold?: number | null) =>
       typeof threshold === "number"
-        ? `Total score for the group, up to ${threshold} points`
+        ? `Total score for the group, up to ${threshold} points.`
         : "Total score for the group.",
 
     color: "#C4B4FE",

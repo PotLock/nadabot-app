@@ -372,6 +372,7 @@ export const useStampAdminForm = ({
     isSubmitting,
     isValid,
     setFieldValue,
+    resetForm,
     values,
     ...form
   } = useFormik<StampAdminSettingsValues>({
@@ -386,14 +387,19 @@ export const useStampAdminForm = ({
   ) => void = useCallback(
     (_, enabled) => {
       if (enabled) {
-        setFieldValue("stampValidityDays", 0);
+        setFieldValue("stampValidityDays", initialValues.stampValidityDays);
       } else onExpiryOff?.();
 
       setIsExpiryEnabled(enabled);
     },
 
-    [onExpiryOff, setFieldValue],
+    [initialValues.stampValidityDays, onExpiryOff, setFieldValue],
   );
+
+  const handleReset = useCallback(() => {
+    resetForm({ values: initialValues });
+    setIsExpiryEnabled(isStampValiditySet);
+  }, [initialValues, resetForm, isStampValiditySet]);
 
   const hasChanges = dirty || isExpiryEnabled !== isStampValiditySet;
   const isLocked = disabled || isSubmitting;
@@ -404,6 +410,7 @@ export const useStampAdminForm = ({
     ...form,
     handleChange,
     hasChanges,
+    handleReset,
     isLocked,
     isDisabled: isLocked || !hasChanges || !isValid,
     isExpiryEnabled,
