@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { FC, createContext, useCallback, useEffect, useState } from "react";
 
 import { walletApi } from "@nadabot/common/services/contracts";
@@ -34,6 +35,7 @@ type Props = {
  * Provider to check and inform if user's wallet is connected
  */
 const Web3AuthProvider: FC<Props> = ({ children }) => {
+  const router = useRouter();
   const [isWalletConnected, setIsConnected] = useState(false);
   const [ready, isReady] = useState(false);
 
@@ -104,7 +106,7 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
   useWindowTabFocus(reFetch);
 
   // Check wallet
-  const checkWallet = useCallback(async () => {
+  const walletInit = useCallback(async () => {
     // Starts the wallet manager
     await walletApi.initNear();
 
@@ -127,16 +129,13 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
 
   // Re-init when user is signed in
   useEffect(() => {
-    // Initial wallet state
-    checkWallet();
-
-    // On sign in wallet state
-    walletApi?.walletSelector?.on("signedIn", checkWallet);
+    walletInit();
+    walletApi?.walletSelector?.on("signedIn", walletInit);
 
     return () => {
-      walletApi?.walletSelector?.off("signedIn", checkWallet);
+      walletApi?.walletSelector?.off("signedIn", walletInit);
     };
-  }, [checkWallet, initStore]);
+  }, [walletInit, initStore, router]);
 
   // Logout handler
   useEffect(() => {
@@ -149,6 +148,7 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
       resetProviders();
       resetStamps();
       resetNotifications();
+      router.reload();
     };
 
     walletApi.walletSelector?.on("signedOut", signedOutHandler);
@@ -163,6 +163,7 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
     resetProviders,
     resetStamps,
     resetNotifications,
+    router,
   ]);
 
   // Sign out and reset all store states
