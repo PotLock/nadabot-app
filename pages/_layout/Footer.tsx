@@ -62,7 +62,7 @@ const Footer = () => {
             )}
 
             <li>
-              <Link href="/rules">See All Rules</Link>
+              <Link href="/rules">See All Groups & Rules</Link>
             </li>
           </ul>
 
