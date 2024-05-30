@@ -101,11 +101,26 @@ export const GroupInfo: React.FC<GroupInfoProps> = ({ data }) => {
               {`${isNew ? "Create" : "Edit"} Group`}
             </Typography>
 
-            <Typography fontSize={16} fontWeight={400} color={colors.SECONDARY}>
-              {isNew
-                ? "Fill the following details to create a Rule"
-                : thresholdToDescription(values.ruleThreshold ?? 0)}
-            </Typography>
+            <Stack gap={1} direction="row" alignItems="center">
+              {!isNew && (
+                <Tag
+                  color="#fff"
+                  bgColor={ruleTypeColor}
+                  fontWeight={600}
+                  label={ruleTypeTag.toUpperCase()}
+                />
+              )}
+
+              <Typography
+                fontSize={16}
+                fontWeight={400}
+                color={colors.SECONDARY}
+              >
+                {isNew
+                  ? "Fill the following details to create a Rule"
+                  : thresholdToDescription(values.ruleThreshold ?? 0)}
+              </Typography>
+            </Stack>
           </Stack>
 
           <Stack gap={1} direction="row">
