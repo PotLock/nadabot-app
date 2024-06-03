@@ -1,6 +1,6 @@
 # nadabot-app
 
-Nada.bot application https://nada.bot
+Nada.bot application <https://nada.bot>
 
 ## Getting Started
 
@@ -33,3 +33,56 @@ NEXT_PUBLIC_SOCIAL_DB_CONTRACT_ID=v1.social08.testnet
 # Pinata JWT (ask Shot for the JWT Key)
 PINATA_JWT=<jwt-code>
 ```
+
+## Project structure
+
+```sh
+
+[ / ]
+│
+├── [ common ] <--- # Abstract implementation details, reusable assets, and primitives, used in layouts
+│   │               # and business logic across the codebase, and MUST NOT contain business logic themselves.
+│   │               # AKA "shared" ( see link 1. )
+│   │
+│   ├── constants.ts
+│   ├── assets
+│   ├── contexts
+│   ├── lib
+│   ├── services
+│   ├── store
+│   └── ui
+│
+│
+│
+│
+│
+├── [ modules ] <--- # Business logic units broken down into categories.
+│   │                # Simply put, this is a collection of directories that contain code implementing specific
+│   │                # groups of app use cases and are named after functionalities they provide.
+│   │
+│   ├── auth
+│   │
+│   ├── [ core ] <--- # Follows the same structure as any other module, but contains business logic,
+│   │   │             # that is shared between all or some of the other modules
+│   │   │
+│   │   └── [ hooks ] <--- # Feature-specific React hooks
+│   │
+│   ├── groups
+│   └── stamps
+│
+│
+│
+│
+│
+└── [ pages ] <--- # App's entry point. Follows Nextjs App routing specification ( see link 2. ),
+                   # with additional Private Folders following Nextjs App routing conventions ( see link 3. ),
+                   # that facilitate layout code-splitting and further migration to App Router ( see link 4. )
+
+```
+
+### Links
+
+1. [Shared layer from Feature-Sliced Design methodology](https://feature-sliced.design/docs/reference/layers#shared)
+2. [Nextjs Pages routing conventions](https://nextjs.org/docs/getting-started/project-structure#pages-routing-conventions)
+3. [Nextjs App Private Folders](https://nextjs.org/docs/app/building-your-application/routing/colocation#private-folders)
+4. [Nextjs App Router](https://nextjs.org/docs/app)

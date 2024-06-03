@@ -2,22 +2,22 @@ import { Container, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
-import GridContainer from "@nadabot/components/containers/GridContainer";
-import ContractInfo from "@nadabot/components/ContractInfo";
-import CustomAvatar from "@nadabot/components/ui/CustomAvatar";
-import CustomCircularProgress from "@nadabot/components/ui/CustomCircularProgress";
-import Tag from "@nadabot/components/ui/Tag";
-import useBreakPoints from "@nadabot/hooks/useBreakPoints";
-import useViewStampURLQuery from "@nadabot/hooks/useViewStampURLQuery";
-import { get_user_profile } from "@nadabot/services/contracts/social";
-import * as contract from "@nadabot/services/contracts/sybil.nadabot";
-import { HumanScoreResponse } from "@nadabot/services/contracts/sybil.nadabot/interfaces/is-human";
-import { StampExternal } from "@nadabot/services/contracts/sybil.nadabot/interfaces/stamps";
-import colors from "@nadabot/theme/colors";
-import insertIsHumanToProvider from "@nadabot/utils/insertIsHumanToProvider";
+import insertIsHumanToProvider from "@nadabot/common/lib/insertIsHumanToProvider";
+import { get_user_profile } from "@nadabot/common/services/contracts/social";
+import * as contract from "@nadabot/common/services/contracts/sybil.nadabot";
+import { HumanScoreResponse } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/is-human";
+import { StampExternal } from "@nadabot/common/services/contracts/sybil.nadabot/interfaces/stamps";
+import colors from "@nadabot/common/ui/colors";
+import CustomAvatar from "@nadabot/common/ui/components/CustomAvatar";
+import CustomCircularProgress from "@nadabot/common/ui/components/CustomCircularProgress";
+import GridContainer from "@nadabot/common/ui/components/GridContainer";
+import Tag from "@nadabot/common/ui/components/Tag";
+import useBreakPoints from "@nadabot/common/ui/utils/useBreakPoints";
+import useViewStampURLQuery from "@nadabot/modules/core/hooks/useViewStampURLQuery";
+import { StampCard } from "@nadabot/modules/stamps/components/StampCard";
 
 export default function AccountInfoPage() {
-  // Show ViewProviderDialog if the URL has `viewStamp` query
+  // Show StampDialog if the URL has `viewStamp` query
   useViewStampURLQuery();
 
   const { maxWidth805, maxWidth600 } = useBreakPoints();
@@ -64,7 +64,7 @@ export default function AccountInfoPage() {
   const StampCards = useCallback(
     () =>
       userStamps.map((stamp) => (
-        <ContractInfo
+        <StampCard
           key={stamp.provider.id}
           providerInfo={insertIsHumanToProvider(stamp.provider)}
           isStamp

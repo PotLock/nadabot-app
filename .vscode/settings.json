@@ -1,9 +1,24 @@
 {
   "editor.formatOnSave": true,
-  "eslint.validate": ["typescript"],
+  "eslint.validate": [
+    "typescript"
+  ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.fixAll": "explicit"
-  }
+  },
+  "cSpell.words": [
+    "fontsource",
+    "LIGHTGRAY",
+    "nadabot",
+    "naxios",
+    "Roboto",
+    "SHADOWGRAY",
+    "Snackbars",
+    "Subtractor",
+    "Unflag",
+    "uuidv4",
+    "wpdas",
+    "zustand"
+  ]
 }
-
