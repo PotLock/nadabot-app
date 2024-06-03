@@ -106,7 +106,7 @@ export const register_provider = (args: RegisterProviderInput) =>
   contractApi.call<typeof args, ProviderExternal>("register_provider", {
     args,
     gas: FULL_TGAS,
-    deposit: ONE_HUNDREDTH_NEAR,
+    deposit: TWO_HUNDREDTHS_NEAR,
   });
 
 /**

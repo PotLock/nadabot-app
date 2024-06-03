@@ -108,7 +108,7 @@ export default function ConfirmVerificationDialog({
         >
           {"You have done "}
           <span style={{ color: colors.BLUE }}>{provider?.provider_name}</span>
-          {"check."}
+          {" check."}
           <br /> Now add this check to Nada Bot contract.
         </DialogContentText>
 

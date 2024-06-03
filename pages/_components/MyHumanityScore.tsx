@@ -16,6 +16,7 @@ const calcPercentage = (score: number, human_threshold: number) =>
 export default function MyHumanityScore() {
   const { maxWidth1144, maxWidth700, maxWidth480 } = useBreakPoints();
   const { config } = useConfig();
+
   const { isVerifiedHuman, score } = useUser();
   const [percentageScore] = useState(
     calcPercentage(score, config.default_human_threshold),

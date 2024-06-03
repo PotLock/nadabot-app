@@ -102,6 +102,7 @@ const RoundedSearchInput = ({ placeholder, enableShadow, sx }: Props) => {
         const response = await contract.get_human_score({
           account_id: fixedSearch,
         });
+
         setHuman(response);
       } catch {
         setHuman(undefined);
