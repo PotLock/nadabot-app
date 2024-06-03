@@ -22,7 +22,7 @@ NEXT_PUBLIC_NETWORK=testnet
 
 # The smart contract ID (ID of the account where the contract was deployed)
 # testnet: v1.nadabot.testnet
-# staging: v1.staging.nadabot.near
+# staging: v2new.staging.nadabot.near
 # mainnet: v1.nadabot.near
 NEXT_PUBLIC_CONTRACT_NAME=<smart_contract_address>
 

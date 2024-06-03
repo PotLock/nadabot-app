@@ -3,7 +3,7 @@ import { Container } from "@mui/material";
 import ChecksSection from "@nadabot/components/pages/home/ChecksSection";
 import CompletedSection from "@nadabot/components/pages/home/CompletedSection";
 import ExploreSection from "@nadabot/components/pages/home/ExploreSection";
-import InvitationHeroSection from "@nadabot/components/pages/home/InvitationHeroSection";
+// import InvitationHeroSection from "@nadabot/components/pages/home/InvitationHeroSection";
 import PendingVerificationSection from "@nadabot/components/pages/home/PendingVerificationSection";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useCheckPendingVerification from "@nadabot/hooks/useCheckPendingVerification";
@@ -22,13 +22,17 @@ export default function Home() {
 
   return (
     <>
-      <Container>
+      <Container
+        sx={{
+          paddingBottom: "3rem",
+        }}
+      >
         <ExploreSection />
         <PendingVerificationSection />
         <ChecksSection />
         {walletConnected && <CompletedSection />}
       </Container>
-      <InvitationHeroSection />
+      {/* <InvitationHeroSection /> */}
     </>
   );
 }
