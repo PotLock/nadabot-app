@@ -2,6 +2,7 @@ import { Stack, Typography } from "@mui/material";
 import Fuse from "fuse.js";
 import { useEffect, useState } from "react";
 
+import { IGNORED_PROVIDER_CONTRACT_IDS } from "@nadabot/constants";
 import useFilteredProviders from "@nadabot/hooks/useFilteredProviders";
 import { ProviderExternalWithIsHuman } from "@nadabot/services/contracts/sybil.nadabot/interfaces/providers";
 import providerSorts from "@nadabot/utils/providerSorts";
@@ -37,11 +38,10 @@ export default function ContractsContainer({
     sortMethod: providerSorts.higherWeightFirst,
   });
   // Give preference to providersList
-  const providers = providersList
-    ? providersList
-    : isAdmin
-      ? deactivated
-      : active;
+  const providers = (providersList ?? isAdmin ? deactivated : active).filter(
+    (provider) =>
+      IGNORED_PROVIDER_CONTRACT_IDS.some((id) => id !== provider.contract_id),
+  );
 
   // Fuse
   const [fuse, setFuse] = useState<Fuse<ProviderExternalWithIsHuman>>();
