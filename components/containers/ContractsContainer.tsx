@@ -38,10 +38,7 @@ export default function ContractsContainer({
     sortMethod: providerSorts.higherWeightFirst,
   });
   // Give preference to providersList
-  const providers = (providersList ?? isAdmin ? deactivated : active).filter(
-    (provider) =>
-      IGNORED_PROVIDER_CONTRACT_IDS.some((id) => id !== provider.contract_id),
-  );
+  const providers = providersList ?? isAdmin ? deactivated : active;
 
   // Fuse
   const [fuse, setFuse] = useState<Fuse<ProviderExternalWithIsHuman>>();
@@ -50,7 +47,17 @@ export default function ContractsContainer({
   // Init Fuse
   useEffect(() => {
     if (providers) {
-      setFuse(new Fuse(providers, fuseOptions));
+      setFuse(
+        new Fuse(
+          providers.filter((provider) =>
+            IGNORED_PROVIDER_CONTRACT_IDS.some(
+              (id) => id !== provider.contract_id,
+            ),
+          ),
+
+          fuseOptions,
+        ),
+      );
     }
   }, [providers]);
 
