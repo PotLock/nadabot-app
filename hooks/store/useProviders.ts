@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+import { IGNORED_PROVIDER_CONTRACT_IDS } from "@nadabot/constants";
 import * as contract from "@nadabot/services/contracts/sybil.nadabot";
 import {
   ProviderExternal,
@@ -38,7 +39,12 @@ export const useProviders = create<State & Actions>()(
 
         set({
           ready: changeReadyState ? true : get().ready,
-          providers: response,
+          providers: response.filter(
+            (provider) =>
+              !IGNORED_PROVIDER_CONTRACT_IDS.some(
+                (id) => id === provider.contract_id,
+              ),
+          ),
         });
       },
 
