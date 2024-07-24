@@ -5,6 +5,8 @@ import { utils } from "near-api-js";
 export const NETWORK = (process.env.NEXT_PUBLIC_NETWORK ||
   "testnet") as Network;
 
+export const RPC_NODE_URL = `https://${NETWORK.toLowerCase() === "mainnet" ? "free.rpc.fastnear.com" : "rpc.testnet.near.org"}`;
+
 // SYBIL CONTRACT
 export const CONTRACT_ID = process.env.NEXT_PUBLIC_CONTRACT_NAME as string;
 
