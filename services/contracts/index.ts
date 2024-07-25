@@ -15,13 +15,14 @@ import { setupWelldoneWallet } from "@near-wallet-selector/welldone-wallet";
 import { setupXDEFI } from "@near-wallet-selector/xdefi";
 import naxios from "@wpdas/naxios";
 
-import { CONTRACT_ID, NETWORK } from "@nadabot/constants";
+import { CONTRACT_ID, NETWORK, RPC_NODE_URL } from "@nadabot/constants";
 
 // Naxios (Contract/Wallet) Instance
 export const naxiosInstance = new naxios({
-  rpcNodeUrl: `https://${NETWORK.toLowerCase() === "mainnet" ? "near" : "near-testnet"}.lava.build`,
+  rpcNodeUrl: RPC_NODE_URL,
   contractId: CONTRACT_ID,
   network: NETWORK,
+
   walletSelectorModules: [
     setupBitgetWallet(),
     setupSender(),
