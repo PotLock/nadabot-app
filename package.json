@@ -17,6 +17,7 @@
     "@mui/icons-material": "^5.15.2",
     "@mui/material": "^5.15.2",
     "@near-wallet-selector/bitget-wallet": "^8.9.5",
+    "@near-wallet-selector/bitte-wallet": "^8.9.12",
     "@near-wallet-selector/coin98-wallet": "^8.9.5",
     "@near-wallet-selector/here-wallet": "^8.9.5",
     "@near-wallet-selector/ledger": "^8.9.5",
