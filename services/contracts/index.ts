@@ -70,6 +70,26 @@ const web3Modal = createWeb3Modal({
   projectId: REOWN_PROJECT_ID,
 });
 
+const transformedWeb3Modal = {
+  ...web3Modal,
+  getState: () => {
+    const state = web3Modal.getState();
+    const selectedNetworkIdString = state.selectedNetworkId;
+
+    const selectedNetworkId = selectedNetworkIdString
+      ? parseInt(selectedNetworkIdString.split(":")[1], 10)
+      : undefined;
+
+    return {
+      ...state,
+      selectedNetworkId,
+    };
+  },
+  open: web3Modal.open.bind(web3Modal),
+  close: web3Modal.close.bind(web3Modal),
+  subscribeEvents: web3Modal.subscribeEvents.bind(web3Modal),
+};
+
 export const naxiosInstance = new naxios({
   contractId: CONTRACT_ID,
   network: NETWORK,
@@ -86,7 +106,7 @@ export const naxiosInstance = new naxios({
     setupNeth(),
     setupXDEFI(),
     setupNearMobileWallet(),
-    setupEthereumWallets({ wagmiConfig, web3Modal }),
+    setupEthereumWallets({ wagmiConfig, web3Modal: transformedWeb3Modal }),
     setupMintbaseWallet({
       walletUrl: "https://wallet.mintbase.xyz",
       callbackUrl: "https://www.mywebsite.com",
