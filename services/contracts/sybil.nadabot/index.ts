@@ -8,6 +8,7 @@ import {
   TWO_HUNDREDTHS_NEAR,
 } from "@nadabot/constants";
 
+import { naxiosInstance } from "..";
 import { GetHumanScoreInput, HumanScoreResponse } from "./interfaces/is-human";
 import { Config } from "./interfaces/lib";
 import {
@@ -25,7 +26,6 @@ import {
   GetUsersForStampInput,
   StampExternal,
 } from "./interfaces/stamps";
-import { naxiosInstance } from "..";
 
 /**
  * NEAR Contract API

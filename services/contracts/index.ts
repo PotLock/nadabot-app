@@ -14,24 +14,50 @@ import { setupSender } from "@near-wallet-selector/sender";
 import { setupWelldoneWallet } from "@near-wallet-selector/welldone-wallet";
 import { setupXDEFI } from "@near-wallet-selector/xdefi";
 import { injected, walletConnect } from "@wagmi/connectors";
-import type { Config } from "@wagmi/core";
-import { createConfig, http, reconnect } from "@wagmi/core";
-import { mainnet } from "@wagmi/core/chains";
+import {
+  // Config as WagmiConfig,
+  createConfig,
+  http,
+  reconnect,
+} from "@wagmi/core";
 import { createWeb3Modal } from "@web3modal/wagmi";
 import naxios from "@wpdas/naxios";
+import { Chain } from "viem";
 
+// type MergedWagmiConfig = WagmiConfig & NearWagmiConfig;
 import { CONTRACT_ID, NETWORK } from "@nadabot/constants";
-// Naxios (Contract/Wallet) Instance
 
-const wagmiConfig: Config = createConfig({
-  chains: [mainnet],
+const REOWN_PROJECT_ID = "1adabeaaefb2b771ff4ebdf902b128b7";
+
+export const nearChain: Chain = {
+  id: 397,
+  name: "NEAR",
+  nativeCurrency: {
+    name: "NEAR",
+    symbol: "NEAR",
+    decimals: 24,
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://rpc.mainnet.near.org"],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: "NEAR Explorer",
+      url: "https://nearblocks.io",
+    },
+  },
+};
+
+const wagmiConfig = createConfig({
+  chains: [nearChain],
   transports: {
-    [mainnet.id]: http(),
+    [nearChain.id]: http(),
   },
   connectors: [
     walletConnect({
-      projectId: "1adabeaaefb2b771ff4ebdf902b128b7",
-      // metadata,
+      projectId: REOWN_PROJECT_ID,
       showQrModal: false,
     }),
     injected({ shimDisconnect: true }),
@@ -41,8 +67,7 @@ reconnect(wagmiConfig);
 
 const web3Modal = createWeb3Modal({
   wagmiConfig,
-  // Get a project ID at https://cloud.walletconnect.com
-  projectId: "1adabeaaefb2b771ff4ebdf902b128b7",
+  projectId: REOWN_PROJECT_ID,
 });
 
 export const naxiosInstance = new naxios({
