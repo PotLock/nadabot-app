@@ -2,11 +2,13 @@ import { MemoryCache } from "@wpdas/naxios";
 import { Provider } from "near-api-js/lib/providers";
 
 import {
+  CONTRACT_ID,
   FULL_TGAS,
   ONE_HUNDREDTH_NEAR,
   TWO_HUNDREDTHS_NEAR,
 } from "@nadabot/constants";
 
+import { naxiosInstance } from "..";
 import { GetHumanScoreInput, HumanScoreResponse } from "./interfaces/is-human";
 import { Config } from "./interfaces/lib";
 import {
@@ -24,12 +26,13 @@ import {
   GetUsersForStampInput,
   StampExternal,
 } from "./interfaces/stamps";
-import { naxiosInstance } from "..";
 
 /**
  * NEAR Contract API
  */
+
 export const contractApi = naxiosInstance.contractApi({
+  contractId: CONTRACT_ID,
   cache: new MemoryCache({ expirationTime: 10 }), // 10 seg
 });
 
