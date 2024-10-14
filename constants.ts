@@ -6,11 +6,12 @@ export const NETWORK = (process.env.NEXT_PUBLIC_NETWORK ||
   "testnet") as Network;
 
 // SYBIL CONTRACT
-export const CONTRACT_ID = process.env.NEXT_PUBLIC_CONTRACT_NAME as string;
+export const CONTRACT_ID = (process.env.NEXT_PUBLIC_CONTRACT_NAME ??
+  "v1.nadabot.testnet") as string;
 
 // SOCIAL DB CONTRACT
-export const SOCIAL_DB_CONTRACT_ID = process.env
-  .NEXT_PUBLIC_SOCIAL_DB_CONTRACT_ID as string;
+export const SOCIAL_DB_CONTRACT_ID = (process.env
+  .NEXT_PUBLIC_SOCIAL_DB_CONTRACT_ID ?? "v1.social08.testnet") as string;
 
 // 1 NEAR
 export const ONE_NEAR = utils.format.parseNearAmount("1")!;

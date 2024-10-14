@@ -117,6 +117,7 @@ export default function AddStampPage() {
       gas,
     }) => {
       showSpinner();
+      if (!contractName) return console.log("error loading contract");
 
       const contract = await naxiosInstance.contractApi({
         contractId: contractName,
