@@ -22,32 +22,31 @@ import {
 } from "@wagmi/core";
 import { createWeb3Modal } from "@web3modal/wagmi";
 import naxios from "@wpdas/naxios";
-import { Chain } from "viem";
 
 // type MergedWagmiConfig = WagmiConfig & NearWagmiConfig;
 import { CONTRACT_ID, NETWORK } from "@nadabot/constants";
 
-const REOWN_PROJECT_ID = "1adabeaaefb2b771ff4ebdf902b128b7";
+import { EVMWalletChain, REOWN_PROJECT_ID } from "./config";
 
-export const NEARProtocol: Chain = {
-  id: 397,
-  name: "NEAR Protocol",
+export const NEARProtocol = {
+  id: EVMWalletChain.chainId,
+  name: EVMWalletChain.name,
   nativeCurrency: {
+    decimals: 18,
     name: "NEAR",
     symbol: "NEAR",
-    decimals: 24,
   },
   rpcUrls: {
-    default: {
-      http: ["https://eth-rpc.mainnet.near.org"],
-    },
+    default: { http: [EVMWalletChain.rpc] },
+    public: { http: [EVMWalletChain.rpc] },
   },
   blockExplorers: {
     default: {
       name: "NEAR Explorer",
-      url: "https://eth-explorer.near.org",
+      url: EVMWalletChain.explorer,
     },
   },
+  testnet: NETWORK === "testnet",
 };
 
 const wagmiConfig = createConfig({
