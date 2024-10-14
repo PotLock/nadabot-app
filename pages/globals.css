@@ -29,12 +29,13 @@ input:focus {
   }
 }
 
-.stamp-description-multiline-ellipsis, .stamp-contractid-multiline-ellipsis {
+.stamp-description-multiline-ellipsis,
+.stamp-contractid-multiline-ellipsis {
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2; 
-  white-space: pre-wrap; 
+  -webkit-line-clamp: 2;
+  white-space: pre-wrap;
 }
 
 .stamp-contractid-multiline-ellipsis {
@@ -48,24 +49,33 @@ input:focus {
 }
 
 .invitation-hero-section-bg {
-  background: radial-gradient(100.02% 100% at 50% 0%, #FFFFFF 44.62%, rgba(255, 255, 255, 0) 100%), url("/hero/background.svg");
+  background: radial-gradient(
+      100.02% 100% at 50% 0%,
+      #ffffff 44.62%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    url("/hero/background.svg");
   background-repeat: no-repeat;
   background-size: 101%;
   background-position: 10% 0%;
 
   @media (max-width: 962px) {
-    background: radial-gradient(100.02% 100% at 50% 0%, #FFFFFF 24.62%, rgba(255, 255, 255, 0) 100%), url("/hero/background.svg");
-     }
+    background: radial-gradient(
+        100.02% 100% at 50% 0%,
+        #ffffff 24.62%,
+        rgba(255, 255, 255, 0) 100%
+      ),
+      url("/hero/background.svg");
+  }
 }
 
 /* removes input background color for autocomplete */
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
-
 
 /* Hide the nextjs overlay */
 nextjs-portal {
@@ -73,7 +83,7 @@ nextjs-portal {
 }
 
 .nadabot-spinner {
-  animation: scale .5s infinite linear;
+  animation: scale 0.5s infinite linear;
 }
 @keyframes scale {
   0% {
@@ -88,18 +98,18 @@ nextjs-portal {
 }
 
 /* MUI Slider */
-.MuiSlider-thumb{
+.MuiSlider-thumb {
   border-radius: 2px;
   color: #ffffff;
   border: 2px solid #292929;
   box-shadow: none !important;
 }
-.MuiSlider-rail{
-  color: #F0F0F0;
+.MuiSlider-rail {
+  color: #f0f0f0;
   height: 20px;
   border-radius: 2px;
 }
-.MuiSlider-track{
+.MuiSlider-track {
   color: #292929;
   height: 20px;
   border-radius: 2px;
@@ -114,7 +124,11 @@ nextjs-portal {
   border-radius: 6px;
   border: 1px solid #292929;
   background-color: #ffffff;
-  box-shadow: 0px 12px 20px -4px rgba(123, 123, 123, 0.32), 0px 4px 8px -3px rgba(123, 123, 123, 0.20), 0px 0px 2px 0px rgba(123, 123, 123, 0.36), 0px 0px 0px 0.5px rgba(41, 41, 41, 0.36);
+  box-shadow:
+    0px 12px 20px -4px rgba(123, 123, 123, 0.32),
+    0px 4px 8px -3px rgba(123, 123, 123, 0.2),
+    0px 0px 2px 0px rgba(123, 123, 123, 0.36),
+    0px 0px 0px 0.5px rgba(41, 41, 41, 0.36);
   margin-top: 8px;
 }
 
@@ -148,7 +162,9 @@ nextjs-portal {
   font-weight: 400;
   padding: 8px 16px;
   border-radius: 4px;
-  box-shadow: 0px -1px 0px 0px #C7C7C7 inset, 0px 0px 0px 0.5px #C7C7C7;
+  box-shadow:
+    0px -1px 0px 0px #c7c7c7 inset,
+    0px 0px 0px 0.5px #c7c7c7;
   background: #ffffff;
   border: none;
   cursor: pointer;
@@ -164,65 +180,67 @@ nextjs-portal {
   border-radius: 50%;
   transform: rotate(-180deg);
   position: absolute;
-  background: 
-    radial-gradient(closest-side, white 88%, transparent 89% 100%),
-    conic-gradient(#DD3345 90%, #DBDBDB 0);
+  background: radial-gradient(closest-side, white 88%, transparent 89% 100%),
+    conic-gradient(#dd3345 90%, #dbdbdb 0);
 }
 
 .circle-limiter {
   width: 100px;
   height: 40px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   position: absolute;
   margin-top: 130px;
 }
 
 /* Humanity Score List */
 .hs-item-full-radius {
-  border: 1px solid #F0F0F0;
+  border: 1px solid #f0f0f0;
   border-radius: 6px;
-  padding: 3px 16px
+  padding: 3px 16px;
 }
 
 .hs-item-without-bottom-radius {
-  border: 1px solid #F0F0F0;
+  border: 1px solid #f0f0f0;
   border-radius: 6px;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-  padding: 3px 16px
+  padding: 3px 16px;
 }
 
-.hs-item-without-top-radius, .hs-with-full-border {
-  border: 1px solid #F0F0F0;
+.hs-item-without-top-radius,
+.hs-with-full-border {
+  border: 1px solid #f0f0f0;
   border-radius: 6px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   border-top: none;
-  padding: 3px 16px
+  padding: 3px 16px;
 }
 
 .hs-with-full-border {
-  border: 1px solid #F0F0F0;
+  border: 1px solid #f0f0f0;
 }
 
 .hs-item-without-top-bottom-radius {
-  border: 1px solid #F0F0F0;
+  border: 1px solid #f0f0f0;
   border-top: none;
   border-bottom: none;
-  padding: 3px 16px
+  padding: 3px 16px;
 }
 
 /* Blue logo text */
 .blue-strong {
-  color: #2D6FDB;
-  -webkit-text-stroke: #FAFAFA 1.5px;
+  color: #2d6fdb;
+  -webkit-text-stroke: #fafafa 1.5px;
   font-family: Oi, serif;
   font-size: 72px;
   font-style: normal;
   font-weight: 400;
 }
 
-.u-list, .u-list-socials, .dialog-list-socials {
+.u-list,
+.u-list-socials,
+.dialog-list-socials {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -230,7 +248,8 @@ nextjs-portal {
   gap: 36px;
   margin-top: 18px;
 
-  li, a {
+  li,
+  a {
     font-weight: 600;
     text-decoration: none;
   }
@@ -239,7 +258,7 @@ nextjs-portal {
     text-decoration: underline;
   }
 
-  @media screen and (max-width:600px) {
+  @media screen and (max-width: 600px) {
     flex-direction: column;
   }
 }
@@ -247,7 +266,7 @@ nextjs-portal {
 .u-list-socials {
   margin-top: 0;
 
-  @media screen and (max-width:600px) {
+  @media screen and (max-width: 600px) {
     flex-direction: row;
   }
 }

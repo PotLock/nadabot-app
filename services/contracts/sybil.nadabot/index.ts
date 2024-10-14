@@ -2,7 +2,7 @@ import { MemoryCache } from "@wpdas/naxios";
 import { Provider } from "near-api-js/lib/providers";
 
 import {
-  // CONTRACT_ID,
+  CONTRACT_ID,
   FULL_TGAS,
   ONE_HUNDREDTH_NEAR,
   TWO_HUNDREDTHS_NEAR,
@@ -32,7 +32,7 @@ import {
  */
 
 export const contractApi = naxiosInstance.contractApi({
-  // contractId: CONTRACT_ID,
+  contractId: CONTRACT_ID,
   cache: new MemoryCache({ expirationTime: 10 }), // 10 seg
 });
 
