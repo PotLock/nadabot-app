@@ -66,6 +66,7 @@
   },
   "resolutions": {
     "@wagmi/core": "^2.12.17",
-    "viem": "^2.21.19"
+    "viem": "^2.21.19",
+    "near-api-js": "^2.0.0"
   }
 }
