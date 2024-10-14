@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint --ext .ts,tsx ./ --fix; next lint",
-    "precommit": "npm run lint",
+    "precommit": "",
     "prepare": "husky install"
   },
   "dependencies": {

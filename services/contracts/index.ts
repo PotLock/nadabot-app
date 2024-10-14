@@ -29,9 +29,9 @@ import { CONTRACT_ID, NETWORK } from "@nadabot/constants";
 
 const REOWN_PROJECT_ID = "1adabeaaefb2b771ff4ebdf902b128b7";
 
-export const nearChain: Chain = {
+export const NEARProtocol: Chain = {
   id: 397,
-  name: "NEAR",
+  name: "NEAR Protocol",
   nativeCurrency: {
     name: "NEAR",
     symbol: "NEAR",
@@ -39,21 +39,21 @@ export const nearChain: Chain = {
   },
   rpcUrls: {
     default: {
-      http: ["https://rpc.mainnet.near.org"],
+      http: ["https://eth-rpc.mainnet.near.org"],
     },
   },
   blockExplorers: {
     default: {
       name: "NEAR Explorer",
-      url: "https://nearblocks.io",
+      url: "https://eth-explorer.near.org",
     },
   },
 };
 
 const wagmiConfig = createConfig({
-  chains: [nearChain],
+  chains: [NEARProtocol],
   transports: {
-    [nearChain.id]: http(),
+    [NEARProtocol.id]: http(),
   },
   connectors: [
     walletConnect({
@@ -86,6 +86,7 @@ const transformedWeb3Modal = {
     };
   },
   open: web3Modal.open.bind(web3Modal),
+
   close: web3Modal.close.bind(web3Modal),
   subscribeEvents: web3Modal.subscribeEvents.bind(web3Modal),
 };
@@ -98,6 +99,7 @@ export const naxiosInstance = new naxios({
     setupSender(),
     setupHereWallet(),
     setupMathWallet(),
+    setupEthereumWallets({ wagmiConfig, web3Modal: transformedWeb3Modal }),
     setupMeteorWallet(),
     setupWelldoneWallet(),
     setupLedger(),
@@ -106,7 +108,6 @@ export const naxiosInstance = new naxios({
     setupNeth(),
     setupXDEFI(),
     setupNearMobileWallet(),
-    setupEthereumWallets({ wagmiConfig, web3Modal: transformedWeb3Modal }),
     setupMintbaseWallet({
       walletUrl: "https://wallet.mintbase.xyz",
       callbackUrl: "https://www.mywebsite.com",
