@@ -123,7 +123,7 @@ const Web3AuthProvider: FC<Props> = ({ children }) => {
 
     // Initializes the store
     await initStore();
-  }, [updateUserInfo, initStore, registerLoginTime]);
+  }, [updateUserInfo, initStore, registerLoginTime, walletApi]);
 
   // Re-init when user is signed in
   useEffect(() => {

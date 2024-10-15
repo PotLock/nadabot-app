@@ -17,7 +17,7 @@ import Tag from "../ui/Tag";
 
 const NavBar = () => {
   const router = useRouter();
-  const { walletConnected, isAdmin, isVerifiedHuman } = useUser();
+  const { walletConnected, isVerifiedHuman } = useUser();
   const { maxWidth430 } = useBreakPoints();
   const isAdminPage = useIsAdminPage();
 
@@ -78,8 +78,7 @@ const NavBar = () => {
                 <Stack direction="row" mb={maxWidth430 ? 2 : 0}>
                   <Stack
                     direction={maxWidth430 ? "column" : "row"}
-                    width={isAdmin ? (isAdminPage ? 300 : 350) : 300}
-                    justifyContent="space-between"
+                    gap="0.75rem"
                     alignItems="center"
                   >
                     {!isAdminPage && (
