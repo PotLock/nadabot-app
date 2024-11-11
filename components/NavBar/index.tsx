@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 
-import NadabotLogo from "@nadabot/assets/icons/nadabot-logo";
+// import NadabotLogo from "@nadabot/assets/icons/nadabot-logo";
 import { useUser } from "@nadabot/hooks/store/useUser";
 import useBreakPoints from "@nadabot/hooks/useBreakPoints";
 import useIsAdminPage from "@nadabot/hooks/useIsAdminPage";
