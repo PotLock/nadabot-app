@@ -1,4 +1,5 @@
 import { Button, Container, Divider, Stack, Typography } from "@mui/material";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 
@@ -69,7 +70,13 @@ const NavBar = () => {
           >
             {/* Left */}
             <ButtonContainer onClick={goHomeHandler}>
-              <NadabotLogo />
+              <Image
+                src="/assets/logo.svg"
+                width={256}
+                height={64}
+                className="object-contain"
+                alt="Nadabot"
+              />
             </ButtonContainer>
 
             {/* Right */}
