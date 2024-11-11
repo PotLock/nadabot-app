@@ -77,7 +77,7 @@ const UserDropbox = () => {
       >
         <Stack
           direction="row"
-          gap="4px"
+          gap="1rem"
           alignItems="center"
           justifyContent="center"
           p="6px 8px"
@@ -85,6 +85,9 @@ const UserDropbox = () => {
           boxShadow="0px -1px 0px 0px #292929 inset, 0px 0px 0px 0.5px #292929"
         >
           <CustomAvatar accountId={accountId} size={24} />
+          <Typography fontSize={14} fontWeight={500} color="#292929">
+            {truncate(profileInfo?.name || accountId, 10)}
+          </Typography>
           {isAdmin && (
             <Typography
               sx={{ textDecorationLine: "underline" }}
@@ -96,13 +99,25 @@ const UserDropbox = () => {
               Admin
             </Typography>
           )}
-          {open ? <KeyboardArrowRightIcon /> : <KeyboardArrowDownIcon />}
+          {open ? (
+            <KeyboardArrowRightIcon sx={{ color: "black" }} />
+          ) : (
+            <KeyboardArrowDownIcon sx={{ color: "black" }} />
+          )}
         </Stack>
       </ButtonContainer>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         <Stack direction="row" alignItems="center" ml={2} mb={2}>
           <CustomAvatar accountId={accountId} size={48} fontSize={16} />
-          <Typography fontSize={14} fontWeight={500} lineHeight="20px" ml={2}>
+          <Typography
+            fontSize={14}
+            fontWeight={500}
+            lineHeight="20px"
+            display={{
+              sm: "none",
+            }}
+            ml={2}
+          >
             {truncate(profileInfo?.name || accountId, 14)}
           </Typography>
         </Stack>
